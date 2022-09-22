@@ -118,4 +118,11 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+
+  Future logIn() async {
+    /*await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: , //where both are values obtained from widget fields, use trim() to get rid of whitespace
+        password:
+    );*/
+  }
 }
