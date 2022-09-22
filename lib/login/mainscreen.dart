@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'registration.dart';
 import 'login.dart';
 
 class MainScreen extends StatelessWidget {
@@ -19,17 +20,36 @@ class MainScreen extends StatelessWidget {
         ],
       ),
       body: Center(
-        child: ElevatedButton(
-            onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>const Login()),
-              );
-            },
-            child: const Text('Login',
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            )
-        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ElevatedButton(
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const Login()),
+                  );
+                },
+                child: const Text('Login',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                )
+            ),
+            ElevatedButton(
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const Register()),
+                  );
+                },
+                child: const Text('Register',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                )
+            ),
+          ],
+        )
+
+
       ),
     );
   }
