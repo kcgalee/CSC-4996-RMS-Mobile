@@ -2,7 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/Waiter/Utility/my_button.dart';
 
 class DialogBox extends StatelessWidget {
-  const DialogBox({Key? key}) : super(key: key);
+  final controller;
+  VoidCallback onSave;
+  VoidCallback onCancle;
+
+ DialogBox({
+    super.key,
+    required this.controller,
+    required this.onSave,
+    required this.onCancle
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +23,12 @@ class DialogBox extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
           // user input
-          TextField( //leftoff 23
+          TextField(
+            controller: controller,
             decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: "add new request"
+              border: OutlineInputBorder(
+              ),
+              hintText: "Add new request"
             ),
           ),
           // save and cancel button
@@ -25,10 +36,10 @@ class DialogBox extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
             //save
-            MyButton(text: "Save", onPressed: (){}),
+            MyButton(text: "Save", onPressed: onSave),
             const SizedBox(width: 10),
             //cancle button
-            MyButton(text: "Cencel", onPressed: (){})
+            MyButton(text: "Cencel", onPressed: onCancle)
           ],)
         ],),
       ),
