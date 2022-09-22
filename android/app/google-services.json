@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "693810096215",
+    "project_id": "rms-mobile-e33e6",
+    "storage_bucket": "rms-mobile-e33e6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:693810096215:android:9fc3bab5fafa882aaf9b12",
+        "android_client_info": {
+          "package_name": "com.example.rms.restaurant_management_system"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "693810096215-72a3g5fuml5hff73pfe23niaviv9l8et.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSZrNsWIwxOOLphrVvb3L8xPpL10hFH4E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "693810096215-72a3g5fuml5hff73pfe23niaviv9l8et.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
