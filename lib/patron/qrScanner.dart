@@ -10,7 +10,6 @@ class QRScanner extends StatefulWidget {
 
 class _QRScannerState extends State<QRScanner> {
   final qrKey = GlobalKey(debugLabel: 'QR');
-  Barcode? barcode;
 
   QRViewController? controller;
 
@@ -27,22 +26,11 @@ class _QRScannerState extends State<QRScanner> {
           alignment: Alignment.center,
           children: <Widget>[
             buildQrView(context),
-            Positioned(bottom:19, child: buildResult())
           ],
         ),
       )
   );
 
-  Widget buildResult() => Container(
-    padding: const EdgeInsets.all(12),
-    decoration: const BoxDecoration(
-      color: Colors.white24,
-    ),
-    child: Text(
-      barcode != null ? 'Result: ${barcode!.code}' :'Scan a code!',
-      maxLines: 3,
-    ),
-  );
 
   Widget buildQrView(BuildContext context) => QRView(
     key: qrKey,
@@ -52,12 +40,6 @@ class _QRScannerState extends State<QRScanner> {
 
   void onQRViewCreated(QRViewController controller) {
     setState(()=> this.controller = controller);
-
-    controller.scannedDataStream.listen(
-        (barcode)=> setState(() =>
-          this.barcode = barcode
-        ));
-
   }
 
 }
