@@ -120,9 +120,20 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future logIn() async {
-    /*await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: , //where both are values obtained from widget fields, use trim() to get rid of whitespace
-        password:
-    );*/
+    /*
+    //maybe do loading widget when button is clicked too
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: , //where both are values obtained from widget fields, use trim() to get rid of whitespace
+          password:
+      );
+    } on FirebaseAuthException catch (e) {
+      //error codes returned by function, found from firebase documentation
+      if (e.code == 'user-not-found') {
+        //display user not found widget here
+      } else if (e.code == 'wrong-password') {
+        //display invalid/incorrect password widget here
+      }
+    }*/
   }
 }
