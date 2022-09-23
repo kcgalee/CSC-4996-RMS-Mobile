@@ -112,9 +112,6 @@ class LoginState extends State<Login> {
       } else {
         print('admin');
       }
-
-      //
-      //Navigator.push(context, MaterialPageRoute(builder: (context)=> PatronHome()));
     } else {
       print(message);
     }
