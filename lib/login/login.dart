@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../patron/patronHome.dart';
-import 'package:restaurant_management_system/Waiter/waiterrequest.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -38,17 +37,7 @@ class Login extends StatelessWidget {
                 );
               },
             )
-          ),
-
-          SizedBox(// waiter page
-              width: double.infinity,
-              child:ElevatedButton(child: Text("Waiter Page"),
-               onPressed: (){
-                 Navigator.push(context, MaterialPageRoute(builder: (context)=> WaiterRequest()),
-              );
-            },
           )
-      )
         ],
       )
       )
