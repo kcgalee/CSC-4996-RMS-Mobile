@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/waiter/assignTables.dart';
 
 class WaiterHome extends StatefulWidget {
   const WaiterHome({Key? key}) : super(key: key);
@@ -10,6 +11,20 @@ class WaiterHome extends StatefulWidget {
 class _WaiterHomeState extends State<WaiterHome> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: Center(
+        child: ElevatedButton(
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>const AssignTables()),
+              );
+            },
+            child: const Text('Assign Tables',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            )
+        ),
+      ),
+    );
   }
 }
