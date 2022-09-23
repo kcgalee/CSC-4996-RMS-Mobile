@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/Waiter/waiterrequest.dart';
 import 'package:restaurant_management_system/waiter/assignTables.dart';
 
 class WaiterHome extends StatefulWidget {
@@ -18,7 +19,7 @@ class _WaiterHomeState extends State<WaiterHome> {
       body: Center(
         child: ElevatedButton(
             onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>const AssignTables()),
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>const WaiterRequest()),
               );
             },
             child: const Text('Assign Tables',
