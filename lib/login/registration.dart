@@ -1,10 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/login/registrationProcedure.dart';
 import '../patron/patronHome.dart';
 
-class Register extends StatelessWidget {
+class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
 
   @override
+  RegisterState createState() => RegisterState();
+
+}
+  class RegisterState extends State<Register> {
+
+    final emailController = TextEditingController();
+    final pwController = TextEditingController();
+    final nameController = TextEditingController();
+    final confirmPwController = TextEditingController();
+
+@override
+void dispose() {
+  emailController.dispose();
+  pwController.dispose();
+  confirmPwController.dispose();
+  nameController.dispose();
+  super.dispose();
+}
+
+
+@override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -15,30 +37,34 @@ class Register extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const TextField(
+                 TextField(
+                  controller: nameController,
                   keyboardType:TextInputType.name,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: "First and Last Name",
                     prefixIcon: Icon(Icons.person, color: Colors.black),
                   ),
                 ),
-                const TextField(
+                 TextField(
+                   controller: emailController,
                   keyboardType:TextInputType.name,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: "Email",
                     prefixIcon: Icon(Icons.mail, color: Colors.black),
                   ),
                 ),
-                const TextField(
+                 TextField(
+                   controller: pwController,
                   keyboardType:TextInputType.name,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: "Password",
                     prefixIcon: Icon(Icons.lock, color: Colors.black),
                   ),
                 ),
-                const TextField(
+                TextField(
+                  controller: confirmPwController,
                   keyboardType:TextInputType.name,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: "Confirm Password",
                     prefixIcon: Icon(Icons.lock, color: Colors.black),
                   ),
@@ -46,9 +72,20 @@ class Register extends StatelessWidget {
                 SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(child: Text("Register"),
-                      onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> PatronHome()),
-                        );
+                      onPressed: () async {
+                        if (pwController.text.trim() == confirmPwController.text.trim()){
+                           if (await registrationChecker(emailController.text.trim(),
+                                pwController.text.trim(), nameController.text.trim())) {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> PatronHome()),
+                            );
+
+                            }//end of embedded if statement
+
+                              }//end of if statement
+                        else{
+                          print("That's incorrect");
+                        }
+
                       },
                     )
                 )

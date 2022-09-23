@@ -4,7 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:email_validator/email_validator.dart";
 
-void registration(String email, String password) async {
+Future<bool> registrationChecker(String email, String password, String name) async {
   //run dart pub add email_validator in terminal to add dependencies
   //validate e-mail
   if (!EmailValidator.validate(email)) {
@@ -22,28 +22,31 @@ void registration(String email, String password) async {
             email: email, password: password);
 
         String userID = FirebaseAuth.instance.currentUser?.uid as String;
-        newUserData(email, userID);
+        newUserData(email, userID, name);
+        return true;
       } //end of try block
       on FirebaseAuthException catch (e) {
         print("WOAHHHH");
 
         Utils.showSnackBar(e.message);
+        return false;
       } //end of catch block
     }
   }//end of else statement
 
+  return false;
 
 } // end of function block
 
-void newUserData (String email, String UID) {
+void newUserData (String email, String UID, String name) {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   users
       .doc(UID)
       .set(
       {'email' : email,
-        'name' : email,
-        'type' : 3}
+        'name' : name,
+        'type' : 'customer'}
   );
 
 
