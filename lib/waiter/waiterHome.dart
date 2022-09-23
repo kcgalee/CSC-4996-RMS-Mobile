@@ -12,6 +12,9 @@ class _WaiterHomeState extends State<WaiterHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Waiter Home"),
+      ),
       body: Center(
         child: ElevatedButton(
             onPressed: (){
