@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/login/login.dart';
 import 'package:restaurant_management_system/patron/patronHome.dart';
 import '../login/mainscreen.dart';
 
@@ -14,6 +16,8 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -26,4 +30,5 @@ class MyApp extends StatelessWidget {
       home: const MainScreen(),
     );
   }
+
 }
