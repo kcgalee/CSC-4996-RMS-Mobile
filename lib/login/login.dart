@@ -30,40 +30,40 @@ class LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Login"),
-      ),
-      body: Center(
-       child: Column(
-         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextField(
-            controller: emailController,
-            keyboardType:TextInputType.name,
-            decoration: const InputDecoration(
-              hintText: "Email",
-              prefixIcon: Icon(Icons.mail, color: Colors.black),
-            ),
-          ),
-          TextField(
-            controller: pwController,
-            keyboardType:TextInputType.name,
-            decoration: const InputDecoration(
-              hintText: "Password",
-              prefixIcon: Icon(Icons.lock, color: Colors.black),
-            ),
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(child: Text("Login"),
-              onPressed: () =>
-                  redirect()
-              ),
+        appBar: AppBar(
+          title: const Text("Login"),
+        ),
+        body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  controller: emailController,
+                  keyboardType:TextInputType.name,
+                  decoration: const InputDecoration(
+                    hintText: "Email",
+                    prefixIcon: Icon(Icons.mail, color: Colors.black),
+                  ),
+                ),
+                TextField(
+                  controller: pwController,
+                  keyboardType:TextInputType.name,
+                  decoration: const InputDecoration(
+                    hintText: "Password",
+                    prefixIcon: Icon(Icons.lock, color: Colors.black),
+                  ),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(child: Text("Login"),
+                      onPressed: () =>
+                          redirect()
+                  ),
+                )
+              ],
             )
-        ],
-      )
-      )
+        )
     );
   }
 
@@ -96,7 +96,7 @@ class LoginState extends State<Login> {
 
       final docRef = FirebaseFirestore.instance.collection('users').doc(userID);
       await docRef.get().then(
-          (DocumentSnapshot doc){
+              (DocumentSnapshot doc){
             final data = doc.data() as Map<String, dynamic>;
             setState(() => acctType = data['type']);
             //print(data['type']);
