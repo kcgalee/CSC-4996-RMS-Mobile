@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/waiter/waiterHome.dart';
 import '../patron/patronHome.dart';
 
 class Login extends StatefulWidget {
@@ -106,7 +107,7 @@ class LoginState extends State<Login> {
       if (acctType == 'customer'){
         Navigator.push(context, MaterialPageRoute(builder: (context)=> PatronHome()));
       } else if (acctType == 'waiter') {
-        print('waiter');
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> WaiterHome()));
       } else if (acctType == 'manager'){
         print('manager');
       } else {
