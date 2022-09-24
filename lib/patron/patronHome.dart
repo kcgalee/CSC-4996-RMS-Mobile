@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../Waiter/waiterrequest.dart';
 import 'qrScanner.dart';
 
 class PatronHome extends StatelessWidget {
@@ -7,21 +8,41 @@ class PatronHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Patron Home"),
-        ),
+      appBar: AppBar(
+
+        title: const Text("Patron Home"),
+        actions: <Widget>[],
+      ),
       body: Center(
-        child: ElevatedButton(
-            onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>const QRScanner()),
-              );
-            },
-            child: const Text('QR Scanner',
-              style: TextStyle(
-                color: Colors.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => const QRScanner()),
+                    );
+                  },
+                  child: const Text('QR Scanner',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  )
               ),
-            )
-        ),
+
+              ElevatedButton(child: Text("Waiter Request Page"),
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(
+                            builder: (context) => WaiterRequest()));
+                  })
+
+
+            ], //Children
+          )
+
+
       ),
     );
   }
