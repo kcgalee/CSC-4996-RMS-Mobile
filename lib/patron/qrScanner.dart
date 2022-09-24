@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'patronDashboard.dart';
 
 class QRScanner extends StatefulWidget {
   const QRScanner({super.key});
@@ -57,7 +58,8 @@ class _QRScannerState extends State<QRScanner> {
         (barcode)=> setState(() =>
           this.barcode = barcode
         ));
-
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>const PatronDashboard()),
+    );
   }
 
 }
