@@ -31,12 +31,6 @@ class PatronHome extends StatelessWidget {
                   )
               ),
 
-              ElevatedButton(child: Text("Waiter Request Page"),
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(
-                            builder: (context) => WaiterRequest()));
-                  })
 
 
             ], //Children

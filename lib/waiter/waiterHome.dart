@@ -16,18 +16,36 @@ class _WaiterHomeState extends State<WaiterHome> {
         title: const Text("Waiter Home"),
       ),
       body: Center(
-        child: ElevatedButton(
+      child: Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+
+      ElevatedButton(child: Text("Waiter Request Page"),
+          onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(
+                  builder: (context) => WaiterRequest()));
+      }),
+
+
+      ElevatedButton(
             onPressed: (){
               Navigator.push(context, MaterialPageRoute(builder: (context)=>const WaiterRequest()),
               );
-            },
-            child: const Text('Assign Tables',
-              style: TextStyle(
-                color: Colors.white,
-              ),
+              },
+          child: const Text('Assign Tables',
+            style: TextStyle(
+              color: Colors.white,),
             )
-        ),
       ),
+
+
+
+    ], //Children
+      ),
+      )
     );
   }
 }
+
