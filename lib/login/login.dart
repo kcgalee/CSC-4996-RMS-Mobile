@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/Waiter/qrGenerator.dart';
 import '../patron/patronHome.dart';
 import 'package:restaurant_management_system/Waiter/waiterrequest.dart';
 
@@ -45,6 +46,15 @@ class Login extends StatelessWidget {
                     child:ElevatedButton(child: Text("Waiter Request Page"),
                       onPressed: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context)=> WaiterRequest()),
+                        );
+                      },
+                    )
+                ),
+                SizedBox(// waiter page
+                    width: double.infinity,
+                    child:ElevatedButton(child: Text("qr"),
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> QrGenerator()),
                         );
                       },
                     )
