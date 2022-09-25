@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/waiter/waiterHome.dart';
 import '../patron/patronHome.dart';
+import '../patron/patronDashboard.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -105,7 +106,7 @@ class LoginState extends State<Login> {
 
       if (!mounted) return;
       if (acctType == 'customer'){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> PatronHome()));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> PatronDashboard()));
       } else if (acctType == 'waiter') {
         Navigator.push(context, MaterialPageRoute(builder: (context)=> WaiterHome()));
       } else if (acctType == 'manager'){
