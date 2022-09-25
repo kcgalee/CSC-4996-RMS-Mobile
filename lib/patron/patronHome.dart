@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../Waiter/waiterTables.dart';
+import '../Waiter/waiterrequest.dart';
 import 'qrScanner.dart';
 
 class PatronHome extends StatelessWidget {
