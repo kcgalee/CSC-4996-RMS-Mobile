@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_management_system/Waiter/waiterrequest.dart';
+import 'package:restaurant_management_system/Waiter/waiterTables.dart';
 
 class WaiterHome extends StatefulWidget {
   const WaiterHome({Key? key}) : super(key: key);
