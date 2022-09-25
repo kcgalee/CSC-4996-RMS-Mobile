@@ -28,7 +28,7 @@ class _QRScannerState extends State<QRScanner> {
           alignment: Alignment.center,
           children: <Widget>[
             buildQrView(context),
-            Positioned(bottom:19, child: buildResult())
+            Positioned(bottom:19, child: buildResult()),
           ],
         ),
       )
@@ -43,6 +43,7 @@ class _QRScannerState extends State<QRScanner> {
       barcode != null ? 'Result: ${barcode!.code}' :'Scan a code!',
       maxLines: 3,
     ),
+
   );
 
   Widget buildQrView(BuildContext context) => QRView(
@@ -53,13 +54,24 @@ class _QRScannerState extends State<QRScanner> {
 
   void onQRViewCreated(QRViewController controller) {
     setState(()=> this.controller = controller);
+    bool scanned = false;
 
     controller.scannedDataStream.listen(
         (barcode)=> setState(() =>
           this.barcode = barcode
-        ));
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>const PatronDashboard()),
+
+        )
+
     );
+    // possible solution for navigating to dashboard after scanning qr code
+    // bool scanned = false;
+    // controller.scannedDataStream.listen((scanData) {
+    //   if (!scanned) {
+    //     scanned = true;
+    //     Navigator.push(context, MaterialPageRoute(builder: (context)=>const PatronDashboard()),
+    //     );
+    //   }
+    // });
   }
 
 }
