@@ -105,6 +105,5 @@ class MainScreen extends StatefulWidget {
       Navigator.push(context, MaterialPageRoute(builder: (context)=> Login()));
     }
 
-
   }
 }
