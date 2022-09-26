@@ -1,9 +1,11 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/patron/patronDashboard.dart';
 import '../patron/patronHome.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; //save for later use
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import "package:email_validator/email_validator.dart";
+
 import 'registration.dart';
 
 final formKey = GlobalKey<FormState>();
@@ -147,7 +149,7 @@ void dispose() {
 
       );
 
-      Navigator.push(context, MaterialPageRoute(builder: (context)=> PatronHome()));
+      Navigator.push(context, MaterialPageRoute(builder: (context)=> PatronDashboard()));
 
     } //end of newUserData
 
