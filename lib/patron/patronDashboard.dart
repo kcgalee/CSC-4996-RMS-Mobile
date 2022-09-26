@@ -27,8 +27,8 @@ var waiterID;
 
 
         child: ElevatedButton(
-            onPressed: (){
-              getRID();
+            onPressed: () async {
+              await getRID();
               addOrder();
               Navigator.push(context, MaterialPageRoute(builder: (context)=> placeOrder()));
             },
@@ -57,6 +57,7 @@ var waiterID;
         'tableName' : 'Joker'
 
  });
+  print(waiterID);
   }
 
 
