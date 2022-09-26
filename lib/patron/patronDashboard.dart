@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/patron/placeOrder.dart';
 
 class PatronDashboard extends StatefulWidget {
   const PatronDashboard({Key? key}) : super(key: key);
@@ -17,15 +19,32 @@ class _PatronDashboardState extends State<PatronDashboard> {
       body: Center(
         child: ElevatedButton(
             onPressed: (){
-
+              print("hello");
+              addOrder();
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> placeOrder()));
             },
             child: const Text('Request Spoon',
               style: TextStyle(
+
                 color: Colors.white,
+
               ),
             )
         ),
       ),
     );
+  }
+
+  Future <void> addOrder() async {
+ FirebaseFirestore.instance
+     .collection('orders')
+     .add({
+        'custID' : 'ocLOG8A5DaVdVCArxFLXnZj29H2',
+        'itemID' : 'Spoon',
+        'price'  : '3.99',
+        'waiterID' : 'PUCqwZ1j39h5yFzLnRZqDqGqo323',
+        'tableName' : 'Joker'
+
+ });
   }
 }
