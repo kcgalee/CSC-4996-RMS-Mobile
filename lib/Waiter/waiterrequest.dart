@@ -15,7 +15,7 @@ class WaiterRequest extends StatefulWidget {
 class _WaiterRequestState extends State<WaiterRequest> {
   // text controller
   final _controller = TextEditingController();
-
+  Stream getRequests = FirebaseFirestore.instance.collection('orders').where('waiterID', isEqualTo: FirebaseAuth.instance.currentUser?.uid).snapshots();
   var waiterRID;
   //final Stream queryTables = FirebaseFirestore.instance.collection('tables').where('restaurantID', isEqualTo: waiterRID).snapshots();
 
@@ -30,58 +30,27 @@ class _WaiterRequestState extends State<WaiterRequest> {
         title: Text('Requests'),
         elevation: 0,
       ),
-        body: FutureBuilder(
-            future: getRID(),
+        body: StreamBuilder(
+            stream: getRequests,
             builder: (context, snapshot) {
-                return StreamBuilder(
-                    stream: FirebaseFirestore.instance.collection('tables').where('restaurantID', isEqualTo: waiterRID).snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.data == null) {
-                        return Center(
-                            child: CircularProgressIndicator()
-                        );
-                      } else {
-                        return ListView.builder(
-                            itemCount: snapshot.data?.docs.length,
-                            itemBuilder: (context, index) {
-                              var text = 'Max Capacity: ' + (snapshot.data?.docs[index]['maxCapacity'].toString() ?? '') +
-                                  '\nCurrent Capacity: ' + (snapshot.data?.docs[index]['currentCapacity'].toString() ?? '');
-                              return ListTile(
-                                title: Text(
-                                    snapshot.data?.docs[index]['description']),
-                                subtitle: Text(text),
-                              );
-                            }
-                        );
-                      }
-                    });
+              if (snapshot.data == null) {
+                return Center(
+                    child: CircularProgressIndicator()
+                );
+              } else {
+                return ListView.builder(
+                    itemCount: snapshot.data.docs.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text('Table: ' +
+                            snapshot.data.docs[index]['tableName']),
+                        subtitle: Text('Request: ' + snapshot.data.docs[index]['itemID']),
+                      );
+                    }
+                );
+              }
               })
         );
   }
 
-  Future getRID() async {
-    await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).get().then(
-              (element) {
-            print(element.reference);
-            //item.fromFirestore();
-            //set2.add(element);
-            waiterRID = element['restaurantID'].toString();
-            print(waiterRID);
-          }
-    );
-  }
-
-  //original
-  Future getTables() async {
-    await FirebaseFirestore.instance.collection('tables').get().then(
-          (snapshot) => snapshot.docs.forEach(
-              (element) {
-            print(element.reference);
-            //item.fromFirestore();
-            //set2.add(element);
-            tableDocList.add(element.reference.id.toString());
-          }),
-    );
-    //tableDocList.add(element.reference.id); to get doc id
-  }
 }
