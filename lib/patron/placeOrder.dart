@@ -17,6 +17,7 @@ class _placeOrder extends State<placeOrder> {
   final _controller = TextEditingController();
 
   var waiterRID;
+
   //final Stream queryTables = FirebaseFirestore.instance.collection('tables').where('restaurantID', isEqualTo: waiterRID).snapshots();
 
   List<String> tableDocList = [];

@@ -145,7 +145,11 @@ void dispose() {
           .set(
           {'email' : email,
             'name' : name,
-            'type' : 'customer'}
+            'type' : 'customer',
+            'waiterID' : ''
+
+          }
+
 
       );
 
