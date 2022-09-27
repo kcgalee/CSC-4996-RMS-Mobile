@@ -21,7 +21,6 @@ class _WaiterRequestState extends State<WaiterRequest> {
 
   List<String> tableDocList = [];
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,15 +40,18 @@ class _WaiterRequestState extends State<WaiterRequest> {
                 return ListView.builder(
                     itemCount: snapshot.data.docs.length,
                     itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text('Table: ' +
-                            snapshot.data.docs[index]['tableName']),
-                        subtitle: Text('Request: ' + snapshot.data.docs[index]['itemID']),
+                      return RequestTile(
+                        taskName: "Table: " + snapshot.data.docs[index]['tableName']
+                            + ' Requested: ' + snapshot.data.docs[index]['itemID'],
+                        // taskCompleted: snapshot.data.docs[index]['tableName'][1],
+                        // onChanged: ,
+                        //deleteFunction: deleteFunction
+
                       );
                     }
                 );
               }
-              
+
               })
         );
   }
