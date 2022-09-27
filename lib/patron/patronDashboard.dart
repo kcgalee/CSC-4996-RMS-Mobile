@@ -27,8 +27,8 @@ var waiterID;
 
 
         child: ElevatedButton(
-            onPressed: (){
-              getRID();
+            onPressed: () async {
+              await getRID();
               addOrder();
               Navigator.push(context, MaterialPageRoute(builder: (context)=> placeOrder()));
             },
@@ -57,6 +57,7 @@ var waiterID;
         'tableName' : 'Joker'
 
  });
+  print(waiterID);
   }
 
 
@@ -66,7 +67,7 @@ var waiterID;
           print(element.reference);
           //item.fromFirestore();
           //set2.add(element);
-          waiterID = element['waiterID'].toString();
+          waiterID = element['waiterID'].toString().trim();
           print(waiterID);
         }
     );

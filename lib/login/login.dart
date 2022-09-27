@@ -50,6 +50,7 @@ class LoginState extends State<Login> {
                 TextField(
                   controller: pwController,
                   keyboardType:TextInputType.name,
+                  obscureText: true,
                   decoration: const InputDecoration(
                     hintText: "Password",
                     prefixIcon: Icon(Icons.lock, color: Colors.black),
