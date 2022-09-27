@@ -54,16 +54,6 @@ class MainScreen extends StatefulWidget {
                   ),
                 )
             ),
-            ElevatedButton(
-                onPressed: (){
-                  FirebaseAuth.instance.signOut();
-                },
-                child: const Text('Sign out previous user',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                )
-            ),
           ],
         )
 

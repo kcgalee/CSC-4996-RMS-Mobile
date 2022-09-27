@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/manager/managerHome.dart';
 import 'package:restaurant_management_system/waiter/waiterHome.dart';
 import '../patron/patronHome.dart';
 import '../patron/patronDashboard.dart';
@@ -110,9 +111,10 @@ class LoginState extends State<Login> {
       } else if (acctType == 'waiter') {
         Navigator.push(context, MaterialPageRoute(builder: (context)=> WaiterHome()));
       } else if (acctType == 'manager'){
-        print('manager');
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> ManagerHome()));
       } else {
         print('admin');
+        FirebaseAuth.instance.signOut();
       }
     } else {
       print(message);
