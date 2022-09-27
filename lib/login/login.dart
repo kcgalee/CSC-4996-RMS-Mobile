@@ -101,7 +101,6 @@ class LoginState extends State<Login> {
               (DocumentSnapshot doc){
             final data = doc.data() as Map<String, dynamic>;
             setState(() => acctType = data['type']);
-            //print(data['type']);
           }
       );
 
