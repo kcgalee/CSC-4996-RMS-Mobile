@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../Waiter/waiterrequest.dart';
+import '../login/mainscreen.dart';
 import 'qrScanner.dart';
 
 class PatronHome extends StatelessWidget {
@@ -30,6 +32,14 @@ class PatronHome extends StatelessWidget {
                     ),
                   )
               ),
+              ElevatedButton(
+                  child: Text("Sign out"),
+                  onPressed: () {
+                    FirebaseAuth.instance.signOut();
+                    Navigator.push(context,
+                        MaterialPageRoute(
+                            builder: (context) => MainScreen()));
+                  }),
 
 
 

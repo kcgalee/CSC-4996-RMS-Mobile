@@ -2,9 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/Waiter/Utility/dialog_box.dart';
-
 import 'Utility/request_tile.dart';
-import 'assignTable.dart';
 
 class WaiterTables extends StatefulWidget {
   const WaiterTables({Key? key}) : super(key: key);
@@ -51,9 +49,11 @@ class _WaiterTablesState extends State<WaiterTables> {
                                   snapshot.data?.docs[index]['description']),
                               subtitle: Text(text),
                               onTap: () {
-                                Navigator.push(context,
+                                /*Navigator.push(context,
                                     MaterialPageRoute(
-                                        builder: (context) => AssignTable(tableID: snapshot.data?.docs[index].reference.id ?? '', tableName: snapshot.data?.docs[index]['description'],)));
+                                        builder: (context) => AssignTable(tableID: snapshot.data?.docs[index].reference.id ?? '', tableName: snapshot.data?.docs[index]['description'], rID: snapshot.data?.docs[index]['restaurantID'])
+                                    )
+                                );*/
                               },
                             );
                           }

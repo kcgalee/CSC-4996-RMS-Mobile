@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/Waiter/waiterTables.dart';
 import 'package:restaurant_management_system/Waiter/waiterrequest.dart';
+
+import '../login/mainscreen.dart';
 
 class WaiterHome extends StatefulWidget {
   const WaiterHome({Key? key}) : super(key: key);
@@ -40,6 +43,14 @@ class _WaiterHomeState extends State<WaiterHome> {
               color: Colors.white,),
             )
       ),
+
+      ElevatedButton(child: Text("sign out"),
+          onPressed: () {
+            FirebaseAuth.instance.signOut();
+            Navigator.push(context,
+                MaterialPageRoute(
+                    builder: (context) => MainScreen()));
+          }),
 
 
 
