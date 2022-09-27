@@ -22,23 +22,35 @@ class _WaiterHomeState extends State<WaiterHome> {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
 
-      ElevatedButton(child: Text("Waiter Request Page"),
-          onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(
-                  builder: (context) => WaiterRequest()));
-      }),
+      Padding(
+        padding: const EdgeInsets.only(left: 0,right: 0,top: 20,bottom: 20),
+        child: ConstrainedBox(
+          constraints: BoxConstraints.tightFor(height: 80,width: 300),
+          child: ElevatedButton(child: Text("Waiter Request Page"),
+              onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(
+                      builder: (context) => WaiterRequest()));
+          }),
+        ),
+      ),
 
 
-      ElevatedButton(
-            onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>const WaiterTables()),
-              );
-              },
-          child: const Text('Assign Tables',
-            style: TextStyle(
-              color: Colors.white,),
-            )
+      Padding(
+        padding: const EdgeInsets.only(left: 0,right: 0,top: 0,bottom: 10),
+        child: ConstrainedBox(
+          constraints: BoxConstraints.tightFor(height: 80,width: 300),
+          child: ElevatedButton(
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const WaiterTables()),
+                  );
+                  },
+              child: const Text('Assign Tables',
+                style: TextStyle(
+                  color: Colors.white,),
+                )
+          ),
+        ),
       ),
 
 

@@ -34,36 +34,52 @@ class MainScreen extends StatefulWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ElevatedButton(
-                onPressed: () =>
-                    redirect(),
-                child: const Text('Login',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                )
+            ConstrainedBox(
+              constraints: BoxConstraints.tightFor(height: 80,width: 300,),
+
+              child: ElevatedButton(
+                  onPressed: () =>
+                      redirect(),
+                  child: const Text('Login',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  )
+              ),
             ),
-            ElevatedButton(
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const Register()),
-                  );
-                },
-                child: const Text('Register',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                )
+            Padding(
+              padding: const EdgeInsets.only(left: 0,right: 0,top: 20,bottom: 20),
+              child: ConstrainedBox(
+                  constraints: BoxConstraints.tightFor(height: 80,width: 300),
+                child: ElevatedButton(
+                    onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const Register()),
+                      );
+                    },
+                    child: const Text('Register',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    )
+                ),
+              ),
             ),
-            ElevatedButton(
-                onPressed: (){
-                  FirebaseAuth.instance.signOut();
-                },
-                child: const Text('Sign out previous user',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                )
+
+            ConstrainedBox(
+                constraints: BoxConstraints.tightFor(height: 80,width: 300),
+              child: ElevatedButton(
+                  onPressed: (){
+                    FirebaseAuth.instance.signOut();
+                  },
+                  child: const Text('Sign out previous user',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  )
+              ),
             ),
+
+
           ],
         )
 
