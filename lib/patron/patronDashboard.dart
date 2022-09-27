@@ -67,7 +67,7 @@ var waiterID;
           print(element.reference);
           //item.fromFirestore();
           //set2.add(element);
-          waiterID = element['waiterID'].toString();
+          waiterID = element['waiterID'].toString().trim();
           print(waiterID);
         }
     );
