@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/Waiter/Utility/dialog_box.dart';
 
 import 'Utility/request_tile.dart';
+import 'assignTable.dart';
 
 class WaiterTables extends StatefulWidget {
   const WaiterTables({Key? key}) : super(key: key);
@@ -21,43 +22,6 @@ class _WaiterTablesState extends State<WaiterTables> {
 
   List<String> tableDocList = [];
 
-
-  //List of task
-  List toDoList = [];
-  // checkbox was tapped
-  void checkBoxChanged(bool? value, int index){
-    setState(() {
-      toDoList[index][1] = !toDoList[index][1];
-    });
-  }
-
-  //save new task
-  void saveNewTask(){
-    setState(() {
-      toDoList.add([ _controller.text, false]);
-      _controller.clear();
-    });
-    Navigator.of(context).pop();
-  }
-
-// create new task
-  void createNewTask(){
-    showDialog(context: context, builder: (context){
-      return DialogBox(
-        controller: _controller,
-        onSave: saveNewTask,
-        onCancle: () => Navigator.of(context).pop( ),
-      );
-    },);
-  }
-
-//delete tasks
-  void deleteTask(int index){
-    setState(() {
-      toDoList.removeAt(index);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,34 +30,6 @@ class _WaiterTablesState extends State<WaiterTables> {
           title: Text('Requests'),
           elevation: 0,
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: createNewTask,
-          child: Icon(Icons.add),
-        ),
-        /*body: ListView.builder(
-        itemCount: toDoList.length,
-        itemBuilder: (context,index){
-          return RequestTile(
-            taskName: toDoList[index][0],
-            taskCompleted: toDoList[index][1],
-            onChanged: (value) => checkBoxChanged(value, index),
-            deleteFunction: (context) => deleteTask(index),
-          );
-        },
-      ),*//*
-      body: FutureBuilder(
-        future: getTables(),
-        builder: (context, snapshot) {
-          return ListView.builder(
-              itemCount: tableDocList.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(tableDocList[index].toString()),
-                );
-              },
-          );
-        },
-      ),*/
         body: FutureBuilder(
             future: getRID(),
             builder: (context, snapshot) {
@@ -114,6 +50,11 @@ class _WaiterTablesState extends State<WaiterTables> {
                               title: Text(
                                   snapshot.data?.docs[index]['description']),
                               subtitle: Text(text),
+                              onTap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AssignTable(tableID: snapshot.data?.docs[index].reference.id ?? '', tableName: snapshot.data?.docs[index]['description'],)));
+                              },
                             );
                           }
                       );
