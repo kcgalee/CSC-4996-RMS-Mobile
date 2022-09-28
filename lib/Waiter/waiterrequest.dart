@@ -110,7 +110,7 @@ class _WaiterRequestState extends State<WaiterRequest> {
 
                       /*ListTile(
                         title: Text('Table: ' +
-                            snapshot.data.docs[index]['tableName']),
+                            snapshot.data.docs[index]['tableNumber']),
                         subtitle: Text('Request: ' + snapshot.data.docs[index]['itemID']),
                       );
                       */

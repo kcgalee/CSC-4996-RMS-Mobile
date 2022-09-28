@@ -15,7 +15,7 @@ class placeOrder extends StatefulWidget {
 class _placeOrder extends State<placeOrder> {
   // text controller
   final _controller = TextEditingController();
-
+var tableID ='67VixP11beDjcl39waX9';
   var waiterRID;
 
   //final Stream queryTables = FirebaseFirestore.instance.collection('tables').where('restaurantID', isEqualTo: waiterRID).snapshots();
@@ -99,7 +99,7 @@ class _placeOrder extends State<placeOrder> {
             future: getOID(),
             builder: (context, snapshot) {
               return StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection('orders').where('tableID', isEqualTo: "67VixP11beDjcl39waX9").snapshots(),
+                  stream: FirebaseFirestore.instance.collection('orders').where('tableID', isEqualTo: tableID).snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.data == null) {
                       return Center(
