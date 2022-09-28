@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/login/mainscreen.dart';
 import 'package:restaurant_management_system/patron/placeOrder.dart';
 
 
@@ -24,7 +25,8 @@ var waiterID;
         title: const Text("Patron Dashboard"),
       ),
       body: Center(
-        child: ElevatedButton(
+        child: Column(
+            children: [ElevatedButton(
             onPressed: () async {
               await getRID();
               addOrder();
@@ -37,7 +39,15 @@ var waiterID;
 
               ),
             )
-        )
+        ), ElevatedButton(
+                child: Text("Sign out"),
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
+                  Navigator.push(context,
+                      MaterialPageRoute(
+                          builder: (context) => MainScreen()));
+                }),
+            ],)
 
       ),
     );
