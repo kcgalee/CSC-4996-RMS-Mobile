@@ -102,11 +102,18 @@ class _WaiterRequestState extends State<WaiterRequest> {
                 return ListView.builder(
                     itemCount: snapshot.data.docs.length,
                     itemBuilder: (context, index) {
-                      return ListTile(
+                      return RequestTile(
+                          taskName: 'Table: ' +
+                              snapshot.data.docs[index]['tableName']
+                              + ' Requested: ' + snapshot.data.docs[index]['itemID']
+                      );
+
+                      /*ListTile(
                         title: Text('Table: ' +
                             snapshot.data.docs[index]['tableName']),
                         subtitle: Text('Request: ' + snapshot.data.docs[index]['itemID']),
                       );
+                      */
                     }
                 );
               }
