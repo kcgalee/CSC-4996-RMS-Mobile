@@ -54,8 +54,9 @@ var waiterID;
         'itemID' : 'Spoon',
         'price'  : '3.99',
         'waiterID' : waiterID,
-        'tableName' : 'Joker'
-
+        'tableNum' : '1',
+        'status' : 'placed',
+        'tableID' : '67VixP11beDjcl39waX9'
  });
   print(waiterID);
   }
