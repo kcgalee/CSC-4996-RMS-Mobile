@@ -4,6 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/Waiter/waiterHome.dart';
 import 'package:restaurant_management_system/login/login.dart';
+import 'package:restaurant_management_system/manager/managerHome.dart';
+import 'package:restaurant_management_system/patron/patronDashboard.dart';
 import 'package:restaurant_management_system/patron/patronHome.dart';
 import '../login/mainscreen.dart';
 
@@ -29,16 +31,16 @@ class MyApp extends StatelessWidget {
       home: const MainScreen(),
     );
   }*/
+    String tableID = "";
     String acctType = "";
     bool isLogged = false;
+
     Future getAT() async {
       final userID = FirebaseAuth.instance.currentUser?.uid;
       print(userID);
-
       if (userID != null){
         isLogged = true;
       }
-
       //acctType = "";
 
       final docRef = FirebaseFirestore.instance.collection('users').doc(userID);
@@ -46,6 +48,7 @@ class MyApp extends StatelessWidget {
               (DocumentSnapshot doc){
             final data = doc.data() as Map<String, dynamic>;
             acctType = data['type'];
+            tableID = data['tableID'];
             //print(data['type']);
           }
       );
@@ -63,16 +66,19 @@ class MyApp extends StatelessWidget {
         builder: (context, snapshot) {
           print(isLogged);
           if (isLogged == false){
-
             return MainScreen();
           } else {
             if (acctType == 'customer'){
-              return PatronHome();
+              if (tableID == "") {
+                return PatronHome();
+              } else {
+                return PatronDashboard();
+              }
             } else if (acctType == 'waiter'){
               return WaiterHome();
             } else if (acctType == 'manager'){
               //should be manager home
-              return PatronHome();
+              return ManagerHome();
             } else {
               return Login();
             }

@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/managerHome.dart';
 import 'package:restaurant_management_system/waiter/waiterHome.dart';
-import '../patron/patronHome.dart';
 import '../patron/patronDashboard.dart';
+import '../patron/patronHome.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -71,19 +71,24 @@ class LoginState extends State<Login> {
   }
 
   logIn() async {
-    //maybe do loading widget when button is clicked too
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text.trim(), //where both are values obtained from widget fields
+        email: emailController.text.trim(),
         password: pwController.text.trim(),
       );
     } on FirebaseAuthException catch (e) {
       //error codes returned by function, found from firebase documentation
       if (e.code == 'user-not-found') {
         //display user not found widget here
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Account does not exist with that Email!'),
+        ));
         return ('user not found');
       } else if (e.code == 'wrong-password') {
         //display invalid/incorrect password widget here
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Incorrect password, please try again.'),
+        ));
         return ('wrong pw');
       }
     }
@@ -96,18 +101,26 @@ class LoginState extends State<Login> {
       print(userID);
 
       String acctType = "";
+      String tableID = "";
 
       final docRef = FirebaseFirestore.instance.collection('users').doc(userID);
       await docRef.get().then(
               (DocumentSnapshot doc){
             final data = doc.data() as Map<String, dynamic>;
             setState(() => acctType = data['type']);
+            setState(() {
+              tableID = data['tableID'];
+            });
           }
       );
 
       if (!mounted) return;
       if (acctType == 'customer'){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> PatronDashboard()));
+        if (tableID == ""){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> PatronHome()));
+        } else {
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> PatronDashboard()));
+        }
       } else if (acctType == 'waiter') {
         Navigator.push(context, MaterialPageRoute(builder: (context)=> WaiterHome()));
       } else if (acctType == 'manager'){
