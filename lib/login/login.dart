@@ -70,19 +70,24 @@ class LoginState extends State<Login> {
   }
 
   logIn() async {
-    //maybe do loading widget when button is clicked too
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text.trim(), //where both are values obtained from widget fields
+        email: emailController.text.trim(),
         password: pwController.text.trim(),
       );
     } on FirebaseAuthException catch (e) {
       //error codes returned by function, found from firebase documentation
       if (e.code == 'user-not-found') {
         //display user not found widget here
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Account does not exist with that Email!'),
+        ));
         return ('user not found');
       } else if (e.code == 'wrong-password') {
         //display invalid/incorrect password widget here
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Incorrect password, please try again.'),
+        ));
         return ('wrong pw');
       }
     }
