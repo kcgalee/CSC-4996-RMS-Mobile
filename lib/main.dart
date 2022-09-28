@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/Waiter/waiterHome.dart';
 import 'package:restaurant_management_system/login/login.dart';
+import 'package:restaurant_management_system/manager/managerHome.dart';
 import 'package:restaurant_management_system/patron/patronHome.dart';
 import '../login/mainscreen.dart';
 
@@ -72,7 +73,7 @@ class MyApp extends StatelessWidget {
               return WaiterHome();
             } else if (acctType == 'manager'){
               //should be manager home
-              return PatronHome();
+              return ManagerHome();
             } else {
               return Login();
             }
