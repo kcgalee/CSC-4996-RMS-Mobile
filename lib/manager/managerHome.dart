@@ -16,7 +16,7 @@ class _ManagerHomeState extends State<ManagerHome>{
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-        title: const Text("Waiter Home"),
+        title: const Text("Manager Home"),
     ),
     body: Center(
     child: Column(
