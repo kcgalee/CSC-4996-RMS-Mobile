@@ -21,17 +21,17 @@ class Register extends StatefulWidget {
 
     final emailController = TextEditingController();
     final pwController = TextEditingController();
-    final fNameController = TextEditingController();
+    final firstNameController = TextEditingController();
     final confirmPwController = TextEditingController();
-    final lNameController = TextEditingController();
+    final lastNameController = TextEditingController();
 
 @override
 void dispose() {
   emailController.dispose();
   pwController.dispose();
   confirmPwController.dispose();
-  fNameController.dispose();
-  lNameController.dispose();
+  firstNameController.dispose();
+  lastNameController.dispose();
 
   super.dispose();
 }
@@ -51,7 +51,7 @@ void dispose() {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                  TextField(
-                  controller: fNameController,
+                  controller: firstNameController,
                   keyboardType:TextInputType.name,
                   decoration: const InputDecoration(
                     hintText: "First Name",
@@ -59,7 +59,7 @@ void dispose() {
                   ),
                 ),
                 TextField(
-                  controller: lNameController,
+                  controller: lastNameController,
                   keyboardType:TextInputType.name,
                   decoration: const InputDecoration(
                     hintText: "Last Name",
@@ -107,7 +107,7 @@ void dispose() {
                         if (pwController.text.trim() == confirmPwController.text.trim()){
                            await registrationChecker(emailController.text.trim(),
                                 pwController.text.trim(),
-                               fNameController.text.trim(), lNameController.text.trim());
+                               firstNameController.text.trim(), lastNameController.text.trim());
                         }
                         else{
                           print("That's incorrect");
@@ -128,7 +128,7 @@ void dispose() {
 //=====================================
 
 
-    registrationChecker(String email, String password, String fName, String lName) async {
+    registrationChecker(String email, String password, String firstName, String lastName) async {
       //run dart pub add email_validator in terminal to add dependencies
       //validate e-mail
 
@@ -138,7 +138,7 @@ void dispose() {
 
         String userID = FirebaseAuth.instance.currentUser?.uid as String;
         
-        newUserData(email, userID, fName, lName);
+        newUserData(email, userID, firstName, lastName);
         return true;
       } //end of try block
       on FirebaseAuthException catch (e) {
@@ -152,15 +152,15 @@ void dispose() {
 //========================
 //Creates new user document
 //======================
-    void newUserData (String email, String UID, String fName, String lName) {
+    void newUserData (String email, String UID, String firstName, String lastName) {
       CollectionReference users = FirebaseFirestore.instance.collection('users');
 
       users
           .doc(UID)
           .set(
           {'email' : email,
-            'lName' : lName,
-            'fName' : fName,
+            'lName' : lastName,
+            'fName' : firstName,
             'type' : 'customer',
             'waiterID' : '',
             'tableID' : ''
