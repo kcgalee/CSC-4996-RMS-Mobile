@@ -101,7 +101,7 @@ class LoginState extends State<Login> {
       print(userID);
 
       String acctType = "";
-      String tableID = "";
+      var tableID;
 
       final docRef = FirebaseFirestore.instance.collection('users').doc(userID);
       await docRef.get().then(
