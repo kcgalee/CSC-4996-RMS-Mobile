@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
             return MainScreen();
           } else {
             if (acctType == 'customer'){
-              if (tableID == "") {
+              if (tableID == null) {
                 return PatronHome();
               } else {
                 return PatronDashboard();

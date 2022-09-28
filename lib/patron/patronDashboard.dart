@@ -24,8 +24,6 @@ var waiterID;
         title: const Text("Patron Dashboard"),
       ),
       body: Center(
-
-
         child: ElevatedButton(
             onPressed: () async {
               await getRID();
@@ -39,7 +37,7 @@ var waiterID;
 
               ),
             )
-        ),
+        )
 
       ),
     );
