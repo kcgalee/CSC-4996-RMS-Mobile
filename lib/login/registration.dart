@@ -21,15 +21,18 @@ class Register extends StatefulWidget {
 
     final emailController = TextEditingController();
     final pwController = TextEditingController();
-    final nameController = TextEditingController();
+    final fNameController = TextEditingController();
     final confirmPwController = TextEditingController();
+    final lNameController = TextEditingController();
 
 @override
 void dispose() {
   emailController.dispose();
   pwController.dispose();
   confirmPwController.dispose();
-  nameController.dispose();
+  fNameController.dispose();
+  lNameController.dispose();
+
   super.dispose();
 }
 
@@ -48,10 +51,18 @@ void dispose() {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                  TextField(
-                  controller: nameController,
+                  controller: fNameController,
                   keyboardType:TextInputType.name,
                   decoration: const InputDecoration(
-                    hintText: "First and Last Name",
+                    hintText: "First Name",
+                    prefixIcon: Icon(Icons.person, color: Colors.black),
+                  ),
+                ),
+                TextField(
+                  controller: lNameController,
+                  keyboardType:TextInputType.name,
+                  decoration: const InputDecoration(
+                    hintText: "Last Name",
                     prefixIcon: Icon(Icons.person, color: Colors.black),
                   ),
                 ),
@@ -71,6 +82,7 @@ void dispose() {
                  TextFormField(
                    controller: pwController,
                   keyboardType:TextInputType.name,
+                  obscureText: true,
                   decoration: const InputDecoration(
                     hintText: "Password",
                     prefixIcon: Icon(Icons.lock, color: Colors.black),
@@ -82,6 +94,7 @@ void dispose() {
                 TextField(
                   controller: confirmPwController,
                   keyboardType:TextInputType.name,
+                  obscureText: true,
                   decoration: const InputDecoration(
                     hintText: "Confirm Password",
                     prefixIcon: Icon(Icons.lock, color: Colors.black),
@@ -93,7 +106,8 @@ void dispose() {
                       onPressed: () async {
                         if (pwController.text.trim() == confirmPwController.text.trim()){
                            await registrationChecker(emailController.text.trim(),
-                                pwController.text.trim(), nameController.text.trim());
+                                pwController.text.trim(),
+                               fNameController.text.trim(), lNameController.text.trim());
                         }
                         else{
                           print("That's incorrect");
@@ -114,7 +128,7 @@ void dispose() {
 //=====================================
 
 
-    registrationChecker(String email, String password, String name) async {
+    registrationChecker(String email, String password, String fName, String lName) async {
       //run dart pub add email_validator in terminal to add dependencies
       //validate e-mail
 
@@ -123,7 +137,8 @@ void dispose() {
             email: email, password: password);
 
         String userID = FirebaseAuth.instance.currentUser?.uid as String;
-        newUserData(email, userID, name);
+        
+        newUserData(email, userID, fName, lName);
         return true;
       } //end of try block
       on FirebaseAuthException catch (e) {
@@ -137,23 +152,25 @@ void dispose() {
 //========================
 //Creates new user document
 //======================
-    void newUserData (String email, String UID, String name) {
+    void newUserData (String email, String UID, String fName, String lName) {
       CollectionReference users = FirebaseFirestore.instance.collection('users');
 
       users
           .doc(UID)
           .set(
           {'email' : email,
-            'name' : name,
+            'lName' : lName,
+            'fName' : fName,
             'type' : 'customer',
-            'waiterID' : ''
+            'waiterID' : '',
+            'tableID' : ''
 
           }
 
 
       );
 
-      Navigator.push(context, MaterialPageRoute(builder: (context)=> PatronDashboard()));
+      Navigator.push(context, MaterialPageRoute(builder: (context)=> PatronHome()));
 
     } //end of newUserData
 
