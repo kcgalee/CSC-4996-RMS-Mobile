@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/managerHome.dart';
@@ -40,22 +41,29 @@ class LoginState extends State<Login> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextField(
+                TextFormField(
                   controller: emailController,
                   keyboardType:TextInputType.name,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (email) =>
+                  email != null && !EmailValidator.validate(email)
+                      ? 'Enter valid email' : null,
                   decoration: const InputDecoration(
                     hintText: "Email",
                     prefixIcon: Icon(Icons.mail, color: Colors.black),
                   ),
                 ),
-                TextField(
+                TextFormField(
                   controller: pwController,
                   keyboardType:TextInputType.name,
                   obscureText: true,
-                  decoration: const InputDecoration(
-                    hintText: "Password",
-                    prefixIcon: Icon(Icons.lock, color: Colors.black),
-                  ),
+                    decoration: const InputDecoration(
+                      hintText: "Password",
+                      prefixIcon: Icon(Icons.lock, color: Colors.black),
+                    ),
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) => value != null && value.length < 6
+                        ? 'Password must be at least 6 characters' : null,
                 ),
                 SizedBox(
                   width: double.infinity,
@@ -71,6 +79,19 @@ class LoginState extends State<Login> {
   }
 
   logIn() async {
+    if (emailController.text.trim() == "" &&  pwController.text.trim() == ""){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('You must enter a valid email & password'),
+      ));
+    } else if (emailController.text.trim() == ""){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('You must enter a valid email'),
+      ));
+    } else if (pwController.text.trim() == ""){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('You must enter a valid password'),
+      ));
+    }
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text.trim(),
