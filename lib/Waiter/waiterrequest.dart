@@ -104,7 +104,7 @@ class _WaiterRequestState extends State<WaiterRequest> {
                     itemBuilder: (context, index) {
                       return RequestTile(
                           taskName: 'Table: ' +
-                              snapshot.data.docs[index]['tableName']
+                              snapshot.data.docs[index]['tableNum']
                               + ' Requested: ' + snapshot.data.docs[index]['itemID']
                       );
 
