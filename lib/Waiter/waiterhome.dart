@@ -25,12 +25,17 @@ class _WaiterHomeState extends State<WaiterHome> {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
 
-      ElevatedButton(child: Text("Waiter Request Page"),
+      ElevatedButton(
+          child: Text("Waiter Request Page"),
+      style: ElevatedButton.styleFrom(
+
+      ),
           onPressed: () {
           Navigator.push(context,
               MaterialPageRoute(
                   builder: (context) => WaiterRequest()));
-      }),
+      },
+      ),
 
 
       ElevatedButton(
