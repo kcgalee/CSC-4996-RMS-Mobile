@@ -159,14 +159,12 @@ void dispose() {
       users
           .doc(UID)
           .set(
-          {'email' : email,
+          {
+            'email' : email,
             'lName' : lastName,
             'fName' : firstName,
             'type' : 'customer',
             'date' : Timestamp.fromDate(now),
-            'waiterID' : '',
-            'tableID' : ''
-
           }
 
 
