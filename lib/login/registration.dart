@@ -154,17 +154,17 @@ void dispose() {
 //======================
     void newUserData (String email, String UID, String firstName, String lastName) {
       CollectionReference users = FirebaseFirestore.instance.collection('users');
+      final DateTime now = DateTime.now();
 
       users
           .doc(UID)
           .set(
-          {'email' : email,
+          {
+            'email' : email,
             'lName' : lastName,
             'fName' : firstName,
             'type' : 'customer',
-            'waiterID' : '',
-            'tableID' : ''
-
+            'date' : Timestamp.fromDate(now),
           }
 
 
