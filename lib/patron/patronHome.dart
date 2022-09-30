@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../Waiter/waiterrequest.dart';
+import '../Waiter/waiterRequest.dart';
 import '../login/mainscreen.dart';
 import 'qrScanner.dart';
 
