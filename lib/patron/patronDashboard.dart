@@ -17,7 +17,7 @@ class _PatronDashboardState extends State<PatronDashboard> {
     return Scaffold(
       appBar: AppBar(
 
-        title: const Text("Patron Home"),
+        title: const Text("Patron Dasboard"),
         actions: <Widget>[],
       ),
       body: Center(

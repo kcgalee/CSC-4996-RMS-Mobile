@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'patronDashboard.dart';
 import '../login/mainscreen.dart';
 import 'qrScanner.dart';
+import '../navigation.dart';
 
 class PatronHome extends StatelessWidget {
   const PatronHome({Key? key}) : super(key: key);
@@ -10,10 +11,10 @@ class PatronHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const NavigationDrawer(),
       appBar: AppBar(
 
-        title: const Text("Patron Home"),
-        actions: <Widget>[],
+        title: const Text("Patron Home")
       ),
       body: Center(
           child: Column(
@@ -33,20 +34,20 @@ class PatronHome extends StatelessWidget {
                   )
               ),
               ElevatedButton(
-                  child: Text("Sign out"),
+                  child: const Text("Sign out"),
                   onPressed: () {
                     FirebaseAuth.instance.signOut();
                     Navigator.push(context,
                         MaterialPageRoute(
-                            builder: (context) => MainScreen()));
+                            builder: (context) => const MainScreen()));
                   }),
               ElevatedButton(
-                  child: Text("Customer Dashboard"),
+                  child: const Text("Customer Dashboard"),
                   onPressed: () {
                     FirebaseAuth.instance.signOut();
                     Navigator.push(context,
                         MaterialPageRoute(
-                            builder: (context) => PatronDashboard()));
+                            builder: (context) => const PatronDashboard()));
                   }),
 
 
