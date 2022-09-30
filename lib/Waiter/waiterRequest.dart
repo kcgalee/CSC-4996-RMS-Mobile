@@ -15,9 +15,8 @@ class WaiterRequest extends StatefulWidget {
 class _WaiterRequestState extends State<WaiterRequest> {
   // text controller
   final _controller = TextEditingController();
-  Stream getRequests = FirebaseFirestore.instance.collection('orders').where('waiterID', isEqualTo: FirebaseAuth.instance.currentUser?.uid).snapshots();
-  var waiterRID;
-  //final Stream queryTables = FirebaseFirestore.instance.collection('tables').where('restaurantID', isEqualTo: waiterRID).snapshots();
+  //To do: update to dateTime asc when data is changed
+  Stream getRequests = FirebaseFirestore.instance.collection('orders').where('waiterID', isEqualTo: FirebaseAuth.instance.currentUser?.uid).where('status', isNotEqualTo: 'completed').snapshots();
 
   List<String> tableDocList = [];
 
@@ -105,9 +104,8 @@ class _WaiterRequestState extends State<WaiterRequest> {
                       return RequestTile(
                           taskName: 'Table: ' +
                               snapshot.data.docs[index]['tableNum']
-                              + ' Requested: ' + snapshot.data.docs[index]['itemID']
+                              + '\nRequested: ' + snapshot.data.docs[index]['itemID']
                       );
-
                       /*ListTile(
                         title: Text('Table: ' +
                             snapshot.data.docs[index]['tableNumber']),

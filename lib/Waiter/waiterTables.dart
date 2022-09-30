@@ -16,7 +16,6 @@ class _WaiterTablesState extends State<WaiterTables> {
   final _controller = TextEditingController();
 
   var waiterRID;
-  //final Stream queryTables = FirebaseFirestore.instance.collection('tables').where('restaurantID', isEqualTo: waiterRID).snapshots();
 
   List<String> tableDocList = [];
 
@@ -32,7 +31,7 @@ class _WaiterTablesState extends State<WaiterTables> {
             future: getRID(),
             builder: (context, snapshot) {
               return StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection('tables').where('restaurantID', isEqualTo: waiterRID).snapshots(),
+                  stream: FirebaseFirestore.instance.collection('tables').where('restaurantID', isEqualTo: waiterRID).where('waiterID', isEqualTo: FirebaseAuth.instance.currentUser?.uid).snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.data == null) {
                       return Center(
@@ -46,12 +45,12 @@ class _WaiterTablesState extends State<WaiterTables> {
                                 '\nCurrent Capacity: ' + (snapshot.data?.docs[index]['currentCapacity'].toString() ?? '');
                             return ListTile(
                               title: Text(
-                                  snapshot.data?.docs[index]['description']),
+                                  snapshot.data?.docs[index]['tableNum'].toString() ?? ''),
                               subtitle: Text(text),
                               onTap: () {
                                 /*Navigator.push(context,
                                     MaterialPageRoute(
-                                        builder: (context) => AssignTable(tableID: snapshot.data?.docs[index].reference.id ?? '', tableName: snapshot.data?.docs[index]['description'], rID: snapshot.data?.docs[index]['restaurantID'])
+                                        builder: (context) => ViewTable(tableID: snapshot.data?.docs[index].reference.id ?? '', tableName: snapshot.data?.docs[index]['description'], rID: snapshot.data?.docs[index]['restaurantID'])
                                     )
                                 );*/
                               },
@@ -68,7 +67,6 @@ class _WaiterTablesState extends State<WaiterTables> {
     await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).get().then(
             (element) {
           print(element.reference);
-          //item.fromFirestore();
           //set2.add(element);
           waiterRID = element['restaurantID'].toString();
           print(waiterRID);
@@ -78,12 +76,10 @@ class _WaiterTablesState extends State<WaiterTables> {
 
   //original
   Future getTables() async {
-    await FirebaseFirestore.instance.collection('tables').get().then(
+    await FirebaseFirestore.instance.collection('tables').where('waiterID', isEqualTo: FirebaseAuth.instance.currentUser?.uid).get().then(
           (snapshot) => snapshot.docs.forEach(
               (element) {
-            print(element.reference);
-            //item.fromFirestore();
-            //set2.add(element);
+            print(element.reference.id.toString());
             tableDocList.add(element.reference.id.toString());
           }),
     );
