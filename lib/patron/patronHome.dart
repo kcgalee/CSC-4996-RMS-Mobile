@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../Waiter/waiterrequest.dart';
+import 'patronDashboard.dart';
 import '../login/mainscreen.dart';
 import 'qrScanner.dart';
 
@@ -39,6 +39,14 @@ class PatronHome extends StatelessWidget {
                     Navigator.push(context,
                         MaterialPageRoute(
                             builder: (context) => MainScreen()));
+                  }),
+              ElevatedButton(
+                  child: Text("Customer Dashboard"),
+                  onPressed: () {
+                    FirebaseAuth.instance.signOut();
+                    Navigator.push(context,
+                        MaterialPageRoute(
+                            builder: (context) => PatronDashboard()));
                   }),
 
 
