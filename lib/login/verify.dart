@@ -37,7 +37,10 @@ class _VerifyScreenState extends State<VerifyScreen> {
     return Scaffold(
       body: Center(
         child: Text
-          ("Verification email sent to ${user.email} please verify."),),
+          ("Verification email sent to ${user.email}, please verify." +
+            "\nYou will be redirected to the home screen after verification."
+          + "\nBe sure to check spam/junk folder."
+            ),),
     );
   }
 
