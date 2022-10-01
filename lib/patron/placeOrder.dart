@@ -109,7 +109,7 @@ var tableID ='67VixP11beDjcl39waX9';
                       return ListView.builder(
                           itemCount: snapshot.data?.docs.length,
                           itemBuilder: (context, index) {
-                            var text = 'Item: ' + (snapshot.data?.docs[index]['itemID'].toString() ?? '') +
+                            var text = 'Item: ' + (snapshot.data?.docs[index]['itemName'].toString() ?? '') +
                                 '\nCurrent Status: ' + (snapshot.data?.docs[index]['status'].toString() ?? '');
                             return ListTile(
                               title: Text(

@@ -59,7 +59,7 @@ var waiterID;
      .collection('orders')
      .add({
         'custID' : 'ocLOG8A5DaVdVCArxFLXnZj29H2',
-        'itemID' : 'Spoon',
+        'itemName' : 'Spoon',
         'price'  : '3.99',
         'waiterID' : waiterID,
         'tableNum' : '1',

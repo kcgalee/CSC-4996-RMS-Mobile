@@ -1,5 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/login/verify.dart';
 import 'package:restaurant_management_system/patron/patronDashboard.dart';
 import '../patron/patronHome.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; //save for later use
@@ -137,7 +138,9 @@ void dispose() {
             email: email, password: password);
 
         String userID = FirebaseAuth.instance.currentUser?.uid as String;
-        
+
+
+
         newUserData(email, userID, firstName, lastName);
         return true;
       } //end of try block
@@ -170,9 +173,10 @@ void dispose() {
 
       );
 
-      Navigator.push(context, MaterialPageRoute(builder: (context)=> PatronHome()));
+      Navigator.push(context, MaterialPageRoute(builder: (context)=> VerifyScreen()));
 
     } //end of newUserData
+
 
 
 }
