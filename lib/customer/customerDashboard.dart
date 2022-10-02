@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_management_system/login/mainscreen.dart';
-import 'package:restaurant_management_system/customer/placeOrder.dart';
+import 'package:restaurant_management_system/customer/requests.dart';
 import 'package:restaurant_management_system/navigation.dart';
 
 
@@ -22,33 +21,21 @@ var waiterID;
   Widget build(BuildContext context) {
 
     return Scaffold(
-      drawer: NavigationDrawer(),
+      drawer: const NavigationDrawer(),
       appBar: AppBar(
-        title: const Text("Patron Dashboard"),
+        title: const Text("Customer Dashboard"),
       ),
       body: Center(
         child: Column(
-            children: [ElevatedButton(
-            onPressed: () async {
-              await getRID();
-              addOrder();
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> placeOrder()));
-            },
-            child: const Text('Request Spoon',
-              style: TextStyle(
-
-                color: Colors.white,
-
-              ),
-            )
-        ), ElevatedButton(
-                child: Text("Sign out"),
+            children: [
+              ElevatedButton(
+                child: Text("Requests"),
                 onPressed: () {
                   FirebaseAuth.instance.signOut();
                   Navigator.push(context,
                       MaterialPageRoute(
-                          builder: (context) => MainScreen()));
-                }),
+                          builder: (context) => Requests()));
+              }),
             ],)
 
       ),

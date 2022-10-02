@@ -40,14 +40,6 @@ class _RequestsState extends State<Requests> {
                   ),
                 )
             ),
-              ElevatedButton(
-                  child: Text("Sign out"),
-                  onPressed: () {
-                    FirebaseAuth.instance.signOut();
-                    Navigator.push(context,
-                        MaterialPageRoute(
-                            builder: (context) => MainScreen()));
-                  }),
             ],
           )
 
