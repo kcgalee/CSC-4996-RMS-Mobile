@@ -4,8 +4,8 @@ import '../Waiter/waiterRequest.dart';
 import '../login/mainscreen.dart';
 import 'qrScanner.dart';
 
-class PatronHome extends StatelessWidget {
-  const PatronHome({Key? key}) : super(key: key);
+class CustomerHome extends StatelessWidget {
+  const CustomerHome({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

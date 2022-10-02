@@ -70,9 +70,9 @@ class MyApp extends StatelessWidget {
           } else {
             if (acctType == 'customer'){
               if (tableID == null) {
-                return PatronHome();
+                return CustomerHome();
               } else {
-                return PatronDashboard();
+                return CustomerDashboard();
               }
             } else if (acctType == 'waiter'){
               return WaiterHome();

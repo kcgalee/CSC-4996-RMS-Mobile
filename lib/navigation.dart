@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/customer/customerHome.dart';
 
 class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({Key? key}) : super(key: key);
@@ -27,7 +28,8 @@ class NavigationDrawer extends StatelessWidget {
       ListTile(
         leading: const Icon(Icons.home_outlined),
         title: const Text('Home'),
-        onTap: () {},
+        onTap: () =>
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const CustomerHome())),
       )
     ]
   );

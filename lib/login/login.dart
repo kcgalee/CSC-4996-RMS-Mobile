@@ -138,9 +138,9 @@ class LoginState extends State<Login> {
       if (!mounted) return;
       if (acctType == 'customer'){
         if (tableID == ""){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> PatronHome()));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerHome()));
         } else {
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> PatronDashboard()));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerDashboard()));
         }
       } else if (acctType == 'waiter') {
         Navigator.push(context, MaterialPageRoute(builder: (context)=> WaiterHome()));
