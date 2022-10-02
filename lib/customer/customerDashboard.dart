@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/login/mainscreen.dart';
-import 'package:restaurant_management_system/patron/placeOrder.dart';
+import 'package:restaurant_management_system/customer/placeOrder.dart';
+import 'package:restaurant_management_system/navigation.dart';
 
 
 class PatronDashboard extends StatefulWidget {
@@ -21,6 +22,7 @@ var waiterID;
   Widget build(BuildContext context) {
 
     return Scaffold(
+      drawer: NavigationDrawer(),
       appBar: AppBar(
         title: const Text("Patron Dashboard"),
       ),
