@@ -16,7 +16,7 @@ class _WaiterRequestState extends State<WaiterRequest> {
   // text controller
   final _controller = TextEditingController();
   //To do: update to dateTime asc when data is changed
-  Stream getRequests = FirebaseFirestore.instance.collection('orders').where('waiterID', isEqualTo: FirebaseAuth.instance.currentUser?.uid).where('status', isNotEqualTo: 'completed').snapshots();
+  Stream getRequests = FirebaseFirestore.instance.collection('orders').where('waiterID', isEqualTo: FirebaseAuth.instance.currentUser?.uid).where('status', isNotEqualTo: 'completed').orderBy('status').orderBy('dateTime', descending: false).snapshots();
 
   List<String> tableDocList = [];
 
@@ -104,7 +104,9 @@ class _WaiterRequestState extends State<WaiterRequest> {
                       return RequestTile(
                           taskName: 'Table: ' +
                               snapshot.data.docs[index]['tableNum']
-                              + '\nRequested: ' + snapshot.data.docs[index]['itemID']
+                              + '\nRequested: ' + snapshot.data.docs[index]['itemName']
+                              + '\nTime: ' + snapshot.data.docs[index]['dateTime'].toDate().toString()
+                              + '\nStatus: ' + snapshot.data.docs[index]['status']
                       );
                       /*ListTile(
                         title: Text('Table: ' +
