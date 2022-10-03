@@ -61,7 +61,7 @@ class _WaiterRequestState extends State<WaiterRequest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightBlue[100],
+      backgroundColor: Colors.white ,
       appBar: AppBar(
         title: Text('Requests'),
         elevation: 0,
@@ -104,7 +104,7 @@ class _WaiterRequestState extends State<WaiterRequest> {
                       return RequestTile(
                           taskName: 'Table: ' +
                               snapshot.data.docs[index]['tableNum']
-                              + '\nRequested: ' + snapshot.data.docs[index]['itemID']
+                              + '\nRequested: ' + snapshot.data.docs[index]['itemName']
                       );
                       /*ListTile(
                         title: Text('Table: ' +
