@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../login/mainscreen.dart';
 import 'qrScanner.dart';
 import 'package:restaurant_management_system/customer/customerDashboard.dart';
-import 'package:restaurant_management_system/navigation.dart';
+import 'package:restaurant_management_system/customer/navigation.dart';
 
 class CustomerHome extends StatelessWidget {
   const CustomerHome({Key? key}) : super(key: key);
