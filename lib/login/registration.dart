@@ -269,6 +269,22 @@ class RegistrationBodyState extends State<RegistrationBody> {
                 prefixIcon: Icon(Icons.home, color: Colors.black),
               ),
             ),
+            TextField(
+              controller: lastNameController,
+              keyboardType:TextInputType.name,
+              decoration: const InputDecoration(
+                hintText: "State",
+                prefixIcon: Icon(Icons.home, color: Colors.black),
+              ),
+            ),
+            TextField(
+              controller: lastNameController,
+              keyboardType:TextInputType.name,
+              decoration: const InputDecoration(
+                hintText: "Zip Code",
+                prefixIcon: Icon(Icons.home, color: Colors.black),
+              ),
+            ),
             SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(child: const Text("Register"),
