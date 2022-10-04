@@ -26,8 +26,9 @@ class RequestTile extends StatelessWidget {
       padding: const EdgeInsets.only(left: 25, right: 25,top: 25),
       child: Container(
         padding: EdgeInsets.all(24),
-        decoration: BoxDecoration(color: Colors.blue,
+        decoration: BoxDecoration(color: Colors.black12,
           borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.black38)
         ),
         child: Row(
           children: [
@@ -41,7 +42,7 @@ class RequestTile extends StatelessWidget {
 
             //task name
             Text(taskName,
-            style: TextStyle(color: Colors.white,fontSize: 15)),
+            style: TextStyle(color: Colors.black54,fontSize: 15)),
           ],
         ),
       ),
