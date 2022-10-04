@@ -5,6 +5,7 @@ import 'package:restaurant_management_system/Waiter/waiterTables.dart';
 import 'package:restaurant_management_system/Waiter/waiterRequest.dart';
 
 import '../login/mainscreen.dart';
+import '../navigation.dart';
 
 class WaiterHome extends StatefulWidget {
   const WaiterHome({Key? key}) : super(key: key);
@@ -17,6 +18,7 @@ class _WaiterHomeState extends State<WaiterHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: const NavigationDrawer(),
         appBar: AppBar(
           title: const Text("Waiter Home"),
           backgroundColor: Colors.white,
@@ -159,13 +161,6 @@ class _WaiterHomeState extends State<WaiterHome> {
                       MaterialPageRoute(builder: (context) => QRScannerWaiter()));
                 },
               ),
-              ElevatedButton(
-                  child: Text("sign out"),
-                  onPressed: () {
-                    FirebaseAuth.instance.signOut();
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MainScreen()));
-                  }),
             ], //Children
           ),
         ));
