@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/Waiter/Utility/dialog_box.dart';
+import 'package:intl/intl.dart';
 
 import 'Utility/request_tile.dart';
 
@@ -76,19 +77,6 @@ class _WaiterRequestState extends State<WaiterRequest> {
             deleteFunction: (context) => deleteTask(index),
           );
         },
-      ),*//*
-      body: FutureBuilder(
-        future: getTables(),
-        builder: (context, snapshot) {
-          return ListView.builder(
-              itemCount: tableDocList.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(tableDocList[index].toString()),
-                );
-              },
-          );
-        },
       ),*/
         body: StreamBuilder(
             stream: getRequests,
@@ -105,15 +93,9 @@ class _WaiterRequestState extends State<WaiterRequest> {
                           taskName: 'Table: ' +
                               snapshot.data.docs[index]['tableNum']
                               + '\nRequested: ' + snapshot.data.docs[index]['itemName']
-                              + '\nTime: ' + snapshot.data.docs[index]['dateTime'].toDate().toString()
-                              + '\nStatus: ' + snapshot.data.docs[index]['status']
+                              + '\nStatus: ' + snapshot.data.docs[index]['status'],
+                          time: snapshot.data.docs[index]['dateTime'],
                       );
-                      /*ListTile(
-                        title: Text('Table: ' +
-                            snapshot.data.docs[index]['tableNumber']),
-                        subtitle: Text('Request: ' + snapshot.data.docs[index]['itemID']),
-                      );
-                      */
                     }
                 );
               }
