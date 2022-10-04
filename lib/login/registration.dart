@@ -19,7 +19,7 @@ class Register extends StatefulWidget {
 
 }
   class RegisterState extends State<Register> {
-    bool isChecked = false;
+
     final emailController = TextEditingController();
     final pwController = TextEditingController();
     final firstNameController = TextEditingController();
@@ -40,7 +40,6 @@ void dispose() {
 
 @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(
           title: const Text("Registration"),
@@ -100,30 +99,6 @@ void dispose() {
                   decoration: const InputDecoration(
                     hintText: "Confirm Password",
                     prefixIcon: Icon(Icons.lock, color: Colors.black),
-                  ),
-                ),
-                Row(
-                  children: [
-                    Checkbox(
-                        checkColor: Colors.black,
-                        value: isChecked,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            isChecked = value!;
-                          });
-                        },
-                    ),
-                    const Text("Manager Registration"),
-                  ]
-                ),
-                TextField(
-                  controller: confirmPwController, // need to change
-                  keyboardType:TextInputType.name,
-                  obscureText: true,
-                  enabled: isChecked,
-                  decoration: const InputDecoration(
-                    hintText: "Phone Number",
-                    prefixIcon: Icon(Icons.phone, color: Colors.black),
                   ),
                 ),
                 SizedBox(
