@@ -61,7 +61,7 @@ class _WaiterRequestState extends State<WaiterRequest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightBlue[100],
+      backgroundColor: Colors.white ,
       appBar: AppBar(
         title: Text('Requests'),
         elevation: 0,

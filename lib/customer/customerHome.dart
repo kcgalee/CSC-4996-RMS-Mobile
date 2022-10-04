@@ -1,18 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../Waiter/waiterRequest.dart';
 import '../login/mainscreen.dart';
 import 'qrScanner.dart';
+import 'package:restaurant_management_system/customer/customerDashboard.dart';
+import 'package:restaurant_management_system/navigation.dart';
 
-class PatronHome extends StatelessWidget {
-  const PatronHome({Key? key}) : super(key: key);
+class CustomerHome extends StatelessWidget {
+  const CustomerHome({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const NavigationDrawer(),
       appBar: AppBar(
 
-        title: const Text("Patron Home"),
+        title: const Text("Customer Home"),
         actions: <Widget>[],
       ),
       body: Center(
@@ -33,13 +35,13 @@ class PatronHome extends StatelessWidget {
                   )
               ),
               ElevatedButton(
-                  child: Text("Sign out"),
-                  onPressed: () {
-                    FirebaseAuth.instance.signOut();
-                    Navigator.push(context,
-                        MaterialPageRoute(
-                            builder: (context) => MainScreen()));
-                  }),
+                child: Text("Dashboard"),
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
+                  Navigator.push(context,
+                      MaterialPageRoute(
+                          builder: (context) => CustomerDashboard()));
+                }),
 
 
 

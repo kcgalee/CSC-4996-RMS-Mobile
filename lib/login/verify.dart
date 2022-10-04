@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_management_system/patron/patronHome.dart';
+import 'package:restaurant_management_system/customer/customerHome.dart';
 
 class VerifyScreen extends StatefulWidget {
   @override
@@ -51,7 +51,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
     if (user.emailVerified){
       timer.cancel();
       Navigator.of(context).
-      pushReplacement(MaterialPageRoute(builder: (context) =>PatronHome()));
+      pushReplacement(MaterialPageRoute(builder: (context) =>CustomerHome()));
 
     }
   }
