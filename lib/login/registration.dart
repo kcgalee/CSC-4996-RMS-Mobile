@@ -7,7 +7,9 @@ import 'package:cloud_firestore/cloud_firestore.dart'; //save for later use
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'registration.dart';
+enum WidgetMarker {
+  user, manager
+}
 
 final formKey = GlobalKey<FormState>();
 
@@ -19,166 +21,343 @@ class Register extends StatefulWidget {
 
 }
   class RegisterState extends State<Register> {
+    @override
+      Widget build(BuildContext context) {
+        return Scaffold(
+            appBar: AppBar(
+              title: const Text("Registration"),
+            ),
+            body: RegistrationBody(),
+        );
+    }
 
-    final emailController = TextEditingController();
-    final pwController = TextEditingController();
-    final firstNameController = TextEditingController();
-    final confirmPwController = TextEditingController();
-    final lastNameController = TextEditingController();
 
-@override
-void dispose() {
-  emailController.dispose();
-  pwController.dispose();
-  confirmPwController.dispose();
-  firstNameController.dispose();
-  lastNameController.dispose();
 
-  super.dispose();
 }
 
+class RegistrationBody extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => RegistrationBodyState();
+}
 
-@override
+class RegistrationBodyState extends State<RegistrationBody> {
+
+  final emailController = TextEditingController();
+  final pwController = TextEditingController();
+  final firstNameController = TextEditingController();
+  final confirmPwController = TextEditingController();
+  final lastNameController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    pwController.dispose();
+    confirmPwController.dispose();
+    firstNameController.dispose();
+    lastNameController.dispose();
+
+    super.dispose();
+  }
+
+  WidgetMarker selectedWidgetMarker = WidgetMarker.user;
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Registration"),
-        ),
-        body: Center(
-          child: Form(
-          key: formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                 TextField(
-                  controller: firstNameController,
-                  keyboardType:TextInputType.name,
-                  decoration: const InputDecoration(
-                    hintText: "First Name",
-                    prefixIcon: Icon(Icons.person, color: Colors.black),
-                  ),
-                ),
-                TextField(
-                  controller: lastNameController,
-                  keyboardType:TextInputType.name,
-                  decoration: const InputDecoration(
-                    hintText: "Last Name",
-                    prefixIcon: Icon(Icons.person, color: Colors.black),
-                  ),
-                ),
-                 TextFormField(
-                   controller: emailController,
-                  keyboardType:TextInputType.name,
-                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                   validator: (email) =>
-                   email != null && !EmailValidator.validate(email)
-                       ? 'Enter valid email' : null,
-                  decoration: const InputDecoration(
-                    hintText: "Email",
-                    prefixIcon: Icon(Icons.mail, color: Colors.black),
-                    ),
+   return Column(
+     children: <Widget>[
+       Row(
+       mainAxisAlignment: MainAxisAlignment.center,
+           children: <Widget> [
+             TextButton(
+               onPressed: () {
+                 setState(() {
+                   selectedWidgetMarker = WidgetMarker.user;
+                 });
+               },
+               child: Text("Customer/Waiter"),
+             ),
+             TextButton(
+               onPressed: () {
+                 setState(() {
+                   selectedWidgetMarker = WidgetMarker.manager;
+                 });
+               },
+               child: Text("Manager"),
+             ),
+           ]
+       ),
+       Container(
+         child: getCustomContainer()
+       )
+     ]
+   );
+  }
 
-                ),
-                 TextFormField(
-                   controller: pwController,
-                  keyboardType:TextInputType.name,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    hintText: "Password",
-                    prefixIcon: Icon(Icons.lock, color: Colors.black),
-                  ),
-                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                   validator: (value) => value != null && value.length < 6
-                   ? 'Password must be at least 6 characters' : null,
-                ),
-                TextField(
-                  controller: confirmPwController,
-                  keyboardType:TextInputType.name,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    hintText: "Confirm Password",
-                    prefixIcon: Icon(Icons.lock, color: Colors.black),
-                  ),
-                ),
-                SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(child: const Text("Register"),
-                      onPressed: () async {
-                        if (pwController.text.trim() == confirmPwController.text.trim()){
-                           await registrationChecker(emailController.text.trim(),
-                                pwController.text.trim(),
-                               firstNameController.text.trim(), lastNameController.text.trim());
-                        }
-                        else{
-                          print("That's incorrect");
-                        }
-                        },
-                    )
+  Widget getCustomContainer() {
+    switch (selectedWidgetMarker) {
+      case WidgetMarker.user:
+        return getUserContainer();
+      case WidgetMarker.manager:
+        return getManagerContainer();
+    }
+    return getUserContainer();
+  }
+
+  Widget getUserContainer() {
+    return Form(
+        key: formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextField(
+              controller: firstNameController,
+              keyboardType:TextInputType.name,
+              decoration: const InputDecoration(
+                hintText: "First Name",
+                prefixIcon: Icon(Icons.person, color: Colors.black),
+              ),
+            ),
+            TextField(
+              controller: lastNameController,
+              keyboardType:TextInputType.name,
+              decoration: const InputDecoration(
+                hintText: "Last Name",
+                prefixIcon: Icon(Icons.person, color: Colors.black),
+              ),
+            ),
+            TextFormField(
+              controller: emailController,
+              keyboardType:TextInputType.name,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (email) =>
+              email != null && !EmailValidator.validate(email)
+                  ? 'Enter valid email' : null,
+              decoration: const InputDecoration(
+                hintText: "Email",
+                prefixIcon: Icon(Icons.mail, color: Colors.black),
+              ),
+
+            ),
+            TextFormField(
+              controller: pwController,
+              keyboardType:TextInputType.name,
+              obscureText: true,
+              decoration: const InputDecoration(
+                hintText: "Password",
+                prefixIcon: Icon(Icons.lock, color: Colors.black),
+              ),
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (value) => value != null && value.length < 6
+                  ? 'Password must be at least 6 characters' : null,
+            ),
+            TextField(
+              controller: confirmPwController,
+              keyboardType:TextInputType.name,
+              obscureText: true,
+              decoration: const InputDecoration(
+                hintText: "Confirm Password",
+                prefixIcon: Icon(Icons.lock, color: Colors.black),
+              ),
+            ),
+            SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(child: const Text("Register"),
+                  onPressed: () async {
+                    if (pwController.text.trim() == confirmPwController.text.trim()){
+                      await registrationChecker(emailController.text.trim(),
+                          pwController.text.trim(),
+                          firstNameController.text.trim(), lastNameController.text.trim());
+                    }
+                    else{
+                      print("That's incorrect");
+                    }
+                  },
                 )
-              ],
             )
-        )
+          ],
         )
     );
   }
 
+  Widget getManagerContainer() {
+    return Form(
+        key: formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextField(
+              controller: firstNameController,
+              keyboardType:TextInputType.name,
+              decoration: const InputDecoration(
+                hintText: "First Name",
+                prefixIcon: Icon(Icons.person, color: Colors.black),
+              ),
+            ),
+            TextField(
+              controller: lastNameController,
+              keyboardType:TextInputType.name,
+              decoration: const InputDecoration(
+                hintText: "Last Name",
+                prefixIcon: Icon(Icons.person, color: Colors.black),
+              ),
+            ),
+            TextFormField(
+              controller: emailController,
+              keyboardType:TextInputType.name,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (email) =>
+              email != null && !EmailValidator.validate(email)
+                  ? 'Enter valid email' : null,
+              decoration: const InputDecoration(
+                hintText: "Email",
+                prefixIcon: Icon(Icons.mail, color: Colors.black),
+              ),
+            ),
+            TextField(
+              controller: lastNameController,
+              keyboardType:TextInputType.name,
+              decoration: const InputDecoration(
+                hintText: "Phone Number",
+                prefixIcon: Icon(Icons.phone, color: Colors.black),
+              ),
+            ),
+            TextFormField(
+              controller: pwController,
+              keyboardType:TextInputType.name,
+              obscureText: true,
+              decoration: const InputDecoration(
+                hintText: "Password",
+                prefixIcon: Icon(Icons.lock, color: Colors.black),
+              ),
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (value) => value != null && value.length < 6
+                  ? 'Password must be at least 6 characters' : null,
+            ),
+            TextField(
+              controller: confirmPwController,
+              keyboardType:TextInputType.name,
+              obscureText: true,
+              decoration: const InputDecoration(
+                hintText: "Confirm Password",
+                prefixIcon: Icon(Icons.lock, color: Colors.black),
+              ),
+            ),
+            Text("Restaurant Information"),
+            TextField(
+              controller: lastNameController,
+              keyboardType:TextInputType.name,
+              decoration: const InputDecoration(
+                hintText: "Restaurant Name",
+                prefixIcon: Icon(Icons.food_bank, color: Colors.black),
+              ),
+            ),
+            TextField(
+              controller: lastNameController,
+              keyboardType:TextInputType.name,
+              decoration: const InputDecoration(
+                hintText: "Street Address",
+                prefixIcon: Icon(Icons.home, color: Colors.black),
+              ),
+            ),
+            TextField(
+              controller: lastNameController,
+              keyboardType:TextInputType.name,
+              decoration: const InputDecoration(
+                hintText: "City",
+                prefixIcon: Icon(Icons.home, color: Colors.black),
+              ),
+            ),
+            TextField(
+              controller: lastNameController,
+              keyboardType:TextInputType.name,
+              decoration: const InputDecoration(
+                hintText: "State",
+                prefixIcon: Icon(Icons.home, color: Colors.black),
+              ),
+            ),
+            TextField(
+              controller: lastNameController,
+              keyboardType:TextInputType.name,
+              decoration: const InputDecoration(
+                hintText: "Zip Code",
+                prefixIcon: Icon(Icons.home, color: Colors.black),
+              ),
+            ),
+            SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(child: const Text("Register"),
+                  onPressed: () async {
+                    if (pwController.text.trim() == confirmPwController.text.trim()){
+                      await registrationChecker(emailController.text.trim(),
+                          pwController.text.trim(),
+                          firstNameController.text.trim(), lastNameController.text.trim());
+                    }
+                    else{
+                      print("That's incorrect");
+                    }
+                  },
+                )
+            )
+          ],
+        )
+    );
+  }
 
-//=====================================
+  //=====================================
 //Adding email and password to database
 //=====================================
 
 
-    registrationChecker(String email, String password, String firstName, String lastName) async {
-      //run dart pub add email_validator in terminal to add dependencies
-      //validate e-mail
+  registrationChecker(String email, String password, String firstName, String lastName) async {
+    //run dart pub add email_validator in terminal to add dependencies
+    //validate e-mail
 
-      try {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: email, password: password);
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: email, password: password);
 
-        String userID = FirebaseAuth.instance.currentUser?.uid as String;
+      String userID = FirebaseAuth.instance.currentUser?.uid as String;
 
 
 
-        newUserData(email, userID, firstName, lastName);
-        return true;
-      } //end of try block
-      on FirebaseAuthException catch (e) {
-        if (e.code == 'email-already-exists') {
-          return ('Email is being used on preexisting account');
-        }
-      } //end of catch block
+      newUserData(email, userID, firstName, lastName);
+      return true;
+    } //end of try block
+    on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-exists') {
+        return ('Email is being used on preexisting account');
+      }
+    } //end of catch block
 
-    } // end of registrationChecker
+  } // end of registrationChecker
 
 //========================
 //Creates new user document
 //======================
-    void newUserData (String email, String UID, String firstName, String lastName) {
-      CollectionReference users = FirebaseFirestore.instance.collection('users');
-      final DateTime now = DateTime.now();
+  void newUserData (String email, String UID, String firstName, String lastName) {
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    final DateTime now = DateTime.now();
 
-      users
-          .doc(UID)
-          .set(
-          {
-            'email' : email,
-            'lName' : lastName,
-            'fName' : firstName,
-            'type' : 'customer',
-            'date' : Timestamp.fromDate(now),
-          }
-
-
-      );
-
-      Navigator.push(context, MaterialPageRoute(builder: (context)=> VerifyScreen()));
-
-    } //end of newUserData
+    users
+        .doc(UID)
+        .set(
+        {
+          'email' : email,
+          'lName' : lastName,
+          'fName' : firstName,
+          'type' : 'customer',
+          'date' : Timestamp.fromDate(now),
+        }
 
 
+    );
 
+    Navigator.push(context, MaterialPageRoute(builder: (context)=> VerifyScreen()));
+
+  } //end of newUserData
+  
 }
 
 
