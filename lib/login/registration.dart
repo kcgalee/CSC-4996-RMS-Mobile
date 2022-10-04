@@ -63,7 +63,8 @@ class RegistrationBodyState extends State<RegistrationBody> {
 
   @override
   Widget build(BuildContext context) {
-   return Column(
+    return SingleChildScrollView(
+   child: Column(
      children: <Widget>[
        Row(
        mainAxisAlignment: MainAxisAlignment.center,
@@ -90,7 +91,8 @@ class RegistrationBodyState extends State<RegistrationBody> {
          child: getCustomContainer()
        )
      ]
-   );
+   )
+    );
   }
 
   Widget getCustomContainer() {
@@ -106,6 +108,7 @@ class RegistrationBodyState extends State<RegistrationBody> {
   Widget getUserContainer() {
     return Form(
         key: formKey,
+        child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,12 +180,14 @@ class RegistrationBodyState extends State<RegistrationBody> {
             )
           ],
         )
+        )
     );
   }
 
   Widget getManagerContainer() {
     return Form(
         key: formKey,
+        child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -302,6 +307,8 @@ class RegistrationBodyState extends State<RegistrationBody> {
             )
           ],
         )
+        ),
+
     );
   }
 
