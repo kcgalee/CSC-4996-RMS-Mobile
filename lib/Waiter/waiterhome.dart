@@ -37,11 +37,10 @@ class _WaiterHomeState extends State<WaiterHome> {
                   child: Text(waiterName,
                   style: TextStyle(fontSize: 30,),),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.only(bottom: 26,left: 26,right: 26),
                   child: ElevatedButton(
-                    child: const Text('CLOCK OUT',),
+                    child: const Text('CLOCK IN',),
                     style: ElevatedButton.styleFrom(
 
                       fixedSize: Size(330, 56),
@@ -61,11 +60,10 @@ class _WaiterHomeState extends State<WaiterHome> {
 
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.only(bottom: 26,left: 26,right: 26),
                   child: ElevatedButton(
-                    child: const Text('CLOCK IN',),
+                    child: const Text('CLOCK OUT',),
                     style: ElevatedButton.styleFrom(
 
                       fixedSize: Size(330, 56),

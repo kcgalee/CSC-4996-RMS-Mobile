@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/Waiter/Utility/dialog_box.dart';
+import 'package:restaurant_management_system/Waiter/viewTable.dart';
 import 'Utility/request_tile.dart';
 
 class WaiterTables extends StatefulWidget {
@@ -24,7 +25,7 @@ class _WaiterTablesState extends State<WaiterTables> {
     return Scaffold(
         backgroundColor: Colors.lightBlue[100],
         appBar: AppBar(
-          title: Text('Requests'),
+          title: Text('Assigned Tables'),
           elevation: 0,
         ),
         body: FutureBuilder(
@@ -41,18 +42,17 @@ class _WaiterTablesState extends State<WaiterTables> {
                       return ListView.builder(
                           itemCount: snapshot.data?.docs.length,
                           itemBuilder: (context, index) {
-                            var text = 'Max Capacity: ' + (snapshot.data?.docs[index]['maxCapacity'].toString() ?? '') +
-                                '\nCurrent Capacity: ' + (snapshot.data?.docs[index]['currentCapacity'].toString() ?? '');
+                            var text = (snapshot.data?.docs[index]['currentCapacity'].toString() ?? '') + '/' + (snapshot.data?.docs[index]['maxCapacity'].toString() ?? '');
                             return ListTile(
                               title: Text(
-                                  snapshot.data?.docs[index]['tableNum'].toString() ?? ''),
+                                  'Table ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')),
                               subtitle: Text(text),
                               onTap: () {
-                                /*Navigator.push(context,
+                                Navigator.push(context,
                                     MaterialPageRoute(
-                                        builder: (context) => ViewTable(tableID: snapshot.data?.docs[index].reference.id ?? '', tableName: snapshot.data?.docs[index]['description'], rID: snapshot.data?.docs[index]['restaurantID'])
+                                        builder: (context) => ViewTable(tableID: snapshot.data?.docs[index].reference.id ?? '', tableNum: snapshot.data?.docs[index]['tableNum'].toString() ?? '')
                                     )
-                                );*/
+                                );
                               },
                             );
                           }
