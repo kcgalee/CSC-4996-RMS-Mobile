@@ -2,17 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/login/mainscreen.dart';
-import 'package:restaurant_management_system/patron/placeOrder.dart';
+import 'package:restaurant_management_system/customer/placeOrder.dart';
+import 'package:restaurant_management_system/navigation.dart';
 
 
-class PatronDashboard extends StatefulWidget {
-  const PatronDashboard({Key? key}) : super(key: key);
+class CustomerDashboard extends StatefulWidget {
+  const CustomerDashboard({Key? key}) : super(key: key);
 
   @override
-  State<PatronDashboard> createState() => _PatronDashboardState();
+  State<CustomerDashboard> createState() => _CustomerDashboardState();
 }
 
-class _PatronDashboardState extends State<PatronDashboard> {
+class _CustomerDashboardState extends State<CustomerDashboard> {
   Stream getRequests = FirebaseFirestore.instance.collection('orders').where('waiterID', isEqualTo: FirebaseAuth.instance.currentUser?.uid).snapshots();
 var waiterID;
   List<String> tableDocList = [];
@@ -21,6 +22,7 @@ var waiterID;
   Widget build(BuildContext context) {
 
     return Scaffold(
+      drawer: NavigationDrawer(),
       appBar: AppBar(
         title: const Text("Patron Dashboard"),
       ),

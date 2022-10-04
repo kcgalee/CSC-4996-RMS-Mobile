@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/Waiter/waiterHome.dart';
 import 'package:restaurant_management_system/login/login.dart';
 import 'package:restaurant_management_system/manager/managerHome.dart';
-import 'package:restaurant_management_system/patron/patronDashboard.dart';
-import 'package:restaurant_management_system/patron/patronHome.dart';
+import 'package:restaurant_management_system/customer/customerDashboard.dart';
+import 'package:restaurant_management_system/customer/customerHome.dart';
 import '../login/mainscreen.dart';
 
 
@@ -70,9 +70,9 @@ class MyApp extends StatelessWidget {
           } else {
             if (acctType == 'customer'){
               if (tableID == null) {
-                return PatronHome();
+                return CustomerHome();
               } else {
-                return PatronDashboard();
+                return CustomerDashboard();
               }
             } else if (acctType == 'waiter'){
               return WaiterHome();
