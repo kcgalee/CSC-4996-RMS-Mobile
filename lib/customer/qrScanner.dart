@@ -54,24 +54,13 @@ class _QRScannerState extends State<QRScanner> {
 
   void onQRViewCreated(QRViewController controller) {
     setState(()=> this.controller = controller);
-    bool scanned = false;
 
-    controller.scannedDataStream.listen(
-        (barcode)=> setState(() =>
-          this.barcode = barcode
-
-        )
-
-    );
-    // possible solution for navigating to dashboard after scanning qr code
-    // bool scanned = false;
-    // controller.scannedDataStream.listen((scanData) {
-    //   if (!scanned) {
-    //     scanned = true;
-    //     Navigator.push(context, MaterialPageRoute(builder: (context)=>const PatronDashboard()),
-    //     );
-    //   }
-    // });
+    controller.scannedDataStream.listen((Barcode scanData) {
+      if (scanData.format == BarcodeFormat.qrcode && scanData.code != null) {
+        controller.pauseCamera();
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerDashboard()));
+      }
+    });
   }
 
 }

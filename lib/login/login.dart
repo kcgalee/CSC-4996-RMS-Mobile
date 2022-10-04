@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/managerHome.dart';
 import 'package:restaurant_management_system/waiter/waiterHome.dart';
-import '../customer/customerDashboard.dart';
 import '../customer/customerHome.dart';
 
 class Login extends StatefulWidget {
@@ -137,10 +136,11 @@ class LoginState extends State<Login> {
 
       if (!mounted) return;
       if (acctType == 'customer'){
+        // fix first if else statement now we are no longer doing assigned tables
         if (tableID == ""){
           Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerHome()));
         } else {
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerDashboard()));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerHome()));
         }
       } else if (acctType == 'waiter') {
         Navigator.push(context, MaterialPageRoute(builder: (context)=> WaiterHome()));
