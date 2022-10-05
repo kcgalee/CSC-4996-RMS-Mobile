@@ -448,6 +448,7 @@ class RegistrationBodyState extends State<RegistrationBody> {
           'city': city,
           'State': state,
           'ZipCode': zip,
+          'Approved' : false,
           'date': Timestamp.fromDate(now)
         }
 
