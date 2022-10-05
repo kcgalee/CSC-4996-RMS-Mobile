@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:restaurant_management_system/Waiter/waiterHome.dart';
 
 
 class QRScannerWaiter extends StatefulWidget {
@@ -54,24 +55,13 @@ class _QRScannerState extends State<QRScannerWaiter> {
 
   void onQRViewCreated(QRViewController controller) {
     setState(()=> this.controller = controller);
-    bool scanned = false;
 
-    controller.scannedDataStream.listen(
-            (barcode)=> setState(() =>
-        this.barcode = barcode
-
-        )
-
-    );
-    // possible solution for navigating to dashboard after scanning qr code
-    // bool scanned = false;
-    // controller.scannedDataStream.listen((scanData) {
-    //   if (!scanned) {
-    //     scanned = true;
-    //     Navigator.push(context, MaterialPageRoute(builder: (context)=>const waiterHome()),
-    //     );
-    //   }
-    // });
+    controller.scannedDataStream.listen((Barcode scanData) {
+      if (scanData.format == BarcodeFormat.qrcode && scanData.code != null) {
+        controller.pauseCamera();
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> WaiterHome()));
+      }
+    });
   }
 
 }
