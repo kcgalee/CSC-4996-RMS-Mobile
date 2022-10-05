@@ -78,29 +78,37 @@ class _WaiterRequestState extends State<WaiterRequest> {
           );
         },
       ),*/
-        body: StreamBuilder(
-            stream: getRequests,
-            builder: (context, snapshot) {
-              if (snapshot.data == null) {
-                return Center(
-                    child: CircularProgressIndicator()
-                );
-              } else {
-                return ListView.builder(
-                    itemCount: snapshot.data.docs.length,
-                    itemBuilder: (context, index) {
-                      return RequestTile(
-                          taskName: 'Table: ' +
-                              snapshot.data.docs[index]['tableNum']
-                              + '\nRequested: ' + snapshot.data.docs[index]['itemName']
-                              + '\nStatus: ' + snapshot.data.docs[index]['status'],
-                          time: snapshot.data.docs[index]['dateTime'],
+        body: Column(
+          children: [
+            Text('Restaurant Name',
+              style: TextStyle(fontSize: 30,),),
+            Expanded(
+              child: StreamBuilder(
+                  stream: getRequests,
+                  builder: (context, snapshot) {
+                    if (snapshot.data == null) {
+                      return Center(
+                          child: CircularProgressIndicator()
+                      );
+                    } else {
+                      return ListView.builder(
+                          itemCount: snapshot.data.docs.length,
+                          itemBuilder: (context, index) {
+                            return RequestTile(
+                                taskName: 'Table: ' +
+                                    snapshot.data.docs[index]['tableNum']
+                                    + '\nRequested: ' + snapshot.data.docs[index]['itemName']
+                                    + '\nStatus: ' + snapshot.data.docs[index]['status'],
+                                time: snapshot.data.docs[index]['dateTime'],
+                            );
+                          }
                       );
                     }
-                );
-              }
-              
-              })
+                    
+                    }),
+            ),
+          ],
+        )
         );
   }
 
