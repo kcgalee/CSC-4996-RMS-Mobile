@@ -1,9 +1,7 @@
-
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/Waiter/waiterHome.dart';
 import 'package:restaurant_management_system/login/verify.dart';
-import 'package:restaurant_management_system/customer/customerDashboard.dart';
 import 'package:restaurant_management_system/manager/managerHome.dart';
 import '../customer/customerHome.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; //save for later use
