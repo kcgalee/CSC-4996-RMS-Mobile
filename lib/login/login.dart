@@ -136,18 +136,15 @@ class LoginState extends State<Login> {
 
       if (!mounted) return;
       if (acctType == 'customer'){
-        // fix first if else statement now we are no longer doing assigned tables
-        if (tableID == ""){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerHome()));
-        } else {
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerHome()));
-        }
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerHome()));
       } else if (acctType == 'waiter') {
         Navigator.push(context, MaterialPageRoute(builder: (context)=> WaiterHome()));
       } else if (acctType == 'manager'){
         Navigator.push(context, MaterialPageRoute(builder: (context)=> ManagerHome()));
       } else {
-        print('admin');
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Admin accounts are not supported in RMS-mobile.'),
+        ));
         FirebaseAuth.instance.signOut();
       }
     } else {

@@ -15,6 +15,8 @@ class ViewTable extends StatefulWidget {
 }
 
 class _ViewTableState extends State<ViewTable> {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +27,7 @@ class _ViewTableState extends State<ViewTable> {
         ),
         body: Column(
           children: [
-            Text('Table: '+ '#',),
+            Text('Table: '+ widget.tableNum,),
             Expanded(
               child: StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('tables/' + widget.tableID + '/tableOrders').where('isHolder', isNotEqualTo: true).snapshots(),
