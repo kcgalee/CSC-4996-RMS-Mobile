@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_management_system/customer/navigation.dart';
+import 'package:restaurant_management_system/customer/Utility/navigation.dart';
 
 class PastOrders extends StatefulWidget {
   const PastOrders({Key? key}) : super(key: key);
