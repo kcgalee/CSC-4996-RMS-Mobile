@@ -18,24 +18,40 @@ class CustomerHome extends StatelessWidget {
       ),
       body: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              const SizedBox(height: 20,),
               ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => const QRScanner()),
-                    );
-                  },
-                  child: const Text('QR Scan',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  )
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black45,
+                  minimumSize: const Size(300,80),
+                ),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => const QRScanner()),
+                  );
+                },
+                child: const Text('QR Scan',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                )
               ),
-              Text("Welcome to"),
-              Text("Insert Restaurant Name"),
+              const SizedBox(height: 30,),
+              const Text(
+                "Welcome to",
+                textAlign: TextAlign.left,
+              ),
+              const Text(
+                "Insert Restaurant Menu",
+                textAlign: TextAlign.left,
+              ),
+              const SizedBox(height: 20,),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black45,
+                  minimumSize: const Size(300,80),
+                ),
                 child: Text("MENU"),
                 onPressed: () {
                   FirebaseAuth.instance.signOut();

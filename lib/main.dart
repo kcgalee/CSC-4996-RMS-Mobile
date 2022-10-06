@@ -59,6 +59,10 @@ class MyApp extends StatelessWidget {
       title: 'Restaurant Management System',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        textTheme: Theme.of(context).textTheme.apply(
+          fontSizeFactor: 1.5,
+          fontSizeDelta: 2.0,
+        )
       ),
       home: FutureBuilder(
         future: getAT(),
