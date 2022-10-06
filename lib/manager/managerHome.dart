@@ -27,7 +27,7 @@ String managerName = '';
           elevation: 1,
         ),
         body: FutureBuilder(
-          future: getName(),
+          future: getRestName(),
           builder: (context, snapshot) {
             return SingleChildScrollView(
                 child: Column(
@@ -56,7 +56,7 @@ String managerName = '';
                               borderRadius: BorderRadius.circular(10)),
                         ),
                         onPressed: () {
-                          //TODO SHOW ALL RESTAURNATS
+                          //TODO SHOW ALL RESTAURANTS
                         },
                         child: const Text('MANAGE RESTAURANTS',),
 
@@ -195,7 +195,7 @@ String managerName = '';
         ));
   }
 
-  Future getName() async {
+  Future getRestName() async {
     await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).get().then(
             (element) {
               managerName = element['fName'];
