@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/login/mainscreen.dart';
+import 'package:restaurant_management_system/manager/addTable.dart';
 
 import 'Utility/MangerNavigationDrawer.dart';
 
@@ -133,6 +134,7 @@ String managerName = '';
                               borderRadius: BorderRadius.circular(10)),
                         ),
                         onPressed: () {
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddTable()));
                           //TODO CREATE ADD TABLES FEATURE
                         },
                         child: const Text("ADD TABLE"),
@@ -187,7 +189,7 @@ String managerName = '';
                       },
                       child: const Text("MANAGE MENU"),
                     ),
-                    
+
 
                   ], //Children
                 ));
