@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_management_system/login/mainscreen.dart';
-import 'package:restaurant_management_system/customer/placeOrder.dart';
+import 'package:restaurant_management_system/customer/order.dart';
 
 class Requests extends StatefulWidget {
   const Requests({Key? key}) : super(key: key);
@@ -27,10 +26,19 @@ class _RequestsState extends State<Requests> {
           child: Column(
             children: [
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black45,
+                  minimumSize: const Size(300,80),
+                ),
+                child: const Text("APPETIZERS"),
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const Order()));
+              }),
+              ElevatedButton(
                 onPressed: () async {
                   await getRID();
                   addOrder();
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> placeOrder()));
                 },
                 child: const Text('Request Spoon',
                   style: TextStyle(
