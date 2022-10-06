@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'order.dart';
 import 'qrScanner.dart';
-import 'package:restaurant_management_system/customer/navigation.dart';
+import 'package:restaurant_management_system/customer/Utility/navigation.dart';
 import 'package:restaurant_management_system/customer/requests.dart';
 
 class CustomerHome extends StatelessWidget {
@@ -57,7 +58,7 @@ class CustomerHome extends StatelessWidget {
                   FirebaseAuth.instance.signOut();
                   Navigator.push(context,
                       MaterialPageRoute(
-                          builder: (context) => Requests()));
+                          builder: (context) => Order()));
                 }),
 
 
@@ -69,4 +70,6 @@ class CustomerHome extends StatelessWidget {
       ),
     );
   }
+
+
 }
