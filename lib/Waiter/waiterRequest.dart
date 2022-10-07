@@ -62,10 +62,12 @@ class _WaiterRequestState extends State<WaiterRequest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white ,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Requests'),
-        elevation: 0,
+        title: const Text('Requests',),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 1,
       ),
         /*body: ListView.builder(
         itemCount: toDoList.length,
@@ -80,14 +82,17 @@ class _WaiterRequestState extends State<WaiterRequest> {
       ),*/
         body: Column(
           children: [
-            Text('Restaurant Name',
-              style: TextStyle(fontSize: 30,),),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text('Restaurant Name',
+                style: TextStyle(fontSize: 30,),),
+            ),
             Expanded(
               child: StreamBuilder(
                   stream: getRequests,
                   builder: (context, snapshot) {
                     if (snapshot.data == null) {
-                      return Center(
+                      return const Center(
                           child: CircularProgressIndicator()
                       );
                     } else {
