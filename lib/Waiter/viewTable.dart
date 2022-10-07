@@ -15,7 +15,7 @@ class ViewTable extends StatefulWidget {
 }
 
 class _ViewTableState extends State<ViewTable> {
-
+  List<int> total = [];
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +35,11 @@ class _ViewTableState extends State<ViewTable> {
                     if (snapshot.data?.docs.length == 0) {
                       return Center(child: Text("No orders have been placed yet"),);
                     } else {
-                      //title: Text(widget.tableNum),
                       return ListView.builder(
                         itemCount: snapshot.data?.docs.length,
                         itemBuilder: (context, index){
                           return ListTile(
-                            title: Text((snapshot.data?.docs[index]['quantity'].toString() ?? '')
+                            title: Text("x" + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
                                 + ' ' + (snapshot.data?.docs[index]['itemName'].toString() ?? '')
                                 + ' \$' + (snapshot.data?.docs[index]['price'].toString() ?? '')
                             ),
@@ -53,6 +52,15 @@ class _ViewTableState extends State<ViewTable> {
           ],
         )
     );
+  }
+
+  //in-progress
+  Future closeTable() async{
+    var snapshot = await FirebaseFirestore.instance.collection(widget.tableID + '/tableMembers').where('isHolder', isEqualTo: false).get();
+    for (var doc in snapshot.docs){
+      await doc.reference.delete();
+    }
+
   }
 
 }
