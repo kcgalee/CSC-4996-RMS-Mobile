@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'package:flutter_slidable/flutter_slidable.dart';
+//import 'package:flutter_slidable/flutter_slidable.dart';
 
 
 class RequestTile extends StatelessWidget {
@@ -29,26 +29,70 @@ class RequestTile extends StatelessWidget {
       future: convertTime(time),
       builder: (context, snapshot) {
         return Padding(
-            padding: const EdgeInsets.only(left: 25, right: 25,top: 25),
+            padding: const EdgeInsets.only(left: 15, right: 15,top: 25),
             child: Container(
-              padding: EdgeInsets.all(24),
-              decoration: BoxDecoration(color: Colors.blue,
+              padding: const EdgeInsets.only(right: 5,left: 10,bottom: 10,top: 10),
+              decoration: BoxDecoration(color: Colors.grey[100],
                 borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.black54)
               ),
-              child: Row(
-                children: [
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    //checkbox
+                    /*Checkbox(
+                      value: taskCompleted,
+                      onChanged: onChanged,
+                      activeColor: Colors.black,
+                    ),*/
 
-                  //checkbox
-                  /*Checkbox(
-                    value: taskCompleted,
-                    onChanged: onChanged,
-                    activeColor: Colors.black,
-                  ),*/
+                    //task name and time
+                    Text(taskName + '\n' + newTime,
+                    style: const TextStyle(color: Colors.black54,fontSize: 15, fontWeight: FontWeight.bold)),
 
-                  //task name and time
-                  Text(taskName + '\n' + newTime,
-                  style: TextStyle(color: Colors.white,fontSize: 15)),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10,right: 10),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.all(10),
+                          textStyle: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.black54,
+                          side: const BorderSide(
+                            color: Colors.black38,
+                          ),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40)),
+                        ),
+
+                          onPressed: () {},
+                          child: const Text('in progress')),
+                    ),
+
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(10),
+                          textStyle: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.black54,
+                          side: const BorderSide(
+                            color: Colors.black38,
+                          ),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40)),
+                        ),
+
+                        onPressed: () {},
+                        child: const Text('delivered')),
+                  ],
+                ),
               ),
             ),
           );
