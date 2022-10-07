@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_management_system/Waiter/Utility/dialog_box.dart';
 import 'package:restaurant_management_system/Waiter/viewTable.dart';
-import 'Utility/request_tile.dart';
+
 
 class WaiterTables extends StatefulWidget {
   const WaiterTables({Key? key}) : super(key: key);
@@ -23,10 +22,12 @@ class _WaiterTablesState extends State<WaiterTables> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.lightBlue[100],
+        backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text('Assigned Tables'),
-          elevation: 0,
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          elevation: 1,
         ),
         body: FutureBuilder(
             future: getRID(),
@@ -36,15 +37,30 @@ class _WaiterTablesState extends State<WaiterTables> {
                   builder: (context, snapshot) {
                     if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
                       return Center(child: Text("You are not servicing any tables."),);
-                    }else {
-                      return ListView.builder(
+                    } else {
+                      return GridView.builder(
                           itemCount: snapshot.data?.docs.length,
-                          itemBuilder: (context, index) {
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                          itemBuilder:(context,index){
                             var text = (snapshot.data?.docs[index]['currentCapacity'].toString() ?? '') + '/' + (snapshot.data?.docs[index]['maxCapacity'].toString() ?? '');
-                            return ListTile(
-                              title: Text(
-                                  'Table ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')),
-                              subtitle: Text(text),
+                            return InkWell(
+                              child: Container(
+                                height: 100,
+                                width: 80,
+                                margin: EdgeInsets.all(8.0),
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                    color: Colors.grey[100],
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(color: Colors.black54)
+                                ),
+                                child: Center(
+                                  child: Text(
+                                      'Table ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '') + '\n' + text,
+                                      style: const TextStyle(color: Colors.black54, fontWeight: FontWeight.bold)
+                                  ),
+                                ),
+                              ),
                               onTap: () {
                                 Navigator.push(context,
                                     MaterialPageRoute(
