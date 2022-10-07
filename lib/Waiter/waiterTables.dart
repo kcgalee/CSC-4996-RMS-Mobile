@@ -34,11 +34,9 @@ class _WaiterTablesState extends State<WaiterTables> {
               return StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('tables').where('restaurantID', isEqualTo: waiterRID).where('waiterID', isEqualTo: FirebaseAuth.instance.currentUser?.uid).snapshots(),
                   builder: (context, snapshot) {
-                    if (snapshot.data == null) {
-                      return Center(
-                          child: CircularProgressIndicator()
-                      );
-                    } else {
+                    if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
+                      return Center(child: Text("You are not servicing any tables."),);
+                    }else {
                       return ListView.builder(
                           itemCount: snapshot.data?.docs.length,
                           itemBuilder: (context, index) {

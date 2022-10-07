@@ -17,7 +17,6 @@ class WaiterRequest extends StatefulWidget {
 class _WaiterRequestState extends State<WaiterRequest> {
   // text controller
   final _controller = TextEditingController();
-  //To do: update to dateTime asc when data is changed
 
   List<String> tableDocList = [];
 
@@ -61,7 +60,6 @@ class _WaiterRequestState extends State<WaiterRequest> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -95,7 +93,6 @@ class _WaiterRequestState extends State<WaiterRequest> {
                           }
                       );
                     }
-
                   }),
             ),
           ],

@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import  'package:intl/intl.dart';
+import 'package:restaurant_management_system/Waiter/waiterHome.dart';
+import 'package:restaurant_management_system/Waiter/waiterTables.dart';
 
 
 class ViewTable extends StatefulWidget {
@@ -32,7 +34,7 @@ class _ViewTableState extends State<ViewTable> {
               child: StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('tables/' + widget.tableID + '/tableOrders').where('isHolder', isNotEqualTo: true).snapshots(),
                   builder: (context, snapshot){
-                    if (snapshot.data?.docs.length == 0) {
+                    if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
                       return Center(child: Text("No orders have been placed yet"),);
                     } else {
                       return ListView.builder(
@@ -49,18 +51,34 @@ class _ViewTableState extends State<ViewTable> {
                     }
                   }),
             ),
-          ],
+          ElevatedButton(
+            onPressed: () => {
+              closeTable(),
+            Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const WaiterTables()))
+            },
+            child: const Text("CLOSE TABLE"),
+          )],
         )
     );
   }
 
   //in-progress
   Future closeTable() async{
-    var snapshot = await FirebaseFirestore.instance.collection(widget.tableID + '/tableMembers').where('isHolder', isEqualTo: false).get();
-    for (var doc in snapshot.docs){
+    var members = await FirebaseFirestore.instance.collection('tables/' + widget.tableID + '/tableMembers').where('isHolder', isEqualTo: false).get();
+    for (var doc in members.docs){
       await doc.reference.delete();
     }
 
+    var orders = await FirebaseFirestore.instance.collection('tables/' + widget.tableID + '/tableOrders').where('isHolder', isEqualTo: false).get();
+    for (var doc in orders.docs){
+      await doc.reference.delete();
+    }
+
+    var table = await FirebaseFirestore.instance.collection('tables').doc(widget.tableID).get();
+    await table.reference.update({
+      'waiterID': ''
+    });
   }
 
 }
