@@ -65,10 +65,12 @@ class _WaiterRequestState extends State<WaiterRequest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white ,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Requests'),
-        elevation: 0,
+        title: const Text('Requests',),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 1,
       ),
         /*body: ListView.builder(
         itemCount: toDoList.length,

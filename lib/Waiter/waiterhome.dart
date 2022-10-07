@@ -163,13 +163,6 @@ class _WaiterHomeState extends State<WaiterHome> {
                   },
                   child: const Text("SCAN QR CODE"),
                 ),
-                ElevatedButton(
-                    child: const Text("sign out"),
-                    onPressed: () {
-                      FirebaseAuth.instance.signOut();
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const MainScreen()));
-                    }),
               ], //Children
             ));
             },
