@@ -20,7 +20,7 @@ class _WaiterRequestState extends State<WaiterRequest> {
   // text controller
   final _controller = TextEditingController();
   //To do: update to dateTime asc when data is changed
-  Stream getRequests = FirebaseFirestore.instance.collection('orders').where('waiterID', isEqualTo: FirebaseAuth.instance.currentUser?.uid).where('status', isNotEqualTo: 'completed').orderBy('status').orderBy('dateTime', descending: false).snapshots();
+  Stream getRequests = FirebaseFirestore.instance.collection('orders').where('waiterID', isEqualTo: FirebaseAuth.instance.currentUser?.uid).where('status', isNotEqualTo: 'delivered').orderBy('status').orderBy('dateTime', descending: false).snapshots();
 
   List<String> tableDocList = [];
 
@@ -94,9 +94,9 @@ class _WaiterRequestState extends State<WaiterRequest> {
                   child: StreamBuilder(
                       stream: getRequests,
                       builder: (context, snapshot) {
-                        if (snapshot.data == null) {
+                        if (snapshot.data.docs.length == 0) {
                           return Center(
-                              child: CircularProgressIndicator()
+                              child: Text('There are currently no requests.'),
                           );
                         } else {
                           return ListView.builder(
@@ -108,6 +108,8 @@ class _WaiterRequestState extends State<WaiterRequest> {
                                       + '\nRequested: ' + snapshot.data.docs[index]['itemName']
                                       + '\nStatus: ' + snapshot.data.docs[index]['status'],
                                   time: snapshot.data.docs[index]['dateTime'],
+                                  orderID: snapshot.data.docs[index].reference.id,
+                                  oStatus: snapshot.data.docs[index]['status'],
                                 );
                               }
                           );

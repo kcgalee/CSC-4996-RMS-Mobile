@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -11,20 +14,35 @@ class RequestTile extends StatelessWidget {
   //final bool taskCompleted;
  // Function(bool?)? onChanged;
   //Function(BuildContext)? deleteFunction;
-  var newTime = "";
+ var newTime = "";
+ final String orderID;
+ final String oStatus;
 
-  RequestTile({
+ //iPColor for in progress button, dColor for delivered button, these are the base default colors.
+ Color iPColor = Color(0x36F1D385);
+ Color dColor = Color(0x3090C68E);
+
+
+ RequestTile({
     super.key,
     required this.taskName,
   //  required this.taskCompleted,
     //required this.onChanged,
    // required this.deleteFunction,
     required this.time,
-
+    required this.orderID,
+    required this.oStatus,
   });
 
   @override
   Widget build(BuildContext context) {
+    var isVisible = true;
+
+
+    if (oStatus == "in progress"){
+      iPColor = Color(0xFFF1D385);
+    }
+
     return FutureBuilder(
       future: convertTime(time),
       builder: (context, snapshot) {
@@ -53,14 +71,16 @@ class RequestTile extends StatelessWidget {
 
                     Padding(
                       padding: const EdgeInsets.only(left: 10,right: 10),
-                      child: ElevatedButton(
+                      child: Visibility(
+                        visible: isVisible,
+                        child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.all(10),
                           textStyle: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
-                          backgroundColor: Colors.white,
+                          backgroundColor: iPColor,
                           foregroundColor: Colors.black54,
                           side: const BorderSide(
                             color: Colors.black38,
@@ -69,9 +89,9 @@ class RequestTile extends StatelessWidget {
                               borderRadius: BorderRadius.circular(40)),
                         ),
 
-                          onPressed: () {},
+                          onPressed: () => updateInProgress(),
                           child: const Text('in progress')),
-                    ),
+                    )),
 
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -80,7 +100,7 @@ class RequestTile extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
-                          backgroundColor: Colors.white,
+                          backgroundColor: dColor,
                           foregroundColor: Colors.black54,
                           side: const BorderSide(
                             color: Colors.black38,
@@ -89,8 +109,9 @@ class RequestTile extends StatelessWidget {
                               borderRadius: BorderRadius.circular(40)),
                         ),
 
-                        onPressed: () {},
-                        child: const Text('delivered')),
+                        onPressed: () => updateDelivered(),
+                        child: const Text('delivered')
+                    ),
                   ],
                 ),
               ),
@@ -99,6 +120,25 @@ class RequestTile extends StatelessWidget {
       },
     );
   }
+
+  Future updateInProgress() async {
+    var status = await FirebaseFirestore.instance.collection('orders').doc(orderID).get();
+    if (status['status'] == 'placed'){
+      await status.reference.update({
+        'status': 'in progress'
+      });
+
+    }
+  }
+
+ Future updateDelivered() async {
+   var status = await FirebaseFirestore.instance.collection('orders').doc(orderID).get();
+   if ((status['status'] == 'placed') || (status['status'] == 'in progress')){
+     await status.reference.update({
+       'status': 'delivered'
+     });
+   }
+ }
 
   //converts firebase time into human readable time
   convertTime(time) {
