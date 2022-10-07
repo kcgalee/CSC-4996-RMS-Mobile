@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'Utility/request_tile.dart';
 
 class WaiterRequest extends StatefulWidget {
+
   const WaiterRequest({Key? key}) : super(key: key);
 
   @override
@@ -14,6 +15,8 @@ class WaiterRequest extends StatefulWidget {
 }
 
 class _WaiterRequestState extends State<WaiterRequest> {
+  String rName = "";
+
   // text controller
   final _controller = TextEditingController();
   //To do: update to dateTime asc when data is changed
@@ -80,41 +83,54 @@ class _WaiterRequestState extends State<WaiterRequest> {
           );
         },
       ),*/
-        body: Column(
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text('Restaurant Name',
-                style: TextStyle(fontSize: 30,),),
-            ),
-            Expanded(
-              child: StreamBuilder(
-                  stream: getRequests,
-                  builder: (context, snapshot) {
-                    if (snapshot.data == null) {
-                      return const Center(
-                          child: CircularProgressIndicator()
-                      );
-                    } else {
-                      return ListView.builder(
-                          itemCount: snapshot.data.docs.length,
-                          itemBuilder: (context, index) {
-                            return RequestTile(
-                                taskName: 'Table: ' +
-                                    snapshot.data.docs[index]['tableNum']
-                                    + '\nRequested: ' + snapshot.data.docs[index]['itemName']
-                                    + '\nStatus: ' + snapshot.data.docs[index]['status'],
-                                time: snapshot.data.docs[index]['dateTime'],
-                            );
-                          }
-                      );
-                    }
-                    
-                    }),
-            ),
-          ],
+        body: FutureBuilder(
+          future: getRName(),
+          builder: (context, snapshot){
+            return Column(
+              children: [
+                Text(rName,
+                  style: TextStyle(fontSize: 30,),),
+                Expanded(
+                  child: StreamBuilder(
+                      stream: getRequests,
+                      builder: (context, snapshot) {
+                        if (snapshot.data == null) {
+                          return Center(
+                              child: CircularProgressIndicator()
+                          );
+                        } else {
+                          return ListView.builder(
+                              itemCount: snapshot.data.docs.length,
+                              itemBuilder: (context, index) {
+                                return RequestTile(
+                                  taskName: 'Table: ' +
+                                      snapshot.data.docs[index]['tableNum']
+                                      + '\nRequested: ' + snapshot.data.docs[index]['itemName']
+                                      + '\nStatus: ' + snapshot.data.docs[index]['status'],
+                                  time: snapshot.data.docs[index]['dateTime'],
+                                );
+                              }
+                          );
+                        }
+
+                      }),
+                ),
+              ],
+            );
+          }
         )
         );
+  }
+
+  Future getRName() async {
+    await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).get().then(
+            (element) async {
+              await FirebaseFirestore.instance.collection('restaurants').doc(element['restaurantID']).get().then(
+                  (value){
+                rName = value['restaurantName'];
+              });
+        }
+    );
   }
 
 }
