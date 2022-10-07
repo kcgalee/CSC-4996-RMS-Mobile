@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'customerDashboard.dart';
+import 'customerHome.dart';
 
 class QRScanner extends StatefulWidget {
   const QRScanner({super.key});
@@ -58,7 +58,7 @@ class _QRScannerState extends State<QRScanner> {
     controller.scannedDataStream.listen((Barcode scanData) {
       if (scanData.format == BarcodeFormat.qrcode && scanData.code != null) {
         controller.pauseCamera();
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerDashboard()));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerHome()));
       }
     });
   }
