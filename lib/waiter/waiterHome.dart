@@ -16,6 +16,7 @@ class WaiterHome extends StatefulWidget {
 
 class _WaiterHomeState extends State<WaiterHome> {
   String waiterName = "";
+  String restName = "";
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +136,7 @@ class _WaiterHomeState extends State<WaiterHome> {
                     ),
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const WaiterRequest()));
+                          MaterialPageRoute(builder: (context) => WaiterRequest(rName: restName)));
                     },
                     child: const Text("REQUESTS"),
                   ),
@@ -170,6 +171,7 @@ class _WaiterHomeState extends State<WaiterHome> {
   }
 
   Future getName() async {
+    var rID;
     await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).get().then(
             (element) {
               if (element['prefName'] == ""){
@@ -177,8 +179,14 @@ class _WaiterHomeState extends State<WaiterHome> {
               } else {
                 waiterName = element['prefName'];
               }
+              rID = element['restaurantID'];
             }
           );
+    await FirebaseFirestore.instance.collection('restaurants').doc(rID).get().then(
+            (element) {
+              restName = element['restaurantName'];
+            }
+            );
     }
 
 
