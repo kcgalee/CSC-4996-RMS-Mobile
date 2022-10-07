@@ -15,7 +15,6 @@ class MainScreen extends StatefulWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("MainScreen"),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 1,
@@ -26,13 +25,10 @@ class MainScreen extends StatefulWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               Padding(
-          padding: const EdgeInsets.only(bottom: 26,left: 26,right: 26),
+              padding: const EdgeInsets.only(bottom: 26,left: 26,right: 26),
                 child: ElevatedButton(
-
                     style: ElevatedButton.styleFrom(
-
                       fixedSize: Size(330, 56),
                       textStyle: TextStyle(
                         fontWeight: FontWeight.bold,

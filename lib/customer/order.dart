@@ -1,41 +1,38 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_management_system/login/mainscreen.dart';
-import 'package:restaurant_management_system/manager/addTable.dart';
+import 'Utility/navigation.dart';
 
-import 'Utility/MangerNavigationDrawer.dart';
 
-class ManagerHome extends StatefulWidget {
-
+class Order extends StatefulWidget {
+  const Order({Key? key}) : super(key: key);
 
   @override
-  State<ManagerHome> createState() => _ManagerHomeState();
+  State<Order> createState() => _Order();
 }
 
-class _ManagerHomeState extends State<ManagerHome>{
-String managerName = '';
+class _Order extends State<Order> {
+  String restaurantName = "";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: const ManagerNavigationDrawer(),
+        drawer: const NavigationDrawer(),
         appBar: AppBar(
-          title: const Text("Manager Home"),
+          title: const Text("Menu"),
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
           elevation: 1,
         ),
         body: FutureBuilder(
-          future: getRestName(),
+          future: getName(),
           builder: (context, snapshot) {
             return SingleChildScrollView(
                 child: Column(
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(26),
-                      child: Text("Hello, " + managerName,
+                      child: Text(restaurantName,
                         style: const TextStyle(fontSize: 25,),),
                     ),
                     Padding(
@@ -57,9 +54,9 @@ String managerName = '';
                               borderRadius: BorderRadius.circular(10)),
                         ),
                         onPressed: () {
-                          //TODO SHOW ALL RESTAURANTS
+                          //TODO SHOW ALL APPETIZERS
                         },
-                        child: const Text('MANAGE RESTAURANTS',),
+                        child: const Text('APPETIZERS',),
 
                       ),
                     ),
@@ -82,9 +79,9 @@ String managerName = '';
                               borderRadius: BorderRadius.circular(10)),
                         ),
                         onPressed: () {
-                          //TODO SHOW ALL EMPLOYEES
+                          //TODO SHOW ALL ENTREES
                         },
-                        child: const Text('MANAGE EMPLOYEES',),
+                        child: const Text('ENTREES',),
 
                       ),
                     ),
@@ -108,36 +105,10 @@ String managerName = '';
                               borderRadius: BorderRadius.circular(10)),
                         ),
                         onPressed: () {
-                          //TODO SHOW RATINGS
+                          //TODO SHOW ALL DESSERTS
                         },
-                        child: const Text('SEE RATINGS',),
+                        child: const Text('DESSERTS',),
 
-                      ),
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10,left: 26,right: 26),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.all(20),
-                          fixedSize: const Size(330, 56),
-                          textStyle: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                          ),
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.black54,
-                          side: const BorderSide(
-                            color: Colors.black38,
-                          ),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddTable()));
-                          //TODO CREATE ADD TABLES FEATURE
-                        },
-                        child: const Text("ADD TABLE"),
                       ),
                     ),
 
@@ -160,10 +131,35 @@ String managerName = '';
                               borderRadius: BorderRadius.circular(10)),
                         ),
                         onPressed: () {
-                          //TODO REMOVE TABLES
-
+                          //TODO SHOW ALL DRINKS
                         },
-                        child: const Text("REMOVE TABLE"),
+                        child: const Text("DRINKS"),
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10,left: 26,right: 26),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(20),
+                          fixedSize: const Size(330, 56),
+                          textStyle: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.black54,
+                          side: const BorderSide(
+                            color: Colors.black38,
+                          ),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                        onPressed: () {
+                          //TODO
+                          //SHOW ALL CONDIMENTS
+                        },
+                        child: const Text("CONDIMENTS"),
                       ),
                     ),
 
@@ -184,26 +180,38 @@ String managerName = '';
                             borderRadius: BorderRadius.circular(10)),
                       ),
                       onPressed: () {
-                        //TODO ADD TO MENU
-
+                        //TODO
+                        //SHOW ALL UTENSILS
                       },
-                      child: const Text("MANAGE MENU"),
+                      child: const Text("UTENSILS"),
                     ),
+                    ElevatedButton(
+                        child: const Text("REQUEST WAITER"),
+                        onPressed: () {
+                          //TODO
+                          //SEND REQUEST FOR WAITER
+                        }),
 
-
+                    ElevatedButton(
+                        child: const Text("REQUEST BILL"),
+                        onPressed: () {
+                          //TODO
+                          //REQUEST BILL FROM WAITER
+                        }),
                   ], //Children
                 ));
           },
         ));
   }
 
-  Future getRestName() async {
-    await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).get().then(
+  //TODO DELETE THIS AFTER PASSING RESTAURANT NAME FROM QR SCANNER
+  Future getName() async {
+    await FirebaseFirestore.instance.collection('restaurants').where('restaurantName', isEqualTo: "Apple Bees").get().then(
             (element) {
-              managerName = element['fName'];
-            }
-
+          restaurantName = "Apple Bees";
+        }
     );
-
   }
+
+
 }
