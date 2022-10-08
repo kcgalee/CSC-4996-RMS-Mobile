@@ -67,12 +67,22 @@ class _QRScannerState extends State<QRScanner> {
   }
 
   void setTable (String tableID) async {
+    String name = "";
     var uId = FirebaseAuth.instance.currentUser?.uid.toString();
+    final docRef = FirebaseFirestore.instance.collection('users').doc(uId);
+    await docRef.get().then(
+            (DocumentSnapshot doc){
+          final data = doc.data() as Map<String, dynamic>;
+            name = data['fName'];
+          });
+
+
     FirebaseFirestore.instance.collection('users').doc(uId).update({
       'tableID' : tableID
     });
     FirebaseFirestore.instance.collection('tables/$tableID/tableMembers').add({
-      'userID': uId
+      'userID': uId,
+      'fName' : name
     } );
 
   }
