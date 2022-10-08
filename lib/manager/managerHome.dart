@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/login/mainscreen.dart';
 import 'package:restaurant_management_system/manager/addTable.dart';
+import 'package:restaurant_management_system/manager/manageRestaurant.dart';
 
 import 'Utility/MangerNavigationDrawer.dart';
 
@@ -58,6 +59,11 @@ String managerName = '';
                         ),
                         onPressed: () {
                           //TODO SHOW ALL RESTAURANTS
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) => ManageRestaurant()
+                              )
+                          );
                         },
                         child: const Text('MANAGE RESTAURANTS',),
 
@@ -206,4 +212,6 @@ String managerName = '';
     );
 
   }
+
+
 }
