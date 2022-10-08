@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'customerHome.dart';
@@ -53,14 +55,26 @@ class _QRScannerState extends State<QRScanner> {
   );
 
   void onQRViewCreated(QRViewController controller) {
-    setState(()=> this.controller = controller);
+    this.controller = controller;
 
-    controller.scannedDataStream.listen((Barcode scanData) {
+    controller.scannedDataStream.listen((Barcode scanData) async {
       if (scanData.format == BarcodeFormat.qrcode && scanData.code != null) {
         controller.pauseCamera();
+        setTable(scanData.code!);
         Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerHome()));
       }
     });
+  }
+
+  void setTable (String tableID) async {
+    var uId = FirebaseAuth.instance.currentUser?.uid.toString();
+    FirebaseFirestore.instance.collection('users').doc(uId).update({
+      'tableID' : tableID
+    });
+    FirebaseFirestore.instance.collection('tables/$tableID/tableMembers').add({
+      'userID': uId
+    } );
+
   }
 
 }
