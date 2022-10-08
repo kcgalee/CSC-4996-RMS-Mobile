@@ -441,12 +441,12 @@ class RegistrationBodyState extends State<RegistrationBody> {
           'lName': lastName,
           'fName': firstName,
           'type': 'manager',
-          'Restaurant Name': restName,
-          'Address': address,
+          'restaurantName': restName,
+          'address': address,
           'city': city,
-          'State': state,
-          'ZipCode': zip,
-          'Approved' : false,
+          'state': state,
+          'zipCode': zip,
+          'approved' : false,
           'date': Timestamp.fromDate(now)
         }
 

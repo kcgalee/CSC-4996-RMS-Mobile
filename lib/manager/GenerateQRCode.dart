@@ -8,18 +8,26 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 
 class GenerateQRCode extends StatefulWidget {
+  String _tableID;
+  String tableNum;
+  GenerateQRCode(this._tableID, this.tableNum);
+
   @override
-  State<GenerateQRCode> createState() => _GenerateQRCode();
+  State<GenerateQRCode> createState() {
+    return _GenerateQRCode(this._tableID, this.tableNum);
+  }
 }
 
 
 class _GenerateQRCode extends State<GenerateQRCode> {
+  String tableID, tableNum;
+  _GenerateQRCode( this.tableID, this.tableNum);
 
   @override
   Widget build(BuildContext context)=> Scaffold (
     drawer: const ManagerNavigationDrawer(),
     appBar: AppBar(
-      title: Text("Add Table"),
+      title: Text('Table ' + tableNum + ' QR Code'),
     ),
     body: Center (
       child: SingleChildScrollView (
@@ -28,7 +36,7 @@ class _GenerateQRCode extends State<GenerateQRCode> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             QrImage(
-              data: ('table number'),
+              data: (tableID),
               size: 200,
               backgroundColor: Colors.white,
             ),
