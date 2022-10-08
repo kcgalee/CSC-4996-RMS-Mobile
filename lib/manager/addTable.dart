@@ -16,10 +16,8 @@ class AddTable extends StatefulWidget {
 
 class _AddTable extends State<AddTable> {
   final tableNumberController = TextEditingController();
-  final tableLocationController = TextEditingController();
   final tableCapacityController = TextEditingController();
   final tableTypeController = TextEditingController();
-
   @override
   Widget build(BuildContext context)=> Scaffold (
       drawer: const ManagerNavigationDrawer(),
@@ -32,7 +30,7 @@ class _AddTable extends State<AddTable> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-          TextField(
+          TextFormField(
             controller: tableNumberController,
             keyboardType: TextInputType.number,
             decoration: const InputDecoration(
@@ -40,16 +38,16 @@ class _AddTable extends State<AddTable> {
               prefixIcon: Icon(Icons.numbers, color: Colors.black),
             ),
           ),
-              TextField(
-                controller: tableLocationController,
-                keyboardType: TextInputType.name,
+              TextFormField(
+                controller: tableCapacityController,
+                keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
-                  hintText: "Table Location",
-                  prefixIcon: Icon(Icons.location_pin, color: Colors.black),
+                  hintText: "Table Capacity",
+                  prefixIcon: Icon(Icons.people, color: Colors.black),
                 ),
               ),
 
-              TextField(
+              TextFormField(
                 controller: tableTypeController,
                 keyboardType: TextInputType.name,
                 decoration: const InputDecoration(
@@ -61,7 +59,9 @@ class _AddTable extends State<AddTable> {
                 width: double.infinity,
                 child: ElevatedButton(child: Text("Add Table"),
                     onPressed: () =>
-                       setState(() {}),
+                    newTableData(int.parse(tableNumberController.text.trim()),
+                        int.parse(tableCapacityController.text.trim()),
+                        tableTypeController.text.trim()),
                 ),
               )
             ], //Children
@@ -72,29 +72,29 @@ class _AddTable extends State<AddTable> {
 
 
 
-  void newTableData() {
+  void newTableData(int tableNum, int maxCapacity, String tableType ) async {
     CollectionReference users = FirebaseFirestore.instance.collection('tables');
-    users
+    String tableId = users
         .doc()
+        .id
+        .toString()
+        .trim();
+    users
+        .doc(tableId)
         .set(
         {
-          'tableNum': tableNumberController.toString().trim(),
-          'maxCapacity': int.parse(tableCapacityController.toString().trim()),
-          'restaurantID': '', //TODO ADD RESTAURANT ID
-          'type': tableTypeController.toString().trim(),
-          'waiterID' : '',
-          'available' : true,
-          'currentCapacity' : 0
+          'tableNum': tableNum,
+          'maxCapacity': maxCapacity,
+          'restaurantID': 'nWF0W1HOINa3WyVRM8Em', //TODO ADD RESTAURANT ID
+          'type': tableType,
+          'waiterID': '',
+          'available': true,
+          'currentCapacity': 0,
         }
-
-
     );
 
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => GenerateQRCode()));
+    Navigator.of(context).
+    push(MaterialPageRoute(builder:(context)=>GenerateQRCode(tableId, tableNum.toString())));
   }
-  
-  
-  
   
 }
