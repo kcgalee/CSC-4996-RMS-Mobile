@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_management_system/Waiter/Utility/dialog_box.dart';
-import 'package:restaurant_management_system/Waiter/viewTable.dart';
+import 'package:restaurant_management_system/manager/editRestaurant.dart';
 
 class ManageRestaurant extends StatefulWidget {
   const ManageRestaurant({Key? key}) : super(key: key);
@@ -36,6 +35,8 @@ class _ManageRestaurant extends State<ManageRestaurant> {
                         title: Text(snapshot.data?.docs[index]['restaurantName'] ?? ''),
                         subtitle: Text(snapshot.data?.docs[index]['address'] ?? ''),
                         onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => EditRestaurant(restID: snapshot.data?.docs[index].reference.id ?? '')));
                         },
                       );
                     }
