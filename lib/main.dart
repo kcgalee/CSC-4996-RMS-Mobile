@@ -30,7 +30,6 @@ class MyApp extends StatelessWidget {
       home: const MainScreen(),
     );
   }*/
-    String tableID = "";
     String acctType = "";
     bool isLogged = false;
 
@@ -40,15 +39,12 @@ class MyApp extends StatelessWidget {
       if (userID != null){
         isLogged = true;
       }
-      //acctType = "";
 
       final docRef = FirebaseFirestore.instance.collection('users').doc(userID);
       await docRef.get().then(
               (DocumentSnapshot doc){
             final data = doc.data() as Map<String, dynamic>;
             acctType = data['type'];
-            tableID = data['tableID'];
-            //print(data['type']);
           }
       );
     }
