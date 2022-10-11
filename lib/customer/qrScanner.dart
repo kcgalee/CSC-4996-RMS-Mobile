@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:restaurant_management_system/customer/Models/restaurantInfo.dart';
 import 'customerHome.dart';
 
 class QRScanner extends StatefulWidget {
@@ -61,12 +62,14 @@ class _QRScannerState extends State<QRScanner> {
       if (scanData.format == BarcodeFormat.qrcode && scanData.code != null) {
         controller.pauseCamera();
         setTable(scanData.code!);
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerHome()));
+
       }
     });
   }
 
   void setTable (String tableID) async {
+    RestaurantInfo restaurantMenu = RestaurantInfo();
+    restaurantMenu.setter(tableID);
     String name = "";
     var uId = FirebaseAuth.instance.currentUser?.uid.toString();
     final docRef = FirebaseFirestore.instance.collection('users').doc(uId);
@@ -78,13 +81,15 @@ class _QRScannerState extends State<QRScanner> {
 
 
     FirebaseFirestore.instance.collection('users').doc(uId).update({
-      'tableID' : tableID
+      'tableID' : restaurantMenu.tableId.toString().trim()
     });
+
     FirebaseFirestore.instance.collection('tables/$tableID/tableMembers').add({
       'userID': uId,
       'fName' : name
     } );
 
+    Navigator.push(context, MaterialPageRoute(builder: (context)=> new CustomerHome()));
   }
 
 }
