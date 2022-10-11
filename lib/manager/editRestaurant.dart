@@ -29,21 +29,23 @@ class _EditRestaurant extends State<EditRestaurant> {
         body: FutureBuilder(
             future: getRestaurant(),
             builder: (context, snapshot) {
-              return Text(restInfo['restaurantName'] + '\n' + restInfo['address']
-                  + '\n' + restInfo['city'] + '\n' + restInfo['state']
-                  + '\n' + restInfo['zipcode'].toString() + '\n'
-                  + restInfo['phone'] + '\n' + restInfo['email'] + '\n'
-                  + restInfo['openTime'] + ' to ' + restInfo['closeTime']
-              );
+              if (!snapshot.hasData) {
+                return Center(child: CircularProgressIndicator(),);
+              } else {
+                return Text(
+                    snapshot.data['restaurantName'] + '\n' + snapshot.data['address']
+                    + '\n' + snapshot.data['city'] + '\n' + snapshot.data['state']
+                    + '\n' + snapshot.data['zipcode'].toString() + '\n'
+                    + snapshot.data['phone'] + '\n' + snapshot.data['email'] + '\n'
+                    + snapshot.data['openTime'] + ' to ' + snapshot.data['closeTime']
+                );
+              }
             })
     );
   }
 
   Future getRestaurant() async {
-   await FirebaseFirestore.instance.collection('restaurants').doc(widget.restID).get().then(
-           (element) {
-             restInfo = element.data() as Map<String, dynamic>;
-           });
+   return await FirebaseFirestore.instance.collection('restaurants').doc(widget.restID).get();
   }
 
 }
