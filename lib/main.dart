@@ -54,11 +54,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Restaurant Management System',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.white,
         textTheme: Theme.of(context).textTheme.apply(
-          fontSizeFactor: 1.5,
-          fontSizeDelta: 2.0,
-        )
+          fontSizeFactor: 1.0,
+          fontSizeDelta: 1.5,
+          bodyColor: Colors.black,
+        ),
       ),
       home: FutureBuilder(
         future: getAT(),

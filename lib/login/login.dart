@@ -34,11 +34,14 @@ class LoginState extends State<Login> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Login"),
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
         ),
         body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
+          child: SizedBox(
+          width: 300.0,
+            child: Wrap(
+              runSpacing: 18.0,
               children: [
                 TextFormField(
                   controller: emailController,
@@ -66,13 +69,30 @@ class LoginState extends State<Login> {
                 ),
                 SizedBox(
                   width: double.infinity,
-                  child: ElevatedButton(child: Text("Login"),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        fixedSize: Size(330, 56),
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
+                        backgroundColor: Colors.black87,
+                        foregroundColor: Colors.white,
+                        side: BorderSide(
+                          color: Colors.black38,
+                        ),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                      ),
+                      child: Text("Login"),
+
                       onPressed: () =>
                           redirect()
                   ),
                 )
               ],
             )
+          )
         )
     );
   }
