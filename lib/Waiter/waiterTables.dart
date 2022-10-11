@@ -52,7 +52,7 @@ class _WaiterTablesState extends State<WaiterTables> {
                                 decoration: BoxDecoration(
                                     color: Colors.grey[100],
                                     borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(color: Colors.black54)
+                                    border: Border.all(color: Colors.black54,width: 2)
                                 ),
                                 child: Center(
                                   child: Text(

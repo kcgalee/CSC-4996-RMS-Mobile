@@ -32,63 +32,17 @@ class _WaiterHomeState extends State<WaiterHome> {
           future: getName(),
           builder: (context, snapshot) {
             return SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(26),
-                  child: Text(waiterName,
-                  style: const TextStyle(fontSize: 30,),),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 26,left: 26,right: 26),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-
-                      fixedSize: const Size(330, 56),
-                      textStyle: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                      ),
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.black54,
-                      side: const BorderSide(
-                        color: Colors.black38,
-                      ),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                    ),
-                    onPressed: () {},
-                    child: const Text('CLOCK IN',),
-
+            child: Center(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(26),
+                    child: Text(waiterName,
+                    style: const TextStyle(fontSize: 30,),),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 26,left: 26,right: 26),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-
-                      fixedSize: const Size(330, 56),
-                      textStyle: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                      ),
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.black54,
-                      side: const BorderSide(
-                        color: Colors.black38,
-                      ),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                    ),
-                    onPressed: () {},
-                    child: const Text('CLOCK OUT',),
-
-                  ),
-                ),
-
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 26,left: 26,right: 26),
-                  child: ElevatedButton(
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 26),
+                    child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
 
                         fixedSize: const Size(330, 56),
@@ -98,27 +52,90 @@ class _WaiterHomeState extends State<WaiterHome> {
                         ),
                         backgroundColor: Colors.white,
                         foregroundColor: Colors.black54,
-                        side: const BorderSide(
-                          color: Colors.black38,
+                        side: const BorderSide(width: 2, color: Colors.black38,),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                      ),
+                      onPressed: () {},
+                      child: const Text('CLOCK IN',),
+
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 26),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+
+                        fixedSize: const Size(330, 56),
+                        textStyle: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
                         ),
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.black54,
+                        side: const BorderSide(width: 2, color: Colors.black38,),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                      ),
+                      onPressed: () {},
+                      child: const Text('CLOCK OUT',),
+
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 26),
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+
+                          fixedSize: const Size(330, 56),
+                          textStyle: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.black54,
+                          side: const BorderSide(width: 2, color: Colors.black38,),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const WaiterTables()),
+                          );
+                        },
+                        child: const Text('ASSIGNED TABLES',),
+
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 26),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.all(20),
+                        fixedSize: const Size(330, 56),
+                        textStyle: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.black54,
+                        side: const BorderSide(width: 2, color: Colors.black38,),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
                       ),
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const WaiterTables()),
-                        );
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => WaiterRequest(rName: restName)));
                       },
-                      child: const Text('ASSIGNED TABLES',),
-
+                      child: const Text("REQUESTS"),
+                    ),
                   ),
-                ),
 
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 26,left: 26,right: 26),
-                  child: ElevatedButton(
+                  ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.all(20),
                       fixedSize: const Size(330, 56),
@@ -128,43 +145,18 @@ class _WaiterHomeState extends State<WaiterHome> {
                       ),
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.black54,
-                      side: const BorderSide(
-                        color: Colors.black38,
-                      ),
+                      side: const BorderSide(width: 2, color: Colors.black38,),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
                     ),
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => WaiterRequest(rName: restName)));
+                          MaterialPageRoute(builder: (context) => const QRScannerWaiter()));
                     },
-                    child: const Text("REQUESTS"),
+                    child: const Text("SCAN QR CODE"),
                   ),
-                ),
-
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.all(20),
-                    fixedSize: const Size(330, 56),
-                    textStyle: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                    ),
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.black54,
-                    side: const BorderSide(
-                      color: Colors.black38,
-                    ),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                  ),
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const QRScannerWaiter()));
-                  },
-                  child: const Text("SCAN QR CODE"),
-                ),
-              ], //Children
+                ], //Children
+              ),
             ));
             },
         ));
