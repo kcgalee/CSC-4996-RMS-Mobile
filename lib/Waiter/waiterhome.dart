@@ -52,9 +52,7 @@ class _WaiterHomeState extends State<WaiterHome> {
                         ),
                         backgroundColor: Colors.white,
                         foregroundColor: Colors.black54,
-                        side: const BorderSide(
-                          color: Colors.black38,
-                        ),
+                        side: const BorderSide(width: 2, color: Colors.black38,),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
                       ),
@@ -75,9 +73,7 @@ class _WaiterHomeState extends State<WaiterHome> {
                         ),
                         backgroundColor: Colors.white,
                         foregroundColor: Colors.black54,
-                        side: const BorderSide(
-                          color: Colors.black38,
-                        ),
+                        side: const BorderSide(width: 2, color: Colors.black38,),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
                       ),
@@ -99,9 +95,7 @@ class _WaiterHomeState extends State<WaiterHome> {
                           ),
                           backgroundColor: Colors.white,
                           foregroundColor: Colors.black54,
-                          side: const BorderSide(
-                            color: Colors.black38,
-                          ),
+                          side: const BorderSide(width: 2, color: Colors.black38,),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
                         ),
@@ -129,9 +123,7 @@ class _WaiterHomeState extends State<WaiterHome> {
                         ),
                         backgroundColor: Colors.white,
                         foregroundColor: Colors.black54,
-                        side: const BorderSide(
-                          color: Colors.black38,
-                        ),
+                        side: const BorderSide(width: 2, color: Colors.black38,),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
                       ),
@@ -153,9 +145,7 @@ class _WaiterHomeState extends State<WaiterHome> {
                       ),
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.black54,
-                      side: const BorderSide(
-                        color: Colors.black38,
-                      ),
+                      side: const BorderSide(width: 2, color: Colors.black38,),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
                     ),
