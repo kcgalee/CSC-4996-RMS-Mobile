@@ -21,6 +21,7 @@ class RequestTile extends StatelessWidget {
  //iPColor for in progress button, dColor for delivered button, these are the base default colors.
  Color iPColor = Color(0x36F1D385);
  Color dColor = Color(0x3090C68E);
+ String ipText = 'in progress';
 
 
  RequestTile({
@@ -40,7 +41,13 @@ class RequestTile extends StatelessWidget {
 
 
     if (oStatus == "in progress"){
-      iPColor = Color(0xFFF1D385);
+      //set color of button on left when request is an 'in progress' request
+      //iPColor = Color(0xFFF1D385);
+      ipText = 'placed';
+    }
+
+    if (oStatus == "delivered"){
+      isVisible = false;
     }
 
     return FutureBuilder(
@@ -90,10 +97,12 @@ class RequestTile extends StatelessWidget {
                         ),
 
                           onPressed: () => updateInProgress(),
-                          child: const Text('in progress')),
+                          child: Text(ipText)),
                     )),
 
-                    ElevatedButton(
+                Visibility(
+                  visible: isVisible,
+                  child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.all(10),
                           textStyle: const TextStyle(
@@ -112,7 +121,7 @@ class RequestTile extends StatelessWidget {
                         onPressed: () => updateDelivered(),
                         child: const Text('delivered')
                     ),
-                  ],
+                )],
                 ),
               ),
             ),
@@ -127,7 +136,10 @@ class RequestTile extends StatelessWidget {
       await status.reference.update({
         'status': 'in progress'
       });
-
+    } else if (status['status'] == 'in progress'){
+      await status.reference.update({
+        'status': 'placed'
+      });
     }
   }
 
