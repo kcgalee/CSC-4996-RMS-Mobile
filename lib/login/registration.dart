@@ -48,7 +48,8 @@ class RegistrationBodyState extends State<RegistrationBody> {
   final firstNameController = TextEditingController();
   final confirmPwController = TextEditingController();
   final lastNameController = TextEditingController();
-  final phoneController = TextEditingController();
+  final restPhoneController = TextEditingController();
+  final managerPhoneController = TextEditingController();
   final resNameController = TextEditingController();
   final addressController = TextEditingController();
   final cityController = TextEditingController();
@@ -62,12 +63,13 @@ class RegistrationBodyState extends State<RegistrationBody> {
     confirmPwController.dispose();
     firstNameController.dispose();
     lastNameController.dispose();
-    phoneController.dispose();
+    restPhoneController.dispose();
     resNameController.dispose();
     addressController.dispose();
     cityController.dispose();
     stateController.dispose();
     zipController.dispose();
+    managerPhoneController.dispose();
     super.dispose();
   }
 
@@ -255,7 +257,7 @@ class RegistrationBodyState extends State<RegistrationBody> {
                 ),
               ),
               TextField(
-                controller: phoneController,
+                controller: managerPhoneController,
                 keyboardType: TextInputType.name,
                 decoration: const InputDecoration(
                   hintText: "Phone Number",
@@ -292,6 +294,14 @@ class RegistrationBodyState extends State<RegistrationBody> {
                 decoration: const InputDecoration(
                   hintText: "Restaurant Name",
                   prefixIcon: Icon(Icons.food_bank, color: Colors.black),
+                ),
+              ),
+              TextField(
+                controller: restPhoneController,
+                keyboardType: TextInputType.name,
+                decoration: const InputDecoration(
+                  hintText: "Phone Number",
+                  prefixIcon: Icon(Icons.phone, color: Colors.black),
                 ),
               ),
               TextField(
@@ -352,12 +362,13 @@ class RegistrationBodyState extends State<RegistrationBody> {
                             pwController.text.trim(),
                             firstNameController.text.trim(),
                             lastNameController.text.trim(),
-                            phoneController.text.trim(),
+                            managerPhoneController.text.trim(),
                             resNameController.text.trim(),
                             addressController.text.trim(),
                             cityController.text.trim(),
                             stateController.text.trim(),
-                            zipController.text.trim()
+                            zipController.text.trim(),
+                            restPhoneController.text.trim()
                         );
                       }
                       else {
@@ -425,12 +436,12 @@ class RegistrationBodyState extends State<RegistrationBody> {
     );
 
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => VerifyScreen()));
+        context, MaterialPageRoute(builder: (context) => CustomerHome()));
   } //end of newUserData
 
   managerRegistrationChecker(String email, String password,
       String firstName, String lastName, String phone, String restName,
-      String address, String city, String state, String zip) async {
+      String address, String city, String state, String zip, String restPhone) async {
     //run dart pub add email_validator in terminal to add dependencies
     //validate e-mail
         print("this is good here");
@@ -451,7 +462,8 @@ class RegistrationBodyState extends State<RegistrationBody> {
           address,
           city,
           state,
-          zip);
+          zip,
+      restPhone);
       return true;
     } //end of try block
     on FirebaseAuthException catch (e) {
@@ -465,27 +477,39 @@ class RegistrationBodyState extends State<RegistrationBody> {
 
   void newManagerData(String email, String UID, String firstName,
       String lastName, String phone, String restName,
-      String address, String city, String state, String zip) {
+      String address, String city, String state, String zip, String restPhone) {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
+    CollectionReference rest = FirebaseFirestore.instance.collection('restaurants');
     final DateTime now = DateTime.now();
     print("this is good");
     users
         .doc(UID)
         .set(
         {
+          'userID' : UID,
           'email': email,
           'lName': lastName,
           'fName': firstName,
           'type': 'manager',
-          'restaurantName': restName,
-          'address': address,
-          'city': city,
-          'state': state,
-          'zipCode': zip,
-          'approved' : false,
-          'date': Timestamp.fromDate(now)
+          'phone' : phone,
+
         }
 
+    );
+
+    rest
+      .doc()
+      .set({
+      'phone' : restPhone,
+      'restaurantName': restName,
+      'managerID' : UID,
+      'address': address,
+      'city': city,
+      'state': state,
+      'zipCode': zip,
+      'approved': false,
+      'date': Timestamp.fromDate(now)
+    }
     );
 
 

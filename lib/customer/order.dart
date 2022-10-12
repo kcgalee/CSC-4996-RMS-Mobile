@@ -206,7 +206,7 @@ class _Order extends State<Order> {
 
   //TODO DELETE THIS AFTER PASSING RESTAURANT NAME FROM QR SCANNER
   Future getName() async {
-    await FirebaseFirestore.instance.collection('restaurants').where('restaurantName', isEqualTo: "Apple Bees").get().then(
+    await FirebaseFirestore.instance.collection('restaurants').where('restName', isEqualTo: "Apple Bees").get().then(
             (element) {
           restaurantName = "Apple Bees";
         }

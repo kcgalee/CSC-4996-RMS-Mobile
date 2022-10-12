@@ -98,14 +98,14 @@ String restName = "";
     await docRef.get().then(
             (DocumentSnapshot doc){
           final data = doc.data() as Map<String, dynamic>;
-          restID = data['restaurantID'].toString().trim();
+          restID = data['restID'].toString().trim();
         });
 
     final docRef3 = FirebaseFirestore.instance.collection('restaurants').doc(restID);
     await docRef3.get().then(
             (DocumentSnapshot doc){
           final data = doc.data() as Map<String, dynamic>;
-          restName =  data['restaurantName'].toString().trim();
+          restName =  data['restName'].toString().trim();
         });
     if (restName != '') {
       restName = "to " + restName;
