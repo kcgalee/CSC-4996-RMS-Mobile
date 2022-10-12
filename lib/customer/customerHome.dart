@@ -15,8 +15,10 @@ String restName = "";
     return Scaffold(
       drawer: const NavigationDrawer(),
       appBar: AppBar(
-        title:  Text("Customer Home"),
-        actions: <Widget>[],
+        title:  const Text("Home"),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        actions: const <Widget>[],
       ),
       body: FutureBuilder (
           future: getRestaurantId(),
@@ -29,16 +31,26 @@ String restName = "";
                 Padding(
                   padding: const EdgeInsets.only(bottom: 26,left: 50,right: 26),
                     child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black45,
-                      minimumSize: const Size(300, 80),
-                    ),
+                        style: ElevatedButton.styleFrom(
+                          fixedSize: Size(330, 56),
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                          backgroundColor: Colors.black87,
+                          foregroundColor: Colors.white,
+                          side: BorderSide(
+                            color: Colors.black38,
+                          ),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
                           builder: (context) => const QRScanner()),
                       );
                     },
-                    child: const Text('QR Scan',
+                    child: const Text('QR SCAN',
                       style: TextStyle(
                         color: Colors.white,
                       ),
@@ -60,17 +72,53 @@ String restName = "";
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10,left: 50,right: 26),
                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black45,
-                      minimumSize: const Size(300, 80),
-                    ),
-                    child: Text("MENU"),
+                   style: ElevatedButton.styleFrom(
+                     fixedSize: Size(330, 56),
+                     textStyle: TextStyle(
+                       fontWeight: FontWeight.bold,
+                       fontSize: 15,
+                     ),
+                     backgroundColor: Colors.black87,
+                     foregroundColor: Colors.white,
+                     side: BorderSide(
+                       color: Colors.black38,
+                     ),
+                     shape: RoundedRectangleBorder(
+                         borderRadius: BorderRadius.circular(10)),
+                   ),
+                    child: const Text("MENU"),
                     onPressed: () {
                       FirebaseAuth.instance.signOut();
                       Navigator.push(context,
                           MaterialPageRoute(
                               builder: (context) => Order()));
-                    })),
+                    })
+                ),
+                Padding(
+                    padding: const EdgeInsets.only(bottom: 10,left: 50,right: 26),
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          fixedSize: Size(330, 56),
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.black54,
+                          side: BorderSide(
+                            color: Colors.black38,
+                          ),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                        child: const Text("CURRENT ORDER"),
+                        onPressed: () {
+                          FirebaseAuth.instance.signOut();
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) => Order()));
+                        })
+                ),
 
 
               ], //Children
