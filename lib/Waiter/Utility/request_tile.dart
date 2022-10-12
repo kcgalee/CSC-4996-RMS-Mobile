@@ -18,7 +18,8 @@ class RequestTile extends StatelessWidget {
  final String orderID;
  final String oStatus;
 
- //iPColor for in progress button, dColor for delivered button, these are the base default colors.
+ //pColor for placed  iPColor for in progress button, dColor for delivered button
+ Color pColor = Color(0x36F1D385);
  Color iPColor = Color(0x36F1D385);
  Color dColor = Color(0x3090C68E);
 
@@ -38,9 +39,8 @@ class RequestTile extends StatelessWidget {
   Widget build(BuildContext context) {
     var isVisible = true;
 
-
-    if (oStatus == "in progress"){
-      iPColor = Color(0xFFF1D385);
+    if (oStatus == "delivered"){
+      isVisible = false;
     }
 
     return FutureBuilder(
@@ -70,6 +70,30 @@ class RequestTile extends StatelessWidget {
                     style: const TextStyle(color: Colors.black54,fontSize: 15, fontWeight: FontWeight.bold)),
 
                     Padding(
+                        padding: const EdgeInsets.only(left: 10,right: 10),
+                        child: Visibility(
+                          visible: isVisible,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.all(10),
+                                textStyle: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                ),
+                                backgroundColor: pColor,
+                                foregroundColor: Colors.black54,
+                                side: const BorderSide(
+                                  color: Colors.black38,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40)),
+                              ),
+
+                              onPressed: () => updatePlaced(),
+                              child: Text('placed')),
+                        )),
+
+                    Padding(
                       padding: const EdgeInsets.only(left: 10,right: 10),
                       child: Visibility(
                         visible: isVisible,
@@ -90,10 +114,12 @@ class RequestTile extends StatelessWidget {
                         ),
 
                           onPressed: () => updateInProgress(),
-                          child: const Text('in progress')),
+                          child: Text('in progress')),
                     )),
 
-                    ElevatedButton(
+                Visibility(
+                  visible: isVisible,
+                  child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.all(10),
                           textStyle: const TextStyle(
@@ -112,7 +138,7 @@ class RequestTile extends StatelessWidget {
                         onPressed: () => updateDelivered(),
                         child: const Text('delivered')
                     ),
-                  ],
+                )],
                 ),
               ),
             ),
@@ -121,13 +147,21 @@ class RequestTile extends StatelessWidget {
     );
   }
 
+  Future updatePlaced() async {
+    var status = await FirebaseFirestore.instance.collection('orders').doc(orderID).get();
+    if (status['status'] == 'in progress'){
+      await status.reference.update({
+        'status': 'placed'
+      });
+    }
+  }
+
   Future updateInProgress() async {
     var status = await FirebaseFirestore.instance.collection('orders').doc(orderID).get();
     if (status['status'] == 'placed'){
       await status.reference.update({
         'status': 'in progress'
       });
-
     }
   }
 
