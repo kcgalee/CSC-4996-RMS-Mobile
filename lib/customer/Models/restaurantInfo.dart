@@ -17,7 +17,7 @@ class RestaurantInfo {
     await docRef2.get().then(
             (DocumentSnapshot doc){
           final data = doc.data() as Map<String, dynamic>;
-          return ['restaurantName'].toString().trim();
+          return ['restName'].toString().trim();
         });
     return '';
   }
@@ -27,7 +27,7 @@ class RestaurantInfo {
     await docRef2.get().then(
             (DocumentSnapshot doc){
           final data = doc.data() as Map<String, dynamic>;
-          return ['restaurantId'].toString().trim();
+          return ['restID'].toString().trim();
         });
     return '';
   }
