@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +10,6 @@ import 'package:restaurant_management_system/customer/requests.dart';
 class CustomerHome extends StatelessWidget {
 
 String restName = "";
-String tableID ="";
-String restID = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,9 +66,10 @@ String restID = "";
                     ),
                     child: Text("MENU"),
                     onPressed: () {
+                      FirebaseAuth.instance.signOut();
                       Navigator.push(context,
                           MaterialPageRoute(
-                              builder: (context) => Order(tableID: tableID, restName: restName, restID: restID)));
+                              builder: (context) => Order()));
                     })),
 
 
@@ -86,7 +84,8 @@ String restID = "";
 
     Future<String> getRestaurantId() async {
 
-
+    String tableID ="";
+    String restID = "";
 
       final docRef2 = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid.toString());
       await docRef2.get().then(
@@ -99,15 +98,18 @@ String restID = "";
     await docRef.get().then(
             (DocumentSnapshot doc){
           final data = doc.data() as Map<String, dynamic>;
-          restID = data['restID'].toString().trim();
+          restID = data['restaurantID'].toString().trim();
         });
 
     final docRef3 = FirebaseFirestore.instance.collection('restaurants').doc(restID);
     await docRef3.get().then(
             (DocumentSnapshot doc){
           final data = doc.data() as Map<String, dynamic>;
-          restName =  data['restName'].toString().trim();
+          restName =  data['restaurantName'].toString().trim();
         });
+    if (restName != '') {
+      restName = "to " + restName;
+    }
 
 
     return "";
