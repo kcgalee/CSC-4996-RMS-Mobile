@@ -5,6 +5,7 @@ import 'package:restaurant_management_system/Waiter/qrScannerWaiter.dart';
 import 'package:restaurant_management_system/Waiter/waiterTables.dart';
 import 'package:restaurant_management_system/Waiter/waiterRequest.dart';
 import '../login/mainscreen.dart';
+import 'Utility/my_button.dart';
 import 'Utility/waiterNavigation.dart';
 
 class WaiterHome extends StatefulWidget {
@@ -40,120 +41,32 @@ class _WaiterHomeState extends State<WaiterHome> {
                     child: Text(waiterName,
                     style: const TextStyle(fontSize: 30,),),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 26),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-
-                        fixedSize: const Size(330, 56),
-                        textStyle: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                        ),
-                        backgroundColor: Colors.white,
-                        foregroundColor: Colors.black54,
-                        side: const BorderSide(width: 2, color: Colors.black38,),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                      ),
-                      onPressed: () {},
-                      child: const Text('CLOCK IN',),
-
-                    ),
+                  MyButton(text: 'CLOCK IN',
+                    onPressed: () {  },
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 26),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-
-                        fixedSize: const Size(330, 56),
-                        textStyle: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                        ),
-                        backgroundColor: Colors.white,
-                        foregroundColor: Colors.black54,
-                        side: const BorderSide(width: 2, color: Colors.black38,),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                      ),
-                      onPressed: () {},
-                      child: const Text('CLOCK OUT',),
-
-                    ),
+                  MyButton(text: 'CLOCK OUT',
+                    onPressed: () {  },
                   ),
-
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 26),
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-
-                          fixedSize: const Size(330, 56),
-                          textStyle: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                          ),
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.black54,
-                          side: const BorderSide(width: 2, color: Colors.black38,),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const WaiterTables()),
-                          );
-                        },
-                        child: const Text('ASSIGNED TABLES',),
-
-                    ),
+                  MyButton(text: 'ASSIGNED TABLES',
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const WaiterTables()),
+                      );
+                    },
                   ),
-
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 26),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.all(20),
-                        fixedSize: const Size(330, 56),
-                        textStyle: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                        ),
-                        backgroundColor: Colors.white,
-                        foregroundColor: Colors.black54,
-                        side: const BorderSide(width: 2, color: Colors.black38,),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                      ),
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => WaiterRequest(rName: restName)));
-                      },
-                      child: const Text("REQUESTS"),
-                    ),
+                  MyButton(text: 'REQUESTS',
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => WaiterRequest(rName: restName)));
+                    },
                   ),
-
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.all(20),
-                      fixedSize: const Size(330, 56),
-                      textStyle: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                      ),
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.black54,
-                      side: const BorderSide(width: 2, color: Colors.black38,),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                    ),
+                  MyButton(text: 'SCAN QR CODE',
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => const QRScannerWaiter()));
                     },
-                    child: const Text("SCAN QR CODE"),
                   ),
                 ], //Children
               ),
