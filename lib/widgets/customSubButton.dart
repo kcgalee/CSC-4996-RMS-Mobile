@@ -15,14 +15,14 @@ class CustomSubButton extends StatelessWidget {
         child:  ElevatedButton(
             onPressed: onPressed,
             style: ElevatedButton.styleFrom(
-              fixedSize: Size(330, 56),
-              textStyle: TextStyle(
+              fixedSize: const Size(330, 56),
+              textStyle: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
               ),
               backgroundColor: Colors.white,
               foregroundColor: Colors.black,
-              side: BorderSide(
+              side: const BorderSide(
                 color: Colors.black38,
               ),
               shape: RoundedRectangleBorder(
