@@ -33,7 +33,7 @@ class _EditRestaurant extends State<EditRestaurant> {
                 return Center(child: CircularProgressIndicator(),);
               } else {
                 return Text(
-                    snapshot.data['restaurantName'] + '\n' + snapshot.data['address']
+                    snapshot.data['restName'] + '\n' + snapshot.data['address']
                     + '\n' + snapshot.data['city'] + '\n' + snapshot.data['state']
                     + '\n' + snapshot.data['zipcode'].toString() + '\n'
                     + snapshot.data['phone'] + '\n' + snapshot.data['email'] + '\n'
