@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_management_system/login/forgotPassword.dart';
 import 'package:restaurant_management_system/manager/managerHome.dart';
 import 'package:restaurant_management_system/waiter/waiterHome.dart';
 import '../customer/customerHome.dart';
@@ -67,17 +66,6 @@ class LoginState extends State<Login> {
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) => value != null && value.length < 6
                         ? 'Password must be at least 6 characters' : null,
-                ),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => const ForgotPassword()),
-                      );
-                    },
-                    child: const Text("Forgot Password?"),
-                  ),
                 ),
                 SizedBox(
                   width: double.infinity,
