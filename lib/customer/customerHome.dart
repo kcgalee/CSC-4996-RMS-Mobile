@@ -12,6 +12,9 @@ import 'package:restaurant_management_system/customer/requests.dart';
 class CustomerHome extends StatelessWidget {
 
 String restName = "";
+String tableID ="";
+String restID = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,15 +56,12 @@ String restName = "";
                       FirebaseAuth.instance.signOut();
                       Navigator.push(context,
                           MaterialPageRoute(
-                              builder: (context) => Order()));
+                      builder: (context) => Order(tableID: tableID, restName: restName, restID: restID)));
                     }
                 ),
                 CustomSubButton(text: "CURRENT ORDER",
                   onPressed: () {
-                    FirebaseAuth.instance.signOut();
-                    Navigator.push(context,
-                        MaterialPageRoute(
-                            builder: (context) => Order()));
+
                   }
                 ),
 
