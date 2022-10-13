@@ -20,7 +20,7 @@ class CustomMainButton extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
                 ),
-                backgroundColor: Colors.black,
+                backgroundColor: Colors.black87,
                 foregroundColor: Colors.white,
                 side: BorderSide(
                   color: Colors.black38,
