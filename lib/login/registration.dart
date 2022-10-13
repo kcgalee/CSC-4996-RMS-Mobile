@@ -89,7 +89,7 @@ class RegistrationBodyState extends State<RegistrationBody> {
                           selectedWidgetMarker = WidgetMarker.user;
                         });
                       },
-                      child: Text("Customer/Waiter"),
+                      child: Text("Customer"),
                     ),
                     TextButton(
                       onPressed: () {
