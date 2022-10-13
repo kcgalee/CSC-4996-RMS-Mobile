@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/customer/customerHome.dart';
 import 'package:restaurant_management_system/customer/order.dart';
 
 class Requests extends StatefulWidget {
@@ -33,7 +34,7 @@ class _RequestsState extends State<Requests> {
                 child: const Text("APPETIZERS"),
                 onPressed: () {
                   FirebaseAuth.instance.signOut();
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const Order()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerHome()));
               }),
               ElevatedButton(
                 onPressed: () async {

@@ -8,11 +8,16 @@ class RestaurantInfo {
 
   setter(String table) {
     tableId = table;
-    restaurantID = getRestaurantId();
-    restaurantName = getRestaurantName();
+    restaurantID = setRestaurantId();
+    restaurantName = setRestaurantName();
+  }
+  RestaurantInfo() {
+    restaurantID = '';
+    restaurantName = '';
+    tableId = '';
   }
 
-  Future<String> getRestaurantName() async {
+  Future<String> setRestaurantName() async {
     final docRef2 = FirebaseFirestore.instance.collection('restaurants').doc(restaurantID);
     await docRef2.get().then(
             (DocumentSnapshot doc){
@@ -22,7 +27,7 @@ class RestaurantInfo {
     return '';
   }
 
-  Future<String> getRestaurantId() async {
+  Future<String> setRestaurantId() async {
     final docRef2 = FirebaseFirestore.instance.collection('table').doc(tableId);
     await docRef2.get().then(
             (DocumentSnapshot doc){
@@ -32,6 +37,9 @@ class RestaurantInfo {
     return '';
   }
 
+  String getRestaurantName() {
+    return restaurantName.text.toString();
+  }
 
 
 

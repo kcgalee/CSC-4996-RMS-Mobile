@@ -1,18 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/customer/showMenuItems.dart';
 import 'Utility/navigation.dart';
 
 
 class Order extends StatefulWidget {
-  const Order({Key? key}) : super(key: key);
+  String tableID, restName, restID;
+  Order({Key? key, required this.tableID, required this.restName, required this.restID}) :super(key: key);
 
   @override
-  State<Order> createState() => _Order();
+  State<Order> createState() => _Order(tableID: tableID, restName: restName, restID: restID);
 }
 
 class _Order extends State<Order> {
   String restaurantName = "";
+  String tableID, restName, restID;
+  _Order({Key? key, required this.tableID, required this.restName, required this.restID});
+
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +29,12 @@ class _Order extends State<Order> {
           foregroundColor: Colors.black,
           elevation: 1,
         ),
-        body: FutureBuilder(
-          future: getName(),
-          builder: (context, snapshot) {
-            return SingleChildScrollView(
+        body: Center(
                 child: Column(
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(26),
-                      child: Text(restaurantName,
+                      child: Text(restName,
                         style: const TextStyle(fontSize: 25,),),
                     ),
                     Padding(
@@ -54,7 +56,9 @@ class _Order extends State<Order> {
                               borderRadius: BorderRadius.circular(10)),
                         ),
                         onPressed: () {
-                          //TODO SHOW ALL APPETIZERS
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                builder: (context) => ShowMenuItems(text: 'appetizer', tableID: tableID, restName: restName, restID: restID,)));
                         },
                         child: const Text('APPETIZERS',),
 
@@ -79,7 +83,10 @@ class _Order extends State<Order> {
                               borderRadius: BorderRadius.circular(10)),
                         ),
                         onPressed: () {
-                          //TODO SHOW ALL ENTREES
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) => ShowMenuItems(text: 'entree', tableID: tableID, restName: restName, restID: restID,)));
+
                         },
                         child: const Text('ENTREES',),
 
@@ -105,7 +112,10 @@ class _Order extends State<Order> {
                               borderRadius: BorderRadius.circular(10)),
                         ),
                         onPressed: () {
-                          //TODO SHOW ALL DESSERTS
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) => ShowMenuItems(text: 'dessert', tableID: tableID, restName: restName, restID: restID,)));
+
                         },
                         child: const Text('DESSERTS',),
 
@@ -131,7 +141,10 @@ class _Order extends State<Order> {
                               borderRadius: BorderRadius.circular(10)),
                         ),
                         onPressed: () {
-                          //TODO SHOW ALL DRINKS
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) => ShowMenuItems(text: 'drink', tableID: tableID, restName: restName, restID: restID,)));
+
                         },
                         child: const Text("DRINKS"),
                       ),
@@ -156,8 +169,10 @@ class _Order extends State<Order> {
                               borderRadius: BorderRadius.circular(10)),
                         ),
                         onPressed: () {
-                          //TODO
-                          //SHOW ALL CONDIMENTS
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) => ShowMenuItems(text: 'condiment', tableID: tableID, restName: restName, restID: restID,)));
+
                         },
                         child: const Text("CONDIMENTS"),
                       ),
@@ -180,8 +195,10 @@ class _Order extends State<Order> {
                             borderRadius: BorderRadius.circular(10)),
                       ),
                       onPressed: () {
-                        //TODO
-                        //SHOW ALL UTENSILS
+                        Navigator.push(context,
+                            MaterialPageRoute(
+                                builder: (context) => ShowMenuItems(text: 'utensil', tableID: tableID, restName: restName, restID: restID,)));
+
                       },
                       child: const Text("UTENSILS"),
                     ),
@@ -199,19 +216,12 @@ class _Order extends State<Order> {
                           //REQUEST BILL FROM WAITER
                         }),
                   ], //Children
-                ));
-          },
-        ));
-  }
-
-  //TODO DELETE THIS AFTER PASSING RESTAURANT NAME FROM QR SCANNER
-  Future getName() async {
-    await FirebaseFirestore.instance.collection('restaurants').where('restName', isEqualTo: "Apple Bees").get().then(
-            (element) {
-          restaurantName = "Apple Bees";
-        }
+                )
+    )
     );
   }
+
+
 
 
 }
