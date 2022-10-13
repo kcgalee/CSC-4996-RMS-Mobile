@@ -32,7 +32,7 @@ class _ManageRestaurant extends State<ManageRestaurant> {
                     itemCount: snapshot.data?.docs.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        title: Text(snapshot.data?.docs[index]['restaurantName'] ?? ''),
+                        title: Text(snapshot.data?.docs[index]['restName'] ?? ''),
                         subtitle: Text(snapshot.data?.docs[index]['address'] ?? ''),
                         onTap: () {
                           Navigator.push(context,
