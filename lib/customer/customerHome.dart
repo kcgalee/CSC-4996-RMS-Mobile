@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/customer/Models/restaurantInfo.dart';
+import 'package:restaurant_management_system/widgets/customMainButton.dart';
+import 'package:restaurant_management_system/widgets/customSubButton.dart';
 import 'order.dart';
 import 'qrScanner.dart';
 import 'package:restaurant_management_system/customer/Utility/navigation.dart';
@@ -15,8 +17,10 @@ String restName = "";
     return Scaffold(
       drawer: const NavigationDrawer(),
       appBar: AppBar(
-        title:  Text("Customer Home"),
-        actions: <Widget>[],
+        title:  const Text("Home"),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        actions: const <Widget>[],
       ),
       body: FutureBuilder (
           future: getRestaurantId(),
@@ -26,24 +30,13 @@ String restName = "";
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const SizedBox(height: 20,),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 26,left: 50,right: 26),
-                    child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black45,
-                      minimumSize: const Size(300, 80),
-                    ),
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => const QRScanner()),
-                      );
-                    },
-                    child: const Text('QR Scan',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    )
-                )),
+                CustomMainButton(text: "QR SCAN",
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => const QRScanner()),
+                    );
+                  }
+                ),
                 const SizedBox(height: 30,),
                 const Text(
                   "Welcome",
@@ -54,24 +47,23 @@ String restName = "";
                     restName,
                     textAlign: TextAlign.left,
                   ),
-                  const SizedBox(height: 20,),
-
-
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10,left: 50,right: 26),
-               child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black45,
-                      minimumSize: const Size(300, 80),
-                    ),
-                    child: Text("MENU"),
+                const SizedBox(height: 20,),
+                CustomMainButton(text: "MENU",
                     onPressed: () {
                       FirebaseAuth.instance.signOut();
                       Navigator.push(context,
                           MaterialPageRoute(
                               builder: (context) => Order()));
-                    })),
-
+                    }
+                ),
+                CustomSubButton(text: "CURRENT ORDER",
+                  onPressed: () {
+                    FirebaseAuth.instance.signOut();
+                    Navigator.push(context,
+                        MaterialPageRoute(
+                            builder: (context) => Order()));
+                  }
+                ),
 
               ], //Children
             )
