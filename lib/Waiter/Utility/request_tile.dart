@@ -77,8 +77,8 @@ class RequestTile extends StatelessWidget {
                         visible: isVisible,
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.all(10),
-                              fixedSize: Size(100, 30),
+                              padding: const EdgeInsets.all(5),
+                              fixedSize: Size(100, 3),
                               textStyle: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15,
@@ -100,7 +100,7 @@ class RequestTile extends StatelessWidget {
                         visible: isVisible,
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.all(10),
+                              padding: EdgeInsets.all(5),
                               fixedSize: Size(100,30),
                               textStyle: const TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -123,7 +123,7 @@ class RequestTile extends StatelessWidget {
                         visible: isVisible,
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(5),
                               fixedSize: Size(100, 30),
                               textStyle: const TextStyle(
                                 fontWeight: FontWeight.bold,
