@@ -3,7 +3,6 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/login/forgotPassword.dart';
-import 'package:restaurant_management_system/login/pwReset.dart';
 import 'package:restaurant_management_system/manager/managerHome.dart';
 import 'package:restaurant_management_system/waiter/waiterHome.dart';
 import '../customer/customerHome.dart';
@@ -74,7 +73,7 @@ class LoginState extends State<Login> {
                   child: TextButton(
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => const PWReset()),
+                          builder: (context) => const ForgotPassword()),
                       );
                     },
                     child: const Text("Forgot Password?"),
