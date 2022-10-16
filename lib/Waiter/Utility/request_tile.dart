@@ -19,7 +19,7 @@ class RequestTile extends StatelessWidget {
  final String oStatus;
 
  //pColor for placed  iPColor for in progress button, dColor for delivered button
- Color pColor = Color(0xfff9fbe7);
+ Color pColor = Color(0xffffebee);
  Color iPColor = Color(0xfff9fbe7);
  Color dColor = Color(0xffe8f5e9);
 
@@ -47,7 +47,7 @@ class RequestTile extends StatelessWidget {
       iPColor= Colors.orange.shade300;
     }
     else if (oStatus =="placed"){
-      pColor = Colors.orange.shade300;
+      pColor = Colors.redAccent;
     }
 
 
