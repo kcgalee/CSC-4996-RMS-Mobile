@@ -354,27 +354,44 @@ class RegistrationBodyState extends State<RegistrationBody> {
                           borderRadius: BorderRadius.circular(10)),
                     ),
                     child: const Text("Register"),
-                    onPressed: () async {
-                      if (pwController.text.trim() ==
-                          confirmPwController.text.trim()) {
-                        await managerRegistrationChecker(
-                            emailController.text.trim(),
-                            pwController.text.trim(),
-                            firstNameController.text.trim(),
-                            lastNameController.text.trim(),
-                            managerPhoneController.text.trim(),
-                            resNameController.text.trim(),
-                            addressController.text.trim(),
-                            cityController.text.trim(),
-                            stateController.text.trim(),
-                            zipController.text.trim(),
-                            restPhoneController.text.trim()
-                        );
-                      }
-                      else {
-                        print("That's incorrect");
-                      }
-                    },
+                    onPressed: () => showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text('You are registering a manager account. Do you confirm?'),
+                        content: const Text('Approval process will take 24 hours. Please check back after registering.'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, 'Cancel'),
+                            child: const Text('Cancel'),
+                          ),
+                          TextButton(
+                            onPressed: () async {
+                              if (pwController.text.trim() ==
+                                  confirmPwController.text.trim()) {
+                                await managerRegistrationChecker(
+                                    emailController.text.trim(),
+                                    pwController.text.trim(),
+                                    firstNameController.text.trim(),
+                                    lastNameController.text.trim(),
+                                    managerPhoneController.text.trim(),
+                                    resNameController.text.trim(),
+                                    addressController.text.trim(),
+                                    cityController.text.trim(),
+                                    stateController.text.trim(),
+                                    zipController.text.trim(),
+                                    restPhoneController.text.trim()
+                                );
+                              }
+                              else {
+                                print("That's incorrect");
+                              }
+                              Navigator.pop(context, 'Confirm');
+                            },
+                            child: const Text('Confirm'),
+                          ),
+                        ],
+                      ),
+                    ),
                   )
               )
             ],
