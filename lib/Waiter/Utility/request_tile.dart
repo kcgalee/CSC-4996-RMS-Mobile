@@ -8,20 +8,21 @@ import 'package:intl/intl.dart';
 
 
 class RequestTile extends StatelessWidget {
-
  final String taskName;
  var time;
   //final bool taskCompleted;
  // Function(bool?)? onChanged;
   //Function(BuildContext)? deleteFunction;
+
  var newTime = "";
  final String orderID;
  final String oStatus;
 
  //pColor for placed  iPColor for in progress button, dColor for delivered button
- Color pColor = Color(0x36F1D385);
- Color iPColor = Color(0x36F1D385);
- Color dColor = Color(0x3090C68E);
+ Color pColor = Color(0xffffebee);
+ Color iPColor = Color(0xfff9fbe7);
+ Color dColor = Color(0xffe8f5e9);
+
 
 
  RequestTile({
@@ -38,10 +39,17 @@ class RequestTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var isVisible = true;
-
     if (oStatus == "delivered"){
       isVisible = false;
     }
+
+    if (oStatus == "in progress"){
+      iPColor= Colors.orange.shade300;
+    }
+    else if (oStatus =="placed"){
+      pColor = Colors.redAccent;
+    }
+
 
     return FutureBuilder(
       future: convertTime(time),
@@ -49,103 +57,101 @@ class RequestTile extends StatelessWidget {
         return Padding(
             padding: const EdgeInsets.only(left: 15, right: 15,top: 25),
             child: Container(
-              padding: const EdgeInsets.only(right: 5,left: 10,bottom: 10,top: 10),
+              padding: const EdgeInsets.only(right: 15,left: 10,bottom: 10,top: 10),
               decoration: BoxDecoration(color: Colors.grey[100],
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: Colors.black54)
               ),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    //checkbox
-                    /*Checkbox(
-                      value: taskCompleted,
-                      onChanged: onChanged,
-                      activeColor: Colors.black,
-                    ),*/
-
-                    //task name and time
-                    Text('$taskName\n$newTime',
-                    style: const TextStyle(color: Colors.black54,fontSize: 15, fontWeight: FontWeight.bold)),
-
-                    Padding(
-                        padding: const EdgeInsets.only(left: 10,right: 10),
-                        child: Visibility(
-                          visible: isVisible,
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.all(10),
-                                textStyle: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                ),
-                                backgroundColor: pColor,
-                                foregroundColor: Colors.black54,
-                                side: const BorderSide(
-                                  color: Colors.black38,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40)),
-                              ),
-
-                              onPressed: () => updatePlaced(),
-                              child: Text('placed')),
-                        )),
-
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10,right: 10),
-                      child: Visibility(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  //task name and time
+                  Text(taskName + '\n' + newTime,
+                  style: const TextStyle(color: Colors.black54,fontSize: 15, fontWeight: FontWeight.bold)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Visibility(
                         visible: isVisible,
                         child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.all(10),
-                          textStyle: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                          ),
-                          backgroundColor: iPColor,
-                          foregroundColor: Colors.black54,
-                          side: const BorderSide(
-                            color: Colors.black38,
-                          ),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40)),
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.all(5),
+                              fixedSize: Size(100, 3),
+                              textStyle: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                              backgroundColor: pColor,
+                              foregroundColor: Colors.black54,
+                              side: const BorderSide(
+                                color: Colors.black38,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
+                            ),
+
+                            onPressed: () => updatePlaced(),
+                            child: Text('placed')),
+                      ),
+
+                      Visibility(
+                        visible: isVisible,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.all(5),
+                              fixedSize: Size(100,30),
+                              textStyle: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                              backgroundColor: iPColor,
+                              foregroundColor: Colors.black54,
+                              side: const BorderSide(
+                                color: Colors.black38,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
+                            ),
+
+                            onPressed: () => updateInProgress(),
+                            child: Text('in progress')),
+                      ),
+
+                      Visibility(
+                        visible: isVisible,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.all(5),
+                              fixedSize: Size(100, 30),
+                              textStyle: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                              backgroundColor: dColor,
+                              foregroundColor: Colors.black54,
+                              side: const BorderSide(
+                                color: Colors.black38,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
+                            ),
+
+                            onPressed: () => updateDelivered(),
+                            child: const Text('delivered')
                         ),
+                      )
 
-                          onPressed: () => updateInProgress(),
-                          child: Text('in progress')),
-                    )),
+                    ],
+                  ),
 
-                Visibility(
-                  visible: isVisible,
-                  child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.all(10),
-                          textStyle: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                          ),
-                          backgroundColor: dColor,
-                          foregroundColor: Colors.black54,
-                          side: const BorderSide(
-                            color: Colors.black38,
-                          ),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40)),
-                        ),
-
-                        onPressed: () => updateDelivered(),
-                        child: const Text('delivered')
-                    ),
-                )],
-                ),
+                ],
               ),
             ),
           );
       },
     );
   }
+
 
   Future updatePlaced() async {
     var status = await FirebaseFirestore.instance.collection('orders').doc(orderID).get();

@@ -11,7 +11,7 @@ class CustomSubButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return
       Padding(
-        padding: const EdgeInsets.only(bottom: 26,left: 50,right: 26),
+        padding: const EdgeInsets.only(bottom: 26),
         child:  ElevatedButton(
             onPressed: onPressed,
             style: ElevatedButton.styleFrom(
@@ -24,6 +24,7 @@ class CustomSubButton extends StatelessWidget {
               foregroundColor: Colors.black,
               side: const BorderSide(
                 color: Colors.black38,
+                width: 2
               ),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
