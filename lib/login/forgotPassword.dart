@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
 import 'login.dart';
@@ -10,6 +13,13 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
+  final emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,24 +35,20 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   runSpacing: 18.0,
                   children: [
                     TextFormField(
+                      controller: emailController,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (email) =>
+                      email != null && !EmailValidator.validate(email)
+                          ? 'Enter valid email' : null,
                       decoration: const InputDecoration(
-                        hintText: "New Password",
+                        hintText: "Email",
                         prefixIcon: Icon(Icons.lock, color: Colors.black),
                       ),
-                    ),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: "Confirm Password",
-                        prefixIcon: Icon(Icons.lock, color: Colors.black),
-                      ),
-
                     ),
                     CustomMainButton(
                         text: "Reset Password",
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => const Login()),
-                          );
+                          resetPW(emailController.text.trim());
                         }
                     )
                   ],
@@ -51,4 +57,23 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         )
     );
   }
+
+  resetPW(String email) async{
+    if (!EmailValidator.validate(email)){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('You must enter a valid email'),
+      ));
+    } else {
+      try {
+        await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found'){
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Account does not exist for this email'),
+          ));
+        }
+      }
+    }
+  }
+
 }
