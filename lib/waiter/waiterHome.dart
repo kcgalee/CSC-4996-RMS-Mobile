@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/Waiter/qrScannerWaiter.dart';
 import 'package:restaurant_management_system/Waiter/waiterTables.dart';
 import 'package:restaurant_management_system/Waiter/waiterRequest.dart';
-import '../login/mainscreen.dart';
-import 'Utility/my_button.dart';
+import '../widgets/customSubButton.dart';
 import 'Utility/waiterNavigation.dart';
 
 class WaiterHome extends StatefulWidget {
@@ -41,13 +40,19 @@ class _WaiterHomeState extends State<WaiterHome> {
                     child: Text(waiterName,
                     style: const TextStyle(fontSize: 30,),),
                   ),
-                  MyButton(text: 'CLOCK IN',
+
+                  CustomSubButton(
+                    text: 'CLOCK IN',
                     onPressed: () {  },
                   ),
-                  MyButton(text: 'CLOCK OUT',
+
+                  CustomSubButton(
+                    text: 'CLOCK OUT',
                     onPressed: () {  },
                   ),
-                  MyButton(text: 'ASSIGNED TABLES',
+
+                  CustomSubButton(
+                    text: 'ASSIGNED TABLES',
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -55,19 +60,25 @@ class _WaiterHomeState extends State<WaiterHome> {
                             builder: (context) => const WaiterTables()),
                       );
                     },
+
                   ),
-                  MyButton(text: 'REQUESTS',
+
+                  CustomSubButton(
+                    text: 'REQUESTS',
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => WaiterRequest(rName: restName)));
                     },
                   ),
-                  MyButton(text: 'SCAN QR CODE',
+
+                  CustomSubButton(
+                    text: 'SCAN QR CODE',
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => const QRScannerWaiter()));
                     },
                   ),
+
                 ], //Children
               ),
             ));

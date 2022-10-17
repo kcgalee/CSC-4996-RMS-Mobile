@@ -29,43 +29,45 @@ String restID = "";
           future: getRestaurantId(),
           builder: (context, snapshot) {
             return SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20,),
-                CustomMainButton(text: "QR SCAN",
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => const QRScanner()),
-                    );
-                  }
-                ),
-                const SizedBox(height: 30,),
-                const Text(
-                  "Welcome",
-                  textAlign: TextAlign.left,
-                ),
-
-                  Text(
-                    restName,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 20,),
+                  CustomMainButton(text: "QR SCAN",
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => const QRScanner()),
+                      );
+                    }
+                  ),
+                  const SizedBox(height: 30,),
+                  const Text(
+                    "Welcome",
                     textAlign: TextAlign.left,
                   ),
-                const SizedBox(height: 20,),
-                CustomMainButton(text: "MENU",
+
+                    Text(
+                      restName,
+                      textAlign: TextAlign.left,
+                    ),
+                  const SizedBox(height: 20,),
+                  CustomMainButton(text: "MENU",
+                      onPressed: () {
+                        FirebaseAuth.instance.signOut();
+                        Navigator.push(context,
+                            MaterialPageRoute(
+                        builder: (context) => Order(tableID: tableID, restName: restName, restID: restID)));
+                      }
+                  ),
+                  CustomSubButton(text: "CURRENT ORDER",
                     onPressed: () {
-                      FirebaseAuth.instance.signOut();
-                      Navigator.push(context,
-                          MaterialPageRoute(
-                      builder: (context) => Order(tableID: tableID, restName: restName, restID: restID)));
+
                     }
-                ),
-                CustomSubButton(text: "CURRENT ORDER",
-                  onPressed: () {
+                  ),
 
-                  }
-                ),
-
-              ], //Children
+                ], //Children
+              ),
             )
             );
           }
