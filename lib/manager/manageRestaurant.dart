@@ -46,4 +46,8 @@ class _ManageRestaurant extends State<ManageRestaurant> {
     );
   }
 
+/*deleteRest() async {
+    await FirebaseAuth.instance.c
+  }*/
+
 }

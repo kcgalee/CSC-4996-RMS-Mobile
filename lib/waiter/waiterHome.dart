@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/Waiter/allTables.dart';
 import 'package:restaurant_management_system/Waiter/qrScannerWaiter.dart';
 import 'package:restaurant_management_system/Waiter/waiterTables.dart';
 import 'package:restaurant_management_system/Waiter/waiterRequest.dart';
@@ -62,7 +63,13 @@ class _WaiterHomeState extends State<WaiterHome> {
                     },
 
                   ),
-
+                  CustomSubButton(
+                    text: 'VIEW ALL TABLES',
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => const AllTables()));
+                    },
+                  ),
                   CustomSubButton(
                     text: 'REQUESTS',
                     onPressed: () {
@@ -104,6 +111,5 @@ class _WaiterHomeState extends State<WaiterHome> {
             }
             );
     }
-
 
 }

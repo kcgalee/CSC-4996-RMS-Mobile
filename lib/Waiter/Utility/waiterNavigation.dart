@@ -40,7 +40,7 @@ class WaiterNavigationDrawer extends StatelessWidget {
             FirebaseAuth.instance.signOut();
             Navigator.push(context,
                 MaterialPageRoute(
-                    builder: (context) => MainScreen()));
+                    builder: (context) => const MainScreen()));
           },
         ),
       ]
