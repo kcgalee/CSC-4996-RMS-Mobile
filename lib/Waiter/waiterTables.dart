@@ -13,7 +13,7 @@ class WaiterTables extends StatefulWidget {
 
 class _WaiterTablesState extends State<WaiterTables> {
   // text controller
-  final _controller = TextEditingController();
+  //final _controller = TextEditingController();
 
   var waiterRID;
 
@@ -80,23 +80,8 @@ class _WaiterTablesState extends State<WaiterTables> {
   Future getRID() async {
     await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).get().then(
             (element) {
-          print(element.reference);
-          //set2.add(element);
           waiterRID = element['restaurantID'].toString();
-          print(waiterRID);
         }
     );
-  }
-
-  //original
-  Future getTables() async {
-    await FirebaseFirestore.instance.collection('tables').where('waiterID', isEqualTo: FirebaseAuth.instance.currentUser?.uid).get().then(
-          (snapshot) => snapshot.docs.forEach(
-              (element) {
-            print(element.reference.id.toString());
-            tableDocList.add(element.reference.id.toString());
-          }),
-    );
-    //tableDocList.add(element.reference.id); to get doc id
   }
 }

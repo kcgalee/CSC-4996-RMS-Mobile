@@ -66,7 +66,7 @@ class RequestTile extends StatelessWidget {
                     ),*/
 
                     //task name and time
-                    Text(taskName + '\n' + newTime,
+                    Text('$taskName\n$newTime',
                     style: const TextStyle(color: Colors.black54,fontSize: 15, fontWeight: FontWeight.bold)),
 
                     Padding(
