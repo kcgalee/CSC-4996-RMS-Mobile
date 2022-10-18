@@ -41,7 +41,7 @@ class _ManageRestaurant extends State<ManageRestaurant> {
 
 
         body: StreamBuilder(
-            stream: FirebaseFirestore.instance.collection('restaurants').where('managerUID', isEqualTo: FirebaseAuth.instance.currentUser?.uid).snapshots(),
+            stream: FirebaseFirestore.instance.collection('restaurants').where('managerID', isEqualTo: FirebaseAuth.instance.currentUser?.uid).snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
                 return Center(child: Text("You are not managing any restaurants."),);

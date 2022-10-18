@@ -21,9 +21,13 @@ class EditEmployee extends StatefulWidget {
 class _EditEmployee extends State<EditEmployee> {
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
-  final preferredNameController = TextEditingController();
+  final prefNameController = TextEditingController();
   final phoneController = TextEditingController();
+  final openingController = TextEditingController();
+  final closingController = TextEditingController();
   final pattern = RegExp(r'^(1-)?\d{3}-\d{3}-\d{4}$');
+  final nPattern = RegExp(r'^(0?[1-9]|1[0-2]):[0-5][0-9]$');
+
   @override
   Widget build(BuildContext context)=> Scaffold (
     drawer: const ManagerNavigationDrawer(),
@@ -46,7 +50,7 @@ class _EditEmployee extends State<EditEmployee> {
                 keyboardType: TextInputType.number,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (fName) =>
-                fName != "" || fName != null && fName.length > 20
+                fName != null && fName.trim().length > 20
                     ? 'First name must be between 1 to 20 characters' : null,
                 decoration: const InputDecoration(
                     hintText: "First Name",
@@ -65,7 +69,7 @@ class _EditEmployee extends State<EditEmployee> {
                 keyboardType: TextInputType.number,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (lName) =>
-                lName != "" || lName != null && lName.length > 20
+                lName != null && lName.trim().length > 20
                     ? 'Last name must be between 1 to 20 characters' : null,
                 decoration: const InputDecoration(
                     hintText: "Last Name",
@@ -80,11 +84,11 @@ class _EditEmployee extends State<EditEmployee> {
             Padding(
               padding: const EdgeInsets.only(bottom: 15),
               child: TextFormField(
-                controller: preferredNameController,
+                controller: prefNameController,
                 keyboardType: TextInputType.number,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (prefName) =>
-                prefName != "" || prefName != null && prefName.length > 20
+                prefName != null && prefName.trim().length > 20
                     ? 'Preferred name must be between 1 to 20 characters' : null,
                 decoration: const InputDecoration(
                     hintText: "Preferred Name",
@@ -103,8 +107,8 @@ class _EditEmployee extends State<EditEmployee> {
                 keyboardType: TextInputType.number,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (number) =>
-                number != "" && number != null && !pattern.hasMatch(number)
-                    ? 'Enter valid phone number' : null,
+                number != null && !pattern.hasMatch(number)
+                    ? 'Enter valid phone number (ex: 222-333-6776)' : null,
                 decoration: const InputDecoration(
                     hintText: "Phone (ex: 222-333-6776)",
                     enabledBorder: OutlineInputBorder(
@@ -114,7 +118,6 @@ class _EditEmployee extends State<EditEmployee> {
                 ),
               ),
             ),
-
             Row (
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -132,24 +135,27 @@ class _EditEmployee extends State<EditEmployee> {
                     ),
                     child: const Text("update"),
                     onPressed: (){
-                        if (firstNameController.text.trim() != "" && firstNameController.text.trim().length <= 20){
+                      if (validate(firstNameController.text.trim(), lastNameController.text.trim(), prefNameController.text.trim(), phoneController.text.trim()) == true){
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text('Could not update information, please review input'),
+                        ));
+                      } else {
+                        if (firstNameController.text.trim() != ""){
                           updateFName(firstNameController.text.trim());
                         }
-                        if (lastNameController.text.trim() != "" && lastNameController.text.trim().length <= 20){
+                        if (lastNameController.text.trim() != ""){
                           updateLName(lastNameController.text.trim());
                         }
-                        if (preferredNameController.text.trim() != "" && preferredNameController.text.trim().length <= 20){
-                          updatePrefName(preferredNameController.text.trim());
+                        if (prefNameController.text.trim() != ""){
+                          updatePrefName(prefNameController.text.trim());
                         }
-
-                        if (phoneController.text.trim() != "" && pattern.hasMatch(phoneController.text.trim())){
+                        if (phoneController.text.trim() != ""){
                           updatePhone(phoneController.text.trim());
-                        } else if (phoneController.text.trim() != "" && !pattern.hasMatch(phoneController.text.trim())){
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text('Incorrect phone number format'),
-                          ));
                         }
-
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text('Success, information has been updated.'),
+                        ));
+                      }
                     }
                 ),
                 ElevatedButton(
@@ -198,7 +204,7 @@ class _EditEmployee extends State<EditEmployee> {
     await user.reference.update({
       'prefName': prefName
     });
-    preferredNameController.text = "";
+    prefNameController.text = "";
   }
 
   updatePhone(String phone) async {
@@ -209,5 +215,20 @@ class _EditEmployee extends State<EditEmployee> {
     phoneController.text = "";
   }
 
+  bool validate(String fName, var lName, var prefName, var newPhone) {
+    bool error = false;
+    if (fName.length > 20){
+      error = true;
+    } else if (lName.length > 20){
+      error = true;
+    } else if (prefName.length > 20){
+      error = true;
+    } else if (newPhone != "" && !pattern.hasMatch(newPhone)){
+      error = true;
+    } else if (fName == "" && lName == "" && prefName == "" && newPhone == ""){
+      error = true;
+    }
+    return error;
+  }
 
 }

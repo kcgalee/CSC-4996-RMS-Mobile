@@ -55,7 +55,10 @@ class _ManageEmployeeState extends State<ManageEmployee> {
                             return ManagerTile (
                               taskName: (snapshot.data?.docs[index]['fName'] ?? '') + ' ' + (snapshot.data?.docs[index]['lName'] ?? ''),
                               subTitle: snapshot.data?.docs[index]['email'] ?? '',
-                              onPressedDelete: (){},
+                              onPressedDelete: (){
+                                //confirm deletion popup goes here
+
+                              },
                               onPressedEdit: (){
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (context) =>  EditEmployee(eID: (snapshot.data?.docs[index].reference.id ?? ''),
