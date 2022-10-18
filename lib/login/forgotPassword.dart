@@ -47,9 +47,19 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     ),
                     CustomMainButton(
                         text: "Send Password Reset Link",
-                        onPressed: () {
-                          resetPW(emailController.text.trim());
-                        }
+                        onPressed: () => showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          title: const Text('A unique password reset link has been sent to your email.'),
+                          content: const Text('Please follow the instructions in the email to reset your password.'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, 'Confirm'),
+                              child: const Text('Confirm'),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                     CustomMainButton(
                         text: "temp: reset pw page",
