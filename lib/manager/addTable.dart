@@ -10,16 +10,21 @@ import 'GenerateQRCode.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 
 class AddTable extends StatefulWidget {
+  final String text;
+  AddTable({Key? key, required this.text}) : super(key: key);
   @override
-  State<AddTable> createState() => _AddTable();
+  State<AddTable> createState() => _AddTable(text: text);
 }
 
 
 class _AddTable extends State<AddTable> {
+  final String text;
+  _AddTable({Key? key, required this.text});
   final tableNumberController = TextEditingController();
   final tableCapacityController = TextEditingController();
   final tableTypeController = TextEditingController();
-  var documents;
+  int numb = 0;
+  late Map documents;
 
   @override
   Widget build(BuildContext context)=> Scaffold (
@@ -27,15 +32,9 @@ class _AddTable extends State<AddTable> {
       appBar: AppBar(
         title: Text("Add Table"),
       ),
-      body: FutureBuilder(
-      future: getRestInfo(),
-  builder: (context, snapshot) {
-  return SingleChildScrollView(
-  child: Center(
+      body: Center(
   child: Column(
   children: [
-
-
 
     TextFormField(
       controller: tableNumberController,
@@ -79,8 +78,8 @@ class _AddTable extends State<AddTable> {
 
   ]),
       )
-        );
-           }),
+
+
               );
 
   void newTableData(int tableNum, int maxCapacity, String tableType ) async {
@@ -96,7 +95,7 @@ class _AddTable extends State<AddTable> {
         {
           'tableNum': tableNum,
           'maxCapacity': maxCapacity,
-          'restaurantID': 'nWF0W1HOINa3WyVRM8Em', //TODO ADD RESTAURANT ID
+          'restaurantID': text, //TODO ADD RESTAURANT ID
           'type': tableType,
           'waiterID': '',
           'available': true,
@@ -108,12 +107,6 @@ class _AddTable extends State<AddTable> {
     push(MaterialPageRoute(builder:(context)=>GenerateQRCode(tableId, tableNum.toString())));
   }
 
-  getRestInfo() async {
-    var uID = FirebaseAuth.instance.currentUser?.uid.toString();
-    final docRef = FirebaseFirestore.instance.collection('restaurants').where(
-        'managerID', isEqualTo: uID).snapshots();
-    documents = await docRef.toList();
-  }
 
 
 }
