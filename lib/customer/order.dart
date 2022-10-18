@@ -14,7 +14,7 @@ class Order extends StatefulWidget {
 }
 
 class _Order extends State<Order> {
-  String restaurantName = "";
+
   String tableID, restName, restID;
   _Order({Key? key, required this.tableID, required this.restName, required this.restID});
 

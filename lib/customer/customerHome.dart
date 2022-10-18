@@ -78,8 +78,7 @@ String restID = "";
 
     Future<String> getRestaurantId() async {
 
-    String tableID ="";
-    String restID = "";
+
 
       final docRef2 = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid.toString());
       await docRef2.get().then(
@@ -88,22 +87,21 @@ String restID = "";
             tableID = data['tableID'].toString().trim();
           });
 
+
     final docRef = FirebaseFirestore.instance.collection('tables').doc(tableID);
     await docRef.get().then(
             (DocumentSnapshot doc){
           final data = doc.data() as Map<String, dynamic>;
-          restID = data['restaurantID'].toString().trim();
+          restID = data['restID'].toString().trim();
         });
 
     final docRef3 = FirebaseFirestore.instance.collection('restaurants').doc(restID);
     await docRef3.get().then(
             (DocumentSnapshot doc){
           final data = doc.data() as Map<String, dynamic>;
-          restName =  data['restaurantName'].toString().trim();
+          restName =  data['restName'].toString().trim();
         });
-    if (restName != '') {
-      restName = "to " + restName;
-    }
+    print(restName);
 
 
     return "";
