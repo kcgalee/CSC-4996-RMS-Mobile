@@ -5,6 +5,7 @@ import 'package:restaurant_management_system/manager/Utility/managerTile.dart';
 import 'package:restaurant_management_system/manager/addEmployee.dart';
 
 import 'Utility/MangerNavigationDrawer.dart';
+import 'editEmployee.dart';
 
 class ManageEmployee extends StatefulWidget {
   const ManageEmployee({Key? key}) : super(key: key);
@@ -55,17 +56,13 @@ class _ManageEmployeeState extends State<ManageEmployee> {
                               taskName: (snapshot.data?.docs[index]['fName'] ?? '') + ' ' + (snapshot.data?.docs[index]['lName'] ?? ''),
                               subTitle: snapshot.data?.docs[index]['email'] ?? '',
                               onPressedDelete: (){},
-                              onPressedEdit: (){},
+                              onPressedEdit: (){
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) =>  EditEmployee()
+                                ));
+                              },
 
                             );
-
-                            /*ListTile(
-                              title: Text((snapshot.data?.docs[index]['fName'] ?? '') + ' ' + (snapshot.data?.docs[index]['lName'] ?? '')),
-                              subtitle: Text(snapshot.data?.docs[index]['email'] ?? ''),
-                              onTap: () {
-
-                              },
-                            );*/
                           }
                       );
                     }
