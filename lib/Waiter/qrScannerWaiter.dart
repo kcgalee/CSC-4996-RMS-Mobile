@@ -87,7 +87,7 @@ class _QRScannerState extends State<QRScannerWaiter> {
 
     FirebaseFirestore.instance.collection('tables').doc(tableID).update({
       'waiterID': uId,
-      'prefName' : name
+      'waiterName' : name
     } );
 
     Navigator.push(context, MaterialPageRoute(builder: (context)=> new WaiterTables()));
