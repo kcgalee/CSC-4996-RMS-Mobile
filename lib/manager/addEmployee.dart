@@ -6,14 +6,18 @@ import 'package:restaurant_management_system/manager/manageEmployee.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 
 class AddEmployee extends StatefulWidget {
-  const AddEmployee({super.key});
+  final String text;
+  AddEmployee({Key? key, required this.text}) : super(key: key);
 
   @override
-  State<AddEmployee> createState() => _AddEmployee();
+  State<AddEmployee> createState() => _AddEmployee(restID: text);
 }
 
 
 class _AddEmployee extends State<AddEmployee> {
+  final String restID;
+  _AddEmployee({Key? key, required this.restID});
+
   String managerID = FirebaseAuth.instance.currentUser?.uid as String;
   final emailController = TextEditingController();
   final pwController = TextEditingController();
@@ -210,6 +214,7 @@ class _AddEmployee extends State<AddEmployee> {
           'fName': firstName,
           'prefName' : preferredName,
           'type': 'waiter',
+          'restID' : restID,
           'date': Timestamp.fromDate(now),
           'managerID' : managerID,
         }

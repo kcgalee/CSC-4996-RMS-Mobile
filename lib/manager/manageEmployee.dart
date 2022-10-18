@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/Utility/managerTile.dart';
+import 'package:restaurant_management_system/manager/Utility/selectRestaurant.dart';
 import 'package:restaurant_management_system/manager/addEmployee.dart';
 
 import 'Utility/MangerNavigationDrawer.dart';
@@ -30,7 +31,7 @@ class _ManageEmployeeState extends State<ManageEmployee> {
         onPressed: () {
           Navigator.push(context,
               MaterialPageRoute(
-                  builder: (context) =>  AddEmployee()
+                  builder: (context) =>  SelectRestaurant(text: 'employee')
               )
           );
         },
@@ -44,7 +45,7 @@ class _ManageEmployeeState extends State<ManageEmployee> {
         children: [
           Expanded(
             child: StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection('users').where('managerID', isEqualTo: FirebaseAuth.instance.currentUser?.uid).snapshots(),
+                  stream: FirebaseFirestore.instance.collection('users').where('managerID', isEqualTo: FirebaseAuth.instance.currentUser?.uid.trim()).snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
                       return Text("You have no employees");
