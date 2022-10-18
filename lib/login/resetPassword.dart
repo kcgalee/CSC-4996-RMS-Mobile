@@ -3,16 +3,16 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
-import 'resetPassword.dart';
+import 'login.dart';
 
-class ForgotPassword extends StatefulWidget {
-  const ForgotPassword({Key? key}) : super(key: key);
+class ResetPassword extends StatefulWidget {
+  const ResetPassword({Key? key}) : super(key: key);
 
   @override
-  State<ForgotPassword> createState() => _ForgotPasswordState();
+  State<ResetPassword> createState() => _ResetPasswordState();
 }
 
-class _ForgotPasswordState extends State<ForgotPassword> {
+class _ResetPasswordState extends State<ResetPassword> {
   final emailController = TextEditingController();
 
   @override
@@ -35,27 +35,23 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   runSpacing: 18.0,
                   children: [
                     TextFormField(
-                      controller: emailController,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (email) =>
-                      email != null && !EmailValidator.validate(email)
-                          ? 'Enter valid email' : null,
                       decoration: const InputDecoration(
-                        hintText: "Email",
+                        hintText: "New Password",
                         prefixIcon: Icon(Icons.lock, color: Colors.black),
                       ),
                     ),
-                    CustomMainButton(
-                        text: "Send Password Reset Link",
-                        onPressed: () {
-                          resetPW(emailController.text.trim());
-                        }
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        hintText: "Confirm Password",
+                        prefixIcon: Icon(Icons.lock, color: Colors.black),
+                      ),
+
                     ),
                     CustomMainButton(
-                        text: "temp: reset pw page",
+                        text: "Reset Password",
                         onPressed: () {
                           Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => const ResetPassword()),
+                              builder: (context) => const Login()),
                           );
                         }
                     )
