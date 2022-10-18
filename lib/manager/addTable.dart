@@ -95,7 +95,7 @@ class _AddTable extends State<AddTable> {
         {
           'tableNum': tableNum,
           'maxCapacity': maxCapacity,
-          'restaurantID': text, //TODO ADD RESTAURANT ID
+          'restID': text,
           'type': tableType,
           'waiterID': '',
           'available': true,
