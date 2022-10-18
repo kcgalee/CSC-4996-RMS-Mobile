@@ -7,6 +7,7 @@ import '../customer/customerHome.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; //save for later use
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 
 enum WidgetMarker {
@@ -80,26 +81,29 @@ class RegistrationBodyState extends State<RegistrationBody> {
     return SingleChildScrollView(
         child: Column(
             children: <Widget>[
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          selectedWidgetMarker = WidgetMarker.user;
-                        });
-                      },
-                      child: Text("Customer"),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          selectedWidgetMarker = WidgetMarker.manager;
-                        });
-                      },
-                      child: Text("Manager"),
-                    ),
-                  ]
+              Container(
+                color: Colors.black38,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            selectedWidgetMarker = WidgetMarker.user;
+                          });
+                        },
+                        child: Text("Customer", style: TextStyle(color: (selectedWidgetMarker == WidgetMarker.user) ? Colors.black : Colors.black26),),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            selectedWidgetMarker = WidgetMarker.manager;
+                          });
+                        },
+                        child: Text("Manager", style: TextStyle(color: (selectedWidgetMarker == WidgetMarker.manager) ? Colors.black : Colors.black26),),
+                      ),
+                    ]
+                ),
               ),
               Container(
                   child: getCustomContainer()
