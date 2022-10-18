@@ -1,8 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 
 class EditEmployee extends StatefulWidget {
-  const EditEmployee({super.key});
+  final String eID;
+  final String fName;
+  final String lName;
+  final String prefName;
+  final String email;
+
+  const EditEmployee({super.key, required this.eID, required this.fName, required this.lName, required this.prefName, required this.email});
 
   @override
   State<EditEmployee> createState() => _EditEmployee();
@@ -11,12 +19,11 @@ class EditEmployee extends StatefulWidget {
 
 
 class _EditEmployee extends State<EditEmployee> {
-  final emailController = TextEditingController();
-  final pwController = TextEditingController();
-  final confirmPwController = TextEditingController();
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final preferredNameController = TextEditingController();
+  final phoneController = TextEditingController();
+  final pattern = RegExp(r'^(1-)?\d{3}-\d{3}-\d{4}$');
   @override
   Widget build(BuildContext context)=> Scaffold (
     drawer: const ManagerNavigationDrawer(),
@@ -37,6 +44,10 @@ class _EditEmployee extends State<EditEmployee> {
               child: TextFormField(
                 controller: firstNameController,
                 keyboardType: TextInputType.number,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (fName) =>
+                fName != "" || fName != null && fName.length > 20
+                    ? 'First name must be between 1 to 20 characters' : null,
                 decoration: const InputDecoration(
                     hintText: "First Name",
                     enabledBorder: OutlineInputBorder(
@@ -52,6 +63,10 @@ class _EditEmployee extends State<EditEmployee> {
               child: TextFormField(
                 controller: lastNameController,
                 keyboardType: TextInputType.number,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (lName) =>
+                lName != "" || lName != null && lName.length > 20
+                    ? 'Last name must be between 1 to 20 characters' : null,
                 decoration: const InputDecoration(
                     hintText: "Last Name",
                     enabledBorder: OutlineInputBorder(
@@ -67,6 +82,10 @@ class _EditEmployee extends State<EditEmployee> {
               child: TextFormField(
                 controller: preferredNameController,
                 keyboardType: TextInputType.number,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (prefName) =>
+                prefName != "" || prefName != null && prefName.length > 20
+                    ? 'Preferred name must be between 1 to 20 characters' : null,
                 decoration: const InputDecoration(
                     hintText: "Preferred Name",
                     enabledBorder: OutlineInputBorder(
@@ -80,10 +99,14 @@ class _EditEmployee extends State<EditEmployee> {
             Padding(
               padding: const EdgeInsets.only(bottom: 15),
               child: TextFormField(
-                controller: emailController,
+                controller: phoneController,
                 keyboardType: TextInputType.number,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (number) =>
+                number != "" && number != null && !pattern.hasMatch(number)
+                    ? 'Enter valid phone number' : null,
                 decoration: const InputDecoration(
-                    hintText: "Email",
+                    hintText: "Phone (ex: 222-333-6776)",
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(width: 2),
                     ),
@@ -91,39 +114,6 @@ class _EditEmployee extends State<EditEmployee> {
                 ),
               ),
             ),
-
-
-            Padding(
-              padding: const EdgeInsets.only(bottom: 15),
-              child: TextFormField(
-                controller: pwController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                    hintText: "Password",
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 2),
-                    ),
-                    border: OutlineInputBorder()
-                ),
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.only(bottom: 26),
-              child: TextFormField(
-                controller: confirmPwController,
-                keyboardType: TextInputType.number,
-                decoration:  const InputDecoration(
-                    hintText: "Confirm password",
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 2),
-                    ),
-                    border: OutlineInputBorder()
-                ),
-              ),
-            ),
-
-
 
             Row (
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -142,6 +132,23 @@ class _EditEmployee extends State<EditEmployee> {
                     ),
                     child: const Text("update"),
                     onPressed: (){
+                        if (firstNameController.text.trim() != "" && firstNameController.text.trim().length <= 20){
+                          updateFName(firstNameController.text.trim());
+                        }
+                        if (lastNameController.text.trim() != "" && lastNameController.text.trim().length <= 20){
+                          updateLName(lastNameController.text.trim());
+                        }
+                        if (preferredNameController.text.trim() != "" && preferredNameController.text.trim().length <= 20){
+                          updatePrefName(preferredNameController.text.trim());
+                        }
+
+                        if (phoneController.text.trim() != "" && pattern.hasMatch(phoneController.text.trim())){
+                          updatePhone(phoneController.text.trim());
+                        } else if (phoneController.text.trim() != "" && !pattern.hasMatch(phoneController.text.trim())){
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text('Incorrect phone number format'),
+                          ));
+                        }
 
                     }
                 ),
@@ -170,7 +177,37 @@ class _EditEmployee extends State<EditEmployee> {
     ),
   );
 
+  updateFName(String fName) async {
+    var user = await FirebaseFirestore.instance.collection('users').doc(widget.eID).get();
+    await user.reference.update({
+      'fName': fName
+    });
+    firstNameController.text = "";
+  }
 
+  updateLName(String lName) async {
+    var user = await FirebaseFirestore.instance.collection('users').doc(widget.eID).get();
+    await user.reference.update({
+      'lName': lName
+    });
+    lastNameController.text = "";
+  }
+
+  updatePrefName(String prefName) async {
+    var user = await FirebaseFirestore.instance.collection('users').doc(widget.eID).get();
+    await user.reference.update({
+      'prefName': prefName
+    });
+    preferredNameController.text = "";
+  }
+
+  updatePhone(String phone) async {
+    var user = await FirebaseFirestore.instance.collection('users').doc(widget.eID).get();
+    await user.reference.update({
+      'phone': phone
+    });
+    phoneController.text = "";
+  }
 
 
 }
