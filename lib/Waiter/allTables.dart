@@ -28,7 +28,7 @@ class _AllTables extends State<AllTables> {
             future: getRID(),
             builder: (context, snapshot) {
               return StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection('tables').where('restaurantID', isEqualTo: waiterRID).orderBy('available').snapshots(),
+                  stream: FirebaseFirestore.instance.collection('tables').where('restID', isEqualTo: waiterRID).orderBy('available').snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
                       return Center(child: CircularProgressIndicator(),);
@@ -40,14 +40,14 @@ class _AllTables extends State<AllTables> {
                             var boxColor = Color(0xFF90C68E); //green by default
                             var text = ('Table ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
                                 + '\n' + (snapshot.data?.docs[index]['currentCapacity'].toString() ?? '')
-                                + '/' + (snapshot.data?.docs[index]['maxCapacity'].toString() ?? '')
+                                + '/' + (snapshot.data?.docs[index]['capacity'].toString() ?? '')
                                 + '\nWaiter ' + (snapshot.data?.docs[index]['waiterName']));
 
                             if (snapshot.data?.docs[index]['available'] == false){
                                 boxColor = Color(0xFFE24D4D); //if table unavailable then box is red
                                 text = ('Table ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
                                     + '\n' + (snapshot.data?.docs[index]['currentCapacity'].toString() ?? '')
-                                    + '/' + (snapshot.data?.docs[index]['maxCapacity'].toString() ?? '')
+                                    + '/' + (snapshot.data?.docs[index]['capacity'].toString() ?? '')
                                     + '\nWaiter unassigned');
                             }
                             return InkWell(

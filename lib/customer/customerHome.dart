@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_management_system/customer/Models/restaurantInfo.dart';
+
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
 import 'package:restaurant_management_system/widgets/customSubButton.dart';
 import 'order.dart';
