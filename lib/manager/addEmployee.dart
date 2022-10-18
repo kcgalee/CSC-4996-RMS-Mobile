@@ -1,19 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/manageEmployee.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 
 class AddEmployee extends StatefulWidget {
-  const AddEmployee({super.key});
+  final String text;
+  AddEmployee({Key? key, required this.text}) : super(key: key);
 
   @override
-  State<AddEmployee> createState() => _AddEmployee();
+  State<AddEmployee> createState() => _AddEmployee(restID: text);
 }
 
 
 class _AddEmployee extends State<AddEmployee> {
+  final String restID;
+  _AddEmployee({Key? key, required this.restID});
+
   String managerID = FirebaseAuth.instance.currentUser?.uid as String;
   final emailController = TextEditingController();
   final pwController = TextEditingController();
@@ -177,23 +182,25 @@ class _AddEmployee extends State<AddEmployee> {
       String lastName, String preferredName, String managerID) async {
     //run dart pub add email_validator in terminal to add dependencies
     //validate e-mail
-
+      FirebaseApp app = await Firebase.initializeApp(
+        name: "Secondary", options: Firebase.app().options);
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: email, password: password);
+      UserCredential userCredential = await FirebaseAuth.instanceFor(app: app)
+          .createUserWithEmailAndPassword(email: email, password: password);
 
-      String userID = FirebaseAuth.instance.currentUser?.uid as String;
+      String? userID = userCredential.user?.uid.toString();
+      newUserData(email, userID.toString().trim(), firstName, lastName, preferredName, managerID);
 
-
-      newUserData(email, userID, firstName, lastName, preferredName, managerID);
-      return true;
     } //end of try block
     on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-exists') {
+        await app.delete();
         return ('Email is being used on preexisting account');
       }
     } //end of catch block
-
+    await app.delete();
+      return Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const ManageEmployee()));
   }
 
   void newUserData(String email, String UID, String firstName,
@@ -210,6 +217,7 @@ class _AddEmployee extends State<AddEmployee> {
           'fName': firstName,
           'prefName' : preferredName,
           'type': 'waiter',
+          'restID' : restID,
           'date': Timestamp.fromDate(now),
           'managerID' : managerID,
         }
@@ -217,8 +225,7 @@ class _AddEmployee extends State<AddEmployee> {
 
     );
 
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const ManageEmployee()));
+
   }
 
 }
