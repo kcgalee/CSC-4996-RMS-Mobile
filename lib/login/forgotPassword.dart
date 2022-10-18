@@ -3,7 +3,6 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
-import 'login.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({Key? key}) : super(key: key);
@@ -46,10 +45,20 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       ),
                     ),
                     CustomMainButton(
-                        text: "Reset Password",
-                        onPressed: () {
-                          resetPW(emailController.text.trim());
-                        }
+                        text: "Send Password Reset Link",
+                        onPressed: () => showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          title: const Text('A unique password reset link has been sent to your email.'),
+                          content: const Text('Please follow the instructions in the email to reset your password.'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, 'Confirm'),
+                              child: const Text('Confirm'),
+                            ),
+                          ],
+                        ),
+                      ),
                     )
                   ],
                 )

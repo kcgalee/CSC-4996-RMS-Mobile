@@ -1,4 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/manager/manageEmployee.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 
 class AddEmployee extends StatefulWidget {
@@ -10,6 +14,7 @@ class AddEmployee extends StatefulWidget {
 
 
 class _AddEmployee extends State<AddEmployee> {
+  String managerID = FirebaseAuth.instance.currentUser?.uid as String;
   final emailController = TextEditingController();
   final pwController = TextEditingController();
   final confirmPwController = TextEditingController();
@@ -35,7 +40,7 @@ class _AddEmployee extends State<AddEmployee> {
               padding: const EdgeInsets.only(bottom: 15),
               child: TextFormField(
                 controller: firstNameController,
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.name,
                 decoration: const InputDecoration(
                   hintText: "First Name",
                     enabledBorder: OutlineInputBorder(
@@ -50,7 +55,7 @@ class _AddEmployee extends State<AddEmployee> {
               padding: const EdgeInsets.only(bottom: 15),
               child: TextFormField(
                 controller: lastNameController,
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.name,
                 decoration: const InputDecoration(
                   hintText: "Last Name",
                     enabledBorder: OutlineInputBorder(
@@ -65,7 +70,7 @@ class _AddEmployee extends State<AddEmployee> {
               padding: const EdgeInsets.only(bottom: 15),
               child: TextFormField(
                 controller: preferredNameController,
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.name,
                 decoration: const InputDecoration(
                   hintText: "Preferred Name",
                     enabledBorder: OutlineInputBorder(
@@ -80,7 +85,7 @@ class _AddEmployee extends State<AddEmployee> {
               padding: const EdgeInsets.only(bottom: 15),
               child: TextFormField(
                 controller: emailController,
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(
                   hintText: "Email",
                     enabledBorder: OutlineInputBorder(
@@ -88,6 +93,10 @@ class _AddEmployee extends State<AddEmployee> {
                     ),
                     border: OutlineInputBorder()
                 ),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (email) =>
+                email != null && !EmailValidator.validate(email)
+                    ? 'Enter valid email' : null,
               ),
             ),
 
@@ -96,7 +105,7 @@ class _AddEmployee extends State<AddEmployee> {
               padding: const EdgeInsets.only(bottom: 15),
               child: TextFormField(
                 controller: pwController,
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.name,
                 decoration: const InputDecoration(
                   hintText: "Password",
                     enabledBorder: OutlineInputBorder(
@@ -104,6 +113,10 @@ class _AddEmployee extends State<AddEmployee> {
                     ),
                     border: OutlineInputBorder()
                 ),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (value) =>
+                value != null && value.length < 6
+                    ? 'Password must be at least 6 characters' : null,
               ),
             ),
 
@@ -111,14 +124,19 @@ class _AddEmployee extends State<AddEmployee> {
               padding: const EdgeInsets.only(bottom: 26),
               child: TextFormField(
                 controller: confirmPwController,
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.name,
                 decoration:  const InputDecoration(
                   hintText: "Confirm password",
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(width: 2),
                     ),
                     border: OutlineInputBorder()
+
                 ),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (value) =>
+                value != pwController.text.trim()
+                    ? 'Passwords must match' : null,
               ),
             ),
 
@@ -139,7 +157,10 @@ class _AddEmployee extends State<AddEmployee> {
                         borderRadius: BorderRadius.circular(10)),
                   ),
                   child: const Text("Add"),
-                onPressed: (){
+                onPressed: () async {
+                   await registrationChecker(emailController.text.trim(), pwController.text.trim(),
+                        firstNameController.text.trim(), lastNameController.text.trim(),
+                        preferredNameController.text.trim(), managerID);
 
                 }
 
@@ -152,6 +173,52 @@ class _AddEmployee extends State<AddEmployee> {
   );
 
 
+  registrationChecker(String email, String password, String firstName,
+      String lastName, String preferredName, String managerID) async {
+    //run dart pub add email_validator in terminal to add dependencies
+    //validate e-mail
 
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: email, password: password);
+
+      String userID = FirebaseAuth.instance.currentUser?.uid as String;
+
+
+      newUserData(email, userID, firstName, lastName, preferredName, managerID);
+      return true;
+    } //end of try block
+    on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-exists') {
+        return ('Email is being used on preexisting account');
+      }
+    } //end of catch block
+
+  }
+
+  void newUserData(String email, String UID, String firstName,
+      String lastName, String preferredName, String managerID) {
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    final DateTime now = DateTime.now();
+
+    users
+        .doc(UID)
+        .set(
+        {
+          'email': email,
+          'lName': lastName,
+          'fName': firstName,
+          'prefName' : preferredName,
+          'type': 'waiter',
+          'date': Timestamp.fromDate(now),
+          'managerID' : managerID,
+        }
+
+
+    );
+
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const ManageEmployee()));
+  }
 
 }

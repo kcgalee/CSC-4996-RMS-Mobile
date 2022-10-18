@@ -33,7 +33,7 @@ class _WaiterTablesState extends State<WaiterTables> {
             future: getRID(),
             builder: (context, snapshot) {
               return StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection('tables').where('restaurantID', isEqualTo: waiterRID).where('waiterID', isEqualTo: FirebaseAuth.instance.currentUser?.uid).snapshots(),
+                  stream: FirebaseFirestore.instance.collection('tables').where('restID', isEqualTo: waiterRID).where('waiterID', isEqualTo: FirebaseAuth.instance.currentUser?.uid).snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
                       return Center(child: Text("You are not servicing any tables."),);
@@ -42,7 +42,7 @@ class _WaiterTablesState extends State<WaiterTables> {
                           itemCount: snapshot.data?.docs.length,
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
                           itemBuilder:(context,index){
-                            var text = (snapshot.data?.docs[index]['currentCapacity'].toString() ?? '') + '/' + (snapshot.data?.docs[index]['maxCapacity'].toString() ?? '');
+                            var text = (snapshot.data?.docs[index]['currentCapacity'].toString() ?? '') + '/' + (snapshot.data?.docs[index]['capacity'].toString() ?? '');
                             return InkWell(
                               child: Container(
                                 height: 100,
@@ -80,7 +80,7 @@ class _WaiterTablesState extends State<WaiterTables> {
   Future getRID() async {
     await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).get().then(
             (element) {
-          waiterRID = element['restaurantID'].toString();
+          waiterRID = element['restID'].toString();
         }
     );
   }
