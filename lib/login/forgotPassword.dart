@@ -3,7 +3,6 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
-import 'resetPassword.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({Key? key}) : super(key: key);
@@ -60,14 +59,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           ],
                         ),
                       ),
-                    ),
-                    CustomMainButton(
-                        text: "temp: reset pw page",
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => const ResetPassword()),
-                          );
-                        }
                     )
                   ],
                 )
