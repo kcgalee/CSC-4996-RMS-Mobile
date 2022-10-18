@@ -52,7 +52,12 @@ class _ManageRestaurant extends State<ManageRestaurant> {
                       return ManagerTile(
                           taskName: snapshot.data?.docs[index]['restName'] ?? '',
                           subTitle: snapshot.data?.docs[index]['address'] ?? '',
-                          onPressedEdit:  (){},
+                          onPressedEdit:  (){
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => EditRestaurant(restID: snapshot.data?.docs[index].reference.id ?? '')
+                                )
+                            );
+                          },
                           onPressedDelete: (){}
                       );
 
