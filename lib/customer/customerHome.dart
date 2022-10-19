@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/customer/Models/createOrderInfo.dart';
 
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
 import 'package:restaurant_management_system/widgets/customSubButton.dart';
@@ -54,10 +55,10 @@ String restID = "";
                   const SizedBox(height: 20,),
                   CustomMainButton(text: "MENU",
                       onPressed: () {
-                        FirebaseAuth.instance.signOut();
+                        CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentUser?.uid);
                         Navigator.push(context,
                             MaterialPageRoute(
-                        builder: (context) => Order(tableID: tableID, restName: restName, restID: restID)));
+                        builder: (context) => Order(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
                       }
                   ),
                   CustomSubButton(text: "CURRENT ORDER",

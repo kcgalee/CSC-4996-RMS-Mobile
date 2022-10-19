@@ -2,21 +2,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/customer/showMenuItems.dart';
+import 'Models/createOrderInfo.dart';
 import 'Utility/navigation.dart';
 
 
 class Order extends StatefulWidget {
   String tableID, restName, restID;
-  Order({Key? key, required this.tableID, required this.restName, required this.restID}) :super(key: key);
+  CreateOrderInfo createOrderInfo;
+  Order({Key? key, required this.tableID, required this.restName, required this.restID, required this.createOrderInfo}) :super(key: key);
 
   @override
-  State<Order> createState() => _Order(tableID: tableID, restName: restName, restID: restID);
+  State<Order> createState() => _Order(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo);
 }
 
 class _Order extends State<Order> {
-
+  CreateOrderInfo createOrderInfo;
   String tableID, restName, restID;
-  _Order({Key? key, required this.tableID, required this.restName, required this.restID});
+  _Order({Key? key, required this.tableID, required this.restName, required this.restID, required this.createOrderInfo});
 
 
   @override
@@ -58,7 +60,7 @@ class _Order extends State<Order> {
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(
-                                builder: (context) => ShowMenuItems(text: 'appetizer', tableID: tableID, restName: restName, restID: restID,)));
+                                builder: (context) => ShowMenuItems(text: 'appetizer', tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
                         },
                         child: const Text('APPETIZERS',),
 
@@ -85,7 +87,7 @@ class _Order extends State<Order> {
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(
-                                  builder: (context) => ShowMenuItems(text: 'entree', tableID: tableID, restName: restName, restID: restID,)));
+                                  builder: (context) => ShowMenuItems(text: 'entree', tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo,)));
 
                         },
                         child: const Text('ENTREES',),
@@ -114,7 +116,7 @@ class _Order extends State<Order> {
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(
-                                  builder: (context) => ShowMenuItems(text: 'dessert', tableID: tableID, restName: restName, restID: restID,)));
+                                  builder: (context) => ShowMenuItems(text: 'dessert', tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo,)));
 
                         },
                         child: const Text('DESSERTS',),
@@ -143,7 +145,7 @@ class _Order extends State<Order> {
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(
-                                  builder: (context) => ShowMenuItems(text: 'drink', tableID: tableID, restName: restName, restID: restID,)));
+                                  builder: (context) => ShowMenuItems(text: 'drink', tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo,)));
 
                         },
                         child: const Text("DRINKS"),
@@ -171,7 +173,7 @@ class _Order extends State<Order> {
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(
-                                  builder: (context) => ShowMenuItems(text: 'condiment', tableID: tableID, restName: restName, restID: restID,)));
+                                  builder: (context) => ShowMenuItems(text: 'condiment', tableID: tableID, restName: restName, restID: restID,createOrderInfo: createOrderInfo)));
 
                         },
                         child: const Text("CONDIMENTS"),
@@ -197,7 +199,7 @@ class _Order extends State<Order> {
                       onPressed: () {
                         Navigator.push(context,
                             MaterialPageRoute(
-                                builder: (context) => ShowMenuItems(text: 'utensil', tableID: tableID, restName: restName, restID: restID,)));
+                                builder: (context) => ShowMenuItems(text: 'utensil', tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
 
                       },
                       child: const Text("UTENSILS"),
