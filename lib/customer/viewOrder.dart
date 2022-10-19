@@ -25,6 +25,7 @@ class _ViewOrder extends State<ViewOrder> {
   CreateOrderInfo createOrderInfo;
 
   final tableID, restName, restID;
+
   _ViewOrder({Key? key, required this.tableID,
     required this.restName, required this.restID, required this.createOrderInfo});
 
@@ -35,14 +36,14 @@ class _ViewOrder extends State<ViewOrder> {
   List toDoList = [];
 
   // checkbox was tapped
-  void checkBoxChanged(bool? value, int index){
+  void checkBoxChanged(bool? value, int index) {
     setState(() {
       toDoList[index][1] = !toDoList[index][1];
     });
   }
 
   //save new task
-  void saveNewTask(){
+  void saveNewTask() {
     setState(() {
       toDoList.add([ _controller.text, false]);
       _controller.clear();
@@ -50,19 +51,19 @@ class _ViewOrder extends State<ViewOrder> {
     Navigator.of(context).pop();
   }
 
-// create new task
-  void createNewTask(){
-    showDialog(context: context, builder: (context){
+  // create new task
+  void createNewTask() {
+    showDialog(context: context, builder: (context) {
       return DialogBox(
         controller: _controller,
         onSave: saveNewTask,
-        onCancle: () => Navigator.of(context).pop( ),
+        onCancle: () => Navigator.of(context).pop(),
       );
     },);
   }
 
-//delete tasks
-  void deleteTask(int index){
+  //delete tasks
+  void deleteTask(int index) {
     setState(() {
       toDoList.removeAt(index);
     });
@@ -84,24 +85,23 @@ class _ViewOrder extends State<ViewOrder> {
             const Text("Current Order",
               style: TextStyle(fontSize: 30,),),
             Expanded(
-              child:
-              ListView.builder(
-            itemCount: createOrderInfo.itemID.length,
-                itemBuilder: (context, index) {
-                  return OrderTile(
-                    taskName: createOrderInfo.itemName[index] + "\n" + createOrderInfo.count[index].toString()
-                    + "\n" + createOrderInfo.price[index].toString(),
-                    createOrderInfo: createOrderInfo,
-                  );
-                }
-            )
+                child:
+                ListView.builder(
+                    itemCount: createOrderInfo.itemID.length,
+                    itemBuilder: (context, index) {
+                      return OrderTile(
+                        taskName: createOrderInfo.itemName[index] + "\n" +
+                            createOrderInfo.count[index].toString()
+                            + "\n" + createOrderInfo.price[index].toString(),
+                        createOrderInfo: createOrderInfo,
+                      );
+                    }
+                )
             ),
           ],
         )
     );
   }
-
-
 
 
 }
