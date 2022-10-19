@@ -10,10 +10,10 @@ class CreateOrderInfo {
 
   CreateOrderInfo(this.custID);
 
-  setter(String itemID, int count, String name, String price) {
+  setter(String itemID, int count, String itemName, String price) {
     this.count.add(count);
     this.itemID.add(itemID);
-    this.itemName.add(name);
+    this.itemName.add(itemName);
     this.price.add(price);
   }
 

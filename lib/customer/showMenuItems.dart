@@ -104,9 +104,14 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                           TextButton(
                                             child:  const Text("Add to Order"),
                                             onPressed: () {
+
                                               int count = 1;
-                                              createOrderInfo.setter(snapshot.data?.docs[index].id as String, count,snapshot.data?.docs[index]['itemName'], snapshot.data?.docs[index]['price'] );
-                                              Navigator.of(context).pop();
+
+                                             createOrderInfo.setter(snapshot.data?.docs[index].id as String, count, snapshot.data?.docs[index]['name'], snapshot.data?.docs[index]['price']);
+                                              Navigator.push(context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => ViewOrder(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
+
                                             },
                                           ),
                                         ],
