@@ -15,6 +15,7 @@ class CustomerHome extends StatelessWidget {
 String restName = "";
 String tableID ="";
 String restID = "";
+CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentUser?.uid);
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +56,6 @@ String restID = "";
                   const SizedBox(height: 20,),
                   CustomMainButton(text: "MENU",
                       onPressed: () {
-                        CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentUser?.uid);
                         Navigator.push(context,
                             MaterialPageRoute(
                         builder: (context) => Order(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
@@ -104,7 +104,7 @@ String restID = "";
         });
     print(restName);
 
-
+    createOrderInfo.setter(tableID);
     return "";
     }
 

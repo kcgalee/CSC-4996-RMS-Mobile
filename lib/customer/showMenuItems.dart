@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/customer/placeOrder.dart';
 import 'package:restaurant_management_system/customer/viewOrder.dart';
 import 'package:restaurant_management_system/manager/editRestaurant.dart';
 import 'package:counter/counter.dart';
@@ -107,7 +108,8 @@ class _ShowMenuItems extends State<ShowMenuItems> {
 
                                               int count = 1;
 
-                                             createOrderInfo.setter(snapshot.data?.docs[index].id as String, count, snapshot.data?.docs[index]['name'], snapshot.data?.docs[index]['price']);
+                                             createOrderInfo.orderSetter(snapshot.data?.docs[index].id as String, count, snapshot.data?.docs[index]['name'], snapshot.data?.docs[index]['price']);
+                                              Navigator.of(context).pop();
                                               Navigator.push(context,
                                                   MaterialPageRoute(
                                                       builder: (context) => ViewOrder(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
