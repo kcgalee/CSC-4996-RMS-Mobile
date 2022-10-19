@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 
+
 class AddRestaurant extends StatefulWidget {
   const AddRestaurant({super.key});
 
@@ -251,5 +252,6 @@ class _AddRestaurant extends State<AddRestaurant> {
         ),
       ),
     );
+
   }
 }
