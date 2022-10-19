@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_management_system/Waiter/Utility/my_button.dart';
+import 'package:restaurant_management_system/widgets/my_button.dart';
 
 class DialogBox extends StatelessWidget {
   final controller;
@@ -46,3 +46,5 @@ class DialogBox extends StatelessWidget {
     );
   }
 }
+
+
