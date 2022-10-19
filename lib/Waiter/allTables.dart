@@ -40,14 +40,14 @@ class _AllTables extends State<AllTables> {
                             var boxColor = Color(0xFF90C68E); //green by default
                             var text = ('Table ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
                                 + '\n' + (snapshot.data?.docs[index]['currentCapacity'].toString() ?? '')
-                                + '/' + (snapshot.data?.docs[index]['capacity'].toString() ?? '')
+                                + '/' + (snapshot.data?.docs[index]['maxCapacity'].toString() ?? '')
                                 + '\nWaiter unassigned');
 
                             if (snapshot.data?.docs[index]['available'] == false){
                               boxColor = Color(0xFFE24D4D); //if table unavailable then box is red
                               text = ('Table ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
                                   + '\n' + (snapshot.data?.docs[index]['currentCapacity'].toString() ?? '')
-                                  + '/' + (snapshot.data?.docs[index]['capacity'].toString() ?? '')
+                                  + '/' + (snapshot.data?.docs[index]['maxCapacity'].toString() ?? '')
                                   + '\nWaiter ' + (snapshot.data?.docs[index]['waiterName']));
                             }
                             return InkWell(
