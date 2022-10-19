@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_management_system/Waiter/Utility/dialog_box.dart';
-import 'Utility/request_tile.dart';
+import 'package:restaurant_management_system/widgets/dialog_box.dart';
+import '../widgets/request_tile.dart';
 
 class WaiterRequest extends StatefulWidget {
    final String rName;
