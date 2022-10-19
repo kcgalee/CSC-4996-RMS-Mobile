@@ -3,7 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:restaurant_management_system/manager/manageRestaurant.dart';
 
 
 
@@ -116,6 +118,9 @@ class _AddRestaurant extends State<AddRestaurant> {
                   child: SizedBox(
                     width: 150, height: 50,
                     child: TextFormField(
+                      //example of setting max length. you can also hide the counter but i havent searched how
+                      maxLength: 2,
+                      maxLengthEnforcement: MaxLengthEnforcement.enforced,
                       controller: stateController,
                       keyboardType: TextInputType.text,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -286,7 +291,7 @@ class _AddRestaurant extends State<AddRestaurant> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
                     ),
-                    child: const Text("update"),
+                    child: const Text("Add"),
                     onPressed: () async {
                       if (await validate(
                           restaurantNameController.text.trim(),
@@ -316,32 +321,13 @@ class _AddRestaurant extends State<AddRestaurant> {
                               zipController.text.trim(),
                               emailController.text.trim(),
                               phoneNumberController.text.trim());
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(
-                                'Success, information has been updated.'),
-                          ));
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => ManageRestaurant()
+                              )
+                          );
                       }
                     }
                 ),
-
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          fixedSize: const Size(150, 50),
-                          textStyle: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
-                          backgroundColor: Colors.green,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                        ),
-                        child: const Text("tester"),
-                        onPressed: () async {
-                          //await addItemtest();
-                        }
-                    ),
-
           ], //Children
         ),
       ]),
@@ -350,7 +336,7 @@ class _AddRestaurant extends State<AddRestaurant> {
 
   createRestaurant(String rName, String rAddress, String rCity, String rState,
       String rZip, String rEmail, String rPhone) async{
-        var oTime, cTime;
+        String oTime, cTime;
         if (openTime.minute >= 0 && openTime.minute < 10){
           oTime = '${openTime.hourOfPeriod}:0${openTime.minute} ${openTime.period.toString().substring(10,openTime.period.toString().length).toUpperCase()}';
         } else {
@@ -363,16 +349,17 @@ class _AddRestaurant extends State<AddRestaurant> {
         }
 
         await FirebaseFirestore.instance.collection('restaurants').doc().set({
-        'address': rAddress,
-        'restName': rName,
-        'city': rCity,
-        'state': rState,
-        'zipcode': rZip,
-        'email': rEmail,
-        'phone': rPhone,
-        'openTime': oTime,
-        'closeTime': cTime,
-        'managerID': uID,
+          'address': rAddress,
+          'restName': rName,
+          'city': rCity,
+          'state': rState,
+          'zipcode': rZip,
+          'email': rEmail,
+          'phone': rPhone,
+          'openTime': oTime,
+          'closeTime': cTime,
+          'managerID': uID,
+          'creationDate': Timestamp.now(),
       });
   }
 
@@ -392,20 +379,15 @@ class _AddRestaurant extends State<AddRestaurant> {
     } else if (rAddress == "" || rAddress.length > 100) {
       error = true;
     } else if (rAddress != "") {
-      await FirebaseFirestore.instance.collection('restaurants').where(
-          'address', isEqualTo: rAddress).get().then(
-              (res) =>
-          {
-            if (res.docs.isNotEmpty){
-              //print('found file(s)'),
-              error = true,
-              flag = true
-            } else {
-              //print('did not find file'),
-              flag = false
-            }
-          }
-      );
+      await FirebaseFirestore.instance.collection('restaurants').get().then(
+              (data) => {
+                data.docs.forEach((element) {
+                  if (element['address'].toString().toUpperCase().compareTo(rAddress.toUpperCase()) == 0){
+                    error = true;
+                    flag = true;
+                  }
+                })
+              });
     } else if (rCity == "" || rCity.length > 40) {
       error = true;
     } else if (rState == "" || (rState != "" && !statePattern.hasMatch(rState))) {

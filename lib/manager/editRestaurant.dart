@@ -459,20 +459,15 @@ class _EditRestaurant extends State<EditRestaurant> {
     } else if (rAddress.length > 100) {
       error = true;
     } else if (rAddress != "") {
-      await FirebaseFirestore.instance.collection('restaurants').where(
-          'address', isEqualTo: rAddress).get().then(
-              (res) =>
-              {
-                if (res.docs.isNotEmpty){
-                  //print('found file(s)'),
-                  error = true,
-                  flag = true
-                } else {
-                  //print('did not find file'),
-                  flag = false
-                }
+      await FirebaseFirestore.instance.collection('restaurants').get().then(
+              (data) => {
+            data.docs.forEach((element) {
+              if (element['address'].toString().toUpperCase().compareTo(rAddress.toUpperCase()) == 0){
+                error = true;
+                flag = true;
               }
-      );
+            })
+          });
     } else if (rCity.length > 40) {
       error = true;
     } else if (rState != "" && !statePattern.hasMatch(rState)) {
