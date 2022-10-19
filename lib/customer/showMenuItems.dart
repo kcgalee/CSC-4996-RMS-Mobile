@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/editRestaurant.dart';
-
+import 'package:counter/counter.dart';
 import 'Models/createOrderInfo.dart';
 
 
@@ -63,17 +63,26 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                 content: Text(snapshot.data?.docs[index]['description'] +
                                 "\n" + snapshot.data?.docs[index]['price']),
                                 actions: <Widget>[
-                                 TextButton(
+                                  TextButton(
+                                    child:  const Text("Cancel"),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                  Container(
+                                    child: Counter(
+                                      min: 0,
+                                      max: 10,
+                                      bound: 0,
+                                      step: 1,
+                                      onValueChanged: print,
+                                    ),
+                                  ),
+                                  TextButton(
                                     child:  const Text("Add to Order"),
                                     onPressed: () {
                                       int count = 1;
                                       createOrderInfo.setter(snapshot.data?.docs[index].id as String, count);
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                  TextButton(
-                                    child:  const Text("Cancel"),
-                                    onPressed: () {
                                       Navigator.of(context).pop();
                                     },
                                   ),
