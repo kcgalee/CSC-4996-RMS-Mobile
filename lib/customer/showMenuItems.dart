@@ -77,6 +77,7 @@ class _ShowMenuItems extends State<ShowMenuItems> {
 
 
                                 onTap: () {
+                                  print(snapshot.data?.docs[index]['name']);
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {

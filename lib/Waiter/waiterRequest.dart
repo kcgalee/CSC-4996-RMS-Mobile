@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/request_tile.dart';
+
 
 class WaiterRequest extends StatefulWidget {
    final String rName;
