@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/Waiter/Utility/viewTableTile.dart';
 import 'package:restaurant_management_system/Waiter/waiterTables.dart';
+
+import '../widgets/customRedButton.dart';
 
 
 class ViewTable extends StatefulWidget {
@@ -19,14 +22,19 @@ class _ViewTableState extends State<ViewTable> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.lightBlue[100],
+        backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text("Table Orders"),
-          elevation: 0,
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          elevation: 1,
         ),
         body: Column(
           children: [
-            Text('Table: '+ widget.tableNum,),
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Text('Table: '+ widget.tableNum,style: TextStyle(fontSize: 25,),),
+            ),
             Expanded(
               child: StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('tables/' + widget.tableID + '/tableOrders').where('isHolder', isNotEqualTo: true).snapshots(),
@@ -37,25 +45,32 @@ class _ViewTableState extends State<ViewTable> {
                       return ListView.builder(
                         itemCount: snapshot.data?.docs.length,
                         itemBuilder: (context, index){
-                          return ListTile(
+                          return ViewTableTile(
+                              taskName: "x" + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
+                                  + ' ' + (snapshot.data?.docs[index]['itemName'].toString() ?? ''),
+                              subTitle: ' \$' + (snapshot.data?.docs[index]['price'].toString() ?? ''
+                          ));
+
+
+                            /*ListTile(
                             title: Text("x" + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
                                 + ' ' + (snapshot.data?.docs[index]['itemName'].toString() ?? '')
                                 + ' \$' + (snapshot.data?.docs[index]['price'].toString() ?? '')
                             ),
-                          );
+                          );*/
                         }
                       );
                     }
                   }),
             ),
-          ElevatedButton(
-            onPressed: () => {
-              closeTable(),
-            Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const WaiterTables()))
-            },
-            child: const Text("CLOSE TABLE"),
-          )],
+             CustomRedButton(
+              text: 'CLOSE TABLE',
+              onPressed: () => {
+                closeTable(),
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const WaiterTables()))
+              }
+            ),],
         )
     );
   }
