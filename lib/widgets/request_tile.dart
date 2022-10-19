@@ -175,15 +175,14 @@ class RequestTile extends StatelessWidget {
    var status = await FirebaseFirestore.instance.collection('orders').doc(orderID).get();
    if ((status['status'] == 'placed') || (status['status'] == 'in progress')){
      await status.reference.update({
-       'status': 'delivered',
-       'timeDelivered': Timestamp.now(),
+       'status': 'delivered'
      });
    }
  }
 
   //converts firebase time into human readable time
   convertTime(time) {
-    DateFormat formatter = DateFormat('h:mm:ss a');
+    DateFormat formatter = DateFormat('MMM d, yyyy \nh:mm:s a');
     //var ndate = new DateTime.fromMillisecondsSinceEpoch(time.toDate() * 1000);
     newTime = formatter.format(time.toDate());
   }

@@ -46,10 +46,8 @@ class _WaiterRequestState extends State<WaiterRequest> {
                             return RequestTile(
                               taskName: 'Table: ' + (snapshot.data?.docs[index]['tableNum'] ?? '')
                                   + '\nRequested: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
-                                  + '\nQuantity: ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
-                                  + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? ''),
-                                 //for debugging
-                              // + '\nStatus: ' + (snapshot.data?.docs[index]['status'] ?? ''),
+                                  + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '')
+                                  + '\nStatus: ' + (snapshot.data?.docs[index]['status'] ?? ''),
                               time: snapshot.data?.docs[index]['dateTime'],
                               orderID: (snapshot.data?.docs[index].reference.id ?? ''),
                               oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
