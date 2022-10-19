@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/widgets/orderTile.dart';
 
+import '../widgets/customSubButton.dart';
 import '../widgets/dialog_box.dart';
 import '../widgets/request_tile.dart';
 import 'Models/createOrderInfo.dart';
@@ -98,6 +99,13 @@ class _ViewOrder extends State<ViewOrder> {
                     }
                 )
             ),
+
+            CustomSubButton(text: "PLACE ORDER",
+                onPressed: () {
+                createOrderInfo.placeOrder();
+                }
+            ),
+
           ],
         )
     );
