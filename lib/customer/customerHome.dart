@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/customer/Models/createOrderInfo.dart';
 
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
 import 'package:restaurant_management_system/widgets/customSubButton.dart';
@@ -54,10 +55,10 @@ String restID = "";
                   const SizedBox(height: 20,),
                   CustomMainButton(text: "MENU",
                       onPressed: () {
-                        FirebaseAuth.instance.signOut();
+                        CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentUser?.uid);
                         Navigator.push(context,
                             MaterialPageRoute(
-                        builder: (context) => Order(tableID: tableID, restName: restName, restID: restID)));
+                        builder: (context) => Order(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
                       }
                   ),
                   CustomSubButton(text: "CURRENT ORDER",
@@ -78,8 +79,7 @@ String restID = "";
 
     Future<String> getRestaurantId() async {
 
-    String tableID ="";
-    String restID = "";
+
 
       final docRef2 = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid.toString());
       await docRef2.get().then(
@@ -88,22 +88,21 @@ String restID = "";
             tableID = data['tableID'].toString().trim();
           });
 
+
     final docRef = FirebaseFirestore.instance.collection('tables').doc(tableID);
     await docRef.get().then(
             (DocumentSnapshot doc){
           final data = doc.data() as Map<String, dynamic>;
-          restID = data['restaurantID'].toString().trim();
+          restID = data['restID'].toString().trim();
         });
 
     final docRef3 = FirebaseFirestore.instance.collection('restaurants').doc(restID);
     await docRef3.get().then(
             (DocumentSnapshot doc){
           final data = doc.data() as Map<String, dynamic>;
-          restName =  data['restaurantName'].toString().trim();
+          restName =  data['restName'].toString().trim();
         });
-    if (restName != '') {
-      restName = "to " + restName;
-    }
+    print(restName);
 
 
     return "";

@@ -28,7 +28,6 @@ class _AddRestaurant extends State<AddRestaurant> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
