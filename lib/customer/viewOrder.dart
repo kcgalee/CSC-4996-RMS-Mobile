@@ -81,7 +81,7 @@ class _ViewOrder extends State<ViewOrder> {
         ),
         body: Column(
           children: [
-            const Text("order NOW",
+            const Text("Current Order",
               style: TextStyle(fontSize: 30,),),
             Expanded(
               child:
