@@ -41,14 +41,14 @@ class _AllTables extends State<AllTables> {
                             var text = ('Table ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
                                 + '\n' + (snapshot.data?.docs[index]['currentCapacity'].toString() ?? '')
                                 + '/' + (snapshot.data?.docs[index]['capacity'].toString() ?? '')
-                                + '\nWaiter ' + (snapshot.data?.docs[index]['waiterName']));
+                                + '\nWaiter unassigned');
 
                             if (snapshot.data?.docs[index]['available'] == false){
-                                boxColor = Color(0xFFE24D4D); //if table unavailable then box is red
-                                text = ('Table ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
-                                    + '\n' + (snapshot.data?.docs[index]['currentCapacity'].toString() ?? '')
-                                    + '/' + (snapshot.data?.docs[index]['capacity'].toString() ?? '')
-                                    + '\nWaiter unassigned');
+                              boxColor = Color(0xFFE24D4D); //if table unavailable then box is red
+                              text = ('Table ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
+                                  + '\n' + (snapshot.data?.docs[index]['currentCapacity'].toString() ?? '')
+                                  + '/' + (snapshot.data?.docs[index]['capacity'].toString() ?? '')
+                                  + '\nWaiter ' + (snapshot.data?.docs[index]['waiterName']));
                             }
                             return InkWell(
                               child: Container(
