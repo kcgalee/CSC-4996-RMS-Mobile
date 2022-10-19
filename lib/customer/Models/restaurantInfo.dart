@@ -12,27 +12,20 @@ class RestaurantInfo {
   setter(String table) async {
     tableId = table;
     //restID
-    final docRef = FirebaseFirestore.instance.collection('tables').doc(tableId);
-    await docRef.get().then(
-            (DocumentSnapshot doc){
-          final data = doc.data() as Map<String, dynamic>;
-          restaurantID = data['restID'].toString().trim();
+    await FirebaseFirestore.instance.collection('tables').doc(table).get().then(
+            (element) {
+          restaurantID = element['restaurantID'];
         });
     //restName
-    final docRef2 = FirebaseFirestore.instance.collection('restaurants').doc(restaurantID);
-    await docRef2.get().then(
-            (DocumentSnapshot doc) {
-          final data = doc.data() as Map<String, dynamic>;
-          print(data['restName']);
-          restaurantName = data['restName'];
+    await FirebaseFirestore.instance.collection('restaurants').doc(restaurantID).get().then(
+            (element) {
+          restaurantID = element['restaurantName'];
         });
-    print(restaurantID);
-    final docRef3 = FirebaseFirestore.instance.collection('tables').doc(tableId);
-    await docRef3.get().then(
-            (DocumentSnapshot doc){
-          final data = doc.data() as Map<String, dynamic>;
 
-          waiterID = data['waiterID'].toString().trim();
+    print(restaurantID);
+    await FirebaseFirestore.instance.collection('tables').doc(table).get().then(
+            (element) {
+         waiterID = element['waiterID'];
         });
   }
 
