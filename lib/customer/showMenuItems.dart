@@ -108,6 +108,7 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                               int count = 1;
 
                                              createOrderInfo.setter(snapshot.data?.docs[index].id as String, count, snapshot.data?.docs[index]['name'], snapshot.data?.docs[index]['price']);
+                                              Navigator.of(context).pop();
                                               Navigator.push(context,
                                                   MaterialPageRoute(
                                                       builder: (context) => ViewOrder(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
