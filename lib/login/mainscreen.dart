@@ -14,11 +14,6 @@ class MainScreen extends StatefulWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 1,
-      ),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
