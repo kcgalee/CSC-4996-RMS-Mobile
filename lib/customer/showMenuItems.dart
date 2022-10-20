@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/customer/placeOrder.dart';
+import 'package:restaurant_management_system/customer/viewOrder.dart';
 import 'package:restaurant_management_system/manager/editRestaurant.dart';
 import 'package:counter/counter.dart';
 import 'Models/createOrderInfo.dart';
@@ -74,7 +76,9 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                 title: Text(snapshot.data?.docs[index]['name'] ?? ''),
                                 subtitle: Text(snapshot.data?.docs[index]['price'] ?? ''),
 
+
                                 onTap: () {
+                                  print(snapshot.data?.docs[index]['name']);
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
@@ -101,13 +105,20 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                           TextButton(
                                             child:  const Text("Add to Order"),
                                             onPressed: () {
+
                                               int count = 1;
-                                              createOrderInfo.setter(snapshot.data?.docs[index].id as String, count);
+
+                                             createOrderInfo.orderSetter(snapshot.data?.docs[index].id as String, count, snapshot.data?.docs[index]['name'], snapshot.data?.docs[index]['price']);
                                               Navigator.of(context).pop();
+                                              Navigator.push(context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => ViewOrder(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
+
                                             },
                                           ),
                                         ],
                                       );
+
                                     },
                                   );
                                 },
