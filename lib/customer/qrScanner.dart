@@ -72,13 +72,12 @@ class _QRScannerState extends State<QRScanner> {
     RestaurantInfo restaurantMenu = RestaurantInfo();
     restaurantMenu.setter(tableID);
     String name = "";
+
     var uId = FirebaseAuth.instance.currentUser?.uid.toString();
-    final docRef = FirebaseFirestore.instance.collection('users').doc(uId);
-    await docRef.get().then(
-            (DocumentSnapshot doc){
-          final data = doc.data() as Map<String, dynamic>;
-            name = data['fName'];
-          });
+    await FirebaseFirestore.instance.collection('users').doc(uId).get().then(
+            (element) {
+          name = element['fName'];
+        });
 
 
     FirebaseFirestore.instance.collection('users').doc(uId).update({
