@@ -42,7 +42,7 @@ class _WaiterTablesState extends State<WaiterTables> {
                           itemCount: snapshot.data?.docs.length,
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
                           itemBuilder:(context,index){
-                            var text = (snapshot.data?.docs[index]['currentCapacity'].toString() ?? '') + '/' + (snapshot.data?.docs[index]['capacity'].toString() ?? '');
+                            var text = (snapshot.data?.docs[index]['currentCapacity'].toString() ?? '') + '/' + (snapshot.data?.docs[index]['maxCapacity'].toString() ?? '');
                             return InkWell(
                               child: Container(
                                 height: 100,

@@ -31,7 +31,6 @@ class ViewTableTile extends StatelessWidget {
 
                 Text(subTitle,
                     style: const TextStyle(color: Colors.black54,fontSize: 20, fontWeight: FontWeight.bold)),
-
               ],
             ),
           ),
