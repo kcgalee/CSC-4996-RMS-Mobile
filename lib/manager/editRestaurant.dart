@@ -385,7 +385,7 @@ class _EditRestaurant extends State<EditRestaurant> {
                         if (closeTimeChanged != false) {
                           updateCloseTime(closeTime);
                         }
-                        Navigator.push(context,
+                        Navigator.pop(context,
                             MaterialPageRoute(builder: (context) => ManageRestaurant()
                             )
                         );
