@@ -41,7 +41,7 @@ class _ManageRestaurant extends State<ManageRestaurant> {
 
 
         body: StreamBuilder(
-            stream: FirebaseFirestore.instance.collection('restaurants').where('managerID', isEqualTo: FirebaseAuth.instance.currentUser?.uid).snapshots(),
+            stream: FirebaseFirestore.instance.collection('restaurants').where('managerID', isEqualTo: FirebaseAuth.instance.currentUser?.uid).where('isActive', isEqualTo: true).orderBy('restName').snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
                 return Center(child: Text("You are not managing any restaurants."),);
@@ -54,11 +54,16 @@ class _ManageRestaurant extends State<ManageRestaurant> {
                           subTitle: snapshot.data?.docs[index]['address'] ?? '',
                           onPressedEdit:  (){
                             Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => EditRestaurant(restID: snapshot.data?.docs[index].reference.id ?? '')
+                                MaterialPageRoute(builder: (context) => EditRestaurant(restID: snapshot.data?.docs[index].reference.id ?? '', rName: snapshot.data?.docs[index]['restName'] ?? '',
+                                    rAddress: snapshot.data?.docs[index]['address'] ?? '', rCity: snapshot.data?.docs[index]['city'] ?? '', rState: snapshot.data?.docs[index]['state'] ?? '',
+                                    rZip: snapshot.data?.docs[index]['zipcode'] ?? '', rEmail: snapshot.data?.docs[index]['email'] ?? '', rPhone: snapshot.data?.docs[index]['phone'] ?? '',
+                                    rOpen: snapshot.data?.docs[index]['openTime'] ?? '', rClose: snapshot.data?.docs[index]['closeTime'] ?? '')
                                 )
                             );
                           },
-                          onPressedDelete: (){}
+                          onPressedDelete: () async {
+                            deleteRestaurant(snapshot.data?.docs[index].reference.id);
+                          }
                       );
 
                     }
@@ -68,8 +73,10 @@ class _ManageRestaurant extends State<ManageRestaurant> {
     );
   }
 
-/*deleteRest() async {
-    await FirebaseAuth.instance.c
-  }*/
-
+   deleteRestaurant(var id) async {
+     var restaurant = await FirebaseFirestore.instance.collection('restaurants').doc(id).get();
+     await restaurant.reference.update({
+       'isActive': false,
+     });
+  }
 }
