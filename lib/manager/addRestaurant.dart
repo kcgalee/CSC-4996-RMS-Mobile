@@ -34,6 +34,9 @@ class _AddRestaurant extends State<AddRestaurant> {
   bool flag = false;
   var uID = FirebaseAuth.instance.currentUser?.uid;
 
+  String oTime = "10:30 AM";
+  String cTime = "10:30 AM";
+
   TimeOfDay openTime = TimeOfDay(hour: 10, minute: 30);
   TimeOfDay closeTime = TimeOfDay(hour: 10, minute: 30);
 
@@ -222,7 +225,7 @@ class _AddRestaurant extends State<AddRestaurant> {
                           setState(() =>
                           {
                             openTime = newTime,
-                            openTimeChanged = true
+                            oTime = openTime.format(context).toString(),
                           });
                         },
                         child: Text('Opening Time', textAlign: TextAlign.center,),
@@ -260,7 +263,7 @@ class _AddRestaurant extends State<AddRestaurant> {
                           setState(() =>
                           {
                             closeTime = newTime2,
-                            closeTimeChanged = true
+                            cTime = closeTime.format(context).toString(),
                           });
                         },
                         child: Text('Closing Time', textAlign: TextAlign.center,),
@@ -300,9 +303,7 @@ class _AddRestaurant extends State<AddRestaurant> {
                               stateController.text.trim(),
                               zipController.text.trim(),
                               emailController.text.trim(),
-                              phoneNumberController.text.trim(),
-                              openTimeChanged,
-                              closeTimeChanged) == true) {
+                              phoneNumberController.text.trim()) == true) {
                             if (flag == true){
                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content: Text(
@@ -336,18 +337,6 @@ class _AddRestaurant extends State<AddRestaurant> {
 
   createRestaurant(String rName, String rAddress, String rCity, String rState,
       String rZip, String rEmail, String rPhone) async{
-    String oTime, cTime;
-    if (openTime.minute >= 0 && openTime.minute < 10){
-      oTime = '${openTime.hourOfPeriod}:0${openTime.minute} ${openTime.period.toString().substring(10,openTime.period.toString().length).toUpperCase()}';
-    } else {
-      oTime = '${openTime.hourOfPeriod}:${openTime.minute} ${openTime.period.toString().substring(10,openTime.period.toString().length).toUpperCase()}';
-    }
-    if (closeTime.minute >= 0 && closeTime.minute < 10){
-      cTime = '${closeTime.hourOfPeriod}:0${closeTime.minute} ${closeTime.period.toString().substring(10,closeTime.period.toString().length).toUpperCase()}';
-    } else {
-      cTime = '${closeTime.hourOfPeriod}:${closeTime.minute} ${closeTime.period.toString().substring(10,closeTime.period.toString().length).toUpperCase()}';
-    }
-
     await FirebaseFirestore.instance.collection('restaurants').doc().set({
       'address': rAddress,
       'restName': rName,
@@ -359,20 +348,13 @@ class _AddRestaurant extends State<AddRestaurant> {
       'openTime': oTime,
       'closeTime': cTime,
       'managerID': uID,
+      'isActive': true,
       'creationDate': Timestamp.now(),
     });
   }
 
-/*
-  addItemtest() async {
-    await FirebaseFirestore.instance.collection('restaurants').doc('WNl5JNPu8wob7Ws6C5mU').collection('menu').doc().set({
-      'item': 'cheese',
-    });
-  }*/
-
   validate(String rName, String rAddress, String rCity, String rState,
-      String rZip, String rEmail, String rPhone, bool oChanged,
-      bool cChanged) async {
+      String rZip, String rEmail, String rPhone) async {
     bool error = false;
     if (rName == "" || rName.length > 40) {
       error = true;
@@ -400,7 +382,7 @@ class _AddRestaurant extends State<AddRestaurant> {
       error = true;
     } else if (rName == "" && rAddress == "" && rCity == ""
         && rState == "" && rZip == "" && rEmail == ""
-        && rPhone == "" && oChanged == false && cChanged == false) {
+        && rPhone == "") {
       error = true;
     }
     return error;
