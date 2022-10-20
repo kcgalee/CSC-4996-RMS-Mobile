@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_management_system/Waiter/viewTable.dart';
+import 'package:restaurant_management_system/waiter/viewTable.dart';
 
 
 class WaiterTables extends StatefulWidget {
@@ -64,7 +64,7 @@ class _WaiterTablesState extends State<WaiterTables> {
                               onTap: () {
                                 Navigator.push(context,
                                     MaterialPageRoute(
-                                        builder: (context) => ViewTable(tableID: snapshot.data?.docs[index].reference.id ?? '', tableNum: snapshot.data?.docs[index]['tableNum'].toString() ?? '')
+                                        builder: (context) => ViewTable(tableID: snapshot.data?.docs[index].reference.id ?? '', tableNum: snapshot.data?.docs[index]['tableNum'].toString() ?? '', assigned: true)
                                     )
                                 );
                               },
