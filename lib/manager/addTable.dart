@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
 import 'package:restaurant_management_system/widgets/customSubButton.dart';
+import 'package:restaurant_management_system/widgets/customTextFrom.dart';
 
 import 'GenerateQRCode.dart';
 import 'Utility/MangerNavigationDrawer.dart';
@@ -44,69 +45,27 @@ class _AddTable extends State<AddTable> {
     child: Column(
     children: [
 
-      Padding(
-        padding: const EdgeInsets.only(bottom: 15),
-        child: TextFormField(
-          controller: tableNumberController,
-          keyboardType: TextInputType.number,
-          decoration: const InputDecoration(
-            hintText: "Table number",
-            prefixIcon: Icon(Icons.numbers, color: Colors.black),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2),
-              ),
-              border: OutlineInputBorder()
-          ),
-        ),
-      ),
 
-      Padding(
-        padding: const EdgeInsets.only(bottom: 15),
-        child: TextFormField(
-          controller:tableLocationController,
-          keyboardType: TextInputType.text,
-          decoration: const InputDecoration(
-            hintText: "Table Location",
-            prefixIcon: Icon(Icons.location_on, color: Colors.black),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2),
-              ),
-              border: OutlineInputBorder()
-          ),
-        ),
-      ),
+    CustomTextFrom(
+        hintText: "Table number",
+        controller: tableNumberController,
+        icon: const Icon(Icons.numbers, color: Colors.black)
+    ),
 
-      Padding(
-        padding: const EdgeInsets.only(bottom: 15),
-        child: TextFormField(
+      CustomTextFrom(
+          hintText: "Table Location",
+          controller: tableLocationController,
+          icon: const Icon(Icons.location_on, color: Colors.black)
+      ),
+      CustomTextFrom(
+          hintText: "Table Capacity",
           controller: tableCapacityController,
-          keyboardType: TextInputType.number,
-          decoration: const InputDecoration(
-            hintText: "Table Capacity",
-            prefixIcon: Icon(Icons.people, color: Colors.black),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2),
-              ),
-              border: OutlineInputBorder()
-          ),
-        ),
+          icon: const Icon(Icons.people, color: Colors.black)
       ),
-
-
-      Padding(
-        padding: const EdgeInsets.only(bottom: 15),
-        child: TextFormField(
+      CustomTextFrom(
+          hintText: "Table Type",
           controller: tableTypeController,
-          keyboardType: TextInputType.name,
-          decoration: const InputDecoration(
-            hintText: "Table Type",
-            prefixIcon: Icon(Icons.table_bar, color: Colors.black),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2),
-              ),
-              border: OutlineInputBorder()
-          ),
-        ),
+          icon: Icon(Icons.table_bar, color: Colors.black)
       ),
 
       CustomMainButton(
