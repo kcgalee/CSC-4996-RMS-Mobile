@@ -38,6 +38,27 @@ class _ShowMenuItems extends State<ShowMenuItems> {
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
           elevation: 0,
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child:
+                TextButton(
+                  onPressed: (){
+                    //todo
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50)),
+                  ),
+                  child: const Icon(
+                    Icons.shopping_cart,
+                    color: Colors.white,
+                    size: 20.0,
+                  ),
+                ),
+            ),
+          ],
         ),
         body: StreamBuilder(
             stream: FirebaseFirestore.instance.
@@ -54,7 +75,7 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                     itemCount: snapshot.data?.docs.length,
                     itemBuilder: (context, index) {
                       return  Padding(
-                          padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+                          padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
                           child: Container(
                               height: 70.0,
                               decoration: BoxDecoration(
@@ -64,7 +85,7 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                     width: 1.0,
                                   ),
                                   borderRadius: BorderRadius.circular(10.0),
-                                  boxShadow: [
+                                  boxShadow: const [
                                     BoxShadow(
                                         color: Colors.grey ,
                                         blurRadius: 2.0,
@@ -73,8 +94,13 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                   ]
                               ),
                               child: ListTile(
-                                title: Text(snapshot.data?.docs[index]['name'] ?? ''),
-                                subtitle: Text(snapshot.data?.docs[index]['price'] ?? ''),
+                                title: Row(
+                                  children: [
+                                    Text(snapshot.data?.docs[index]['name'] ?? ''),
+                                    Spacer(),
+                                    Text(snapshot.data?.docs[index]['price'] ?? ''),
+                                  ],
+                                ),
 
 
                                 onTap: () {
@@ -82,39 +108,56 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text(snapshot.data?.docs[index]['name']),
-                                        content: Text(snapshot.data?.docs[index]['description'] +
-                                            "\n" + snapshot.data?.docs[index]['price']),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child:  const Text("Cancel"),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                          Container(
-                                            child: Counter(
-                                              min: 0,
-                                              max: 10,
-                                              bound: 0,
-                                              step: 1,
-                                              onValueChanged: print,
+                                      return Column (
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          AlertDialog(
+                                            insetPadding: EdgeInsets.zero,
+                                            title: Text(snapshot.data?.docs[index]['name']),
+
+                                            content: Builder(
+                                              builder: (context) {
+                                                // Get available height and width of the build area of this widget. Make a choice depending on the size.
+                                                var height = MediaQuery.of(context).size.height;
+                                                var width = MediaQuery.of(context).size.width;
+
+                                                return Container(
+                                                  height: height - 600,
+                                                  width: width - 400,
+                                                  child: Text(snapshot.data?.docs[index]['description'] +
+                                                "\n" + snapshot.data?.docs[index]['price']),
+                                                );
+                                              },
                                             ),
-                                          ),
-                                          TextButton(
-                                            child:  const Text("Add to Order"),
-                                            onPressed: () {
+                                            actions: <Widget>[
+                                              TextButton(
+                                                child:  const Text("Cancel"),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                              Counter(
+                                                min: 0,
+                                                max: 10,
+                                                bound: 0,
+                                                step: 1,
+                                                onValueChanged: print,
+                                              ),
+                                              TextButton(
+                                                child:  const Text("Add to Order"),
+                                                onPressed: () {
 
-                                              int count = 1;
+                                                  int count = 1;
 
-                                             createOrderInfo.orderSetter(snapshot.data?.docs[index].id as String, count, snapshot.data?.docs[index]['name'], snapshot.data?.docs[index]['price']);
-                                              Navigator.of(context).pop();
-                                              Navigator.push(context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) => ViewOrder(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
+                                                 createOrderInfo.orderSetter(snapshot.data?.docs[index].id as String, count, snapshot.data?.docs[index]['name'], snapshot.data?.docs[index]['price']);
+                                                  Navigator.of(context).pop();
+                                                  Navigator.push(context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) => ViewOrder(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
 
-                                            },
+                                                },
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       );
