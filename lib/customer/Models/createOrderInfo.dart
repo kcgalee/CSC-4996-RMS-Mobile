@@ -8,6 +8,8 @@ class CreateOrderInfo extends RestaurantInfo{
   late List<int> count = [];
   late List<String> itemName= [];
   late List<String> price = [];
+
+
   late var custID;
 
   CreateOrderInfo(this.custID);
@@ -28,16 +30,33 @@ class CreateOrderInfo extends RestaurantInfo{
 
   void placeOrderHelper(String itemID, String itemName, int count,)
   {
+
+    final DateTime now = DateTime.now();
     FirebaseFirestore.instance.collection('orders').add(
-      {
+
+    {
+
         'itemID' : itemID,
         'itemName' : itemName,
         'quantity' :count,
-        'restID' : getRestaurantID(),
-        'tableID' : getTableID(),
-        'waiterID': getWaiterID(),
-        'status' : 'placed'
-    }
+        'restID' : restaurantID,
+        'tableID' : tableID,
+        'waiterID': waiterID,
+        'status' : 'placed',
+      'date': Timestamp.fromDate(now),
+    });
+        FirebaseFirestore.instance.collection('tables/$tableID/tableOrders').add(
+
+        {
+          'itemID' : itemID,
+          'itemName' : itemName,
+          'quantity' :count,
+          'restID' : restaurantID,
+          'tableID' : tableID,
+          'waiterID': waiterID,
+          'status' : 'placed',
+          'date': Timestamp.fromDate(now),
+        }
     );
 
   }

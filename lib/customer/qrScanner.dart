@@ -69,8 +69,8 @@ class _QRScannerState extends State<QRScanner> {
   }
 
   void setTable (String tableID) async {
-    RestaurantInfo restaurantMenu = RestaurantInfo();
-    restaurantMenu.setter(tableID);
+    RestaurantInfo restaurantInfo= RestaurantInfo();
+    restaurantInfo.setter(tableID);
     String name = "";
 
     var uId = FirebaseAuth.instance.currentUser?.uid.toString();
@@ -81,7 +81,7 @@ class _QRScannerState extends State<QRScanner> {
 
 
     FirebaseFirestore.instance.collection('users').doc(uId).update({
-      'tableID' : restaurantMenu.tableId.toString().trim()
+      'tableID' : restaurantInfo.tableID.toString()
     });
 
     FirebaseFirestore.instance.collection('tables/$tableID/tableMembers').add({
