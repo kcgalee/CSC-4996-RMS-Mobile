@@ -5,14 +5,14 @@ import 'package:restaurant_management_system/manager/addItem.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 
 
-class ManageMenu extends StatefulWidget {
-  const ManageMenu({Key? key}) : super(key: key);
+class ManageMenuItem extends StatefulWidget {
+  const ManageMenuItem({Key? key}) : super(key: key);
 
   @override
-  State<ManageMenu> createState() => _ManageMenuState();
+  State<ManageMenuItem> createState() => _ManageMenuItemState();
 }
 
-class _ManageMenuState extends State<ManageMenu> {
+class _ManageMenuItemState extends State<ManageMenuItem> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

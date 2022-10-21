@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../widgets/customSubButton.dart';
 import '../addItem.dart';
-import '../manageMenu.dart';
+import '../manageMenuItem.dart';
 import 'MangerNavigationDrawer.dart';
 import 'selectRestaurant.dart';
 
@@ -44,7 +44,7 @@ class _SelectCatagoryState extends State<SelectCatagory> {
       ),
     CustomSubButton(text: "APPETIZERS",
     onPressed: () {
-      Navigator.push(context, MaterialPageRoute(builder:  (context) =>  ManageMenu()));
+      Navigator.push(context, MaterialPageRoute(builder:  (context) =>  ManageMenuItem()));
     }
     ),
     CustomSubButton(text: "ENTREES",
