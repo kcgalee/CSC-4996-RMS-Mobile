@@ -25,10 +25,12 @@ class _SelectRestaurant extends State<SelectRestaurant> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.lightBlue[100],
+        backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text('Select Restaurant'),
-          elevation: 0,
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          elevation: 1,
         ),
         body: StreamBuilder(
             stream: FirebaseFirestore.instance.
@@ -43,22 +45,27 @@ class _SelectRestaurant extends State<SelectRestaurant> {
                 return ListView.builder(
                     itemCount: snapshot.data?.docs.length,
                     itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(snapshot.data?.docs[index]['restName'] ?? ''),
-                        subtitle: Text(snapshot.data?.docs[index]['address'] ?? ''),
-                        onTap: () {
-                          String? value = snapshot.data?.docs[index].id.toString();
-                          if(text == 'table'){
-                            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddTable(text: value.toString())));
+                      return Container(
+                        decoration: BoxDecoration(color: Colors.grey[100],
+                            border: Border.all(color: Colors.black54,width: 2)
+                        ),
+                        child: ListTile(
+                          title: Text(snapshot.data?.docs[index]['restName'] ?? ''),
+                          subtitle: Text(snapshot.data?.docs[index]['address'] ?? ''),
+                          onTap: () {
+                            String? value = snapshot.data?.docs[index].id.toString();
+                            if(text == 'table'){
+                              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddTable(text: value.toString())));
 
-                          }
-                          else if (text == 'employee'){
-                            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddEmployee(text: value.toString())));
                             }
-                          else{
+                            else if (text == 'employee'){
+                              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddEmployee(text: value.toString())));
+                              }
+                            else{
 
-                          }
-                        },
+                            }
+                          },
+                        ),
                       );
                     }
                 );
