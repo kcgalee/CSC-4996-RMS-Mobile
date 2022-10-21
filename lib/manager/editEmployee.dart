@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/manager/manageEmployee.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 
 class EditEmployee extends StatefulWidget {
@@ -8,9 +8,9 @@ class EditEmployee extends StatefulWidget {
   final String fName;
   final String lName;
   final String prefName;
-  final String email;
+  final String phone;
 
-  const EditEmployee({super.key, required this.eID, required this.fName, required this.lName, required this.prefName, required this.email});
+  const EditEmployee({super.key, required this.eID, required this.fName, required this.lName, required this.prefName, required this.phone});
 
   @override
   State<EditEmployee> createState() => _EditEmployee();
@@ -27,6 +27,17 @@ class _EditEmployee extends State<EditEmployee> {
   final closingController = TextEditingController();
   final pattern = RegExp(r'^(1-)?\d{3}-\d{3}-\d{4}$');
   final nPattern = RegExp(r'^(0?[1-9]|1[0-2]):[0-5][0-9]$');
+  bool flag = false;
+
+  @override
+  void initState() {
+    //set default text
+    firstNameController.text = widget.fName;
+    lastNameController.text = widget.lName;
+    prefNameController.text = widget.prefName;
+    phoneController.text = widget.phone;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context)=> Scaffold (
@@ -135,7 +146,12 @@ class _EditEmployee extends State<EditEmployee> {
                     ),
                     child: const Text("update"),
                     onPressed: (){
-                      if (validate(firstNameController.text.trim(), lastNameController.text.trim(), prefNameController.text.trim(), phoneController.text.trim()) == true){
+                      bool status = validate(firstNameController.text.trim(), lastNameController.text.trim(), prefNameController.text.trim(), phoneController.text.trim());
+                      if (status == true && flag == true){
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text('There is no information to update'),
+                        ));
+                      } else if (status == true && flag == false) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text('Could not update information, please review input'),
                         ));
@@ -146,15 +162,14 @@ class _EditEmployee extends State<EditEmployee> {
                         if (lastNameController.text.trim() != ""){
                           updateLName(lastNameController.text.trim());
                         }
-                        if (prefNameController.text.trim() != ""){
-                          updatePrefName(prefNameController.text.trim());
-                        }
+                        updatePrefName(prefNameController.text.trim());
                         if (phoneController.text.trim() != ""){
                           updatePhone(phoneController.text.trim());
                         }
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text('Success, information has been updated.'),
-                        ));
+                        Navigator.pop(context,
+                            MaterialPageRoute(builder: (context) => ManageEmployee()
+                            )
+                        );
                       }
                     }
                 ),
@@ -188,7 +203,6 @@ class _EditEmployee extends State<EditEmployee> {
     await user.reference.update({
       'fName': fName
     });
-    firstNameController.text = "";
   }
 
   updateLName(String lName) async {
@@ -196,7 +210,6 @@ class _EditEmployee extends State<EditEmployee> {
     await user.reference.update({
       'lName': lName
     });
-    lastNameController.text = "";
   }
 
   updatePrefName(String prefName) async {
@@ -204,7 +217,6 @@ class _EditEmployee extends State<EditEmployee> {
     await user.reference.update({
       'prefName': prefName
     });
-    prefNameController.text = "";
   }
 
   updatePhone(String phone) async {
@@ -212,21 +224,24 @@ class _EditEmployee extends State<EditEmployee> {
     await user.reference.update({
       'phone': phone
     });
-    phoneController.text = "";
   }
 
   bool validate(String fName, var lName, var prefName, var newPhone) {
     bool error = false;
-    if (fName.length > 20){
+    if (fName.length > 20 || fName == ""){
       error = true;
-    } else if (lName.length > 20){
+    } else if (lName.length > 20 || lName == ""){
       error = true;
     } else if (prefName.length > 20){
       error = true;
     } else if (newPhone != "" && !pattern.hasMatch(newPhone)){
       error = true;
-    } else if (fName == "" && lName == "" && prefName == "" && newPhone == ""){
+    } else if (newPhone == ""){
       error = true;
+    } else if (fName == widget.fName && lName == widget.lName &&
+        prefName == widget.prefName && newPhone == widget.phone){
+      error = true;
+      flag = true;
     }
     return error;
   }
