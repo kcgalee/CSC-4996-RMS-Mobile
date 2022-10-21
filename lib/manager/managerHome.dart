@@ -88,6 +88,7 @@ String managerName = '';
                       CustomSubButton(
                         text: 'MANAGE MENU',
                         onPressed: () {
+                            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'menu')));
                           //TODO ADD TO MENU
 
                         },
