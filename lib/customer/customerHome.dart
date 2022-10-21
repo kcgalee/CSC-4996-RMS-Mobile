@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/customer/Models/createOrderInfo.dart';
+import 'package:restaurant_management_system/customer/viewOrder.dart';
 
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
 import 'package:restaurant_management_system/widgets/customSubButton.dart';
+import 'tableStatus.dart';
 import 'order.dart';
 import 'qrScanner.dart';
 import 'package:restaurant_management_system/customer/Utility/navigation.dart';
@@ -14,7 +16,9 @@ class CustomerHome extends StatelessWidget {
 
 String restName = "";
 String tableID ="";
+String tableNum ="";
 String restID = "";
+String waiterName = "";
 CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentUser?.uid);
 
   @override
@@ -33,7 +37,6 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
             return SingleChildScrollView(
             child: Center(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   const SizedBox(height: 20,),
                   CustomMainButton(text: "QR SCAN",
@@ -46,13 +49,38 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
                   const SizedBox(height: 30,),
                   const Text(
                     "Welcome",
-                    textAlign: TextAlign.left,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30,),
                   ),
 
-                    Text(
-                      restName,
-                      textAlign: TextAlign.left,
-                    ),
+                  Text(
+                    restName,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment. center,
+                    crossAxisAlignment: CrossAxisAlignment. center,
+                    children: [
+                      const Text(
+                        "Table "
+                      ),
+                      Text(
+                        tableNum,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment. center,
+                    crossAxisAlignment: CrossAxisAlignment. center,
+                    children: [
+                      const Text(
+                        "Waiter ",
+                        textAlign: TextAlign.left,
+                      ),
+                      Text(
+                        waiterName,
+                        textAlign: TextAlign.left,
+                      ),
+                    ],
+                  ),
                   const SizedBox(height: 20,),
                   CustomMainButton(text: "MENU",
                       onPressed: () {
@@ -65,6 +93,13 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
                     onPressed: () {
 
                     }
+                  ),
+                  CustomSubButton(text: "TABLE STATUS",
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => const TableStatus()),
+                        );
+                      }
                   ),
 
                 ], //Children

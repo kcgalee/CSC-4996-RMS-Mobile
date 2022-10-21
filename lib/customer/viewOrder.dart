@@ -76,15 +76,13 @@ class _ViewOrder extends State<ViewOrder> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text('Order',),
+          title: const Text('Current Order',),
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
           elevation: 1,
         ),
         body: Column(
           children: [
-            const Text("Current Order",
-              style: TextStyle(fontSize: 30,),),
             Expanded(
                 child:
                 ListView.builder(
