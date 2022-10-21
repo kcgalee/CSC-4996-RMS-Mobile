@@ -108,39 +108,56 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text(snapshot.data?.docs[index]['name']),
-                                        content: Text(snapshot.data?.docs[index]['description'] +
-                                            "\n" + snapshot.data?.docs[index]['price']),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child:  const Text("Cancel"),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                          Container(
-                                            child: Counter(
-                                              min: 0,
-                                              max: 10,
-                                              bound: 0,
-                                              step: 1,
-                                              onValueChanged: print,
+                                      return Column (
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          AlertDialog(
+                                            insetPadding: EdgeInsets.zero,
+                                            title: Text(snapshot.data?.docs[index]['name']),
+
+                                            content: Builder(
+                                              builder: (context) {
+                                                // Get available height and width of the build area of this widget. Make a choice depending on the size.
+                                                var height = MediaQuery.of(context).size.height;
+                                                var width = MediaQuery.of(context).size.width;
+
+                                                return Container(
+                                                  height: height - 600,
+                                                  width: width - 400,
+                                                  child: Text(snapshot.data?.docs[index]['description'] +
+                                                "\n" + snapshot.data?.docs[index]['price']),
+                                                );
+                                              },
                                             ),
-                                          ),
-                                          TextButton(
-                                            child:  const Text("Add to Order"),
-                                            onPressed: () {
+                                            actions: <Widget>[
+                                              TextButton(
+                                                child:  const Text("Cancel"),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                              Counter(
+                                                min: 0,
+                                                max: 10,
+                                                bound: 0,
+                                                step: 1,
+                                                onValueChanged: print,
+                                              ),
+                                              TextButton(
+                                                child:  const Text("Add to Order"),
+                                                onPressed: () {
 
-                                              int count = 1;
+                                                  int count = 1;
 
-                                             createOrderInfo.orderSetter(snapshot.data?.docs[index].id as String, count, snapshot.data?.docs[index]['name'], snapshot.data?.docs[index]['price']);
-                                              Navigator.of(context).pop();
-                                              Navigator.push(context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) => ViewOrder(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
+                                                 createOrderInfo.orderSetter(snapshot.data?.docs[index].id as String, count, snapshot.data?.docs[index]['name'], snapshot.data?.docs[index]['price']);
+                                                  Navigator.of(context).pop();
+                                                  Navigator.push(context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) => ViewOrder(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
 
-                                            },
+                                                },
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       );
