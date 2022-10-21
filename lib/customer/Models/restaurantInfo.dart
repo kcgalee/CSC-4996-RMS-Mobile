@@ -8,6 +8,7 @@ class RestaurantInfo {
   late var restaurantName;
   late var tableID;
   late var waiterID;
+  late var tableNum;
 
   setter(String table) async {
     tableID = table;
@@ -27,6 +28,10 @@ class RestaurantInfo {
             (element) {
          waiterID = element['waiterID'];
         });
+    await FirebaseFirestore.instance.collection('tables').doc(table).get().then(
+            (element) {
+              tableNum = element['tableNum'];
+        });
   }
 
   RestaurantInfo() {
@@ -34,6 +39,7 @@ class RestaurantInfo {
     restaurantName = '';
     tableID = '';
     waiterID = '';
+    tableNum = '';
   }
 
 
