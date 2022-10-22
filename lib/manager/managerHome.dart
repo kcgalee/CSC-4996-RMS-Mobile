@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/Utility/selectRestaurant.dart';
 import 'package:restaurant_management_system/manager/addTable.dart';
 import 'package:restaurant_management_system/manager/manageEmployee.dart';
+import 'package:restaurant_management_system/manager/manageMenu.dart';
 import 'package:restaurant_management_system/manager/manageRestaurant.dart';
 
 import '../widgets/customSubButton.dart';
@@ -90,7 +91,11 @@ String managerName = '';
                         onPressed: () {
                             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'menu')));
                           //TODO ADD TO MENU
-
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) => ManageMenu()
+                              )
+                          );
                         },
                       )
 

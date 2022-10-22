@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_management_system/Waiter/viewTable.dart';
+import 'package:restaurant_management_system/waiter/viewTable.dart';
 
 
 class AllTables extends StatefulWidget {
@@ -37,18 +37,26 @@ class _AllTables extends State<AllTables> {
                           itemCount: snapshot.data?.docs.length,
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
                           itemBuilder:(context,index){
-                            var boxColor = Color(0xFF90C68E); //green by default
-                            var text = ('Table ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
-                                + '\n' + (snapshot.data?.docs[index]['currentCapacity'].toString() ?? '')
-                                + '/' + (snapshot.data?.docs[index]['maxCapacity'].toString() ?? '')
-                                + '\nWaiter unassigned');
-
+                            var boxColor, text, status;
                             if (snapshot.data?.docs[index]['available'] == false){
-                              boxColor = Color(0xFFE24D4D); //if table unavailable then box is red
+                              //if table unavailable then box is red
+                              boxColor = Color(0xFFE24D4D);
+                            } else {
+                              //green if available
+                              boxColor = Color(0xFF90C68E);
+                            }
+                            if (snapshot.data?.docs[index]['waiterID'] == '' || snapshot.data?.docs[index]['waiterName'] == ''){
+                              text = ('Table ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
+                                  + '\n' + (snapshot.data?.docs[index]['currentCapacity'].toString() ?? '')
+                                  + '/' + (snapshot.data?.docs[index]['maxCapacity'].toString() ?? '')
+                                  + '\nWaiter unassigned');
+                              status = false;
+                            } else {
                               text = ('Table ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
                                   + '\n' + (snapshot.data?.docs[index]['currentCapacity'].toString() ?? '')
                                   + '/' + (snapshot.data?.docs[index]['maxCapacity'].toString() ?? '')
                                   + '\nWaiter ' + (snapshot.data?.docs[index]['waiterName']));
+                              status = true;
                             }
                             return InkWell(
                               child: Container(
@@ -70,7 +78,7 @@ class _AllTables extends State<AllTables> {
                               onTap: () {
                                 Navigator.push(context,
                                     MaterialPageRoute(
-                                        builder: (context) => ViewTable(tableID: snapshot.data?.docs[index].reference.id ?? '', tableNum: snapshot.data?.docs[index]['tableNum'].toString() ?? '')
+                                        builder: (context) => ViewTable(tableID: snapshot.data?.docs[index].reference.id ?? '', tableNum: snapshot.data?.docs[index]['tableNum'].toString() ?? '', assigned: status)
                                     )
                                 );
                               },

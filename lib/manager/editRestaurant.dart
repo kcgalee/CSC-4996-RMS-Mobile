@@ -1,14 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_management_system/widgets/dialog_box.dart';
-import 'package:restaurant_management_system/Waiter/viewTable.dart';
+
+import 'manageRestaurant.dart';
 
 class EditRestaurant extends StatefulWidget {
   final String restID;
+  final String rName;
+  final String rAddress;
+  final String rCity;
+  final String rState;
+  final String rZip;
+  final String rEmail;
+  final String rPhone;
+  final String rOpen;
+  final String rClose;
 
-  const EditRestaurant({Key? key, required this.restID}) : super(key: key);
+  const EditRestaurant({Key? key, required this.restID, required this.rName, required this.rAddress, required this.rCity,
+    required this.rState, required this.rZip, required this.rEmail, required this.rPhone,
+    required this.rOpen, required this.rClose}) : super(key: key);
 
 
 
@@ -34,6 +44,30 @@ class _EditRestaurant extends State<EditRestaurant> {
 
   TimeOfDay openTime = TimeOfDay(hour: 10, minute: 30);
   TimeOfDay closeTime = TimeOfDay(hour: 10, minute: 30);
+
+  String oTOD = "10:30 AM";
+  String cTOD = "10:30 PM";
+
+  @override
+  void initState() {
+    //set default text
+    restaurantNameController.text = widget.rName;
+    addressController.text = widget.rAddress;
+    cityController.text = widget.rCity;
+    stateController.text = widget.rState;
+    zipController.text = widget.rZip;
+    emailController.text = widget.rEmail;
+    phoneNumberController.text = widget.rPhone;
+    if (widget.rOpen != "") {
+      //openTime = TimeOfDay(hour: int.parse(widget.rOpen.substring(0, widget.rOpen.indexOf(':'))), minute: int.parse(widget.rOpen.substring(widget.rOpen.indexOf(':')+1, widget.rOpen.indexOf(':')+3)));
+      oTOD = widget.rOpen;
+    }
+    if (widget.rClose != "") {
+      //closeTime = TimeOfDay(hour: int.parse(widget.rClose.substring(0, widget.rClose.indexOf(':'))), minute: int.parse(widget.rClose.substring(widget.rClose.indexOf(':')+1, widget.rClose.indexOf(':')+3)));
+      cTOD = widget.rClose;
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -223,6 +257,7 @@ class _EditRestaurant extends State<EditRestaurant> {
                       setState(() =>
                       {
                         openTime = newTime,
+                        oTOD = openTime.format(context).toString(),
                         openTimeChanged = true
                       });
                     },
@@ -231,7 +266,7 @@ class _EditRestaurant extends State<EditRestaurant> {
 
                   SizedBox(
                     child: Text(
-                      openTime.format(context).toString(),
+                      oTOD,
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
@@ -254,13 +289,16 @@ class _EditRestaurant extends State<EditRestaurant> {
                     onPressed: () async {
                       TimeOfDay? newTime = await showTimePicker(
                           context: context,
-                          initialTime: closeTime);
+                          initialTime: closeTime,
+                      );
+
                       // if 'Cancel' => null
                       if (newTime == null) return;
                       //if 'OK' => TimeOfDay
                       setState(() =>
                       {
                         closeTime = newTime,
+                        cTOD = closeTime.format(context).toString(),
                         closeTimeChanged = true
                       });
                     },
@@ -269,7 +307,7 @@ class _EditRestaurant extends State<EditRestaurant> {
 
                   SizedBox(
                     child: Text(
-                      closeTime.format(context).toString(),
+                      cTOD,
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
@@ -294,7 +332,7 @@ class _EditRestaurant extends State<EditRestaurant> {
                     ),
                     child: const Text("update"),
                     onPressed: () async {
-                      if (await validate(
+                      var res = await validate(
                           restaurantNameController.text.trim(),
                           addressController.text.trim(),
                           cityController.text.trim(),
@@ -303,18 +341,20 @@ class _EditRestaurant extends State<EditRestaurant> {
                           emailController.text.trim(),
                           phoneNumberController.text.trim(),
                           openTimeChanged,
-                          closeTimeChanged) == true) {
-                        if (flag == true){
+                          closeTimeChanged);
+                      if (flag == true){
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                              'Update failed, a restaurant already exists at that address'),
+                        ));
+                      } else if (res[0] == true && res[1] == false){
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(
-                                'Update failed, a restaurant already exists at that address'),
+                            content: Text('Update failed, make sure all fields are entered out correctly'),
                           ));
-                        } else {
+                      } else if (res[0] == false && res[1] == true){
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text('Update failed, please review input'),
+                            content: Text('There is no information to update'),
                           ));
-                        }
-
                       } else {
                         if (restaurantNameController.text.trim() != "") {
                           updateName(restaurantNameController.text.trim());
@@ -345,11 +385,10 @@ class _EditRestaurant extends State<EditRestaurant> {
                         if (closeTimeChanged != false) {
                           updateCloseTime(closeTime);
                         }
-
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(
-                              'Success, information has been updated.'),
-                        ));
+                        Navigator.pop(context,
+                            MaterialPageRoute(builder: (context) => ManageRestaurant()
+                            )
+                        );
                       }
                     }
                 ),
@@ -438,7 +477,7 @@ class _EditRestaurant extends State<EditRestaurant> {
     var user = await FirebaseFirestore.instance.collection('restaurants').doc(
         widget.restID).get();
     await user.reference.update({
-      'openTime': oTime.toString()
+      'openTime': oTOD
     });
   }
 
@@ -446,7 +485,7 @@ class _EditRestaurant extends State<EditRestaurant> {
     var user = await FirebaseFirestore.instance.collection('restaurants').doc(
         widget.restID).get();
     await user.reference.update({
-      'closeTime': cTime.toString()
+      'closeTime': cTOD
     });
   }
 
@@ -454,23 +493,24 @@ class _EditRestaurant extends State<EditRestaurant> {
       String rZip, String rEmail, String rPhone, bool oChanged,
       bool cChanged) async {
     bool error = false;
-    if (rName.length > 40) {
+    bool unchanged = false;
+    if (rName.length > 40 || rName == "") {
       error = true;
-    } else if (rAddress.length > 100) {
+    } else if (rAddress.length > 100 || rAddress == "") {
       error = true;
-    } else if (rAddress != "") {
+    } else if (rAddress != "" && (rAddress != widget.rAddress)) {
       await FirebaseFirestore.instance.collection('restaurants').get().then(
               (data) => {
             data.docs.forEach((element) {
-              if (element['address'].toString().toUpperCase().compareTo(rAddress.toUpperCase()) == 0){
+              if (element['address'].toString().toUpperCase() == rAddress.toUpperCase()){
                 error = true;
                 flag = true;
               }
             })
           });
-    } else if (rCity.length > 40) {
+    } else if (rCity.length > 40 || rCity == "") {
       error = true;
-    } else if (rState != "" && !statePattern.hasMatch(rState)) {
+    } else if ((rState != "" && !statePattern.hasMatch(rState)) || rState == "") {
       error = true;
     } else if (rZip != "" && !zipPattern.hasMatch(rZip)) {
       error = true;
@@ -478,11 +518,12 @@ class _EditRestaurant extends State<EditRestaurant> {
       error = true;
     } else if (rPhone != "" && !phonePattern.hasMatch(rPhone)) {
       error = true;
-    } else if (rName == "" && rAddress == "" && rCity == ""
-        && rState == "" && rZip == "" && rEmail == ""
-        && rPhone == "" && oChanged == false && cChanged == false) {
-      error = true;
+    } else if (rName == widget.rName && rAddress == widget.rAddress
+        && rCity == widget.rCity && rState == widget.rState
+        && rZip == widget.rZip && rEmail == widget.rEmail
+        && rPhone == widget.rPhone && oChanged == false && cChanged == false) {
+      unchanged = true;
     }
-    return error;
+    return [error, unchanged];
   }
 }

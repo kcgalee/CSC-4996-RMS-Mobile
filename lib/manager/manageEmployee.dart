@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/Utility/managerTile.dart';
 import 'package:restaurant_management_system/manager/Utility/selectRestaurant.dart';
 import 'package:restaurant_management_system/manager/addEmployee.dart';
-
-import 'Utility/MangerNavigationDrawer.dart';
 import 'editEmployee.dart';
 
 class ManageEmployee extends StatefulWidget {
@@ -19,7 +17,6 @@ class _ManageEmployeeState extends State<ManageEmployee> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const ManagerNavigationDrawer(),
       appBar: AppBar(
         title: const Text("Manage Employee"),
         backgroundColor: Colors.white,
@@ -65,8 +62,8 @@ class _ManageEmployeeState extends State<ManageEmployee> {
                                     MaterialPageRoute(builder: (context) =>  EditEmployee(eID: (snapshot.data?.docs[index].reference.id ?? ''),
                                         fName: (snapshot.data?.docs[index]['fName'] ?? ''),
                                         lName: (snapshot.data?.docs[index]['lName'] ?? ''),
-                                        prefName: (snapshot.data?.docs[index]['lName'] ?? ''),
-                                        email: snapshot.data?.docs[index]['email'] ?? '')
+                                        prefName: (snapshot.data?.docs[index]['prefName'] ?? ''),
+                                        phone: snapshot.data?.docs[index]['phone'] ?? '')
                                 ));
                               },
 

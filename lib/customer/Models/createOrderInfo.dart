@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:restaurant_management_system/customer/Models/restaurantInfo.dart';
 import 'package:restaurant_management_system/customer/placeOrder.dart';
 
@@ -8,6 +9,8 @@ class CreateOrderInfo extends RestaurantInfo{
   late List<int> count = [];
   late List<String> itemName= [];
   late List<String> price = [];
+
+
   late var custID;
 
   CreateOrderInfo(this.custID);
@@ -21,23 +24,39 @@ class CreateOrderInfo extends RestaurantInfo{
 
   void placeOrder() {
     for(int i = 0; i < itemName.length; i++) {
-      placeOrderHelper(itemID[i], itemName[i], count[i],);
+      placeOrderHelper(itemID[i], itemName[i], count[i], price[i]);
     }
 
   }//place order
 
-  void placeOrderHelper(String itemID, String itemName, int count,)
+  void placeOrderHelper(String itemID, String itemName, int count, String price)
   {
+    var uID = FirebaseAuth.instance.currentUser?.uid.toString();
+    final DateTime now = DateTime.now();
     FirebaseFirestore.instance.collection('orders').add(
-      {
+
+    {
+
+        'price' : price,
+        'custID' : uID.toString(),
         'itemID' : itemID,
         'itemName' : itemName,
         'quantity' :count,
-        'restID' : getRestaurantID(),
-        'tableID' : getTableID(),
-        'waiterID': getWaiterID(),
-        'status' : 'placed'
-    }
+        'tableNum' : tableNum,
+        'restID' : restaurantID,
+        'tableID' : tableID,
+        'waiterID': waiterID,
+        'status' : 'placed',
+      'timePlaced': Timestamp.fromDate(now),
+    });
+        FirebaseFirestore.instance.collection('tables/$tableID/tableOrders').add(
+
+        {
+          'itemID' : itemID,
+          'itemName' : itemName,
+          'quantity' :count,
+          'price' : price
+        }
     );
 
   }

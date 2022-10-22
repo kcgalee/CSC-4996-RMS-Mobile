@@ -6,20 +6,21 @@ class RestaurantInfo {
 
   late var restaurantID;
   late var restaurantName;
-  late var tableId;
+  late var tableID;
   late var waiterID;
+  late var tableNum;
 
   setter(String table) async {
-    tableId = table;
+    tableID = table;
     //restID
     await FirebaseFirestore.instance.collection('tables').doc(table).get().then(
             (element) {
-          restaurantID = element['restaurantID'];
+          restaurantID = element['restID'];
         });
     //restName
     await FirebaseFirestore.instance.collection('restaurants').doc(restaurantID).get().then(
             (element) {
-          restaurantID = element['restaurantName'];
+          restaurantID = element['restName'];
         });
 
     print(restaurantID);
@@ -27,27 +28,51 @@ class RestaurantInfo {
             (element) {
          waiterID = element['waiterID'];
         });
+    await FirebaseFirestore.instance.collection('tables').doc(table).get().then(
+            (element) {
+              tableNum = element['tableNum'];
+        });
   }
 
   RestaurantInfo() {
     restaurantID = '';
     restaurantName = '';
-    tableId = '';
+    tableID = '';
     waiterID = '';
+    tableNum = '';
   }
 
 
 
 
-  String getRestaurantName() {
-    return restaurantName.text.toString();
+  Future<String> getRestaurantID() async {
+    await FirebaseFirestore.instance.collection('tables').doc(tableID).get().then(
+            (element) {
+          restaurantID = element['restID'];
+          return restaurantID;
+        });
+    return "";
+    //restName
   }
 
-  String getRestaurantID(){return restaurantID.toString();}
+  Future<String> getRestaurantName() async {
+    await FirebaseFirestore.instance.collection('restaurants').doc(restaurantID).get().then(
+          (element) {
+        restaurantName = element['restName'];
+        return restaurantName;
+      });
+  return "";
+  }
 
-  String getTableID(){return tableId.toString();}
+  String getTableID(){return tableID.toString();}
 
-  String getWaiterID(){return waiterID.toString();}
+  Future<String> getWaiterID() async {
+    await FirebaseFirestore.instance.collection('tables').doc(tableID).get().then(
+          (element) {
+        waiterID = element['waiterID'];
+        return waiterID;
+      });
+  return "";}
 
 
 }
