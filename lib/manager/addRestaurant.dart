@@ -4,8 +4,9 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import 'package:restaurant_management_system/manager/manageRestaurant.dart';
+
+import '../widgets/customTextForm.dart';
 
 
 
@@ -37,8 +38,8 @@ class _AddRestaurant extends State<AddRestaurant> {
   String oTime = "10:30 AM";
   String cTime = "10:30 AM";
 
-  TimeOfDay openTime = TimeOfDay(hour: 10, minute: 30);
-  TimeOfDay closeTime = TimeOfDay(hour: 10, minute: 30);
+  TimeOfDay openTime = const TimeOfDay(hour: 10, minute: 30);
+  TimeOfDay closeTime = const TimeOfDay(hour: 10, minute: 30);
 
   @override
   Widget build(BuildContext context) {
@@ -54,152 +55,85 @@ class _AddRestaurant extends State<AddRestaurant> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: TextFormField(
+
+                CustomTextForm(
+                    hintText: "Restaurant Name",
                     controller: restaurantNameController,
-                    keyboardType: TextInputType.name,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (rName) =>
                     rName != null && rName.trim().length > 40
                         ? 'Name must be between 1 to 40 characters' : null,
-                    decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.food_bank, color: Colors.black,),
-                        hintText: "Restaurant Name",
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 2),
-                        ),
-                        border: OutlineInputBorder()
-                    ),
-                  ),
+                    keyboardType: TextInputType.name,
+                    maxLines: 1,
+                    maxLength: 40,
+                    icon: const Icon(Icons.food_bank)
                 ),
 
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: TextFormField(
+                CustomTextForm(
+                    hintText: "Address",
                     controller: addressController,
-                    keyboardType: TextInputType.text,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (rAddress) =>
                     rAddress != null && rAddress.trim().length > 100
                         ? 'Name must be between 1 to 100 characters' : null,
-                    decoration: const InputDecoration(
-                        hintText: "Address",
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 2),
-                        ),
-                        border: OutlineInputBorder()
-                    ),
-                  ),
-                ),
-
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: TextFormField(
-                    controller: cityController,
                     keyboardType: TextInputType.text,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    maxLines: 1,
+                    maxLength: 100,
+                    icon: const Icon(Icons.home)
+                ),
+                CustomTextForm(
+                    hintText: "City",
+                    controller: cityController,
                     validator: (city) =>
                     city != null && city.trim().length > 40
                         ? 'City must be between 1 to 40 characters' : null,
-                    decoration: const InputDecoration(
-                        hintText: "City",
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 2),
-                        ),
-                        border: OutlineInputBorder()
-                    ),
-                  ),
+                    keyboardType: TextInputType.text,
+                    maxLines: 1,
+                    maxLength: 40,
+                    icon: const Icon(Icons.location_city)
                 ),
-
-                //uppercase when typing value
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 15),
-                      child: SizedBox(
-                        width: 150, height: 50,
-                        child: TextFormField(
-                          //example of setting max length. you can also hide the counter but i havent searched how
-                          maxLength: 2,
-                          maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                          controller: stateController,
-                          keyboardType: TextInputType.text,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (state) =>
-                          state != null && !statePattern.hasMatch(state)
-                              ? 'State invalid (format: MI)' : null,
-                          decoration: const InputDecoration(
-                              hintText: "State",
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(width: 2),
-                              ),
-                              border: OutlineInputBorder()
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 15),
-                      child: SizedBox(
-                        width: 150, height: 50,
-                        child: TextFormField(
-                          controller: zipController,
-                          keyboardType: TextInputType.number,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (zip) =>
-                          zip != null && !zipPattern.hasMatch(zip)
-                              ? 'Zip code invalid (format: 12345 or 12345-2222)'
-                              : null,
-                          decoration: const InputDecoration(
-                              hintText: "Zip Code",
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(width: 2),
-                              ),
-                              border: OutlineInputBorder()
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                CustomTextForm(
+                    hintText: "State",
+                    controller: stateController,
+                    validator: (state) =>
+                    state != null && !statePattern.hasMatch(state)
+                        ? 'State invalid (format: MI)' : null,
+                    keyboardType: TextInputType.text,
+                    maxLines: 1,
+                    maxLength: 2,
+                    icon: const Icon(Icons.location_city)
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: TextFormField(
+                CustomTextForm(
+                    hintText: "Zip Code",
+                    controller: zipController,
+                    validator: (zip) =>
+                    zip != null && !zipPattern.hasMatch(zip)
+                        ? 'Zip code invalid (format: 12345 or 12345-2222)'
+                        : null,
+                    keyboardType: TextInputType.number,
+                    maxLines: 1,
+                    maxLength: 2,
+                    icon: const Icon(Icons.numbers)
+                ),
+                CustomTextForm(
+                    hintText: "Email",
                     controller: emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (email) =>
                     email != null && !EmailValidator.validate(email)
                         ? 'Enter valid email' : null,
-                    decoration: const InputDecoration(
-                        hintText: "Email",
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 2),
-                        ),
-                        border: OutlineInputBorder()
-                    ),
-                  ),
+                    keyboardType: TextInputType.emailAddress,
+                    maxLines: 1,
+                    maxLength: 40,
+                    icon: const Icon(Icons.email)
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: TextFormField(
+                CustomTextForm(
+                    hintText: "Phone Number",
                     controller: phoneNumberController,
-                    keyboardType: TextInputType.phone,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (number) =>
                     number != null && !phonePattern.hasMatch(number)
                         ? 'Enter valid phone number (ex: 222-333-6776)' : null,
-                    decoration: const InputDecoration(
-                        hintText: "Phone Number",
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 2),
-                        ),
-                        border: OutlineInputBorder()
-                    ),
-                  ),
+                    keyboardType: TextInputType.phone,
+                    maxLines: 1,
+                    maxLength: 12,
+                    icon: const Icon(Icons.phone)
                 ),
 
                 //time picker
@@ -210,7 +144,7 @@ class _AddRestaurant extends State<AddRestaurant> {
                     children: [
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          fixedSize: Size(120, 56),
+                          fixedSize: const Size(120, 56),
                           backgroundColor: Colors.white,
                           foregroundColor: Colors.black54,
                           side: const BorderSide(color: Colors.black, width: 2),
@@ -228,13 +162,13 @@ class _AddRestaurant extends State<AddRestaurant> {
                             oTime = openTime.format(context).toString(),
                           });
                         },
-                        child: Text('Opening Time', textAlign: TextAlign.center,),
+                        child: const Text('Opening Time', textAlign: TextAlign.center,),
                       ),
 
                       SizedBox(
                         child: Text(
                           openTime.format(context).toString(),
-                          style: TextStyle(fontSize: 20),
+                          style: const TextStyle(fontSize: 20),
                         ),
                       ),
                     ],
@@ -248,7 +182,7 @@ class _AddRestaurant extends State<AddRestaurant> {
                     children: [
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          fixedSize: Size(120, 56),
+                          fixedSize: const Size(120, 56),
                           backgroundColor: Colors.white,
                           foregroundColor: Colors.black54,
                           side: const BorderSide(color: Colors.black, width: 2),
@@ -266,13 +200,13 @@ class _AddRestaurant extends State<AddRestaurant> {
                             cTime = closeTime.format(context).toString(),
                           });
                         },
-                        child: Text('Closing Time', textAlign: TextAlign.center,),
+                        child: const Text('Closing Time', textAlign: TextAlign.center,),
                       ),
 
                       SizedBox(
                         child: Text(
                           closeTime.format(context).toString(),
-                          style: TextStyle(fontSize: 20),
+                          style: const TextStyle(fontSize: 20),
                         ),
                       ),
                     ],
@@ -305,12 +239,12 @@ class _AddRestaurant extends State<AddRestaurant> {
                               emailController.text.trim(),
                               phoneNumberController.text.trim()) == true) {
                             if (flag == true){
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                                 content: Text(
                                     'Restaurant already exists at that address'),
                               ));
                             } else {
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                                 content: Text('Failed to add restaurant, please review input'),
                               ));
                             }
