@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/widgets/customTextForm.dart';
 
 import 'manageRestaurant.dart';
 
@@ -83,155 +84,89 @@ class _EditRestaurant extends State<EditRestaurant> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 15),
-              child: TextFormField(
+            CustomTextForm(
+                hintText: "Restaurant Name",
                 controller: restaurantNameController,
-                keyboardType: TextInputType.name,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (rName) =>
                 rName != null && rName
                     .trim()
                     .length > 40
                     ? 'Name must be between 1 to 40 characters' : null,
-                decoration: const InputDecoration(
-                    prefixIcon: Icon(Icons.food_bank, color: Colors.black,),
-                    hintText: "Restaurant Name",
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 2),
-                    ),
-                    border: OutlineInputBorder()
-                ),
-              ),
+                keyboardType: TextInputType.name,
+                maxLines: 1,
+                maxLength: 40,
+                icon: const Icon(Icons.food_bank, color: Colors.black,),
             ),
-
-            Padding(
-              padding: const EdgeInsets.only(bottom: 15),
-              child: TextFormField(
+            CustomTextForm(
+                hintText: "Address",
                 controller: addressController,
-                keyboardType: TextInputType.text,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (rAddress) =>
                 rAddress != null && rAddress
                     .trim()
                     .length > 100
-                    ? 'Name must be between 1 to 100 characters' : null,
-                decoration: const InputDecoration(
-                    hintText: "Address",
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 2),
-                    ),
-                    border: OutlineInputBorder()
-                ),
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.only(bottom: 15),
-              child: TextFormField(
-                controller: cityController,
+                    ? 'Text must be between 1 to 100 characters' : null,
                 keyboardType: TextInputType.text,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
+                maxLines: 1,
+                maxLength: 100,
+                icon: const Icon(Icons.house)
+            ),
+            CustomTextForm(
+                hintText: "City",
+                controller: cityController,
                 validator: (city) =>
                 city != null && city
                     .trim()
                     .length > 40
                     ? 'City must be between 1 to 40 characters' : null,
-                decoration: const InputDecoration(
-                    hintText: "City",
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 2),
-                    ),
-                    border: OutlineInputBorder()
-                ),
-              ),
+                keyboardType: TextInputType.text,
+                maxLines: 1,
+                maxLength: 40,
+                icon: const Icon(Icons.location_city)
             ),
-
-            //uppercase when typing value
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: SizedBox(
-                    width: 150, height: 50,
-                    child: TextFormField(
-                      controller: stateController,
-                      keyboardType: TextInputType.text,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (state) =>
-                      state != null && !statePattern.hasMatch(state)
-                          ? 'State invalid (format: MI)' : null,
-                      decoration: const InputDecoration(
-                          hintText: "State",
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(width: 2),
-                          ),
-                          border: OutlineInputBorder()
-                      ),
-                    ),
-                  ),
-                ),
-
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: SizedBox(
-                    width: 150, height: 50,
-                    child: TextFormField(
-                      controller: zipController,
-                      keyboardType: TextInputType.number,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (zip) =>
-                      zip != null && !zipPattern.hasMatch(zip)
-                          ? 'Zip code invalid (format: 12345 or 12345-2222)'
-                          : null,
-                      decoration: const InputDecoration(
-                          hintText: "Zip Code",
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(width: 2),
-                          ),
-                          border: OutlineInputBorder()
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+            CustomTextForm(
+                hintText: "State",
+                controller: stateController,
+                validator: (state) =>
+                state != null && !statePattern.hasMatch(state)
+                    ? 'State invalid (format: MI)' : null,
+                keyboardType: TextInputType.text,
+                maxLines: 1,
+                maxLength: 2,
+                icon: const Icon(Icons.location_city)
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 15),
-              child: TextFormField(
+            CustomTextForm(
+                hintText: "Zip Code",
+                controller: zipController,
+                validator: (zip) =>
+                zip != null && !zipPattern.hasMatch(zip)
+                    ? 'Zip code invalid (format: 12345 or 12345-2222)'
+                    : null,
+                keyboardType: TextInputType.number,
+                maxLines: 1,
+                maxLength: 10,
+                icon: const Icon(Icons.numbers)
+            ),
+            CustomTextForm(
+                hintText: "Email",
                 controller: emailController,
-                keyboardType: TextInputType.emailAddress,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (email) =>
                 email != null && !EmailValidator.validate(email)
                     ? 'Enter valid email' : null,
-                decoration: const InputDecoration(
-                    hintText: "Email",
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 2),
-                    ),
-                    border: OutlineInputBorder()
-                ),
-              ),
+                keyboardType: TextInputType.emailAddress,
+                maxLines: 1,
+                maxLength: 40,
+                icon: const Icon(Icons.email)
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 15),
-              child: TextFormField(
+            CustomTextForm(
+                hintText: "Phone Number",
                 controller: phoneNumberController,
-                keyboardType: TextInputType.phone,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (number) =>
                 number != null && !phonePattern.hasMatch(number)
                     ? 'Enter valid phone number (ex: 222-333-6776)' : null,
-                decoration: const InputDecoration(
-                    hintText: "Phone Number",
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 2),
-                    ),
-                    border: OutlineInputBorder()
-                ),
-              ),
+                keyboardType: TextInputType.phone,
+                maxLines: 1,
+                maxLength: 12,
+                icon: const Icon(Icons.phone)
             ),
 
             //time picker

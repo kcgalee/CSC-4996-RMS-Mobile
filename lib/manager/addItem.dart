@@ -19,16 +19,16 @@ class _AddItemState extends State<AddItem> {
   final itemNameController = TextEditingController();
   final priceController = TextEditingController();
   final itemDescController = TextEditingController();
-
+  final numberPattern = RegExp(r'^[1-9]\d*(\.\d+)?$');
 
   @override
   Widget build(BuildContext context)=> Scaffold (
-      drawer: const ManagerNavigationDrawer(),
       appBar: AppBar(
-        title: Text("add Item"),
+        title: Text("Add Item"),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 1,
+
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -43,6 +43,9 @@ class _AddItemState extends State<AddItem> {
                     keyboardType: TextInputType.text,
                     maxLines: 1,
                     maxLength: 50,
+                    validator: (itemName) =>
+                    itemName != null && itemName.trim().length > 50
+                        ? 'Text must be between 1 to 50 characters' : null,
                     icon: const Icon(Icons.fastfood, color: Colors.black)
                 ),
 
@@ -52,6 +55,9 @@ class _AddItemState extends State<AddItem> {
                     keyboardType: TextInputType.number,
                     maxLines: 1,
                     maxLength: 10,
+                    validator: (price) =>
+                    price != null && !numberPattern.hasMatch(price)
+                        ? 'number must be between 1 to 9999999999 ' : null,
                     icon: const Icon(Icons.attach_money, color: Colors.black)
                 ),
                 CustomTextForm(
@@ -60,6 +66,9 @@ class _AddItemState extends State<AddItem> {
                     keyboardType: TextInputType.text,
                     maxLines: 4,
                     maxLength: 150,
+                    validator: (itemName) =>
+                    itemName != null && itemName.trim().length > 150
+                        ? 'Text must be between 1 to 150 characters' : null,
                     icon: const Icon(Icons.description, color: Colors.black)
                 ),
 
