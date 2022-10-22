@@ -10,7 +10,6 @@ import 'tableStatus.dart';
 import 'order.dart';
 import 'qrScanner.dart';
 import 'package:restaurant_management_system/customer/Utility/navigation.dart';
-import 'package:restaurant_management_system/customer/requests.dart';
 
 class CustomerHome extends StatelessWidget {
 
