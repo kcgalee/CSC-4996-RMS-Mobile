@@ -86,13 +86,13 @@ class _Order extends State<Order> {
                     ),
                     CustomMainButton(text: "REQUEST WAITER",
                       onPressed: () {
-                        //TODO
+                        createOrderInfo.request('Request Waiter');
                         //SEND REQUEST FOR WAITER
                       },
                     ),
                     CustomMainButton(text: "REQUEST BILL",
                       onPressed: () {
-                        //TODO
+                        createOrderInfo.request('Request Bill');
                         //REQUEST BILL FROM WAITER
                       },
                     ),

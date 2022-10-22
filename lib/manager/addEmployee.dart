@@ -21,6 +21,7 @@ class _AddEmployee extends State<AddEmployee> {
 
   String managerID = FirebaseAuth.instance.currentUser?.uid as String;
   final emailController = TextEditingController();
+  final phoneController = TextEditingController();
   final pwController = TextEditingController();
   final confirmPwController = TextEditingController();
   final firstNameController = TextEditingController();
@@ -105,6 +106,20 @@ class _AddEmployee extends State<AddEmployee> {
               ),
             ),
 
+            Padding(
+              padding: const EdgeInsets.only(bottom: 15),
+              child: TextFormField(
+                controller: phoneController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                    hintText: "Phone Number",
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(width: 2),
+                    ),
+                    border: OutlineInputBorder()
+                ),
+              ),
+            ),
 
             Padding(
               padding: const EdgeInsets.only(bottom: 15),
@@ -165,7 +180,7 @@ class _AddEmployee extends State<AddEmployee> {
                 onPressed: () async {
                    await registrationChecker(emailController.text.trim(), pwController.text.trim(),
                         firstNameController.text.trim(), lastNameController.text.trim(),
-                        preferredNameController.text.trim(), managerID);
+                        preferredNameController.text.trim(), managerID, phoneController.text.trim());
 
                 }
 
@@ -179,7 +194,7 @@ class _AddEmployee extends State<AddEmployee> {
 
 
   registrationChecker(String email, String password, String firstName,
-      String lastName, String preferredName, String managerID) async {
+      String lastName, String preferredName, String managerID, String phone) async {
     //run dart pub add email_validator in terminal to add dependencies
     //validate e-mail
       FirebaseApp app = await Firebase.initializeApp(
@@ -189,7 +204,7 @@ class _AddEmployee extends State<AddEmployee> {
           .createUserWithEmailAndPassword(email: email, password: password);
 
       String? userID = userCredential.user?.uid.toString();
-      newUserData(email, userID.toString().trim(), firstName, lastName, preferredName, managerID);
+      newUserData(email, userID.toString().trim(), firstName, lastName, preferredName, managerID, phone);
 
     } //end of try block
     on FirebaseAuthException catch (e) {
@@ -204,7 +219,7 @@ class _AddEmployee extends State<AddEmployee> {
   }
 
   void newUserData(String email, String UID, String firstName,
-      String lastName, String preferredName, String managerID) {
+      String lastName, String preferredName, String managerID, String phone) {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     final DateTime now = DateTime.now();
 
@@ -220,6 +235,7 @@ class _AddEmployee extends State<AddEmployee> {
           'restID' : restID,
           'date': Timestamp.fromDate(now),
           'managerID' : managerID,
+          'phone' : phone
         }
 
 
