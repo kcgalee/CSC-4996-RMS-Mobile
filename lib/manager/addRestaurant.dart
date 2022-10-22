@@ -110,7 +110,7 @@ class _AddRestaurant extends State<AddRestaurant> {
                         : null,
                     keyboardType: TextInputType.number,
                     maxLines: 1,
-                    maxLength: 2,
+                    maxLength: 10,
                     icon: const Icon(Icons.numbers)
                 ),
                 CustomTextForm(
