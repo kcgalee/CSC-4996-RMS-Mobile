@@ -7,7 +7,7 @@ class CustomTextForm extends StatelessWidget {
   final TextInputType keyboardType;
   final int maxLines;
   final int maxLength;
-  const CustomTextForm({Key? key, required this.hintText, required this.controller,required this.icon, required this.keyboardType, required this.maxLines,required this.maxLength}) : super(key: key);
+  const CustomTextForm({Key? key, required this.hintText, required this.controller,required this.icon, required this.keyboardType, required this.maxLines,required this.maxLength, required AutovalidateMode autovalidateMode, required String? Function(dynamic number) validator}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

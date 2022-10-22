@@ -55,7 +55,7 @@ class _AddTable extends State<AddTable> {
     children: [
 
 
-      CustomTextForm(
+      /*CustomTextForm(
         hintText: "Table number",
         controller: tableNumberController,
         keyboardType: TextInputType.number,
