@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/customer/placedOrders.dart';
 import 'package:restaurant_management_system/widgets/orderTile.dart';
 
 import '../widgets/customSubButton.dart';
@@ -101,6 +102,8 @@ class _ViewOrder extends State<ViewOrder> {
             CustomSubButton(text: "PLACE ORDER",
                 onPressed: () {
                 createOrderInfo.placeOrder();
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => PlacedOrders(tableID: tableID)));
                 }
             ),
 

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/customer/Models/createOrderInfo.dart';
+import 'package:restaurant_management_system/customer/placedOrders.dart';
 import 'package:restaurant_management_system/customer/viewOrder.dart';
 
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
@@ -97,6 +98,14 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(
                             builder: (context) => const TableStatus()),
+                        );
+                      }
+                  ),
+
+                  CustomSubButton(text: "PLACED ORDERS",
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => PlacedOrders(tableID: tableID)),
                         );
                       }
                   ),
