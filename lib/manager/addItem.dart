@@ -4,15 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:restaurant_management_system/manager/manageMenuItem.dart';
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
 import 'package:restaurant_management_system/widgets/customTextForm.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 
 class AddItem extends StatefulWidget {
-   String restaurantID;
-   String category;
+  String restaurantID;
+  String category;
 
   AddItem({Key? key, required this.restaurantID, required this.category}) : super(key: key);
   @override
@@ -37,7 +36,6 @@ class _AddItemState extends State<AddItem> {
 
   @override
   Widget build(BuildContext context)=> Scaffold (
-      drawer: const ManagerNavigationDrawer(),
       appBar: AppBar(
         title: Text("Add Item"),
         backgroundColor: Colors.white,
@@ -61,7 +59,6 @@ class _AddItemState extends State<AddItem> {
                     hintText: "Item Name",
                     controller: itemNameController,
                     keyboardType: TextInputType.text,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (name) =>
                     name != null && name.trim().length > 50
                         ? 'Name must be between 1 to 50 characters' : null,
@@ -74,7 +71,6 @@ class _AddItemState extends State<AddItem> {
                     hintText: "Price (ex: 5 or 10.99)",
                     controller: priceController,
                     keyboardType: TextInputType.number,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (price) =>
                     price != null && !pricePattern.hasMatch(price)
                         ? 'Enter valid price (ex: 1,000 or 25.50)' : null,
@@ -86,7 +82,6 @@ class _AddItemState extends State<AddItem> {
                     hintText: "Item Description",
                     controller: itemDescController,
                     keyboardType: TextInputType.text,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (desc) =>
                     desc != null && desc.trim().length > 150
                         ? 'Description cannot exceed 150 characters' : null,
@@ -97,28 +92,28 @@ class _AddItemState extends State<AddItem> {
 
 
                 CustomMainButton(
-                  text: "Add Item",
-                  onPressed: () async {
-                    bool status = await validate(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
-                    if (status == true && flag == true){
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('An item already exists with that name'),
-                      ));
-                    } else if (status == true && flag == false){
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('Could not add item, please review item information'),
-                      ));
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('success'),
-                      ));
-                      addItem(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => ManageMenuItem(restaurantID: widget.restaurantID, category: widget.category)
-                          )
-                      );
+                    text: "Add Item",
+                    onPressed: () async {
+                      bool status = await validate(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
+                      if (status == true && flag == true){
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text('An item already exists with that name'),
+                        ));
+                      } else if (status == true && flag == false){
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text('Could not add item, please review item information'),
+                        ));
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text('success'),
+                        ));
+                        addItem(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => ManageMenuItem(restaurantID: widget.restaurantID, category: widget.category)
+                            )
+                        );
+                      }
                     }
-                  }
                 )
               ]),
         ),
@@ -144,15 +139,15 @@ class _AddItemState extends State<AddItem> {
     bool error = false;
     await FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').get().then(
             (value) => {
-              if (value.docs.isNotEmpty) {
-                value.docs.forEach((element) {
-                  if (element['name'].toUpperCase() == itemName.toUpperCase()){
-                    error = true;
-                    flag = true;
-                  }
-                })
+          if (value.docs.isNotEmpty) {
+            value.docs.forEach((element) {
+              if (element['name'].toUpperCase() == itemName.toUpperCase()){
+                error = true;
+                flag = true;
               }
-    });
+            })
+          }
+        });
 
     if (itemName == "" || itemName.length > 50 || price == ""){
       error = true;

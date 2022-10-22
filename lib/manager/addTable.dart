@@ -30,7 +30,7 @@ class _AddTable extends State<AddTable> {
   final tableLocationController = TextEditingController();
   int numb = 0;
   late Map documents;
-
+  final numberPattern = RegExp(r'^[1-9]\d*(\.\d+)?$');
   @override
   Widget build(BuildContext context)=> Scaffold (
       drawer: const ManagerNavigationDrawer(),
@@ -61,6 +61,9 @@ class _AddTable extends State<AddTable> {
         keyboardType: TextInputType.number,
         maxLines: 1,
         maxLength: 10,
+        validator: (tablenum) =>
+        tablenum != null && !numberPattern.hasMatch(tablenum)
+            ? 'number must be between 1 to 9999999999 ' : null,
         icon: const Icon(Icons.numbers, color: Colors.black)
     ),
 
@@ -70,6 +73,9 @@ class _AddTable extends State<AddTable> {
           keyboardType: TextInputType.text,
           maxLines: 1,
           maxLength: 20,
+          validator: (tableLoc) =>
+          tableLoc != null && tableLoc.trim().length > 20
+              ? 'Text must be between 1 to 20 characters' : null,
           icon: const Icon(Icons.location_on, color: Colors.black)
       ),
       CustomTextForm(
@@ -78,6 +84,10 @@ class _AddTable extends State<AddTable> {
           keyboardType: TextInputType.number,
           maxLines: 1,
           maxLength: 3,
+          validator: (maxCapacity) =>
+          maxCapacity != null && !numberPattern.hasMatch(maxCapacity)
+              ? 'number must be between 1 to 999' : null,
+
           icon: const Icon(Icons.people, color: Colors.black)
       ),
       CustomTextForm(
@@ -86,6 +96,9 @@ class _AddTable extends State<AddTable> {
           keyboardType: TextInputType.text,
           maxLines: 1,
           maxLength: 20,
+          validator: (tableType) =>
+          tableType != null && tableType.trim().length > 20
+              ? 'Text must be between 1 to 20 characters' : null,
           icon: Icon(Icons.table_bar, color: Colors.black)
       ),
 
