@@ -61,7 +61,8 @@ class CreateOrderInfo extends RestaurantInfo{
           'itemID' : itemID,
           'itemName' : itemName,
           'quantity' :count,
-          'price' : price
+          'price' : price,
+          'timePlaced': Timestamp.fromDate(now),
         }
     );
 
