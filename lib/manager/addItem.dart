@@ -24,7 +24,7 @@ class _AddItemState extends State<AddItem> {
   @override
   Widget build(BuildContext context)=> Scaffold (
       appBar: AppBar(
-        title: Text("add Item"),
+        title: Text("Add Item"),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 1,

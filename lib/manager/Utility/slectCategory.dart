@@ -40,7 +40,7 @@ class _SelectCatagoryState extends State<SelectCatagory> {
     children: [
       const Padding(
         padding: EdgeInsets.all(24),
-        child: Text("select a category",style: TextStyle(fontSize: 30),),
+        child: Text("Select a Category",style: TextStyle(fontSize: 30),),
       ),
     CustomSubButton(text: "APPETIZERS",
     onPressed: () {
