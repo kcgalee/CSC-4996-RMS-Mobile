@@ -7,10 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
 import 'package:restaurant_management_system/widgets/customSubButton.dart';
-import 'package:restaurant_management_system/widgets/customTextFrom.dart';
+import 'package:restaurant_management_system/widgets/customTextForm.dart';
 
 import 'GenerateQRCode.dart';
 import 'Utility/MangerNavigationDrawer.dart';
+import 'Utility/selectRestaurant.dart';
 
 class AddTable extends StatefulWidget {
   final String text;
@@ -29,7 +30,7 @@ class _AddTable extends State<AddTable> {
   final tableLocationController = TextEditingController();
   int numb = 0;
   late Map documents;
-
+  final numberPattern = RegExp(r'^[1-9]\d*(\.\d+)?$');
   @override
   Widget build(BuildContext context)=> Scaffold (
       drawer: const ManagerNavigationDrawer(),
@@ -38,6 +39,14 @@ class _AddTable extends State<AddTable> {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 1,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new,size: 30,),
+            onPressed: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'table')));
+            },
+          ),
+        ],
       ),
       body: Center(
   child: SingleChildScrollView(
@@ -46,25 +55,50 @@ class _AddTable extends State<AddTable> {
     children: [
 
 
-    CustomTextFrom(
+      CustomTextForm(
         hintText: "Table number",
         controller: tableNumberController,
+        keyboardType: TextInputType.number,
+        maxLines: 1,
+        maxLength: 10,
+        validator: (tablenum) =>
+        tablenum != null && !numberPattern.hasMatch(tablenum)
+            ? 'number must be between 1 to 9999999999 ' : null,
         icon: const Icon(Icons.numbers, color: Colors.black)
     ),
 
-      CustomTextFrom(
+      CustomTextForm(
           hintText: "Table Location",
           controller: tableLocationController,
+          keyboardType: TextInputType.text,
+          maxLines: 1,
+          maxLength: 20,
+          validator: (tableLoc) =>
+          tableLoc != null && tableLoc.trim().length > 20
+              ? 'Text must be between 1 to 20 characters' : null,
           icon: const Icon(Icons.location_on, color: Colors.black)
       ),
-      CustomTextFrom(
+      CustomTextForm(
           hintText: "Table Capacity",
           controller: tableCapacityController,
+          keyboardType: TextInputType.number,
+          maxLines: 1,
+          maxLength: 3,
+          validator: (maxCapacity) =>
+          maxCapacity != null && !numberPattern.hasMatch(maxCapacity)
+              ? 'number must be between 1 to 999' : null,
+
           icon: const Icon(Icons.people, color: Colors.black)
       ),
-      CustomTextFrom(
+      CustomTextForm(
           hintText: "Table Type",
           controller: tableTypeController,
+          keyboardType: TextInputType.text,
+          maxLines: 1,
+          maxLength: 20,
+          validator: (tableType) =>
+          tableType != null && tableType.trim().length > 20
+              ? 'Text must be between 1 to 20 characters' : null,
           icon: Icon(Icons.table_bar, color: Colors.black)
       ),
 
