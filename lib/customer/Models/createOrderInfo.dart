@@ -40,6 +40,7 @@ class CreateOrderInfo extends RestaurantInfo{
     FirebaseFirestore.instance.collection('orders').add(
     {
         'price' : price,
+        'custName' : custName,
         'custID' : uID.toString(),
         'itemID' : itemID,
         'itemName' : itemName,
@@ -56,6 +57,7 @@ class CreateOrderInfo extends RestaurantInfo{
         FirebaseFirestore.instance.collection('tables/$tableID/tableOrders').add(
 
         {
+          'custName' : custName,
           'itemID' : itemID,
           'itemName' : itemName,
           'quantity' :count,
