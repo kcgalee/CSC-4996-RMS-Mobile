@@ -54,7 +54,7 @@ class _AddTable extends State<AddTable> {
     child: Column(
     children: [
 
-
+/*
       CustomTextForm(
         hintText: "Table number",
         controller: tableNumberController,
@@ -107,7 +107,8 @@ class _AddTable extends State<AddTable> {
         onPressed: () =>
         newTableData(int.parse(tableNumberController.text.trim()),
             int.parse(tableCapacityController.text.trim()),
-            tableTypeController.text.trim()),)
+            tableTypeController.text.trim()),
+      )*/
 
     ]),
   ),

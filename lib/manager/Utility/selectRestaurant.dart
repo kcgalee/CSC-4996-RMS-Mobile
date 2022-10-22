@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/addEmployee.dart';
 import 'package:restaurant_management_system/manager/editRestaurant.dart';
-import 'package:restaurant_management_system/manager/Utility/slectCategory.dart';
+import 'package:restaurant_management_system/manager/Utility/selectCategory.dart';
 
 import '../addTable.dart';
 import 'MangerNavigationDrawer.dart';
@@ -39,6 +38,8 @@ class _SelectRestaurant extends State<SelectRestaurant> {
             stream: FirebaseFirestore.instance.
             collection('restaurants')
             .where('managerID', isEqualTo: uID?.trim())
+            .where('isActive', isEqualTo: true)
+            .orderBy('restName')
                 .snapshots(),
 
             builder: (context, snapshot) {
@@ -58,16 +59,16 @@ class _SelectRestaurant extends State<SelectRestaurant> {
                             title: Text(snapshot.data?.docs[index]['restName'] ?? ''),
                             subtitle: Text(snapshot.data?.docs[index]['address'] ?? ''),
                             onTap: () {
-                              String? value = snapshot.data?.docs[index].id.toString();
-                              if(text == 'table'){
-                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddTable(text: value.toString())));
+                              String? rID = snapshot.data?.docs[index].id;
 
+                              if(text == 'table'){
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddTable(text: rID.toString())));
                               }
                               else if (text == 'employee'){
-                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddEmployee(text: value.toString())));
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddEmployee(text: rID.toString())));
                                 }
                               else if (text == 'menu'){
-                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectCatagory(text: value.toString())));
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectCategory(restaurantID: rID.toString())));
                               }
                               else{
 

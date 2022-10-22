@@ -1,12 +1,17 @@
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/manager/Utility/selectCategory.dart';
 import 'package:restaurant_management_system/manager/addItem.dart';
 
 import 'Utility/MangerNavigationDrawer.dart';
+import 'Utility/managerTile.dart';
 
 
 class ManageMenuItem extends StatefulWidget {
-  const ManageMenuItem({Key? key}) : super(key: key);
+  final String restaurantID;
+  final String category;
+
+  const ManageMenuItem({Key? key, required this.restaurantID, required this.category}) : super(key: key);
 
   @override
   State<ManageMenuItem> createState() => _ManageMenuItemState();
@@ -22,13 +27,21 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 1,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new,size: 30,),
+            onPressed: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectCategory(restaurantID: widget.restaurantID)));
+            },
+          ),
+        ],
       ),
 
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(context,
               MaterialPageRoute(
-                  builder: (context) =>  AddItem(text: "menu")
+                  builder: (context) =>  AddItem(restaurantID: widget.restaurantID, category: widget.category)
               )
           );
         },
@@ -36,10 +49,35 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
         icon: const Icon(Icons.fastfood_sharp),
         backgroundColor: Colors.black,
       ),
-
-
       body: Column(
+        children: [
+          Expanded(
+            child: StreamBuilder(
+                stream: FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').where('category', isEqualTo: widget.category).snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
+                    return Center( child: Text("You currently have no items added to the ${widget.category}s category"));
+                  } else {
+                    return ListView.builder(
+                        itemCount: snapshot.data?.docs.length,
+                        itemBuilder: (context, index) {
+                          return ManagerTile(
+                              taskName: snapshot.data?.docs[index]['name'] + ' \$' + snapshot.data?.docs[index]['price'],
+                              subTitle: snapshot.data?.docs[index]['description'] ?? '',
+                              onPressedEdit:  (){
 
+
+                              },
+                              onPressedDelete: () async {
+
+                              }
+                          );
+                        }
+                    );
+                  }
+                }),
+          ),
+        ],
       ),
 
     );

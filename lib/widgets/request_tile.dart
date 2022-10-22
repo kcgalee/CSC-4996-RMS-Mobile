@@ -23,6 +23,9 @@ class RequestTile extends StatelessWidget {
  Color iPColor = Color(0xfff9fbe7);
  Color dColor = Color(0xffe8f5e9);
 
+ final String tableID;
+ final String orderDoc;
+
 
 
  RequestTile({
@@ -34,6 +37,8 @@ class RequestTile extends StatelessWidget {
     required this.time,
     required this.orderID,
     required this.oStatus,
+   required this.tableID,
+   required this.orderDoc,
   });
 
   @override
@@ -159,6 +164,9 @@ class RequestTile extends StatelessWidget {
       await status.reference.update({
         'status': 'placed'
       });
+      await FirebaseFirestore.instance.collection('tables/${tableID}/tableOrders').doc(orderDoc).update({
+        'status': 'placed'
+      });
     }
   }
 
@@ -168,6 +176,9 @@ class RequestTile extends StatelessWidget {
       await status.reference.update({
         'status': 'in progress'
       });
+      await FirebaseFirestore.instance.collection('tables/${tableID}/tableOrders').doc(orderDoc).update({
+        'status': 'in progress'
+      });
     }
   }
 
@@ -175,6 +186,10 @@ class RequestTile extends StatelessWidget {
    var status = await FirebaseFirestore.instance.collection('orders').doc(orderID).get();
    if ((status['status'] == 'placed') || (status['status'] == 'in progress')){
      await status.reference.update({
+       'status': 'delivered',
+       'timeDelivered': Timestamp.now(),
+     });
+     await FirebaseFirestore.instance.collection('tables/${tableID}/tableOrders').doc(orderDoc).update({
        'status': 'delivered',
        'timeDelivered': Timestamp.now(),
      });

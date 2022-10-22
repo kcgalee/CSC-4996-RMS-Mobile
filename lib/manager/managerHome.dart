@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/Utility/selectRestaurant.dart';
 import 'package:restaurant_management_system/manager/addTable.dart';
 import 'package:restaurant_management_system/manager/manageEmployee.dart';
-import 'package:restaurant_management_system/manager/manageMenu.dart';
 import 'package:restaurant_management_system/manager/manageRestaurant.dart';
 
 import '../widgets/customSubButton.dart';
@@ -31,7 +30,7 @@ String managerName = '';
           elevation: 1,
         ),
         body: FutureBuilder(
-          future: getRestName(),
+          future: getManagerName(),
           builder: (context, snapshot) {
             return SingleChildScrollView(
                 child: Center(
@@ -39,7 +38,7 @@ String managerName = '';
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(26),
-                        child: Text("Hello, " + managerName,
+                        child: Text("Hello, " + managerName + "!",
                           style: const TextStyle(fontSize: 25,),),
                       ),
 
@@ -101,7 +100,7 @@ String managerName = '';
         ));
   }
 
-  Future getRestName() async {
+  Future getManagerName() async {
     await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).get().then(
             (element) {
               managerName = element['fName'];
