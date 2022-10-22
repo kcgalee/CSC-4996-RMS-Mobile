@@ -29,7 +29,7 @@ class _AddItemState extends State<AddItem> {
   @override
   void initState() {
     //set default text
-    //priceController.text = '0.00';
+    priceController.text = '0.00';
 
     super.initState();
   }

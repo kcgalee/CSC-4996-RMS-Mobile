@@ -53,6 +53,8 @@ class _WaiterRequestState extends State<WaiterRequest> {
                               time: snapshot.data?.docs[index]['dateTime'],
                               orderID: (snapshot.data?.docs[index].reference.id ?? ''),
                               oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
+                              tableID: snapshot.data?.docs[index]['tableID'],
+                              orderDoc: snapshot.data?.docs[index].reference.id ?? '',
                             );
                           }
                       );
