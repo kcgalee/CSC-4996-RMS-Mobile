@@ -8,17 +8,21 @@ class CreateOrderInfo extends RestaurantInfo{
   late List<int> count = [];
   late List<String> itemName= [];
   late List<String> price = [];
-
-
+  late var custName;
   late var custID;
 
   CreateOrderInfo(this.custID);
 
-  orderSetter(String itemID, int count, String itemName, String price) {
+  orderSetter(String itemID, int count, String itemName, String price) async {
     this.count.add(count);
     this.itemID.add(itemID);
     this.itemName.add(itemName);
     this.price.add(price);
+
+    await FirebaseFirestore.instance.collection('users').doc(custID).get().then(
+            (element) {
+          custName = element['fName'];
+        });
   }
 
   void placeOrder() {
