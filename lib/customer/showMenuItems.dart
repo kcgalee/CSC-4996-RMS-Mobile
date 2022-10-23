@@ -61,9 +61,8 @@ class _ShowMenuItems extends State<ShowMenuItems> {
         ),
         body: StreamBuilder(
             stream: FirebaseFirestore.instance.
-            collection('menu')
+            collection('restaurants/$restID/menu')
                 .where('category', isEqualTo: text)
-                .where('restID', isEqualTo: restID)
                 .snapshots(),
 
             builder: (context, snapshot) {
