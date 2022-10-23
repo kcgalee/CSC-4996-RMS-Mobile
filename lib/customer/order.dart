@@ -36,10 +36,23 @@ class _Order extends State<Order> {
         body: Center(
                 child: Column(
                   children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child:
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(
+                              Icons.arrow_back,
+                              color: Colors.black87,
+                          ),
+                        ),
+                    ),
                     Padding(
-                      padding: const EdgeInsets.all(26),
+                      padding: const EdgeInsets.only(bottom: 26.0),
                       child: Text(restName,
-                        style: const TextStyle(fontSize: 25,),),
+                        style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
                     ),
                     CustomSubButton(text: "APPETIZERS",
                         onPressed: () {

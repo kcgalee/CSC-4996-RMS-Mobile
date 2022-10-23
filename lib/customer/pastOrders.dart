@@ -15,9 +15,11 @@ class _PastOrdersState extends State<PastOrders> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const NavigationDrawer(),
-      appBar: AppBar(
-
-      title: const Text("Past Orders"),
+        appBar: AppBar(
+          title: Text('Past Orders'),
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          elevation: 0,
       actions: <Widget>[],
       )
     );
