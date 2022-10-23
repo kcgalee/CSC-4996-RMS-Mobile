@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/widgets/ordersPlacedTile.dart';
 
 import '../widgets/request_tile.dart';
+import 'Utility/navigation.dart';
 
 
 class PlacedOrders extends StatefulWidget {
@@ -18,6 +19,7 @@ class _PlacedOrders extends State<PlacedOrders> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: const NavigationDrawer(),
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Text('Placed Orders',),
@@ -27,8 +29,6 @@ class _PlacedOrders extends State<PlacedOrders> {
         ),
         body: Column(
           children: [
-            Text("Orders Placed",
-              style: TextStyle(fontSize: 30,),),
             Expanded(
               child: StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('tables/'+widget.tableID+'/tableOrders').orderBy('timePlaced', descending: true).snapshots(),
