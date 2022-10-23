@@ -39,7 +39,7 @@ class _Order extends State<Order> {
                     Padding(
                       padding: const EdgeInsets.all(26),
                       child: Text(restName,
-                        style: const TextStyle(fontSize: 25,),),
+                        style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
                     ),
                     CustomSubButton(text: "APPETIZERS",
                         onPressed: () {
