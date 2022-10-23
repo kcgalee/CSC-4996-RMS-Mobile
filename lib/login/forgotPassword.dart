@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
 
+import 'login.dart';
+
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({Key? key}) : super(key: key);
 
@@ -73,11 +75,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 title: const Text(
                     'A unique password reset link has been sent to your email.'),
                 content: const Text(
-                    'Please follow the instructions in the email to reset your password.'),
+                    'Please follow the instructions in the email to reset your password. You will now be redirected to the login page.'),
                 actions: <Widget>[
                   TextButton(
-                    onPressed: () =>
-                        Navigator.pop(context, 'Confirm'),
+                    onPressed: () {
+                      Navigator.pop(context, 'Confirm');
+                      Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => const Login()));
+                    },
                     child: const Text('Confirm'),
                   ),
                 ],
