@@ -145,8 +145,8 @@ class _EditEmployee extends State<EditEmployee> {
                           borderRadius: BorderRadius.circular(10)),
                     ),
                     child: const Text("update"),
-                    onPressed: (){
-                      bool status = validate(firstNameController.text.trim(), lastNameController.text.trim(), prefNameController.text.trim(), phoneController.text.trim());
+                    onPressed: () async {
+                      var status = validate(firstNameController.text.trim(), lastNameController.text.trim(), prefNameController.text.trim(), phoneController.text.trim());
                       if (status == true && flag == true){
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text('There is no information to update'),
@@ -156,16 +156,7 @@ class _EditEmployee extends State<EditEmployee> {
                           content: Text('Could not update information, please review input'),
                         ));
                       } else {
-                        if (firstNameController.text.trim() != ""){
-                          updateFName(firstNameController.text.trim());
-                        }
-                        if (lastNameController.text.trim() != ""){
-                          updateLName(lastNameController.text.trim());
-                        }
-                        updatePrefName(prefNameController.text.trim());
-                        if (phoneController.text.trim() != ""){
-                          updatePhone(phoneController.text.trim());
-                        }
+                        updateInfo(firstNameController.text.trim(), lastNameController.text.trim(), prefNameController.text.trim(), phoneController.text.trim());
                         Navigator.pop(context,
                             MaterialPageRoute(builder: (context) => ManageEmployee()
                             )
@@ -198,31 +189,13 @@ class _EditEmployee extends State<EditEmployee> {
     ),
   );
 
-  updateFName(String fName) async {
+  updateInfo(String fName, String lName, String prefName, String phone) async {
     var user = await FirebaseFirestore.instance.collection('users').doc(widget.eID).get();
     await user.reference.update({
-      'fName': fName
-    });
-  }
-
-  updateLName(String lName) async {
-    var user = await FirebaseFirestore.instance.collection('users').doc(widget.eID).get();
-    await user.reference.update({
-      'lName': lName
-    });
-  }
-
-  updatePrefName(String prefName) async {
-    var user = await FirebaseFirestore.instance.collection('users').doc(widget.eID).get();
-    await user.reference.update({
-      'prefName': prefName
-    });
-  }
-
-  updatePhone(String phone) async {
-    var user = await FirebaseFirestore.instance.collection('users').doc(widget.eID).get();
-    await user.reference.update({
-      'phone': phone
+      'fName': fName,
+      'lName': lName,
+      'prefName': prefName,
+      'phone': phone,
     });
   }
 
