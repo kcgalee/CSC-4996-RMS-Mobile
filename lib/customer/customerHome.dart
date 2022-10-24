@@ -26,10 +26,34 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
     return Scaffold(
       drawer: const NavigationDrawer(),
       appBar: AppBar(
-        title:  const Text("Home"),
+        title: const Text('Home'),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
-        actions: const <Widget>[],
+        elevation: 0,
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child:
+            TextButton(
+              onPressed: (){
+                Navigator.push(context,
+                    MaterialPageRoute(
+                        builder: (context) => ViewOrder(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
+
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50)),
+              ),
+              child: const Icon(
+                Icons.shopping_cart,
+                color: Colors.white,
+                size: 20.0,
+              ),
+            ),
+          ),
+        ],
       ),
       body: FutureBuilder (
           future: getRestaurantId(),

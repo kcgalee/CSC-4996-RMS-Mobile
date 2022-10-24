@@ -43,7 +43,9 @@ class _ShowMenuItems extends State<ShowMenuItems> {
               child:
                 TextButton(
                   onPressed: (){
-                    //todo
+                        Navigator.push(context,
+                        MaterialPageRoute(
+                     builder: (context) => ViewOrder(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
@@ -61,9 +63,8 @@ class _ShowMenuItems extends State<ShowMenuItems> {
         ),
         body: StreamBuilder(
             stream: FirebaseFirestore.instance.
-            collection('menu')
+            collection('restaurants/$restID/menu')
                 .where('category', isEqualTo: text)
-                .where('restID', isEqualTo: restID)
                 .snapshots(),
 
             builder: (context, snapshot) {
@@ -103,6 +104,7 @@ class _ShowMenuItems extends State<ShowMenuItems> {
 
 
                                 onTap: () {
+                                  int? count = 0;
                                   print(snapshot.data?.docs[index]['name']);
                                   showDialog(
                                     context: context,
@@ -136,19 +138,20 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                 },
                                               ),
                                               Counter(
-                                                min: 0,
+                                                min: 1,
                                                 max: 10,
-                                                bound: 0,
+                                                bound: 1,
                                                 step: 1,
-                                                onValueChanged: print,
+                                                onValueChanged: (value) {
+                                                  count = value as int?;
+                                                },
                                               ),
                                               TextButton(
                                                 child:  const Text("Add to Order"),
                                                 onPressed: () {
+                                                      count == null ? count = 1 : count = count?.toInt();
 
-                                                  int count = 1;
-
-                                                 createOrderInfo.orderSetter(snapshot.data?.docs[index].id as String, count, snapshot.data?.docs[index]['name'], snapshot.data?.docs[index]['price']);
+                                                 createOrderInfo.orderSetter(snapshot.data?.docs[index].id as String, count!, snapshot.data?.docs[index]['name'], snapshot.data?.docs[index]['price']);
                                                   Navigator.of(context).pop();
                                                   Navigator.push(context,
                                                       MaterialPageRoute(
