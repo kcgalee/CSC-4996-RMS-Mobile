@@ -127,7 +127,7 @@ class _AddItemState extends State<AddItem> {
       price += '.00';
     }
     await FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').doc().set({
-      'name': itemName,
+      'itemName': itemName,
       'price': price,
       'category': widget.category,
       'description': itemDesc,

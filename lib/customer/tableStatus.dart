@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'Models/createOrderInfo.dart';
+
 
 class TableStatus extends StatefulWidget {
-  const TableStatus({Key? key}) : super(key: key);
+  CreateOrderInfo createOrderInfo;
+  TableStatus({Key? key, required this.createOrderInfo}) :super(key: key);
 
   @override
   State<TableStatus> createState() => _TableStatusState();
@@ -37,10 +40,10 @@ class _TableStatusState extends State<TableStatus> {
               crossAxisAlignment: CrossAxisAlignment. center,
               children: [
                 const Text(
-                    "Table "
+                    "Table: "
                 ),
                 Text(
-                  tableNum,
+                  widget.createOrderInfo.tableNum.toString(),
                 ),
               ],
             ),
@@ -49,11 +52,11 @@ class _TableStatusState extends State<TableStatus> {
               crossAxisAlignment: CrossAxisAlignment. center,
               children: [
                 const Text(
-                  "Waiter ",
+                  "Waiter: ",
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  waiterName,
+                  widget.createOrderInfo.waiterName,
                   textAlign: TextAlign.left,
                 ),
                 Text(
