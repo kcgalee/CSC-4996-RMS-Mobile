@@ -114,14 +114,17 @@ class LoginState extends State<Login> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('You must enter a valid email & password'),
       ));
+      return 'You must enter a valid email & password';
     } else if (emailController.text.trim() == ""){
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('You must enter a valid email'),
       ));
+      return 'You must enter a valid email';
     } else if (pwController.text.trim() == ""){
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('You must enter a valid password'),
       ));
+      return 'You must enter a valid password';
     }
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/Waiter/Utility/viewTableTile.dart';
 import 'package:restaurant_management_system/waiter/waiterTables.dart';
 import '../widgets/customRedButton.dart';
+import 'package:intl/intl.dart';
 
 
 class ViewTable extends StatefulWidget {
@@ -138,12 +139,14 @@ class _ViewTableState extends State<ViewTable> {
 
   //in-progress
   Future closeTable() async{
-    var members = await FirebaseFirestore.instance.collection('tables/' + widget.tableID + '/tableMembers').where('isHolder', isEqualTo: false).get();
+    var memCount = 0;
+    var members = await FirebaseFirestore.instance.collection('tables/' + widget.tableID + '/tableMembers').get();
     for (var doc in members.docs){
       await doc.reference.delete();
+      memCount++;
     }
 
-    var orders = await FirebaseFirestore.instance.collection('tables/' + widget.tableID + '/tableOrders').where('isHolder', isEqualTo: false).get();
+    var orders = await FirebaseFirestore.instance.collection('tables/' + widget.tableID + '/tableOrders').get();
     for (var doc in orders.docs){
       await doc.reference.delete();
     }
@@ -152,6 +155,13 @@ class _ViewTableState extends State<ViewTable> {
     await table.reference.update({
       'waiterID': '',
       'waiterName': '',
+    });
+    
+    var rID = table['restID'];
+    await FirebaseFirestore.instance.collection('cpd').doc().set({
+      'date': DateFormat('EEEE').format(DateTime.now()),
+      'members': memCount,
+      'restID': rID,
     });
   }
 }
