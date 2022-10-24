@@ -125,8 +125,6 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
 
     Future<String> getRestaurantId() async {
 
-
-
       final docRef2 = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid.toString());
       await docRef2.get().then(
               (DocumentSnapshot doc){
@@ -141,6 +139,8 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
           final data = doc.data() as Map<String, dynamic>;
           restID = data['restID'].toString().trim();
         });
+
+    print(restID);
 
     final docRef3 = FirebaseFirestore.instance.collection('restaurants').doc(restID);
     await docRef3.get().then(
