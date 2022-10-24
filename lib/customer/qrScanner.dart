@@ -63,7 +63,6 @@ class _QRScannerState extends State<QRScanner> {
       if (scanData.format == BarcodeFormat.qrcode && scanData.code != null) {
         controller.pauseCamera();
         setTable(scanData.code!);
-
       }
     });
   }
@@ -72,6 +71,8 @@ class _QRScannerState extends State<QRScanner> {
     RestaurantInfo restaurantInfo= RestaurantInfo();
     restaurantInfo.setter(tableID);
     String name = "";
+    var currentCapacity = 0;
+    var maxCapacity = 0;
 
     var uId = FirebaseAuth.instance.currentUser?.uid.toString();
     await FirebaseFirestore.instance.collection('users').doc(uId).get().then(
@@ -79,15 +80,35 @@ class _QRScannerState extends State<QRScanner> {
           name = element['fName'];
         });
 
+    await FirebaseFirestore.instance.collection('tables').doc(tableID).get().then(
+
+            (element) {
+          currentCapacity = element['currentCapacity'];
+          maxCapacity = element['maxCapacity'];
+        });
+
 
     FirebaseFirestore.instance.collection('users').doc(uId).update({
-      'tableID' : restaurantInfo.tableID.toString()
+      'tableID' : tableID
     });
 
-    FirebaseFirestore.instance.collection('tables/$tableID/tableMembers').add({
-      'userID': uId,
-      'fName' : name
-    } );
+
+    if(currentCapacity < maxCapacity) {
+      currentCapacity++;
+      FirebaseFirestore.instance.collection('tables/$tableID/tableMembers').add(
+          {
+            'userID': uId,
+            'fName': name
+          });
+      FirebaseFirestore.instance.collection('tables').doc(tableID).update(
+          {
+            'currentCapacity' : currentCapacity
+          });
+
+    }
+    else {
+      print("too many customers");
+    }
 
     Navigator.push(context, MaterialPageRoute(builder: (context)=> new CustomerHome()));
   }
