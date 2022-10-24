@@ -284,7 +284,7 @@ class _EditRestaurant extends State<EditRestaurant> {
                         ));
                       } else if (res[0] == true && res[1] == false){
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text('Update failed, make sure all fields are entered out correctly'),
+                            content: Text('Update failed, make sure all fields are entered correctly'),
                           ));
                       } else if (res[0] == false && res[1] == true){
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
