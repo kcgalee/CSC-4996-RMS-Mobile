@@ -21,7 +21,7 @@ class RestaurantInfo {
     //restName
     await FirebaseFirestore.instance.collection('restaurants').doc(restaurantID).get().then(
             (element) {
-          restaurantID = element['restName'];
+          restaurantName = element['restName'];
         });
 
     print(restaurantID);

@@ -25,14 +25,14 @@ class CreateOrderInfo extends RestaurantInfo{
         });
   }
 
-  void placeOrder() {
+  void placeOrder(String _tableID, String restID) {
     for(int i = 0; i < itemName.length; i++) {
-      placeOrderHelper(itemID[i], itemName[i], count[i], price[i]);
+      placeOrderHelper(itemID[i], itemName[i], count[i], price[i], _tableID, restID);
     }
 
   }//place order
 
-  void placeOrderHelper(String itemID, String itemName, int count, String price)
+  void placeOrderHelper(String itemID, String itemName, int count, String price, String _tableID, String restID)
   {
     var uID = FirebaseAuth.instance.currentUser?.uid.toString();
     final DateTime now = DateTime.now();
@@ -46,15 +46,15 @@ class CreateOrderInfo extends RestaurantInfo{
         'itemName' : itemName,
         'quantity' :count,
         'tableNum' : tableNum,
-        'restID' : restaurantID,
-        'tableID' : tableID,
+        'restID' : super.restaurantID,
+        'tableID' : _tableID,
         'waiterID': waiterID,
         'status' : 'placed',
       'timePlaced': Timestamp.fromDate(now),
     }
     );
 
-        FirebaseFirestore.instance.collection('tables/$tableID/tableOrders').add(
+        FirebaseFirestore.instance.collection('tables/$_tableID/tableOrders').add(
 
         {
           'price' : price,
@@ -62,10 +62,10 @@ class CreateOrderInfo extends RestaurantInfo{
           'custID' : uID.toString(),
           'itemID' : itemID,
           'itemName' : itemName,
-          'quantity' :count,
+          'quantity' : count,
           'tableNum' : tableNum,
-          'restID' : restaurantID,
-          'tableID' : tableID,
+          'restID' : super.restaurantID,
+          'tableID' : _tableID,
           'waiterID': waiterID,
           'status' : 'placed',
           'timePlaced': Timestamp.fromDate(now),
