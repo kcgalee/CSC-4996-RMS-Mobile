@@ -1,12 +1,8 @@
 
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
-import 'package:restaurant_management_system/widgets/customSubButton.dart';
 import 'package:restaurant_management_system/widgets/customTextForm.dart';
 
 import 'GenerateQRCode.dart';
@@ -107,7 +103,7 @@ class _AddTable extends State<AddTable> {
         onPressed: () =>
         newTableData(int.parse(tableNumberController.text.trim()),
             int.parse(tableCapacityController.text.trim()),
-            tableTypeController.text.trim()),
+            tableTypeController.text.trim(), tableLocationController.text.trim()),
       )
 
     ]),
@@ -117,7 +113,7 @@ class _AddTable extends State<AddTable> {
 
               );
 
-  void newTableData(int tableNum, int maxCapacity, String tableType ) async {
+  void newTableData(int tableNum, int maxCapacity, String tableType, String location ) async {
     CollectionReference users = FirebaseFirestore.instance.collection('tables');
     String tableId = users
         .doc()
@@ -135,6 +131,7 @@ class _AddTable extends State<AddTable> {
           'waiterID': '',
           'available': true,
           'currentCapacity': 0,
+          'location' : location
         }
     );
 
