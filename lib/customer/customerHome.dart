@@ -169,15 +169,16 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
           final data = doc.data() as Map<String, dynamic>;
           restName =  data['restName'].toString().trim();
         });
+      await FirebaseFirestore.instance.collection('tables').doc(tableID).get().then(
+              (element) {
+            tableNum = element['tableNum'].toString();
+          });
 
       await FirebaseFirestore.instance.collection('tables').doc(tableID).get().then(
               (element) {
             waiterName = element['waiterName'];
           });
-      await FirebaseFirestore.instance.collection('tables').doc(tableID).get().then(
-              (element) {
-            tableNum = element['tableNum'].toString();
-          });
+
     createOrderInfo.setter(tableID);
     return "";
     }
