@@ -121,7 +121,7 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
                   CustomSubButton(text: "TABLE STATUS",
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => const TableStatus()),
+                            builder: (context) =>  TableStatus(createOrderInfo: createOrderInfo,)),
                         );
                       }
                   ),
@@ -169,8 +169,15 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
           final data = doc.data() as Map<String, dynamic>;
           restName =  data['restName'].toString().trim();
         });
-    print(restName);
 
+      await FirebaseFirestore.instance.collection('tables').doc(tableID).get().then(
+              (element) {
+            waiterName = element['waiterName'];
+          });
+      await FirebaseFirestore.instance.collection('tables').doc(tableID).get().then(
+              (element) {
+            tableNum = element['tableNum'].toString();
+          });
     createOrderInfo.setter(tableID);
     return "";
     }
