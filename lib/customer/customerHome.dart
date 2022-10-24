@@ -30,30 +30,7 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0,
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child:
-            TextButton(
-              onPressed: (){
-                Navigator.push(context,
-                    MaterialPageRoute(
-                        builder: (context) => ViewOrder(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
 
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50)),
-              ),
-              child: const Icon(
-                Icons.shopping_cart,
-                color: Colors.white,
-                size: 20.0,
-              ),
-            ),
-          ),
-        ],
       ),
       body: FutureBuilder (
           future: getRestaurantId(),
@@ -115,8 +92,10 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
                   ),
                   CustomSubButton(text: "CURRENT ORDER",
                     onPressed: () {
-
-                    }
+                      Navigator.push(context,
+                          MaterialPageRoute(
+                              builder: (context) => ViewOrder(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
+                  }
                   ),
                   CustomSubButton(text: "TABLE STATUS",
                       onPressed: () {
