@@ -39,7 +39,7 @@ class _ViewTableState extends State<ViewTable> {
               ),
               Expanded(
                 child: StreamBuilder(
-                    stream: FirebaseFirestore.instance.collection('tables/' + widget.tableID + '/tableOrders').where('isHolder', isNotEqualTo: true).snapshots(),
+                    stream: FirebaseFirestore.instance.collection('tables/' + widget.tableID + '/tableOrders').orderBy('custName').orderBy('timePlaced', descending: true).snapshots(),
                     builder: (context, snapshot){
                       if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
                         return Center(child: Text("No orders have been placed yet"),);
@@ -84,7 +84,7 @@ class _ViewTableState extends State<ViewTable> {
               ),
               Expanded(
                 child: StreamBuilder(
-                    stream: FirebaseFirestore.instance.collection('tables/' + widget.tableID + '/tableOrders').where('isHolder', isNotEqualTo: true).snapshots(),
+                    stream: FirebaseFirestore.instance.collection('tables/' + widget.tableID + '/tableOrders').orderBy('custName').orderBy('timePlaced', descending: true).snapshots(),
                     builder: (context, snapshot){
                       if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
                         return Center(child: Text("No orders have been placed yet"),);

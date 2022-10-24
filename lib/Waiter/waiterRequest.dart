@@ -43,11 +43,25 @@ class _WaiterRequestState extends State<WaiterRequest> {
                       return ListView.builder(
                           itemCount: snapshot.data?.docs.length,
                           itemBuilder: (context, index) {
-                            return RequestTile(
-                              taskName: 'Table: ' + (snapshot.data?.docs[index]['tableNum'] ?? '')
+                            String text = '';
+                            if (snapshot.data?.docs[index]['itemName'] == 'Request Waiter'){
+                              text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'] ?? '')
+                                  + '\nRequested: Waiter'
+                                  + '\nQuantity: ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
+                                  + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '');
+                            } else if (snapshot.data?.docs[index]['itemName'] == 'Request Bill'){
+                              text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'] ?? '')
+                                  + '\nRequested: Bill'
+                                  + '\nQuantity: ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
+                                  + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '');
+                            } else {
+                              text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'] ?? '')
                                   + '\nRequested: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
                                   + '\nQuantity: ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
-                                  + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? ''),
+                                  + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '');
+                            }
+                            return RequestTile(
+                              taskName: text,
                               //for debugging
                               // + '\nStatus: ' + (snapshot.data?.docs[index]['status'] ?? ''),
                               time: snapshot.data?.docs[index]['dateTime'],

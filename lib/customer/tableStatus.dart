@@ -59,7 +59,88 @@ class _TableStatusState extends State<TableStatus> {
                   widget.createOrderInfo.waiterName,
                   textAlign: TextAlign.left,
                 ),
+                Text(
+                  "# Table Members",
+                  textAlign: TextAlign.left,
+                ),
               ],
+            ),
+            const SizedBox(height: 30,),
+            const Text(
+              "Table Members",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20,),
+            ),
+            Padding(
+                padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
+                child: Container(
+                    height: 70.0,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 1.0,
+                        ),
+                        borderRadius: BorderRadius.circular(10.0),
+                        boxShadow: const [
+                          BoxShadow(
+                              color: Colors.grey ,
+                              blurRadius: 2.0,
+                              offset: Offset(2.0,2.0)
+                          )
+                        ]
+                    ),
+                    child: ListTile(
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Member Name"),
+                          ElevatedButton(
+                          child: const Text( "View Order",
+                            style: TextStyle(
+                            color: Colors.white,
+                            ),
+                          ),
+                          onPressed: ()
+                          {
+                          showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                             return
+                                AlertDialog(
+                                  insetPadding: EdgeInsets.zero,
+                                  //title: Text(snapshot.data?.docs[index]['name']),
+
+                                  content: Builder(
+                                    builder: (context) {
+                                      // Get available height and width of the build area of this widget. Make a choice depending on the size.
+                                      var height = MediaQuery.of(context).size.height;
+                                      var width = MediaQuery.of(context).size.width;
+
+                                      return Container(
+                                        // to change dimensions of alert dialog box
+                                        height: height - 400,
+                                        width: width - 400,
+                                        child: Text("populate orders here"),
+                                      );
+                                    },
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child:  const Text("Close"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                          },
+                          );
+                              }
+    )
+                        ],
+                      ),
+                    ),
+                )
             ),
 
           ],

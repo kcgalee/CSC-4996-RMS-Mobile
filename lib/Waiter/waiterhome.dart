@@ -41,7 +41,7 @@ class _WaiterHomeState extends State<WaiterHome> {
                     child: Text(waiterName,
                     style: const TextStyle(fontSize: 30,),),
                   ),
-
+                  /*
                   CustomSubButton(
                     text: 'CLOCK IN',
                     onPressed: () {  },
@@ -50,7 +50,7 @@ class _WaiterHomeState extends State<WaiterHome> {
                   CustomSubButton(
                     text: 'CLOCK OUT',
                     onPressed: () {  },
-                  ),
+                  ),*/
 
                   CustomSubButton(
                     text: 'ASSIGNED TABLES',
