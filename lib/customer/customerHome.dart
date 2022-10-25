@@ -91,27 +91,21 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
                       }
                   ),
                   CustomSubButton(text: "CURRENT ORDER",
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(
-                              builder: (context) => ViewOrder(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
-                  }
-                  ),
-                  CustomSubButton(text: "TABLE STATUS",
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) =>  TableStatus(createOrderInfo: createOrderInfo,)),
-                        );
-                      }
-                  ),
-
-                  CustomSubButton(text: "PLACED ORDERS",
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(
                             builder: (context) => PlacedOrders(tableID: tableID)),
                         );
                       }
                   ),
+                  CustomSubButton(text: "TABLE STATUS",
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) =>  TableStatus(createOrderInfo: createOrderInfo, tableID: tableID, tableNum: tableNum, waiterName: waiterName)),
+                        );
+                      }
+                  ),
+
+
 
                 ], //Children
               ),
