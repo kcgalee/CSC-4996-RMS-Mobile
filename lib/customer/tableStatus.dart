@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:restaurant_management_system/customer/viewMemberOrder.dart';
 
 import 'Models/createOrderInfo.dart';
 
 
 class TableStatus extends StatefulWidget {
   CreateOrderInfo createOrderInfo;
-  TableStatus({Key? key, required this.createOrderInfo}) :super(key: key);
+  String tableID, tableNum, waiterName;
+  TableStatus({Key? key, required this.createOrderInfo, required this.tableID,
+  required this.tableNum, required this.waiterName}) :super(key: key);
 
   @override
   State<TableStatus> createState() => _TableStatusState();
@@ -15,136 +18,53 @@ class TableStatus extends StatefulWidget {
 
 class _TableStatusState extends State<TableStatus> {
   String restName = "";
-  String tableID ="";
-  String tableNum ="";
   String restID = "";
-  String waiterName = "";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text('Table Status',),
+          title: Text('Table ${widget.tableNum}, Waiter ${widget.waiterName}'),
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
           elevation: 1,
         ),
-        body: Column(
-          children: [
-            Text(
-              restName,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment. center,
-              crossAxisAlignment: CrossAxisAlignment. center,
-              children: [
-                const Text(
-                    "Table: "
-                ),
-                Text(
-                  widget.createOrderInfo.tableNum.toString(),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment. center,
-              crossAxisAlignment: CrossAxisAlignment. center,
-              children: [
-                const Text(
-                  "Waiter: ",
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  widget.createOrderInfo.waiterName,
-                  textAlign: TextAlign.left,
-                ),
-                Text(
-                  "# Table Members",
-                  textAlign: TextAlign.left,
-                ),
-              ],
-            ),
-            const SizedBox(height: 30,),
-            const Text(
-              "Table Members",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20,),
-            ),
-            Padding(
-                padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
-                child: Container(
-                    height: 70.0,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          color: Colors.black,
-                          width: 1.0,
-                        ),
-                        borderRadius: BorderRadius.circular(10.0),
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Colors.grey ,
-                              blurRadius: 2.0,
-                              offset: Offset(2.0,2.0)
-                          )
-                        ]
-                    ),
-                    child: ListTile(
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Member Name"),
-                          ElevatedButton(
-                          child: const Text( "View Order",
-                            style: TextStyle(
-                            color: Colors.white,
-                            ),
+        body: StreamBuilder(
+            stream: FirebaseFirestore.instance.
+            collection('tables/${widget.tableID}/tableMembers')
+                .snapshots(),
+
+            builder: (context, snapshot) {
+              if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
+                return Center(child: Text("NO TABLE MEMBERS"),);
+              } else {
+                return ListView.builder(
+                    itemCount: snapshot.data?.docs.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(color: Colors.grey[100],
+                              border: Border.all(color: Colors.black54,width: 2)
                           ),
-                          onPressed: ()
-                          {
-                          showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                             return
-                                AlertDialog(
-                                  insetPadding: EdgeInsets.zero,
-                                  //title: Text(snapshot.data?.docs[index]['name']),
+                          child: ListTile(
+                            title: Text(snapshot.data?.docs[index]['fName'] ?? ''),
+                            onTap: () {
+                             var custID = snapshot.data?.docs[index]['userID'];
+                             var custName = snapshot.data?.docs[index]['fName'];
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) =>  ViewMemberOrder(createOrderInfo: widget.createOrderInfo, tableID: widget.tableID, custID: custID, custName: custName)));
+                            },
+                          ),
+                        ),
+                      );
+                    }
+                );
+              }
+            })
 
-                                  content: Builder(
-                                    builder: (context) {
-                                      // Get available height and width of the build area of this widget. Make a choice depending on the size.
-                                      var height = MediaQuery.of(context).size.height;
-                                      var width = MediaQuery.of(context).size.width;
-
-                                      return Container(
-                                        // to change dimensions of alert dialog box
-                                        height: height - 400,
-                                        width: width - 400,
-                                        child: Text("populate orders here"),
-                                      );
-                                    },
-                                  ),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      child:  const Text("Close"),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ],
-                                );
-                          },
-                          );
-                              }
-    )
-                        ],
-                      ),
-                    ),
-                )
-            ),
-
-          ],
-        )
     );
+
   }
 }
