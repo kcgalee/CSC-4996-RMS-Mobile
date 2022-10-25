@@ -40,6 +40,7 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
               child: Column(
                 children: [
                   Container(
+                    padding: const EdgeInsets.all(40),
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(20),
@@ -51,14 +52,14 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
                         color: Colors.grey,
                         offset: Offset(5.0, 5.0),
                         blurRadius: 10.0,
-                        spreadRadius: 2.0,
+                        spreadRadius: 1.0,
                         )
                       ],
                     ),
                     child:
                       Column(
                         children: [
-                          const SizedBox(height: 20,),
+                          //const SizedBox(height: 20,),
                           CustomMainButton(text: "QR SCAN",
                             onPressed: () {
                               Navigator.push(context, MaterialPageRoute(
@@ -66,19 +67,24 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
                               );
                             }
                           ),
-                          const SizedBox(height: 30,),
-                          const Text(
-                            "Welcome",
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.white),
-                          ),
-
-                          Text(
-                            restName,
-                            style: const TextStyle(fontSize: 20, color: Colors.white),
+                          const SizedBox(height: 20,),
+                          Row(
+                            children: const [
+                              Text(
+                                "Welcome",
+                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.white),
+                              ),
+                            ],
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment. center,
-                            crossAxisAlignment: CrossAxisAlignment. center,
+                            children: [
+                              Text(
+                                restName,
+                                style: const TextStyle(fontSize: 20, color: Colors.white),
+                              ),
+                            ],
+                          ),
+                          Row(
                             children: [
                               const Text(
                                 "Table ",
@@ -91,8 +97,6 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
                             ],
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment. center,
-                            crossAxisAlignment: CrossAxisAlignment. center,
                             children: [
                               const Text(
                                 "Waiter ",
@@ -102,10 +106,11 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
                               Text(
                                 waiterName,
                                 textAlign: TextAlign.left,
+                                style: const TextStyle(fontSize: 20, color: Colors.white),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 40,),
+                          //const SizedBox(height: 40,),
                         ],
                       ),
                   ),
