@@ -17,8 +17,6 @@ class _WaiterRequestState extends State<WaiterRequest> {
   // text controller
   final _controller = TextEditingController();
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,10 +34,10 @@ class _WaiterRequestState extends State<WaiterRequest> {
             Expanded(
               child: StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('orders')
-                      .where('waiterID', whereIn: [[FirebaseAuth.instance.currentUser?.uid],['']])
+                      .where('waiterID', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
                       .where('status', isNotEqualTo: 'delivered')
                       .orderBy('status')
-                      .orderBy('timePlaced', descending: false).snapshots(),
+                      .orderBy('timePlaced', descending: true).snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData || (snapshot.data?.size == 0)) {
                       return Center(child:Text('You have no active requests'));
