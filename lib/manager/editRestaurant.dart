@@ -3,6 +3,8 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/widgets/customTextForm.dart';
 
+import '../widgets/customBackButton.dart';
+import 'Utility/MangerNavigationDrawer.dart';
 import 'manageRestaurant.dart';
 
 class EditRestaurant extends StatefulWidget {
@@ -73,6 +75,7 @@ class _EditRestaurant extends State<EditRestaurant> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const ManagerNavigationDrawer(),
       appBar: AppBar(
         title: const Text("Edit Restaurant"),
         backgroundColor: Colors.white,
@@ -80,10 +83,13 @@ class _EditRestaurant extends State<EditRestaurant> {
         elevation: 1,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            CustomBackButton(onPressed: () {
+              Navigator.pop(context);
+            }),
             CustomTextForm(
                 hintText: "Restaurant Name",
                 controller: restaurantNameController,
