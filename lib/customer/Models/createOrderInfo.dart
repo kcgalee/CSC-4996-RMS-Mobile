@@ -104,7 +104,7 @@ class CreateOrderInfo extends RestaurantInfo{
          'waiterID': waiterID,
          'status' : 'placed',
          'timePlaced': Timestamp.fromDate(now),
-          'price' : '0.0',
+          'price' : '0.00',
          'quantity' : 1
        }
    );
@@ -120,7 +120,7 @@ class CreateOrderInfo extends RestaurantInfo{
          'waiterID': waiterID,
          'status' : 'placed',
          'timePlaced': Timestamp.fromDate(now),
-         'price' : '0.0',
+         'price' : '0.00',
          'quantity' : 1
        }
    );

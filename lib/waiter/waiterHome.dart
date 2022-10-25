@@ -108,7 +108,7 @@ class _WaiterHomeState extends State<WaiterHome> {
     await FirebaseFirestore.instance.collection('restaurants').doc(rID).get().then(
             (element) {
               restName = element['restaurantName'];
-            }
+              }
             );
     }
 
