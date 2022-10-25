@@ -33,7 +33,7 @@ class _ShowMenuItems extends State<ShowMenuItems> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Menu Items'),
+          title: Text(text.toUpperCase()),
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
           elevation: 0,

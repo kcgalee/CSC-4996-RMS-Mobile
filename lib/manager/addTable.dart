@@ -130,7 +130,7 @@ class _AddTable extends State<AddTable> {
           'restID': text,
           'type': tableType,
           'waiterID': '',
-          'available': true,
+          'waiterName' : '',
           'currentCapacity': 0,
           'location' : location
         }
