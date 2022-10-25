@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
 import 'package:restaurant_management_system/widgets/customTextForm.dart';
 
+import '../widgets/customBackButton.dart';
 import 'GenerateQRCode.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 import 'Utility/selectRestaurant.dart';
@@ -35,88 +36,79 @@ class _AddTable extends State<AddTable> {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 1,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new,size: 30,),
-            onPressed: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'table')));
-            },
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
+        child: Column(
+        children: [
+          CustomBackButton(onPressed: () {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'table')));
+          }),
+          CustomTextForm(
+            hintText: "Table number",
+            controller: tableNumberController,
+            keyboardType: TextInputType.number,
+            maxLines: 1,
+            maxLength: 10,
+            validator: (tablenum) =>
+            tablenum != null && !numberPattern.hasMatch(tablenum)
+                ? 'number must be between 1 to 9999999999 ' : null,
+            icon: const Icon(Icons.numbers, color: Colors.black)
+        ),
+
+          CustomTextForm(
+              hintText: "Table Location",
+              controller: tableLocationController,
+              keyboardType: TextInputType.text,
+              maxLines: 1,
+              maxLength: 20,
+              validator: (tableLoc) =>
+              tableLoc != null && tableLoc.trim().length > 20
+                  ? 'Text must be between 1 to 20 characters' : null,
+              icon: const Icon(Icons.location_on, color: Colors.black)
           ),
-        ],
-      ),
-      body: Center(
-  child: SingleChildScrollView(
-    padding: const EdgeInsets.all(24),
-    child: Column(
-    children: [
+          CustomTextForm(
+              hintText: "Table Capacity",
+              controller: tableCapacityController,
+              keyboardType: TextInputType.number,
+              maxLines: 1,
+              maxLength: 3,
+              validator: (maxCapacity) =>
+              maxCapacity != null && !numberPattern.hasMatch(maxCapacity)
+                  ? 'number must be between 1 to 999' : null,
 
+              icon: const Icon(Icons.people, color: Colors.black)
+          ),
+          CustomTextForm(
+              hintText: "Table Type",
+              controller: tableTypeController,
+              keyboardType: TextInputType.text,
+              maxLines: 1,
+              maxLength: 20,
+              validator: (tableType) =>
+              tableType != null && tableType.trim().length > 20
+                  ? 'Text must be between 1 to 20 characters' : null,
+              icon: Icon(Icons.table_bar, color: Colors.black)
+          ),
 
-      CustomTextForm(
-        hintText: "Table number",
-        controller: tableNumberController,
-        keyboardType: TextInputType.number,
-        maxLines: 1,
-        maxLength: 10,
-        validator: (tablenum) =>
-        tablenum != null && !numberPattern.hasMatch(tablenum)
-            ? 'number must be between 1 to 9999999999 ' : null,
-        icon: const Icon(Icons.numbers, color: Colors.black)
-    ),
+          CustomMainButton(
+            text: "Add Table",
+            onPressed: () async =>
+            {
+              if(await checkTableNumber(tableNumberController.text.trim())){
+                newTableData(int.parse(tableNumberController.text.trim()),
+                    int.parse(tableCapacityController.text.trim()),
+                    tableTypeController.text.trim(),
+                    tableLocationController.text.trim()),
+              }
+              else {
+                print("table number in use.")
+              }
 
-      CustomTextForm(
-          hintText: "Table Location",
-          controller: tableLocationController,
-          keyboardType: TextInputType.text,
-          maxLines: 1,
-          maxLength: 20,
-          validator: (tableLoc) =>
-          tableLoc != null && tableLoc.trim().length > 20
-              ? 'Text must be between 1 to 20 characters' : null,
-          icon: const Icon(Icons.location_on, color: Colors.black)
-      ),
-      CustomTextForm(
-          hintText: "Table Capacity",
-          controller: tableCapacityController,
-          keyboardType: TextInputType.number,
-          maxLines: 1,
-          maxLength: 3,
-          validator: (maxCapacity) =>
-          maxCapacity != null && !numberPattern.hasMatch(maxCapacity)
-              ? 'number must be between 1 to 999' : null,
+            }
+            )
 
-          icon: const Icon(Icons.people, color: Colors.black)
-      ),
-      CustomTextForm(
-          hintText: "Table Type",
-          controller: tableTypeController,
-          keyboardType: TextInputType.text,
-          maxLines: 1,
-          maxLength: 20,
-          validator: (tableType) =>
-          tableType != null && tableType.trim().length > 20
-              ? 'Text must be between 1 to 20 characters' : null,
-          icon: Icon(Icons.table_bar, color: Colors.black)
-      ),
-
-      CustomMainButton(
-        text: "Add Table",
-        onPressed: () async =>
-        {
-          if(await checkTableNumber(tableNumberController.text.trim())){
-            newTableData(int.parse(tableNumberController.text.trim()),
-                int.parse(tableCapacityController.text.trim()),
-                tableTypeController.text.trim(),
-                tableLocationController.text.trim()),
-          }
-          else {
-            print("table number in use.")
-          }
-
-        }
-        )
-
-    ]),
-  ),
+        ]),
       )
 
 
