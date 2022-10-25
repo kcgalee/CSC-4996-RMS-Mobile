@@ -1,28 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/customer/Models/createOrderInfo.dart';
+import 'package:restaurant_management_system/widgets/ordersPlacedTile.dart';
 
-import '../widgets/ordersPlacedTile.dart';
-import '../widgets/pastOrdersTile.dart';
+import '../widgets/request_tile.dart';
 import 'Utility/navigation.dart';
 
 
-class PastOrders extends StatefulWidget {
-
-   PastOrders({Key? key}) : super(key: key);
-
+class ViewMemberOrder extends StatefulWidget {
+  CreateOrderInfo createOrderInfo;
+  final String tableID, custID, custName;
+  ViewMemberOrder({Key? key, required this.tableID,
+    required this.createOrderInfo, required this.custID, required this.custName}) : super(key: key);
   @override
-  State<PastOrders> createState() => _PastOrdersState();
+  State<ViewMemberOrder> createState() => _ViewMemberOrder();
 }
 
-class _PastOrdersState extends State<PastOrders> {
+class _ViewMemberOrder extends State<ViewMemberOrder> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         drawer: const NavigationDrawer(),
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text('Past Orders',),
+          title:  Text('Orders by ${widget.custName}'),
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
           elevation: 1,
@@ -31,9 +34,8 @@ class _PastOrdersState extends State<PastOrders> {
           children: [
             Expanded(
               child: StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection('orders')
-                      .where('custID', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
-                      .where('itemName', whereNotIn: ['Request Bill', 'Request Waiter'])
+                  stream: FirebaseFirestore.instance.collection('tables/'+widget.tableID+'/tableOrders')
+                      .where('custID', isEqualTo: widget.custID)
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData || (snapshot.data?.size == 0)) {
@@ -42,9 +44,12 @@ class _PastOrdersState extends State<PastOrders> {
                       return ListView.builder(
                           itemCount: snapshot.data?.docs.length,
                           itemBuilder: (context, index) {
-                            return PastOrdersTile(
+                            return OrdersPlacedTile(
                               taskName:
-                              '\nOrdered: ' + (snapshot.data?.docs[index]['itemName'] ?? ''),
+                              '\nOrdered: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
+                                  + '\nQuantity: ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
+                                  + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '')
+                                  + '\nPrice: ' + (snapshot.data?.docs[index]['price'] ?? ''),
                               time: snapshot.data?.docs[index]['timePlaced'],
                               oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
                             );

@@ -36,8 +36,14 @@ class CreateOrderInfo extends RestaurantInfo{
   {
     var uID = FirebaseAuth.instance.currentUser?.uid.toString();
     final DateTime now = DateTime.now();
+    CollectionReference users = FirebaseFirestore.instance.collection('orders');
+    String orderID = users
+        .doc()
+        .id
+        .toString()
+        .trim();
 
-    FirebaseFirestore.instance.collection('orders').add(
+    users.doc(orderID).set(
     {
         'price' : price,
         'custName' : custName,
@@ -54,7 +60,9 @@ class CreateOrderInfo extends RestaurantInfo{
     }
     );
 
-        FirebaseFirestore.instance.collection('tables/$_tableID/tableOrders').add(
+       FirebaseFirestore.instance.collection('tables/$_tableID/tableOrders').doc(orderID)
+
+            .set(
 
         {
           'price' : price,
