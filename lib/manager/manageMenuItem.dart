@@ -61,10 +61,9 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                         itemCount: snapshot.data?.docs.length,
                         itemBuilder: (context, index) {
                           return ManagerTile(
-                              taskName: snapshot.data?.docs[index]['name'] + ' \$' + snapshot.data?.docs[index]['price'],
+                              taskName: snapshot.data?.docs[index]['itemName'] + ' \$' + snapshot.data?.docs[index]['price'],
                               subTitle: snapshot.data?.docs[index]['description'] ?? '',
                               onPressedEdit:  (){
-
 
                               },
                               onPressedDelete: () async {

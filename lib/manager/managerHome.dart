@@ -17,7 +17,7 @@ class ManagerHome extends StatefulWidget {
 }
 
 class _ManagerHomeState extends State<ManagerHome>{
-String managerName = '';
+String greeting = '';
 
   @override
   Widget build(BuildContext context) {
@@ -32,79 +32,89 @@ String managerName = '';
         body: FutureBuilder(
           future: getManagerName(),
           builder: (context, snapshot) {
-            return SingleChildScrollView(
-                child: Center(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(26),
-                        child: Text("Hello, " + managerName + "!",
-                          style: const TextStyle(fontSize: 25,),),
-                      ),
+            return StreamBuilder(
+                stream: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.data!['isActive'] == false){
+                    //kylie
+                    return Text('pending activation text widget goes here');
+                  } else {
+                    return SingleChildScrollView(
+                        child: Center(
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(26),
+                                child: Text(greeting,
+                                  style: const TextStyle(fontSize: 25,),),
+                              ),
 
-                      CustomSubButton(
-                        text: 'MANAGE RESTAURANTS',
-                        onPressed:  () {
-                          //TODO SHOW ALL RESTAURANTS
-                          Navigator.push(context,
-                              MaterialPageRoute(
-                                  builder: (context) => const ManageRestaurant()
+                              CustomSubButton(
+                                text: 'MANAGE RESTAURANTS',
+                                onPressed:  () {
+                                  //TODO SHOW ALL RESTAURANTS
+                                  Navigator.push(context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const ManageRestaurant()
+                                      )
+                                  );
+                                },
+                              ),
+
+                              CustomSubButton(
+                                text: 'MANAGE EMPLOYEES',
+                                onPressed: () {
+                                  //TODO SHOW ALL EMPLOYEES
+                                  Navigator.push(context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const ManageEmployee()
+                                      )
+                                  );
+                                },
+                              ),
+                              /*  CustomSubButton(
+                                  text: 'SEE RATINGS',
+                                  onPressed:  () {
+                                    //TODO SHOW RATINGS
+                                  },
+                                ),
+                               */
+                              CustomSubButton(
+                                text: 'ADD TABLE',
+                                onPressed: () {
+                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'table')));
+                                  //TODO CREATE ADD TABLES FEATURE
+                                },
+                              ),
+                              CustomSubButton(
+                                text: 'REMOVE TABLE',
+                                onPressed: () {
+                                  //TODO REMOVE TABLES
+
+                                },
+                              ),
+                              CustomSubButton(
+                                text: 'MANAGE MENU',
+                                onPressed: () {
+                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'menu')));
+                                  //TODO ADD TO MENU
+                                },
                               )
-                          );
-                        },
-                      ),
 
-                      CustomSubButton(
-                        text: 'MANAGE EMPLOYEES',
-                        onPressed: () {
-                          //TODO SHOW ALL EMPLOYEES
-                          Navigator.push(context,
-                              MaterialPageRoute(
-                                  builder: (context) => const ManageEmployee()
-                              )
-                          );
-                        },
-                      ),
-                    /*  CustomSubButton(
-                        text: 'SEE RATINGS',
-                        onPressed:  () {
-                          //TODO SHOW RATINGS
-                        },
-                      ),
-                     */
-                      CustomSubButton(
-                        text: 'ADD TABLE',
-                        onPressed: () {
-                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'table')));
-                          //TODO CREATE ADD TABLES FEATURE
-                        },
-                      ),
-                      CustomSubButton(
-                        text: 'REMOVE TABLE',
-                        onPressed: () {
-                          //TODO REMOVE TABLES
-
-                        },
-                      ),
-                      CustomSubButton(
-                        text: 'MANAGE MENU',
-                        onPressed: () {
-                            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'menu')));
-                          //TODO ADD TO MENU
-                        },
-                      )
-
-                    ], //Children
-                  ),
-                ));
-          },
+                            ], //Children
+                          ),
+                        ));
+                  }
+            }
+            );
+            },
         ));
   }
 
   Future getManagerName() async {
     await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).get().then(
             (element) {
-              managerName = element['fName'];
+              greeting = 'Hello, ' + element['fName'] + "!";
             }
 
     );

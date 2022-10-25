@@ -58,7 +58,6 @@ class _PlacedOrders extends State<PlacedOrders> {
                                   + '  x ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
                                   + '\nPlaced by ' + (snapshot.data?.docs[index]['custName'] ?? '')
                                   + '\nPrice: \$' + (snapshot.data?.docs[index]['price'] ?? '')
-
                                   ,
                                   time: snapshot.data?.docs[index]['timePlaced'],
                                   oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
