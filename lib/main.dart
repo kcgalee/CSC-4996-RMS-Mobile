@@ -54,6 +54,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Restaurant Management System',
       theme: ThemeData(
+        fontFamily: 'Urbanist',
         primaryColor: Colors.white,
         textTheme: Theme.of(context).textTheme.apply(
           fontSizeFactor: 1.0,

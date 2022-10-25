@@ -27,6 +27,7 @@ class _Order extends State<Order> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: const NavigationDrawer(),
         appBar: AppBar(
           title: Text('Menu'),
           backgroundColor: Colors.white,
