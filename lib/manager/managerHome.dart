@@ -37,7 +37,7 @@ String greeting = '';
                 builder: (context, snapshot) {
                   if (snapshot.data!['isActive'] == false){
                     //kylie
-                    return Text('pending activation text widget goes here');
+                    return pendingActivation();
                   } else {
                     return SingleChildScrollView(
                         child: Center(
@@ -119,6 +119,27 @@ String greeting = '';
 
     );
 
+  }
+
+  Widget pendingActivation() {
+    return AlertDialog(
+      title: const Text('Pending Account Activation'),
+      content: SingleChildScrollView(
+        child: ListBody(
+          children: const <Widget>[
+            Text('Your Manager account is still under approval. Please check back after 24 hours.'),
+          ],
+        ),
+      ),
+      actions: <Widget>[
+        TextButton(
+          child: const Text('OK'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
   }
 
 

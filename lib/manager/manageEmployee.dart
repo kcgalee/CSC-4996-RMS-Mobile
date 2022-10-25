@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/Utility/managerTile.dart';
 import 'package:restaurant_management_system/manager/Utility/selectRestaurant.dart';
 import 'package:restaurant_management_system/manager/addEmployee.dart';
+import 'package:restaurant_management_system/manager/managerHome.dart';
 import '../widgets/customBackButton.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 import 'editEmployee.dart';
@@ -46,7 +47,13 @@ class _ManageEmployeeState extends State<ManageEmployee> {
           Padding(
             padding: const EdgeInsets.only(left: 24),
             child: CustomBackButton(onPressed: () {
-              Navigator.pop(context);
+              Navigator.push(context,
+                  MaterialPageRoute(
+                      builder: (context) => ManagerHome()
+                  )
+              );
+
+
             }),
           ),
           Expanded(
