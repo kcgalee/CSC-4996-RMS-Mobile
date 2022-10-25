@@ -29,6 +29,19 @@ class _PlacedOrders extends State<PlacedOrders> {
         ),
         body: Column(
           children: [
+            Align(
+              alignment: Alignment.topLeft,
+              child:
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.black87,
+                ),
+              ),
+            ),
             Expanded(
               child: StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('tables/'+widget.tableID+'/tableOrders').orderBy('timePlaced', descending: true).snapshots(),
