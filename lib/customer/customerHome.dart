@@ -133,9 +133,38 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
                   const SizedBox(height: 60,),
                   CustomMainButton(text: "MENU",
                       onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(
-                        builder: (context) => Order(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
+                        if (restName != "") {
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) => Order(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
+                        }
+                        if (restName == "") {
+                          showDialog<void>(
+                            context: context,
+                            barrierDismissible: false, // user must tap button!
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Alert!'),
+                                content: SingleChildScrollView(
+                                  child: ListBody(
+                                    children: const <Widget>[
+                                      Text('Scan a QR Code first to access the menu! One will be provided by the restaurant you are at.'),
+                                    ],
+                                  ),
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: const Text('OK'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
+
                       }
                   ),
                   CustomSubButton(text: "CURRENT ORDER",
