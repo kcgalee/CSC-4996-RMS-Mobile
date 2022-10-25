@@ -144,12 +144,11 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
                             barrierDismissible: false, // user must tap button!
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: const Text('AlertDialog Title'),
+                                title: const Text('Alert!'),
                                 content: SingleChildScrollView(
                                   child: ListBody(
                                     children: const <Widget>[
-                                      Text('Scan a QR Code first to access the menu!'),
-                                      Text('A QR Code will be provided by the restaurant you are at.'),
+                                      Text('Scan a QR Code first to access the menu! One will be provided by the restaurant you are at.'),
                                     ],
                                   ),
                                 ),
