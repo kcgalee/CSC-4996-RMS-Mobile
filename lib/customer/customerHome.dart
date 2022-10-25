@@ -27,7 +27,7 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
       drawer: const NavigationDrawer(),
       appBar: AppBar(
         title: const Text('Home'),
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xff76bcff),
         foregroundColor: Colors.black,
         elevation: 0,
 
@@ -39,50 +39,82 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
             child: Center(
               child: Column(
                 children: [
-                  const SizedBox(height: 20,),
-                  CustomMainButton(text: "QR SCAN",
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => const QRScanner()),
-                      );
-                    }
-                  ),
-                  const SizedBox(height: 30,),
-                  const Text(
-                    "Welcome",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30,),
-                  ),
-
-                  Text(
-                    restName,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment. center,
-                    crossAxisAlignment: CrossAxisAlignment. center,
-                    children: [
-                      const Text(
-                        "Table "
+                  Container(
+                    padding: const EdgeInsets.all(40),
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(20),
                       ),
-                      Text(
-                        tableNum,
+                      color: Color(0xff76bcff),
+                      boxShadow: [
+                        BoxShadow(
+                        color: Colors.grey,
+                        offset: Offset(5.0, 5.0),
+                        blurRadius: 10.0,
+                        spreadRadius: 1.0,
+                        )
+                      ],
+                    ),
+                    child:
+                      Column(
+                        children: [
+                          //const SizedBox(height: 20,),
+                          CustomMainButton(text: "QR SCAN",
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(
+                              builder: (context) => const QRScanner()),
+                              );
+                            }
+                          ),
+                          const SizedBox(height: 20,),
+                          Row(
+                            children: const [
+                              Text(
+                                "Welcome",
+                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.white),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                restName,
+                                style: const TextStyle(fontSize: 20, color: Colors.white),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                "Table ",
+                                style: TextStyle(fontSize: 20, color: Colors.white),
+                              ),
+                              Text(
+                                tableNum,
+                                style: const TextStyle(fontSize: 20, color: Colors.white),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const Text(
+                                "Waiter ",
+                                textAlign: TextAlign.left,
+                                style: const TextStyle(fontSize: 20, color: Colors.white),
+                              ),
+                              Text(
+                                waiterName,
+                                textAlign: TextAlign.left,
+                                style: const TextStyle(fontSize: 20, color: Colors.white),
+                              ),
+                            ],
+                          ),
+                          //const SizedBox(height: 40,),
+                        ],
                       ),
-                    ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment. center,
-                    crossAxisAlignment: CrossAxisAlignment. center,
-                    children: [
-                      const Text(
-                        "Waiter ",
-                        textAlign: TextAlign.left,
-                      ),
-                      Text(
-                        waiterName,
-                        textAlign: TextAlign.left,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20,),
+                  const SizedBox(height: 60,),
                   CustomMainButton(text: "MENU",
                       onPressed: () {
                         Navigator.push(context,

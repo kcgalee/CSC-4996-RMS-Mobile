@@ -90,7 +90,7 @@ class OrdersPlacedTile extends StatelessWidget {
                           ),
 
                           onPressed: () => "hello",
-                          child: Text('placed')),
+                          child: Text('Placed')),
                     ),
 
                     Visibility(
@@ -113,7 +113,7 @@ class OrdersPlacedTile extends StatelessWidget {
                           ),
 
                           onPressed: () => "Hello",
-                          child: Text('in progress')),
+                          child: Text('In Progress')),
                     ),
 
                     Visibility(
@@ -136,7 +136,7 @@ class OrdersPlacedTile extends StatelessWidget {
                           ),
 
                           onPressed: () => "hello",
-                          child: Text('delivered')),
+                          child: Text('Delivered')),
                     ),
 
                   ],

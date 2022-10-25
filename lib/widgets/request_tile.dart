@@ -96,7 +96,7 @@ class RequestTile extends StatelessWidget {
                             ),
 
                             onPressed: () => updatePlaced(),
-                            child: Text('placed')),
+                            child: Text('Placed')),
                       ),
 
                       Visibility(
@@ -119,7 +119,7 @@ class RequestTile extends StatelessWidget {
                             ),
 
                             onPressed: () => updateInProgress(),
-                            child: Text('in progress')),
+                            child: Text('In Progress')),
                       ),
 
                       Visibility(
@@ -142,7 +142,7 @@ class RequestTile extends StatelessWidget {
                             ),
 
                             onPressed: () => updateDelivered(),
-                            child: const Text('delivered')
+                            child: const Text('Delivered')
                         ),
                       )
 
