@@ -41,74 +41,74 @@ String greeting = '';
                         if (snapshot.data?['isActive'] == false){
                           //kylie
                           return pendingActivation();
-                  } else {
-                    return SingleChildScrollView(
-                        child: Center(
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(26),
-                                child: Text(greeting,
-                                  style: const TextStyle(fontSize: 25,),),
-                              ),
-                                    CustomSubButton(
-                                      text: 'MANAGE RESTAURANTS',
-                                      onPressed:  () {
-                                        //TODO SHOW ALL RESTAURANTS
-                                        Navigator.push(context,
-                                            MaterialPageRoute(
-                                                builder: (context) => const ManageRestaurant()
-                                            )
-                                        );
-                                      },
+                        } else {
+                          return SingleChildScrollView(
+                              child: Center(
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(26),
+                                      child: Text(greeting,
+                                        style: const TextStyle(fontSize: 25,),),
                                     ),
+                                          CustomSubButton(
+                                            text: 'MANAGE RESTAURANTS',
+                                            onPressed:  () {
+                                              //TODO SHOW ALL RESTAURANTS
+                                              Navigator.push(context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => const ManageRestaurant()
+                                                  )
+                                              );
+                                            },
+                                          ),
 
-                                    CustomSubButton(
-                                      text: 'MANAGE EMPLOYEES',
-                                      onPressed: () {
-                                        //TODO SHOW ALL EMPLOYEES
-                                        Navigator.push(context,
-                                            MaterialPageRoute(
-                                                builder: (context) => const ManageEmployee()
-                                            )
-                                        );
-                                      },
-                                    ),
-                                    /*  CustomSubButton(
-                                        text: 'SEE RATINGS',
-                                        onPressed:  () {
-                                          //TODO SHOW RATINGS
-                                        },
+                                          CustomSubButton(
+                                            text: 'MANAGE EMPLOYEES',
+                                            onPressed: () {
+                                              //TODO SHOW ALL EMPLOYEES
+                                              Navigator.push(context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => const ManageEmployee()
+                                                  )
+                                              );
+                                            },
+                                          ),
+                                          /*  CustomSubButton(
+                                              text: 'SEE RATINGS',
+                                              onPressed:  () {
+                                                //TODO SHOW RATINGS
+                                              },
+                                            ),
+                                           */
+                                          CustomSubButton(
+                                            text: 'ADD TABLE',
+                                            onPressed: () {
+                                              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'table')));
+                                              //TODO CREATE ADD TABLES FEATURE
+                                            },
+                                          ),
+                                          CustomSubButton(
+                                            text: 'REMOVE TABLE',
+                                            onPressed: () {
+                                              //TODO REMOVE TABLES
+
+                                            },
+                                          ),
+                                          CustomSubButton(
+                                            text: 'MANAGE MENU',
+                                            onPressed: () {
+                                              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'menu')));
+                                              //TODO ADD TO MENU
+                                            },
+                                          )
+
+                                        ], //Children
                                       ),
-                                     */
-                                    CustomSubButton(
-                                      text: 'ADD TABLE',
-                                      onPressed: () {
-                                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'table')));
-                                        //TODO CREATE ADD TABLES FEATURE
-                                      },
-                                    ),
-                                    CustomSubButton(
-                                      text: 'REMOVE TABLE',
-                                      onPressed: () {
-                                        //TODO REMOVE TABLES
-
-                                      },
-                                    ),
-                                    CustomSubButton(
-                                      text: 'MANAGE MENU',
-                                      onPressed: () {
-                                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'menu')));
-                                        //TODO ADD TO MENU
-                                      },
-                                    )
-
-                                  ], //Children
-                                ),
-                              ));
-                          }
+                                    ));
+                                }
+                            }
                       }
-                }
             );
             },
         ));
