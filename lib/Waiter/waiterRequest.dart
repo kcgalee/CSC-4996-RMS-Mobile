@@ -49,18 +49,16 @@ class _WaiterRequestState extends State<WaiterRequest> {
                             if (snapshot.data?.docs[index]['itemName'] == 'Request Waiter'){
                               text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
                                   + '\nRequested: Waiter'
-                                  + '\nQuantity: ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
                                   + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '');
                             } else if (snapshot.data?.docs[index]['itemName'] == 'Request Bill'){
                               text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
                                   + '\nRequested: Bill'
-                                  + '\nQuantity: ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
                                   + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '');
                             } else {
                               text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
-                                  + '\nRequested: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
-                                  + '\nQuantity: ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
-                                  + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '');
+                                  + '\nItem: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
+                                  + '  x ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
+                                  + '\nPlaced by ' + (snapshot.data?.docs[index]['custName'] ?? '');
                             }
                             return RequestTile(
                               taskName: text,
