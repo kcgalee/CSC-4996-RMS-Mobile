@@ -40,18 +40,17 @@ String greeting = '';
                     } else {
                         if (snapshot.data?['isActive'] == false){
                           //kylie
-                          return Text('pending activation text widget goes here');
-                        } else {
-                          return SingleChildScrollView(
-                              child: Center(
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(26),
-                                      child: Text(greeting,
-                                        style: const TextStyle(fontSize: 25,),),
-                                    ),
-
+                          return pendingActivation();
+                  } else {
+                    return SingleChildScrollView(
+                        child: Center(
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(26),
+                                child: Text(greeting,
+                                  style: const TextStyle(fontSize: 25,),),
+                              ),
                                     CustomSubButton(
                                       text: 'MANAGE RESTAURANTS',
                                       onPressed:  () {
@@ -123,6 +122,27 @@ String greeting = '';
 
     );
 
+  }
+
+  Widget pendingActivation() {
+    return AlertDialog(
+      title: const Text('Pending Account Activation'),
+      content: SingleChildScrollView(
+        child: ListBody(
+          children: const <Widget>[
+            Text('Your Manager account is still under approval. Please check back after 24 hours.'),
+          ],
+        ),
+      ),
+      actions: <Widget>[
+        TextButton(
+          child: const Text('OK'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
   }
 
 
