@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:restaurant_management_system/manager/manageRestaurant.dart';
 
+import '../widgets/customBackButton.dart';
 import '../widgets/customTextForm.dart';
+import 'Utility/MangerNavigationDrawer.dart';
 
 
 
@@ -44,6 +46,7 @@ class _AddRestaurant extends State<AddRestaurant> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: const ManagerNavigationDrawer(),
         appBar: AppBar(
           title: const Text("Add Restaurant"),
           backgroundColor: Colors.white,
@@ -51,11 +54,13 @@ class _AddRestaurant extends State<AddRestaurant> {
           elevation: 1,
         ),
         body: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-
+                CustomBackButton(onPressed: () {
+                  Navigator.pop(context);
+                }),
                 CustomTextForm(
                     hintText: "Restaurant Name",
                     controller: restaurantNameController,

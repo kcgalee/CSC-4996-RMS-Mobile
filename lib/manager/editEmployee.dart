@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/manageEmployee.dart';
+import '../widgets/customBackButton.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 
 class EditEmployee extends StatefulWidget {
@@ -48,143 +49,144 @@ class _EditEmployee extends State<EditEmployee> {
       foregroundColor: Colors.black,
       elevation: 1,
     ),
-    body: Center (
-      child: SingleChildScrollView (
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 15),
-              child: TextFormField(
-                controller: firstNameController,
-                keyboardType: TextInputType.number,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (fName) =>
-                fName != null && fName.trim().length > 20
-                    ? 'First name must be between 1 to 20 characters' : null,
-                decoration: const InputDecoration(
-                    hintText: "First Name",
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 2),
-                    ),
-                    border: OutlineInputBorder()
-                ),
+    body: SingleChildScrollView (
+      padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CustomBackButton(onPressed: () {
+            Navigator.pop(context);
+          }),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: TextFormField(
+              controller: firstNameController,
+              keyboardType: TextInputType.number,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (fName) =>
+              fName != null && fName.trim().length > 20
+                  ? 'First name must be between 1 to 20 characters' : null,
+              decoration: const InputDecoration(
+                  hintText: "First Name",
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 2),
+                  ),
+                  border: OutlineInputBorder()
               ),
             ),
+          ),
 
-            Padding(
-              padding: const EdgeInsets.only(bottom: 15),
-              child: TextFormField(
-                controller: lastNameController,
-                keyboardType: TextInputType.number,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (lName) =>
-                lName != null && lName.trim().length > 20
-                    ? 'Last name must be between 1 to 20 characters' : null,
-                decoration: const InputDecoration(
-                    hintText: "Last Name",
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 2),
-                    ),
-                    border: OutlineInputBorder()
-                ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: TextFormField(
+              controller: lastNameController,
+              keyboardType: TextInputType.number,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (lName) =>
+              lName != null && lName.trim().length > 20
+                  ? 'Last name must be between 1 to 20 characters' : null,
+              decoration: const InputDecoration(
+                  hintText: "Last Name",
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 2),
+                  ),
+                  border: OutlineInputBorder()
               ),
             ),
+          ),
 
-            Padding(
-              padding: const EdgeInsets.only(bottom: 15),
-              child: TextFormField(
-                controller: prefNameController,
-                keyboardType: TextInputType.number,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (prefName) =>
-                prefName != null && prefName.trim().length > 20
-                    ? 'Preferred name must be between 1 to 20 characters' : null,
-                decoration: const InputDecoration(
-                    hintText: "Preferred Name",
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 2),
-                    ),
-                    border: OutlineInputBorder()
-                ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: TextFormField(
+              controller: prefNameController,
+              keyboardType: TextInputType.number,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (prefName) =>
+              prefName != null && prefName.trim().length > 20
+                  ? 'Preferred name must be between 1 to 20 characters' : null,
+              decoration: const InputDecoration(
+                  hintText: "Preferred Name",
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 2),
+                  ),
+                  border: OutlineInputBorder()
               ),
             ),
+          ),
 
-            Padding(
-              padding: const EdgeInsets.only(bottom: 15),
-              child: TextFormField(
-                controller: phoneController,
-                keyboardType: TextInputType.number,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (number) =>
-                number != null && !pattern.hasMatch(number)
-                    ? 'Enter valid phone number (ex: 222-333-6776)' : null,
-                decoration: const InputDecoration(
-                    hintText: "Phone (ex: 222-333-6776)",
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 2),
-                    ),
-                    border: OutlineInputBorder()
-                ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: TextFormField(
+              controller: phoneController,
+              keyboardType: TextInputType.number,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (number) =>
+              number != null && !pattern.hasMatch(number)
+                  ? 'Enter valid phone number (ex: 222-333-6776)' : null,
+              decoration: const InputDecoration(
+                  hintText: "Phone (ex: 222-333-6776)",
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 2),
+                  ),
+                  border: OutlineInputBorder()
               ),
             ),
-            Row (
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      fixedSize: const Size(150,50),
-                      textStyle: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                      backgroundColor: Colors.green,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
+          ),
+          Row (
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    fixedSize: const Size(150,50),
+                    textStyle: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
                     ),
-                    child: const Text("update"),
-                    onPressed: () async {
-                      var status = validate(firstNameController.text.trim(), lastNameController.text.trim(), prefNameController.text.trim(), phoneController.text.trim());
-                      if (status == true && flag == true){
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text('There is no information to update'),
-                        ));
-                      } else if (status == true && flag == false) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text('Could not update information, please review input'),
-                        ));
-                      } else {
-                        updateInfo(firstNameController.text.trim(), lastNameController.text.trim(), prefNameController.text.trim(), phoneController.text.trim());
-                        Navigator.pop(context,
-                            MaterialPageRoute(builder: (context) => ManageEmployee()
-                            )
-                        );
-                      }
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                  ),
+                  child: const Text("update"),
+                  onPressed: () async {
+                    var status = validate(firstNameController.text.trim(), lastNameController.text.trim(), prefNameController.text.trim(), phoneController.text.trim());
+                    if (status == true && flag == true){
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('There is no information to update'),
+                      ));
+                    } else if (status == true && flag == false) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('Could not update information, please review input'),
+                      ));
+                    } else {
+                      updateInfo(firstNameController.text.trim(), lastNameController.text.trim(), prefNameController.text.trim(), phoneController.text.trim());
+                      Navigator.pop(context,
+                          MaterialPageRoute(builder: (context) => ManageEmployee()
+                          )
+                      );
                     }
-                ),
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      fixedSize: const Size(150,50),
-                      textStyle: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                      backgroundColor: Colors.redAccent,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
+                  }
+              ),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    fixedSize: const Size(150,50),
+                    textStyle: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
                     ),
-                    child: const Text("cancel"),
-                    onPressed: (){
-                      Navigator.pop(context);
-                    }
-                ),
-              ],
-            )
-          ], //Children
-        ),
+                    backgroundColor: Colors.redAccent,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                  ),
+                  child: const Text("cancel"),
+                  onPressed: (){
+                    Navigator.pop(context);
+                  }
+              ),
+            ],
+          )
+        ], //Children
       ),
     ),
   );

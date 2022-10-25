@@ -65,12 +65,13 @@ String managerName = '';
                           );
                         },
                       ),
-                      CustomSubButton(
+                    /*  CustomSubButton(
                         text: 'SEE RATINGS',
                         onPressed:  () {
                           //TODO SHOW RATINGS
                         },
                       ),
+                     */
                       CustomSubButton(
                         text: 'ADD TABLE',
                         onPressed: () {

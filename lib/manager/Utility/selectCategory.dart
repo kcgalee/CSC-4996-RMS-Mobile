@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../widgets/customBackButton.dart';
 import '../../widgets/customSubButton.dart';
 import '../manageMenuItem.dart';
 import 'MangerNavigationDrawer.dart';
@@ -24,20 +25,22 @@ class _SelectCategoryState extends State<SelectCategory> {
     backgroundColor: Colors.white,
     foregroundColor: Colors.black,
     elevation: 1,
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.arrow_back_ios_new,size: 30,),
-              onPressed: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'menu')));
-              },
-            ),
-          ],
         ),
     body: Center(
       child: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 24),
+            child: CustomBackButton(onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(
+                      builder: (context) => SelectRestaurant(text: 'menu')
+                  )
+              );
+            }),
+          ),
           const Padding(
-            padding: EdgeInsets.all(24),
+            padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
             child: Text("select a category",style: TextStyle(fontSize: 30),),
           ),
         CustomSubButton(text: "APPETIZERS",
