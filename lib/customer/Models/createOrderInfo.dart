@@ -83,21 +83,45 @@ class CreateOrderInfo extends RestaurantInfo{
   orderClear();
   }
 
- void request(String request) {
+ Future<void> request(String request, String _tableID) async {
 
    var uID = FirebaseAuth.instance.currentUser?.uid.toString();
    final DateTime now = DateTime.now();
 
+   await FirebaseFirestore.instance.collection('users').doc(custID).get().then(
+           (element) {
+         custName = element['fName'];
+       });
+
    FirebaseFirestore.instance.collection('orders').add(
    {
+        'custName' : custName,
          'custID' : uID.toString(),
          'itemName' : request,
          'restID' : restaurantID,
-         'tableID' : tableID,
+         'tableID' : _tableID,
         'tableNum' : tableNum,
          'waiterID': waiterID,
          'status' : 'placed',
          'timePlaced': Timestamp.fromDate(now),
+          'price' : '0.0',
+         'quantity' : 1
+       }
+   );
+
+   FirebaseFirestore.instance.collection('tables/$_tableID/tableOrders').add(
+       {
+         'custName' : custName,
+         'custID' : uID.toString(),
+         'itemName' : request,
+         'restID' : restaurantID,
+         'tableID' : _tableID,
+         'tableNum' : tableNum,
+         'waiterID': waiterID,
+         'status' : 'placed',
+         'timePlaced': Timestamp.fromDate(now),
+         'price' : '0.0',
+         'quantity' : 1
        }
    );
 

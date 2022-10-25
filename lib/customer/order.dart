@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/customer/placedOrders.dart';
 import 'package:restaurant_management_system/customer/showMenuItems.dart';
 import 'package:restaurant_management_system/customer/viewOrder.dart';
 import '../widgets/customMainButton.dart';
@@ -124,13 +125,17 @@ class _Order extends State<Order> {
                     ),
                     CustomMainButton(text: "REQUEST WAITER",
                       onPressed: () {
-                        createOrderInfo.request('Request Waiter');
+                        createOrderInfo.request('Request Waiter', tableID);
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => PlacedOrders(tableID: tableID)));
                         //SEND REQUEST FOR WAITER
                       },
                     ),
                     CustomMainButton(text: "REQUEST BILL",
                       onPressed: () {
-                        createOrderInfo.request('Request Bill');
+                        createOrderInfo.request('Request Bill', tableID);
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => PlacedOrders(tableID: tableID)));
                         //REQUEST BILL FROM WAITER
                       },
                     ),
