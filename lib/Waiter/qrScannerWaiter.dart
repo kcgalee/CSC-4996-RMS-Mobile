@@ -89,7 +89,7 @@ class _QRScannerState extends State<QRScannerWaiter> {
       'waiterID': uId,
       'waiterName' : name
     } );
-
+    Navigator.pop(context);
     Navigator.push(context, MaterialPageRoute(builder: (context)=> new WaiterTables()));
   }
 

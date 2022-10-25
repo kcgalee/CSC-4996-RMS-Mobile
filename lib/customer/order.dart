@@ -132,17 +132,34 @@ class _Order extends State<Order> {
                       },
                     ),
                     CustomMainButton(text: "REQUEST BILL",
-                      onPressed: () {
-                        createOrderInfo.request('Request Bill', tableID);
+                      onPressed: () async {
+                      bool test = await checkBillRequested();
+                      if( test == true){
+                        print("this is true");
+                      }
+                      else{
+                        print('bill requested');
+                        createOrderInfo.billRequest('Request Bill', tableID);
                         Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => PlacedOrders(tableID: tableID)));
+                            builder: (context) =>
+                                PlacedOrders(tableID: tableID)));
                         //REQUEST BILL FROM WAITER
+                      }
                       },
                     ),
                   ], //Children
                 )
     )
     );
+  }
+
+  Future<bool> checkBillRequested() async {
+    bool texter = true;
+    await FirebaseFirestore.instance.collection('tables').doc(tableID).get().then(
+            (element) {
+           texter = element['billRequested'];
+        });
+    return texter;
   }
 
 
