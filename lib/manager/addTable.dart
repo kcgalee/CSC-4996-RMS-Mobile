@@ -132,7 +132,8 @@ class _AddTable extends State<AddTable> {
           'waiterID': '',
           'waiterName' : '',
           'currentCapacity': 0,
-          'location' : location
+          'location' : location,
+          'billRequested' : false
         }
     );
 
