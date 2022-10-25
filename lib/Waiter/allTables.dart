@@ -28,7 +28,7 @@ class _AllTables extends State<AllTables> {
             future: getRID(),
             builder: (context, snapshot) {
               return StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection('tables').where('restID', isEqualTo: waiterRID).orderBy('available').snapshots(),
+                  stream: FirebaseFirestore.instance.collection('tables').where('restID', isEqualTo: waiterRID).orderBy('currentCapacity').snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
                       return Center(child: Text('There are currently no tables at this restaurant'));
@@ -97,6 +97,5 @@ class _AllTables extends State<AllTables> {
           waiterRID = element['restID'];
         }
     );
-    print(waiterRID);
   }
 }
