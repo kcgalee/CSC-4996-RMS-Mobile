@@ -18,6 +18,7 @@ class WaiterHome extends StatefulWidget {
 class _WaiterHomeState extends State<WaiterHome> {
   String waiterName = "";
   String restName = "";
+  String greeting = "";
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +33,14 @@ class _WaiterHomeState extends State<WaiterHome> {
         body: FutureBuilder(
           future: getName(),
           builder: (context, snapshot) {
+            greeting = 'Hello, ' + waiterName + '!\n' + restName;
             return SingleChildScrollView(
             child: Center(
               child: Column(
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(26),
-                    child: Text(waiterName,
+                    child: Text(greeting,
                     style: const TextStyle(fontSize: 30,),),
                   ),
                   /*
@@ -102,12 +104,12 @@ class _WaiterHomeState extends State<WaiterHome> {
               } else {
                 waiterName = element['prefName'];
               }
-              rID = element['restaurantID'];
+              rID = element['restID'];
             }
           );
     await FirebaseFirestore.instance.collection('restaurants').doc(rID).get().then(
             (element) {
-              restName = element['restaurantName'];
+              restName = element['restName'];
               }
             );
     }
