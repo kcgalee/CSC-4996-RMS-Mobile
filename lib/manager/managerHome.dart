@@ -17,7 +17,7 @@ class ManagerHome extends StatefulWidget {
 }
 
 class _ManagerHomeState extends State<ManagerHome>{
-String managerName = '';
+String greeting = 'Hello, ';
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ String managerName = '';
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(26),
-                        child: Text("Hello, " + managerName + "!",
+                        child: Text(greeting,
                           style: const TextStyle(fontSize: 25,),),
                       ),
 
@@ -103,7 +103,7 @@ String managerName = '';
   Future getManagerName() async {
     await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).get().then(
             (element) {
-              managerName = element['fName'];
+              greeting += element['fName'] + "!";
             }
 
     );
