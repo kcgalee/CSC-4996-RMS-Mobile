@@ -76,38 +76,54 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
                               ),
                             ],
                           ),
-                          Row(
+                          if (restName == "")
+                            Row(
+                              children: const [
+                                Text(
+                                  "Please scan the QR code at your table once seated.",
+                                  style: TextStyle(fontSize: 13, color: Colors.white),
+                                ),
+                              ],
+                            ),
+                          Column(
                             children: [
-                              Text(
-                                restName,
-                                style: const TextStyle(fontSize: 20, color: Colors.white),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              const Text(
-                                "Table ",
-                                style: TextStyle(fontSize: 20, color: Colors.white),
-                              ),
-                              Text(
-                                tableNum,
-                                style: const TextStyle(fontSize: 20, color: Colors.white),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              const Text(
-                                "Waiter ",
-                                textAlign: TextAlign.left,
-                                style: const TextStyle(fontSize: 20, color: Colors.white),
-                              ),
-                              Text(
-                                waiterName,
-                                textAlign: TextAlign.left,
-                                style: const TextStyle(fontSize: 20, color: Colors.white),
-                              ),
+                              if (restName != "")
+                                Row(
+                                  children: [
+                                    Text(
+                                      restName,
+                                      style: const TextStyle(fontSize: 20, color: Colors.white),
+                                    ),
+                                  ],
+                                ),
+                              if (tableNum != "")
+                                Row(
+                                  children: [
+                                    const Text(
+                                      "Table ",
+                                      style: TextStyle(fontSize: 20, color: Colors.white),
+                                    ),
+                                    Text(
+                                      tableNum,
+                                      style: const TextStyle(fontSize: 20, color: Colors.white),
+                                    ),
+                                  ],
+                                ),
+                              if (waiterName != "")
+                                Row(
+                                  children: [
+                                    const Text(
+                                      "Waiter ",
+                                      textAlign: TextAlign.left,
+                                      style: const TextStyle(fontSize: 20, color: Colors.white),
+                                    ),
+                                    Text(
+                                      waiterName,
+                                      textAlign: TextAlign.left,
+                                      style: const TextStyle(fontSize: 20, color: Colors.white),
+                                    ),
+                                  ],
+                                ),
                             ],
                           ),
                           //const SizedBox(height: 40,),

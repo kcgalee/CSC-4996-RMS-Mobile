@@ -101,9 +101,19 @@ class _ViewOrder extends State<ViewOrder> {
 
             CustomSubButton(text: "PLACE ORDER",
                 onPressed: () {
+              createOrderInfo.setter(tableID);
+              if(createOrderInfo.waiterID == ''){
+              //TODO error for no waiterID
+              }
+              else if (createOrderInfo.itemID.length == 0) {
+                //TODO error for no items in order
+
+              }
+              else {
                 createOrderInfo.placeOrder(tableID, restID);
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => PlacedOrders(tableID: tableID)));
+              }//end of else
                 }
             ),
 

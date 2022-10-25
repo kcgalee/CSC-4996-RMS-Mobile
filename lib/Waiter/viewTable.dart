@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/Waiter/Utility/viewTableTile.dart';
 import 'package:restaurant_management_system/waiter/waiterTables.dart';
+import '../widgets/customGreenButton.dart';
 import '../widgets/customRedButton.dart';
 import 'package:intl/intl.dart';
 
@@ -103,7 +104,7 @@ class _ViewTableState extends State<ViewTable> {
                       }
                     }),
               ),
-              CustomRedButton(
+              CustomGreenButton(
                   text: 'JOIN TABLE',
                   onPressed: () => {
                     joinTable(),

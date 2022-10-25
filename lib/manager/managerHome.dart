@@ -65,12 +65,13 @@ String greeting = 'Hello, ';
                           );
                         },
                       ),
-                      CustomSubButton(
+                    /*  CustomSubButton(
                         text: 'SEE RATINGS',
                         onPressed:  () {
                           //TODO SHOW RATINGS
                         },
                       ),
+                     */
                       CustomSubButton(
                         text: 'ADD TABLE',
                         onPressed: () {

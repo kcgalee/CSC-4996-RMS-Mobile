@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/Utility/managerTile.dart';
 import 'package:restaurant_management_system/manager/Utility/selectRestaurant.dart';
 import 'package:restaurant_management_system/manager/addEmployee.dart';
+import '../widgets/customBackButton.dart';
+import 'Utility/MangerNavigationDrawer.dart';
 import 'editEmployee.dart';
 
 class ManageEmployee extends StatefulWidget {
@@ -17,6 +19,7 @@ class _ManageEmployeeState extends State<ManageEmployee> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const ManagerNavigationDrawer(),
       appBar: AppBar(
         title: const Text("Manage Employee"),
         backgroundColor: Colors.white,
@@ -40,6 +43,12 @@ class _ManageEmployeeState extends State<ManageEmployee> {
 
       body: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 24),
+            child: CustomBackButton(onPressed: () {
+              Navigator.pop(context);
+            }),
+          ),
           Expanded(
             child: StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('users').where('managerID', isEqualTo: FirebaseAuth.instance.currentUser?.uid.trim()).snapshots(),

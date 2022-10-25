@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/Utility/selectCategory.dart';
 import 'package:restaurant_management_system/manager/addItem.dart';
 
+import '../widgets/customBackButton.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 import 'Utility/managerTile.dart';
 
@@ -27,14 +28,6 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 1,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new,size: 30,),
-            onPressed: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectCategory(restaurantID: widget.restaurantID)));
-            },
-          ),
-        ],
       ),
 
       floatingActionButton: FloatingActionButton.extended(
@@ -51,6 +44,12 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
       ),
       body: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 24),
+            child: CustomBackButton(onPressed: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectCategory(restaurantID: widget.restaurantID)));
+            }),
+          ),
           Expanded(
             child: StreamBuilder(
                 stream: FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').where('category', isEqualTo: widget.category).snapshots(),
