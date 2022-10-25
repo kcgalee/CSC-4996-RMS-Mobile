@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/ordersPlacedTile.dart';
+import '../widgets/pastOrdersTile.dart';
 import 'Utility/navigation.dart';
 
 
@@ -41,7 +42,7 @@ class _PastOrdersState extends State<PastOrders> {
                       return ListView.builder(
                           itemCount: snapshot.data?.docs.length,
                           itemBuilder: (context, index) {
-                            return OrdersPlacedTile(
+                            return PastOrdersTile(
                               taskName:
                               '\nOrdered: ' + (snapshot.data?.docs[index]['itemName'] ?? ''),
                               time: snapshot.data?.docs[index]['timePlaced'],
