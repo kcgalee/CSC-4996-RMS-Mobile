@@ -100,11 +100,20 @@ class _AddTable extends State<AddTable> {
 
       CustomMainButton(
         text: "Add Table",
-        onPressed: () =>
-        newTableData(int.parse(tableNumberController.text.trim()),
-            int.parse(tableCapacityController.text.trim()),
-            tableTypeController.text.trim(), tableLocationController.text.trim()),
-      )
+        onPressed: () async =>
+        {
+          if(await checkTableNumber(tableNumberController.text.trim())){
+            newTableData(int.parse(tableNumberController.text.trim()),
+                int.parse(tableCapacityController.text.trim()),
+                tableTypeController.text.trim(),
+                tableLocationController.text.trim()),
+          }
+          else {
+            print("table number in use.")
+          }
+
+        }
+        )
 
     ]),
   ),
@@ -138,6 +147,11 @@ class _AddTable extends State<AddTable> {
     Navigator.of(context).
     push(MaterialPageRoute(builder:(context)=>GenerateQRCode(tableId, tableNum.toString())));
   }
+
+  Future<bool> checkTableNumber(String tableNumber) async {
+    return true;
+   }
+
 
 
 
