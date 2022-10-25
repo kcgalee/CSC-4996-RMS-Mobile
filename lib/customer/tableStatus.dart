@@ -47,39 +47,41 @@ class _TableStatusState extends State<TableStatus> {
                 ),
               ),
             ),
-            StreamBuilder(
-                stream: FirebaseFirestore.instance.
-                collection('tables/${widget.tableID}/tableMembers')
-                    .snapshots(),
+            Expanded(
+              child: StreamBuilder(
+                  stream: FirebaseFirestore.instance.
+                  collection('tables/${widget.tableID}/tableMembers')
+                      .snapshots(),
 
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
-                    return Center(child: Text("NO TABLE MEMBERS"),);
-                  } else {
-                    return ListView.builder(
-                        itemCount: snapshot.data?.docs.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              decoration: BoxDecoration(color: Colors.grey[100],
-                                  border: Border.all(color: Colors.black54,width: 2)
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
+                      return Center(child: Text("NO TABLE MEMBERS"),);
+                    } else {
+                      return ListView.builder(
+                          itemCount: snapshot.data?.docs.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                decoration: BoxDecoration(color: Colors.grey[100],
+                                    border: Border.all(color: Colors.black54,width: 2)
+                                ),
+                                child: ListTile(
+                                  title: Text(snapshot.data?.docs[index]['fName'] ?? ''),
+                                  onTap: () {
+                                   var custID = snapshot.data?.docs[index]['userID'];
+                                   var custName = snapshot.data?.docs[index]['fName'];
+                                    Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) =>  ViewMemberOrder(createOrderInfo: widget.createOrderInfo, tableID: widget.tableID, custID: custID, custName: custName)));
+                                  },
+                                ),
                               ),
-                              child: ListTile(
-                                title: Text(snapshot.data?.docs[index]['fName'] ?? ''),
-                                onTap: () {
-                                 var custID = snapshot.data?.docs[index]['userID'];
-                                 var custName = snapshot.data?.docs[index]['fName'];
-                                  Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) =>  ViewMemberOrder(createOrderInfo: widget.createOrderInfo, tableID: widget.tableID, custID: custID, custName: custName)));
-                                },
-                              ),
-                            ),
-                          );
-                        }
-                    );
-                  }
-                }),
+                            );
+                          }
+                      );
+                    }
+                  }),
+            ),
           ],
         )
 
