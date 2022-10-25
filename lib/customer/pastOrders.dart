@@ -1,10 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/ordersPlacedTile.dart';
+import '../widgets/pastOrdersTile.dart';
 import 'Utility/navigation.dart';
 
 
 class PastOrders extends StatefulWidget {
-  const PastOrders({Key? key}) : super(key: key);
+
+   PastOrders({Key? key}) : super(key: key);
 
   @override
   State<PastOrders> createState() => _PastOrdersState();
@@ -14,14 +19,42 @@ class _PastOrdersState extends State<PastOrders> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const NavigationDrawer(),
+        drawer: const NavigationDrawer(),
+        backgroundColor: Colors.white,
         appBar: AppBar(
-          title: Text('Past Orders'),
+          title: const Text('Past Orders',),
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
-          elevation: 0,
-      actions: <Widget>[],
-      )
+          elevation: 1,
+        ),
+        body: Column(
+          children: [
+            Expanded(
+              child: StreamBuilder(
+                  stream: FirebaseFirestore.instance.collection('orders')
+                      .where('custID', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
+                      .where('itemName', whereNotIn: ['Request Bill', 'Request Waiter'])
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData || (snapshot.data?.size == 0)) {
+                      return Center(child:Text('You have no orders'));
+                    } else {
+                      return ListView.builder(
+                          itemCount: snapshot.data?.docs.length,
+                          itemBuilder: (context, index) {
+                            return PastOrdersTile(
+                              taskName:
+                              '\nOrdered: ' + (snapshot.data?.docs[index]['itemName'] ?? ''),
+                              time: snapshot.data?.docs[index]['timePlaced'],
+                              oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
+                            );
+                          }
+                      );
+                    }
+                  }),
+            ),
+          ],
+        )
     );
   }
 }
