@@ -38,7 +38,7 @@ class NavigationDrawer extends StatelessWidget {
         leading: const Icon(Icons.food_bank),
         title: const Text('Past Orders'),
         onTap: () =>
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const PastOrders())),
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) =>  PastOrders())),
       ),
       ListTile(
         leading: const Icon(Icons.exit_to_app_outlined),
