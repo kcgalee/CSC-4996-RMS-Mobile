@@ -385,11 +385,14 @@ class RegistrationBodyState extends State<RegistrationBody> {
                                     zipController.text.trim(),
                                     restPhoneController.text.trim()
                                 );
-                              }
+                                 }
                               else {
                                 print("That's incorrect");
                               }
                               Navigator.pop(context, 'Confirm');
+                              Navigator.push(
+                                  context, MaterialPageRoute(builder: (context) => ManagerHome()));
+
                             },
                             child: const Text('Confirm'),
                           ),
@@ -535,8 +538,7 @@ class RegistrationBodyState extends State<RegistrationBody> {
     );
 
 
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => ManagerHome()));
+
   }
 }
 
