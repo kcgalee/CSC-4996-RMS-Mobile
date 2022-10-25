@@ -155,6 +155,7 @@ class _ViewTableState extends State<ViewTable> {
     await table.reference.update({
       'waiterID': '',
       'waiterName': '',
+      'currentCapacity': 0,
     });
     
     var rID = table['restID'];

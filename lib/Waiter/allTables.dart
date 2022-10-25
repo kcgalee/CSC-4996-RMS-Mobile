@@ -12,7 +12,7 @@ class AllTables extends StatefulWidget {
 }
 
 class _AllTables extends State<AllTables> {
-  var waiterRID;
+  var waiterRID = "";
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +31,14 @@ class _AllTables extends State<AllTables> {
                   stream: FirebaseFirestore.instance.collection('tables').where('restID', isEqualTo: waiterRID).orderBy('available').snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
-                      return Center(child: CircularProgressIndicator(),);
+                      return Center(child: Text('There are currently no tables at this restaurant'));
                     } else {
                       return GridView.builder(
                           itemCount: snapshot.data?.docs.length,
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
                           itemBuilder:(context,index){
                             var boxColor, text, status;
-                            if (snapshot.data?.docs[index]['available'] == false){
+                            if (snapshot.data?.docs[index]['currentCapacity'] > 0){
                               //if table unavailable then box is red
                               boxColor = Color(0xFFE24D4D);
                             } else {
@@ -94,8 +94,9 @@ class _AllTables extends State<AllTables> {
   Future getRID() async {
     await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).get().then(
             (element) {
-          waiterRID = element['restaurantID'].toString();
+          waiterRID = element['restID'];
         }
     );
+    print(waiterRID);
   }
 }

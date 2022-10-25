@@ -98,8 +98,12 @@ class LoginState extends State<Login> {
                       ),
                       child: Text("Login"),
 
-                      onPressed: () =>
-                          redirect()
+                      onPressed: () async {
+                       int status = validate(emailController.text.trim(), pwController.text.trim());
+                       if (status == 3){
+                          await redirect(emailController.text.trim(), pwController.text.trim());
+                       }
+                      }
                   ),
                 )
               ],
@@ -109,27 +113,32 @@ class LoginState extends State<Login> {
     );
   }
 
-  logIn() async {
-    if (emailController.text.trim() == "" &&  pwController.text.trim() == ""){
+  int validate(String email, String pw){
+    if (email == "" &&  pw == ""){
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('You must enter a valid email & password'),
       ));
-      return 'You must enter a valid email & password';
-    } else if (emailController.text.trim() == ""){
+      return 0;
+    } else if (email == ""){
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('You must enter a valid email'),
       ));
-      return 'You must enter a valid email';
-    } else if (pwController.text.trim() == ""){
+      return 1;
+    } else if (pw == ""){
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('You must enter a valid password'),
       ));
-      return 'You must enter a valid password';
+      return 2;
+    } else {
+      return 3;
     }
+  }
+
+  logIn(String email, String pw) async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: pwController.text.trim(),
+        email: email,
+        password: pw,
       );
     } on FirebaseAuthException catch (e) {
       //error codes returned by function, found from firebase documentation
@@ -149,23 +158,17 @@ class LoginState extends State<Login> {
     }
   }
 
-  redirect() async {
-    final message = await logIn();
+  redirect(String email, String pw) async {
+    final message = await logIn(email, pw);
     if (message == null) {
       final userID = fAuth.currentUser?.uid;
-      print(userID);
-
       String acctType = "";
-      var tableID;
 
       final docRef = FirebaseFirestore.instance.collection('users').doc(userID);
       await docRef.get().then(
               (DocumentSnapshot doc){
             final data = doc.data() as Map<String, dynamic>;
             setState(() => acctType = data['type']);
-            setState(() {
-              tableID = data['tableID'];
-            });
           }
       );
 

@@ -402,10 +402,8 @@ class RegistrationBodyState extends State<RegistrationBody> {
           )
       ),
     ),
-
     );
   }
-
   //=====================================
 //Adding email and password to database
 //=====================================
@@ -452,7 +450,6 @@ class RegistrationBodyState extends State<RegistrationBody> {
           'type': 'customer',
           'date': Timestamp.fromDate(now),
         }
-
 
     );
 
