@@ -510,7 +510,9 @@ class RegistrationBodyState extends State<RegistrationBody> {
           'fName': firstName,
           'type': 'manager',
           'phone' : phone,
-
+          'date': Timestamp.fromDate(now),
+          'isActive': false,
+          'prefName' : '',
         }
 
     );
@@ -519,14 +521,16 @@ class RegistrationBodyState extends State<RegistrationBody> {
       .doc()
       .set({
       'phone' : restPhone,
-      'restaurantName': restName,
+      'restName': restName,
       'managerID' : UID,
       'address': address,
       'city': city,
       'state': state,
-      'zipCode': zip,
-      'approved': false,
-      'date': Timestamp.fromDate(now)
+      'zipcode': zip,
+      'isActive': true,
+      'creationDate': Timestamp.fromDate(now),
+      'openTime': '',
+      'closeTime': ''
     }
     );
 
