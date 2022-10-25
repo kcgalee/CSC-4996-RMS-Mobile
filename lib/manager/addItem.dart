@@ -26,6 +26,11 @@ class _AddItemState extends State<AddItem> {
   final itemDescController = TextEditingController();
   final pricePattern = RegExp(r'^(\$)?(([1-9]\d{0,2}(\,\d{3})*)|([1-9]\d*)|(0))(\.\d{2})?$');
   bool flag = false;
+  bool isVegan = false;
+  bool isVegetarian = false;
+  bool isGlutenFree = false;
+  bool isNuts = false;
+  bool isAllRestaurants = false;
 
   @override
   void initState() {
@@ -86,6 +91,73 @@ class _AddItemState extends State<AddItem> {
                   icon: const Icon(Icons.description, color: Colors.black)
               ),
 
+              CheckboxListTile(
+                title: const Text('Vegan'),
+                controlAffinity: ListTileControlAffinity.leading,
+                value: isVegan,
+                onChanged: (value){
+                  setState(() {
+                    isVegan = value!;
+                  });
+                },
+                activeColor: Colors.black,
+                checkColor: Colors.white,
+              ),
+
+              CheckboxListTile(
+                title: const Text('Vegetarian'),
+                controlAffinity: ListTileControlAffinity.leading,
+                value: isVegetarian,
+                onChanged: (value){
+                  setState(() {
+                    isVegetarian = value!;
+                  });
+                },
+                activeColor: Colors.black,
+                checkColor: Colors.white,
+              ),
+
+              CheckboxListTile(
+                title: const Text('Gluten Free'),
+                controlAffinity: ListTileControlAffinity.leading,
+                value: isGlutenFree,
+                onChanged: (value){
+                  setState(() {
+                    isGlutenFree = value!;
+                  });
+                },
+                activeColor: Colors.black,
+                checkColor: Colors.white,
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(bottom: 30),
+                child: CheckboxListTile(
+                  title: const Text('Nuts'),
+                  controlAffinity: ListTileControlAffinity.leading,
+                  value: isNuts,
+                  onChanged: (value){
+                    setState(() {
+                      isNuts = value!;
+                    });
+                  },
+                  activeColor: Colors.black,
+                  checkColor: Colors.white,
+                ),
+              ),
+
+              CheckboxListTile(
+                title: const Text('Add to All Restaurants'),
+                controlAffinity: ListTileControlAffinity.leading,
+                value: isAllRestaurants,
+                onChanged: (value){
+                  setState(() {
+                    isAllRestaurants = value!;
+                  });
+                },
+                activeColor: Colors.black,
+                checkColor: Colors.white,
+              ),
 
               CustomMainButton(
                   text: "Add Item",
