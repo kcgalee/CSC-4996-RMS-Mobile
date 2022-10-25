@@ -7,6 +7,7 @@ import 'package:restaurant_management_system/widgets/customBackButton.dart';
 
 import 'Utility/MangerNavigationDrawer.dart';
 import 'addRestaurant.dart';
+import 'managerHome.dart';
 
 class ManageRestaurant extends StatefulWidget {
   const ManageRestaurant({Key? key}) : super(key: key);
@@ -48,7 +49,11 @@ class _ManageRestaurant extends State<ManageRestaurant> {
             Padding(
               padding: const EdgeInsets.only(left: 24),
               child: CustomBackButton(onPressed: () {
-                Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(
+                        builder: (context) => ManagerHome()
+                    )
+                );
               }),
             ),
             Expanded(
