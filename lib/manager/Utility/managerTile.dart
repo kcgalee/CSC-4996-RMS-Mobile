@@ -22,7 +22,7 @@ class ManagerTile extends StatelessWidget {
     return FutureBuilder(
       builder: (context, snapshot) {
         return Padding(
-          padding: const EdgeInsets.only(left: 15, right: 15,top: 25),
+          padding: const EdgeInsets.only(left: 15, right: 15,bottom: 25),
           child: Container(
             padding: const EdgeInsets.only(right: 5,left: 15,bottom: 10,top: 10),
             decoration: BoxDecoration(color: Colors.grey[100],
