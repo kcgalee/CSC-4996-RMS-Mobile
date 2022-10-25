@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/customer/showMenuItems.dart';
+import 'package:restaurant_management_system/customer/viewOrder.dart';
 import '../widgets/customMainButton.dart';
 import '../widgets/customSubButton.dart';
 import 'Models/createOrderInfo.dart';
@@ -26,12 +27,35 @@ class _Order extends State<Order> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: const NavigationDrawer(),
         appBar: AppBar(
-          title: const Text("Menu"),
+          title: Text('Menu'),
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
-          elevation: 1,
+          elevation: 0,
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child:
+              TextButton(
+                onPressed: (){
+                  Navigator.push(context,
+                      MaterialPageRoute(
+                          builder: (context) => ViewOrder(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
+
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50)),
+                ),
+                child: const Icon(
+                  Icons.shopping_cart,
+                  color: Colors.white,
+                  size: 20.0,
+                ),
+              ),
+            ),
+          ],
         ),
         body: Center(
                 child: Column(

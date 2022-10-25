@@ -26,10 +26,11 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
     return Scaffold(
       drawer: const NavigationDrawer(),
       appBar: AppBar(
-        title:  const Text("Home"),
+        title: const Text('Home'),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
-        actions: const <Widget>[],
+        elevation: 0,
+
       ),
       body: FutureBuilder (
           future: getRestaurantId(),
@@ -91,13 +92,15 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
                   ),
                   CustomSubButton(text: "CURRENT ORDER",
                     onPressed: () {
-
-                    }
+                      Navigator.push(context,
+                          MaterialPageRoute(
+                              builder: (context) => ViewOrder(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
+                  }
                   ),
                   CustomSubButton(text: "TABLE STATUS",
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => const TableStatus()),
+                            builder: (context) =>  TableStatus(createOrderInfo: createOrderInfo,)),
                         );
                       }
                   ),
@@ -137,13 +140,23 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
           restID = data['restID'].toString().trim();
         });
 
+    print(restID);
+
     final docRef3 = FirebaseFirestore.instance.collection('restaurants').doc(restID);
     await docRef3.get().then(
             (DocumentSnapshot doc){
           final data = doc.data() as Map<String, dynamic>;
           restName =  data['restName'].toString().trim();
         });
-    print(restName);
+      await FirebaseFirestore.instance.collection('tables').doc(tableID).get().then(
+              (element) {
+            tableNum = element['tableNum'].toString();
+          });
+
+      await FirebaseFirestore.instance.collection('tables').doc(tableID).get().then(
+              (element) {
+            waiterName = element['waiterName'];
+          });
 
     createOrderInfo.setter(tableID);
     return "";

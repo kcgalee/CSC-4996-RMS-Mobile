@@ -8,29 +8,34 @@ class RestaurantInfo {
   late var restaurantName;
   late var tableID;
   late var waiterID;
+  late var waiterName;
   late var tableNum;
 
-  setter(String table) async {
-    tableID = table;
+  setter(String tableID) async {
+
     //restID
-    await FirebaseFirestore.instance.collection('tables').doc(table).get().then(
+    await FirebaseFirestore.instance.collection('tables').doc(tableID).get().then(
             (element) {
           restaurantID = element['restID'];
         });
     //restName
     await FirebaseFirestore.instance.collection('restaurants').doc(restaurantID).get().then(
             (element) {
-          restaurantID = element['restName'];
+          restaurantName = element['restName'];
         });
 
     print(restaurantID);
-    await FirebaseFirestore.instance.collection('tables').doc(table).get().then(
+    await FirebaseFirestore.instance.collection('tables').doc(tableID).get().then(
             (element) {
          waiterID = element['waiterID'];
         });
-    await FirebaseFirestore.instance.collection('tables').doc(table).get().then(
+    await FirebaseFirestore.instance.collection('tables').doc(tableID).get().then(
             (element) {
               tableNum = element['tableNum'];
+        });
+    await FirebaseFirestore.instance.collection('users').doc(waiterID).get().then(
+            (element) {
+          waiterName = element['prefName'];
         });
   }
 

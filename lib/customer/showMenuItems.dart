@@ -43,7 +43,9 @@ class _ShowMenuItems extends State<ShowMenuItems> {
               child:
                 TextButton(
                   onPressed: (){
-                    //todo
+                        Navigator.push(context,
+                        MaterialPageRoute(
+                     builder: (context) => ViewOrder(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
@@ -102,6 +104,7 @@ class _ShowMenuItems extends State<ShowMenuItems> {
 
 
                                 onTap: () {
+                                  int? count = 0;
                                   print(snapshot.data?.docs[index]['name']);
                                   showDialog(
                                     context: context,
@@ -135,19 +138,19 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                 },
                                               ),
                                               Counter(
-                                                min: 0,
+                                                min: 1,
                                                 max: 10,
-                                                bound: 0,
+                                                bound: 1,
                                                 step: 1,
-                                                onValueChanged: print,
+                                                onValueChanged: (value) {
+                                                  count = value as int?;
+                                                },
                                               ),
                                               TextButton(
                                                 child:  const Text("Add to Order"),
                                                 onPressed: () {
-
-                                                  int count = 1;
-
-                                                 createOrderInfo.orderSetter(snapshot.data?.docs[index].id as String, count, snapshot.data?.docs[index]['name'], snapshot.data?.docs[index]['price']);
+                                                      count == null ? count = 1 : count = count?.toInt();
+                                                 createOrderInfo.orderSetter(snapshot.data?.docs[index].id as String, count!, snapshot.data?.docs[index]['name'], snapshot.data?.docs[index]['price']);
                                                   Navigator.of(context).pop();
                                                   Navigator.push(context,
                                                       MaterialPageRoute(

@@ -101,7 +101,7 @@ class _ViewOrder extends State<ViewOrder> {
 
             CustomSubButton(text: "PLACE ORDER",
                 onPressed: () {
-                createOrderInfo.placeOrder();
+                createOrderInfo.placeOrder(tableID, restID);
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => PlacedOrders(tableID: tableID)));
                 }
