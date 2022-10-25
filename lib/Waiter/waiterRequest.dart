@@ -35,7 +35,11 @@ class _WaiterRequestState extends State<WaiterRequest> {
               style: TextStyle(fontSize: 30,),),
             Expanded(
               child: StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection('orders').where('waiterID', isEqualTo: FirebaseAuth.instance.currentUser?.uid).where('status', isNotEqualTo: 'delivered').orderBy('status').orderBy('dateTime', descending: false).snapshots(),
+                  stream: FirebaseFirestore.instance.collection('orders')
+                      .where('waiterID', whereIn: [[FirebaseAuth.instance.currentUser?.uid],['']])
+                      .where('status', isNotEqualTo: 'delivered')
+                      .orderBy('status')
+                      .orderBy('timePlaced', descending: false).snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData || (snapshot.data?.size == 0)) {
                       return Center(child:Text('You have no active requests'));
@@ -45,17 +49,17 @@ class _WaiterRequestState extends State<WaiterRequest> {
                           itemBuilder: (context, index) {
                             String text = '';
                             if (snapshot.data?.docs[index]['itemName'] == 'Request Waiter'){
-                              text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'] ?? '')
+                              text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
                                   + '\nRequested: Waiter'
                                   + '\nQuantity: ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
                                   + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '');
                             } else if (snapshot.data?.docs[index]['itemName'] == 'Request Bill'){
-                              text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'] ?? '')
+                              text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
                                   + '\nRequested: Bill'
                                   + '\nQuantity: ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
                                   + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '');
                             } else {
-                              text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'] ?? '')
+                              text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
                                   + '\nRequested: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
                                   + '\nQuantity: ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
                                   + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '');
@@ -64,7 +68,7 @@ class _WaiterRequestState extends State<WaiterRequest> {
                               taskName: text,
                               //for debugging
                               // + '\nStatus: ' + (snapshot.data?.docs[index]['status'] ?? ''),
-                              time: snapshot.data?.docs[index]['dateTime'],
+                              time: snapshot.data?.docs[index]['timePlaced'],
                               orderID: (snapshot.data?.docs[index].reference.id ?? ''),
                               oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
                               tableID: snapshot.data?.docs[index]['tableID'],
