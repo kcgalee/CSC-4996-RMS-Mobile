@@ -123,14 +123,6 @@ class _Order extends State<Order> {
 
                       },
                     ),
-                    CustomMainButton(text: "REQUEST WAITER",
-                      onPressed: () {
-                        createOrderInfo.request('Request Waiter', tableID);
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => PlacedOrders(tableID: tableID)));
-                        //SEND REQUEST FOR WAITER
-                      },
-                    ),
                     CustomMainButton(text: "REQUEST BILL",
                       onPressed: () async {
                       bool test = await checkBillRequested();
