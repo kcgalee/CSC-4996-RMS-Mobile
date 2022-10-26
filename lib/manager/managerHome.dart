@@ -6,6 +6,7 @@ import 'package:restaurant_management_system/manager/addTable.dart';
 import 'package:restaurant_management_system/manager/manageEmployee.dart';
 import 'package:restaurant_management_system/manager/manageRestaurant.dart';
 
+import '../login/mainscreen.dart';
 import '../widgets/customSubButton.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 
@@ -138,7 +139,11 @@ String greeting = '';
         TextButton(
           child: const Text('OK'),
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.push(context,
+                MaterialPageRoute(
+                    builder: (context) => const MainScreen()
+                )
+            );
           },
         ),
       ],
