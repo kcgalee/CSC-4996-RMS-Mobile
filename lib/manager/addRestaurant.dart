@@ -32,18 +32,18 @@ class _AddRestaurant extends State<AddRestaurant> {
   final zipPattern = RegExp(r'^[0-9]{5}(?:-[0-9]{4})?$');
   final statePattern = RegExp(
       r'^(A[KLRZ]|C[AOT]|D[CE]|FL|GA|HI|I[ADLN]|K[SY]|LA|M[ADEINOST]|N[CDEHJMVY]|O[HKR]|PA|RI|S[CD]|T[NX]|UT|V[AT]|W[AIVY])$');
-  bool openTimeChanged = false;
-  bool closeTimeChanged = false;
-  bool openTimeChanged2 = false;
-  bool closeTimeChanged2 = false;
   bool flag = false;
   var uID = FirebaseAuth.instance.currentUser?.uid;
 
-  String oTime = "10:30 AM";
-  String cTime = "10:30 AM";
+  TimeOfDay openTime = TimeOfDay(hour: 10, minute: 30);
+  TimeOfDay closeTime = TimeOfDay(hour: 10, minute: 30);
+  TimeOfDay openTime2 = TimeOfDay(hour: 10, minute: 30);
+  TimeOfDay closeTime2 = TimeOfDay(hour: 10, minute: 30);
 
-  TimeOfDay openTime = const TimeOfDay(hour: 10, minute: 30);
-  TimeOfDay closeTime = const TimeOfDay(hour: 10, minute: 30);
+  String oTime = "10:30 AM";
+  String cTime = "10:30 PM";
+  String oTime2 = "10:30 AM";
+  String cTime2 = "10:30 PM";
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +169,7 @@ class _AddRestaurant extends State<AddRestaurant> {
                             oTime = openTime.format(context).toString(),
                           });
                         },
-                        child: const Text('Opening Time', textAlign: TextAlign.center,),
+                        child: const Text('Opening Time Weekday', textAlign: TextAlign.center,),
                       ),
 
                       SizedBox(
@@ -207,12 +207,88 @@ class _AddRestaurant extends State<AddRestaurant> {
                             cTime = closeTime.format(context).toString(),
                           });
                         },
-                        child: const Text('Closing Time', textAlign: TextAlign.center,),
+                        child: const Text('Closing Time Weekday', textAlign: TextAlign.center,),
                       ),
 
                       SizedBox(
                         child: Text(
                           closeTime.format(context).toString(),
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 26),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          fixedSize: const Size(120, 56),
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.black54,
+                          side: const BorderSide(color: Colors.black, width: 2),
+                        ),
+                        onPressed: () async {
+                          TimeOfDay? newTime2 = await showTimePicker(
+                              context: context,
+                              initialTime: openTime2);
+                          // if 'Cancel' => null
+                          if (newTime2 == null) return;
+                          //if 'OK' => TimeOfDay
+                          setState(() =>
+                          {
+                            openTime2 = newTime2,
+                            oTime2 = openTime2.format(context).toString(),
+                          });
+                        },
+                        child: const Text('Opening Time Weekend', textAlign: TextAlign.center,),
+                      ),
+
+                      SizedBox(
+                        child: Text(
+                          openTime2.format(context).toString(),
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 26),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          fixedSize: const Size(120, 56),
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.black54,
+                          side: const BorderSide(color: Colors.black, width: 2),
+                        ),
+                        onPressed: () async {
+                          TimeOfDay? newTime2 = await showTimePicker(
+                              context: context,
+                              initialTime: closeTime2);
+                          // if 'Cancel' => null
+                          if (newTime2 == null) return;
+                          //if 'OK' => TimeOfDay
+                          setState(() =>
+                          {
+                            closeTime2 = newTime2,
+                            cTime2 = closeTime2.format(context).toString(),
+                          });
+                        },
+                        child: const Text('Closing Time Weekend', textAlign: TextAlign.center,),
+                      ),
+
+                      SizedBox(
+                        child: Text(
+                          closeTime2.format(context).toString(),
                           style: const TextStyle(fontSize: 20),
                         ),
                       ),
@@ -286,8 +362,10 @@ class _AddRestaurant extends State<AddRestaurant> {
       'zipcode': rZip,
       'email': rEmail,
       'phone': rPhone,
-      'openTime': oTime,
-      'closeTime': cTime,
+      'openTimeWKday': oTime,
+      'openTimeWKend': oTime2,
+      'closeTimeWKday': cTime,
+      'closeTimeWKend': cTime2,
       'managerID': uID,
       'isActive': true,
       'creationDate': Timestamp.now(),
