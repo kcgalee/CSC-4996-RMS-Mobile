@@ -29,6 +29,19 @@ class _PastOrdersState extends State<PastOrders> {
         ),
         body: Column(
           children: [
+            Align(
+              alignment: Alignment.topLeft,
+              child:
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.black87,
+                ),
+              ),
+            ),
             Expanded(
               child: StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('orders')
@@ -44,9 +57,10 @@ class _PastOrdersState extends State<PastOrders> {
                           itemBuilder: (context, index) {
                             return PastOrdersTile(
                               taskName:
-                              '\nOrdered: ' + (snapshot.data?.docs[index]['itemName'] ?? ''),
+                              'Item: ' + (snapshot.data?.docs[index]['itemName'] ?? ''),
                               time: snapshot.data?.docs[index]['timePlaced'],
                               oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
+                              //restName: snapshot.data?.docs[index]['restName'],
                             );
                           }
                       );
