@@ -105,7 +105,6 @@ class _ShowMenuItems extends State<ShowMenuItems> {
 
                                 onTap: () {
                                   int? count = 0;
-                                  print(snapshot.data?.docs[index]['name']);
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
@@ -150,7 +149,7 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                 child:  const Text("Add to Order"),
                                                 onPressed: () {
                                                       count == null ? count = 1 : count = count?.toInt();
-                                                 createOrderInfo.orderSetter(snapshot.data?.docs[index].id as String, count!, snapshot.data?.docs[index]['name'], snapshot.data?.docs[index]['price']);
+                                                 createOrderInfo.orderSetter(snapshot.data?.docs[index].id as String, count!, snapshot.data?.docs[index]['itemName'], snapshot.data?.docs[index]['price']);
                                                   Navigator.of(context).pop();
                                                   Navigator.push(context,
                                                       MaterialPageRoute(
