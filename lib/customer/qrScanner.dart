@@ -87,7 +87,8 @@ class _QRScannerState extends State<QRScanner> {
           maxCapacity = element['maxCapacity'];
         });
 
-
+      print(currentCapacity);
+      print(maxCapacity);
     FirebaseFirestore.instance.collection('users').doc(uId).update({
       'tableID' : tableID
     });

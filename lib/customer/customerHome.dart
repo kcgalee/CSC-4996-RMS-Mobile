@@ -68,164 +68,108 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
                           ),
                           const SizedBox(height: 20,),
 
-      //                    if(tableID != '')
-      //                    StreamBuilder(
-      //                         stream: FirebaseFirestore.instance.
-      //                         collection('tables').doc(tableID)
-      //                             .snapshots(),
-      //                         builder: (context, snapshot) {
-      //               if(snapshot.data!['currentCapacity'] == 0) {
-      //                 deleteRestInfo();
-      //               }
-      //
-      //
-      //                 if(snapshot.data!['currentCapacity'] != 0) {
-      //                        return Column(
-      //                       children: [
-      //                         Row(
-      //                         children:  [
-      //                           Text(
-      //                             snapshot.data!['restName'] ?? 'Welcome',
-      //                             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.white),
-      //                           ),
-      //                         ],
-      //                       ),
-      //                         Row(
-      //                           children:  [
-      //                             const Text(
-      //                               'Table ' ,
-      //                               style: TextStyle(fontSize: 20, color: Colors.white),
-      //                             ),
-      //                             Text(
-      //                               snapshot.data!['tableNum']?.toString() ?? "Please scan the QR code at your table once seated.",
-      //                               style: const TextStyle(fontSize: 20, color: Colors.white),
-      //                             ),
-      //                           ],
-      //                         ),
-      //                         if (snapshot.data!['waiterName'] != '')
-      //                         Row(
-      //                           children:  [
-      //                              const Text(
-      //                               'Waiter ',
-      //                               style: TextStyle(fontSize: 20, color: Colors.white),
-      //                             ),
-      //                             Text(
-      //                               snapshot.data!['waiterName'] ?? '',
-      //                               style: TextStyle(fontSize: 20, color: Colors.white),
-      //                             ),
-      //                           ],
-      //                         ),
-      //
-      //                       ]
-      //                     );
-      //                      } else{
-      //                        return Column(
-      //                          children: [
-      //                        Row(
-      //                        children:  const [
-      //                        Text(
-      //                         "Welcome",
-      //                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.white),
-      //                              ),
-      //                           ]
-      //                        ),
-      //
-      //                            Row(
-      //                              children: const [
-      //                                Text(
-      //                                  "Please scan the QR code at your table once seated.",
-      //                                  style: TextStyle(fontSize: 13, color: Colors.white),
-      //                                ),
-      //                              ],
-      //                            ),
-      //
-      //                           ]
-      //                        );
-      //                      }
-      //                     }//builder
-      //
-      // ),
-      //
-      //                     if(tableNum == '')
-      //                     Row(
-      //                       children:  const [
-      //                         Text(
-      //                           "Welcome",
-      //                           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.white),
-      //                         ),
-      //
-      //                       ],
-      //                     ),
-      //
-      //                     if(tableNum == '')
-      //                     Row(
-      //                       children: const [
-      //                         Text(
-      //                           "Please scan the QR code at your table once seated.",
-      //                           style: TextStyle(fontSize: 13, color: Colors.white),
-      //                         ),
-      //                       ],
-      //                     ),
-                          //temp code starts here
+                        if(tableID != '')
+                          StreamBuilder(
+                               stream: FirebaseFirestore.instance.
+                               collection('tables').doc(tableID)
+                                   .snapshots(),
+                               builder: (context, snapshot) {
+
+                     if(snapshot.data!['currentCapacity'] == 0) {
+                       deleteRestInfo();
+                     }
+
+
+                    if(snapshot.data!['currentCapacity'] != 0) {
+                             return Column(
+                            children: [
+                              Row(
+                              children:  [
+                                Text(
+                                  snapshot.data!['restName'] ?? 'Welcome',
+                                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.white),
+                                ),
+                              ],
+                            ),
+                              Row(
+                                children:  [
+                                  const Text(
+                                    'Table ' ,
+                                    style: TextStyle(fontSize: 20, color: Colors.white),
+                                  ),
+                                  Text(
+                                    snapshot.data!['tableNum']?.toString() ?? "Please scan the QR code at your table once seated.",
+                                    style: const TextStyle(fontSize: 20, color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                              if (snapshot.data!['waiterName'] != '')
+                              Row(
+                                children:  [
+                                   const Text(
+                                    'Waiter ',
+                                    style: TextStyle(fontSize: 20, color: Colors.white),
+                                  ),
+                                  Text(
+                                    snapshot.data!['waiterName'] ?? '',
+                                    style: TextStyle(fontSize: 20, color: Colors.white),
+                                  ),
+                                ],
+                              ),
+
+                            ]
+                          );
+                           } else{
+                             return Column(
+                               children: [
+                             Row(
+                             children:  const [
+                             Text(
+                              "Welcome",
+                               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.white),
+                                   ),
+                                ]
+                             ),
+
+                                 Row(
+                                   children: const [
+                                     Text(
+                                       "Please scan the QR code at your table once seated.",
+                                       style: TextStyle(fontSize: 13, color: Colors.white),
+                                     ),
+                                   ],
+                                 ),
+
+                                ]
+                             );
+                           }
+
+          }//builder
+
+      ),
+
+                          if(tableNum == '')
                           Row(
-                            children: const [
+                            children:  const [
                               Text(
                                 "Welcome",
                                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.white),
                               ),
+
                             ],
                           ),
-                          if (restName == "")
-                            Row(
-                              children: const [
-                                Text(
-                                  "Please scan the QR code at your table once seated.",
-                                  style: TextStyle(fontSize: 13, color: Colors.white),
-                                ),
-                              ],
-                            ),
-                          Column(
-                            children: [
-                              if (restName != "")
-                                Row(
-                                  children: [
-                                    Text(
-                                      restName,
-                                      style: const TextStyle(fontSize: 20, color: Colors.white),
-                                    ),
-                                  ],
-                                ),
-                              if (tableNum != "")
-                                Row(
-                                  children: [
-                                    const Text(
-                                      "Table ",
-                                      style: TextStyle(fontSize: 20, color: Colors.white),
-                                    ),
-                                    Text(
-                                      tableNum,
-                                      style: const TextStyle(fontSize: 20, color: Colors.white),
-                                    ),
-                                  ],
-                                ),
-                              if (waiterName != "")
-                                Row(
-                                  children: [
-                                    const Text(
-                                      "Waiter ",
-                                      textAlign: TextAlign.left,
-                                      style: const TextStyle(fontSize: 20, color: Colors.white),
-                                    ),
-                                    Text(
-                                      waiterName,
-                                      textAlign: TextAlign.left,
-                                      style: const TextStyle(fontSize: 20, color: Colors.white),
-                                    ),
-                                  ],
-                                ),
+
+                          if(tableNum == '')
+                          Row(
+                            children: const [
+                              Text(
+                                "Please scan the QR code at your table once seated.",
+                                style: TextStyle(fontSize: 13, color: Colors.white),
+                              ),
                             ],
                           ),
-                          //temp code ends here
+
+
                           //const SizedBox(height: 40,),
                         ],
                       ),
@@ -345,6 +289,25 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
                       //SEND REQUEST FOR WAITER
                     },
                   ),
+
+                  //REQUEST BILL
+                  if(tableID != '')
+                  CustomSubButton(text: "REQUEST BILL",
+                    onPressed: () async {
+                      bool test = await checkBillRequested();
+                      if( test == true){
+                        print("this is true");
+                      }
+                      else{
+                        print('bill requested');
+                        createOrderInfo.billRequest('Request Bill', tableID);
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) =>
+                                PlacedOrders(tableID: tableID)));
+                        //REQUEST BILL FROM WAITER
+                      }
+                    },
+                  ),
                 ], //Children
               ),
             )
@@ -399,5 +362,14 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
       'tableID' : ''
     });
   }
+
+Future<bool> checkBillRequested() async {
+  bool texter = true;
+  await FirebaseFirestore.instance.collection('tables').doc(tableID).get().then(
+          (element) {
+        texter = element['billRequested'];
+      });
+  return texter;
+}
 
 }

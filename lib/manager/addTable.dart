@@ -11,8 +11,8 @@ import 'Utility/MangerNavigationDrawer.dart';
 import 'Utility/selectRestaurant.dart';
 
 class AddTable extends StatefulWidget {
-  final String text;
-  AddTable({Key? key, required this.text}) : super(key: key);
+  final String text, restName;
+  AddTable({Key? key, required this.text, required this.restName}) : super(key: key);
   @override
   State<AddTable> createState() => _AddTable(text: text);
 }
@@ -128,6 +128,7 @@ class _AddTable extends State<AddTable> {
           'tableNum': tableNum,
           'maxCapacity': maxCapacity,
           'restID': text,
+          'restName' : widget.restName,
           'type': tableType,
           'waiterID': '',
           'waiterName' : '',

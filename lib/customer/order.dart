@@ -123,22 +123,7 @@ class _Order extends State<Order> {
 
                       },
                     ),
-                    CustomMainButton(text: "REQUEST BILL",
-                      onPressed: () async {
-                      bool test = await checkBillRequested();
-                      if( test == true){
-                        print("this is true");
-                      }
-                      else{
-                        print('bill requested');
-                        createOrderInfo.billRequest('Request Bill', tableID);
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) =>
-                                PlacedOrders(tableID: tableID)));
-                        //REQUEST BILL FROM WAITER
-                      }
-                      },
-                    ),
+
                   ], //Children
                 )
     )
