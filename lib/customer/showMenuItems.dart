@@ -152,7 +152,7 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                       var price = double.parse(snapshot.data?.docs[index]['price']);
                                                       price = price * count!;
                                                       print(price);
-                                                 createOrderInfo.orderSetter(snapshot.data?.docs[index].id as String, count!, snapshot.data?.docs[index]['itemName'], price.toString());
+                                                 createOrderInfo.orderSetter(snapshot.data?.docs[index].id as String, count!, snapshot.data?.docs[index]['itemName'], price.toStringAsFixed(2));
                                                   Navigator.of(context).pop();
                                                   Navigator.push(context,
                                                       MaterialPageRoute(
