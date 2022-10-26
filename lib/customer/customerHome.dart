@@ -68,6 +68,7 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
                           ),
                           const SizedBox(height: 20,),
 
+                         if(tableID != '')
                          StreamBuilder(
                               stream: FirebaseFirestore.instance.
                               collection('tables').doc(tableID)
