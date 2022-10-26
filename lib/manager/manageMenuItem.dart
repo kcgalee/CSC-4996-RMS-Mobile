@@ -55,7 +55,8 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                 stream: FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').where('category', isEqualTo: widget.category).snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
-                    return Center( child: Text("You currently have no items added to the ${widget.category}s category"));
+                    return Center( child: Text("You currently have no items added to the ${widget.category}s category",
+                      style: TextStyle(fontSize: 20),textAlign: TextAlign.center,));
                   } else {
                     return ListView.builder(
                         itemCount: snapshot.data?.docs.length,
