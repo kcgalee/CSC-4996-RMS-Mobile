@@ -173,9 +173,6 @@ class _AddItemState extends State<AddItem> {
                         content: Text('Could not add item, please review item information'),
                       ));
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('success'),
-                      ));
                       addItem(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => ManageMenuItem(restaurantID: widget.restaurantID, category: widget.category)
