@@ -81,6 +81,7 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
 
 
                     if(snapshot.data!['currentCapacity'] != 0) {
+                      if(snapshot.data!['waiterName'] != null)
                              return Column(
                             children: [
                               Row(
@@ -103,9 +104,11 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
                                   ),
                                 ],
                               ),
-                              if (snapshot.data!['waiterName'] != '')
+
+                              if (snapshot.data!['waiterName'] != null)
                               Row(
                                 children:  [
+                                  if(snapshot.data!['waiterName'] != '')
                                    const Text(
                                     'Waiter ',
                                     style: TextStyle(fontSize: 20, color: Colors.white),
@@ -117,8 +120,34 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
                                 ],
                               ),
 
+
                             ]
                           );
+                      return Column (
+                        children: [
+                      Row(
+                      children:  [
+                      Text(
+                      snapshot.data!['restName'] ?? 'Welcome',
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.white),
+                      ),
+                                 ],
+                                 ),
+                                 Row(
+                                 children:  [
+                                 const Text(
+                                 'Table ' ,
+                                 style: TextStyle(fontSize: 20, color: Colors.white),
+                                 ),
+                                 Text(
+                                 snapshot.data!['tableNum']?.toString() ?? "Please scan the QR code at your table once seated.",
+                                 style: const TextStyle(fontSize: 20, color: Colors.white),
+                                 ),
+                                 ],
+                                 ),
+
+                      ]
+                      );
                            } else{
                              return Column(
                                children: [
@@ -140,7 +169,9 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
                                    ],
                                  ),
 
-                                ]
+
+
+                               ]
                              );
                            }
 
@@ -211,6 +242,7 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
 
                       }
                   ),
+                  if(tableID != '')
                   CustomSubButton(text: "CURRENT ORDER",
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(
@@ -218,6 +250,20 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
                         );
                       }
                   ),
+                  if(tableID == '')
+                    CustomSubButton(text: "CURRENT ORDER",
+                        onPressed: () {
+
+                        }
+                    ),
+
+                  if(tableID == '')
+                    CustomSubButton(text: "TABLE STATUS",
+                        onPressed: () {
+
+                        }
+                    ),
+                  if(tableID != '')
                   CustomSubButton(text: "TABLE STATUS",
                       onPressed: () {
                         if (restName != "") {
@@ -253,61 +299,11 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
                       }
                   ),
 
-                  CustomSubButton(text: "REQUEST WAITER",
-                    onPressed: () {
-                      if (restName != "") {
-                        createOrderInfo.request('Request Waiter', tableID);
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => PlacedOrders(tableID: tableID)));
-                      }
-                      if (restName == "") {
-                        showDialog<void>(
-                          context: context,
-                          barrierDismissible: false, // user must tap button!
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text('Alert!'),
-                              content: SingleChildScrollView(
-                                child: ListBody(
-                                  children: const <Widget>[
-                                    Text('Scan a QR Code first to access the menu! One will be provided by the restaurant you are at.'),
-                                  ],
-                                ),
-                              ),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: const Text('OK'),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      }
-                      //SEND REQUEST FOR WAITER
-                    },
-                  ),
+
 
                   //REQUEST BILL
-                  if(tableID != '')
-                  CustomSubButton(text: "REQUEST BILL",
-                    onPressed: () async {
-                      bool test = await checkBillRequested();
-                      if( test == true){
-                        print("this is true");
-                      }
-                      else{
-                        print('bill requested');
-                        createOrderInfo.billRequest('Request Bill', tableID);
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) =>
-                                PlacedOrders(tableID: tableID)));
-                        //REQUEST BILL FROM WAITER
-                      }
-                    },
-                  ),
+
+
                 ], //Children
               ),
             )
