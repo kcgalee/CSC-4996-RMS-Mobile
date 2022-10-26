@@ -33,10 +33,15 @@ class RestaurantInfo {
             (element) {
               tableNum = element['tableNum'];
         });
-    await FirebaseFirestore.instance.collection('users').doc(waiterID).get().then(
-            (element) {
-          waiterName = element['prefName'];
-        });
+    print('\n next line is waiter id');
+    print(waiterID);
+    if (waiterID != ""){
+      await FirebaseFirestore.instance.collection('users').doc(waiterID).get().then(
+              (element) {
+            waiterName = element['prefName'];
+          });
+    }
+
   }
 
   RestaurantInfo() {
