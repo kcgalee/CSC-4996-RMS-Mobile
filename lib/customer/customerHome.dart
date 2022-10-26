@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -66,62 +67,102 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
                             }
                           ),
                           const SizedBox(height: 20,),
+
+                         StreamBuilder(
+                              stream: FirebaseFirestore.instance.
+                              collection('tables').doc(tableID)
+                                  .snapshots(),
+                              builder: (context, snapshot) {
+                    if(snapshot.data!['currentCapacity'] == 0) {
+                      deleteRestInfo();
+                    }
+
+
+                      if(snapshot.data!['currentCapacity'] != 0) {
+                             return Column(
+                            children: [
+                              Row(
+                              children:  [
+                                Text(
+                                  snapshot.data!['restName'] ?? 'Welcome',
+                                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.white),
+                                ),
+                              ],
+                            ),
+                              Row(
+                                children:  [
+                                  const Text(
+                                    'Table ' ,
+                                    style: TextStyle(fontSize: 20, color: Colors.white),
+                                  ),
+                                  Text(
+                                    snapshot.data!['tableNum']?.toString() ?? "Please scan the QR code at your table once seated.",
+                                    style: const TextStyle(fontSize: 20, color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                              if (snapshot.data!['waiterName'] != '')
+                              Row(
+                                children:  [
+                                   const Text(
+                                    'Waiter ',
+                                    style: TextStyle(fontSize: 20, color: Colors.white),
+                                  ),
+                                  Text(
+                                    snapshot.data!['waiterName'] ?? '',
+                                    style: TextStyle(fontSize: 20, color: Colors.white),
+                                  ),
+                                ],
+                              ),
+
+                            ]
+                          );
+                           } else{
+                             return Column(
+                               children: [
+                             Row(
+                             children:  const [
+                             Text(
+                              "Welcome",
+                               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.white),
+                                   ),
+                                ]
+                             ),
+
+                                 Row(
+                                   children: const [
+                                     Text(
+                                       "Please scan the QR code at your table once seated.",
+                                       style: TextStyle(fontSize: 13, color: Colors.white),
+                                     ),
+                                   ],
+                                 ),
+
+                                ]
+                             );
+                           }
+                          }//builder
+
+      ),
+
+                          if(tableNum == '')
                           Row(
-                            children: const [
+                            children:  const [
                               Text(
                                 "Welcome",
                                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.white),
                               ),
+
                             ],
                           ),
-                          if (restName == "")
-                            Row(
-                              children: const [
-                                Text(
-                                  "Please scan the QR code at your table once seated.",
-                                  style: TextStyle(fontSize: 13, color: Colors.white),
-                                ),
-                              ],
-                            ),
-                          Column(
-                            children: [
-                              if (restName != "")
-                                Row(
-                                  children: [
-                                    Text(
-                                      restName,
-                                      style: const TextStyle(fontSize: 20, color: Colors.white),
-                                    ),
-                                  ],
-                                ),
-                              if (tableNum != "")
-                                Row(
-                                  children: [
-                                    const Text(
-                                      "Table ",
-                                      style: TextStyle(fontSize: 20, color: Colors.white),
-                                    ),
-                                    Text(
-                                      tableNum,
-                                      style: const TextStyle(fontSize: 20, color: Colors.white),
-                                    ),
-                                  ],
-                                ),
-                              if (waiterName != "")
-                                Row(
-                                  children: [
-                                    const Text(
-                                      "Waiter ",
-                                      textAlign: TextAlign.left,
-                                      style: const TextStyle(fontSize: 20, color: Colors.white),
-                                    ),
-                                    Text(
-                                      waiterName,
-                                      textAlign: TextAlign.left,
-                                      style: const TextStyle(fontSize: 20, color: Colors.white),
-                                    ),
-                                  ],
-                                ),
+
+                          if(tableNum == '')
+                          Row(
+                            children: const [
+                              Text(
+                                "Please scan the QR code at your table once seated.",
+                                style: TextStyle(fontSize: 13, color: Colors.white),
+                              ),
                             ],
                           ),
                           //const SizedBox(height: 40,),
@@ -231,5 +272,10 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
     return "";
     }
 
+  deleteRestInfo(){
+    FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).update({
+      'tableID' : ''
+    });
+  }//deleteRI
 
 }
