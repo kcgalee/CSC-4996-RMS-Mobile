@@ -71,7 +71,7 @@ class RequestTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   //task name and time
-                  Text(taskName + '\n' + newTime,
+                  Text(taskName + '\nTime Placed: ' + newTime,
                   style: const TextStyle(color: Colors.black54,fontSize: 15, fontWeight: FontWeight.bold)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
