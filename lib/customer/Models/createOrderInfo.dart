@@ -8,16 +8,20 @@ class CreateOrderInfo extends RestaurantInfo{
   late List<int> count = [];
   late List<String> itemName= [];
   late List<String> price = [];
+  late int itemCount;
   late var custName;
   late var custID;
 
-  CreateOrderInfo(this.custID);
+  CreateOrderInfo(this.custID){
+   itemCount = 0;
+  }
 
   orderSetter(String itemID, int count, String itemName, String price) async {
     this.count.add(count);
     this.itemID.add(itemID);
     this.itemName.add(itemName);
     this.price.add(price);
+    this.itemCount++;
 
     await FirebaseFirestore.instance.collection('users').doc(custID).get().then(
             (element) {
@@ -26,17 +30,19 @@ class CreateOrderInfo extends RestaurantInfo{
   }
 
   void placeOrder(String _tableID, String restID) {
-    for(int i = 0; i < itemName.length; i++) {
+    for(int i = 0; i < itemCount; i++) {
       placeOrderHelper(itemID[i], itemName[i], count[i], price[i], _tableID, restID);
     }
-
+    orderClear();
   }//place order
 
   void placeOrderHelper(String itemID, String itemName, int count, String price, String _tableID, String restID)
   {
+    print("HELPER");
     var uID = FirebaseAuth.instance.currentUser?.uid.toString();
     final DateTime now = DateTime.now();
     CollectionReference users = FirebaseFirestore.instance.collection('orders');
+
     String orderID = users
         .doc()
         .id
@@ -80,7 +86,7 @@ class CreateOrderInfo extends RestaurantInfo{
         }
     );
 
-  orderClear();
+
   }
 
  Future<void> request(String request, String _tableID) async {
@@ -165,6 +171,7 @@ class CreateOrderInfo extends RestaurantInfo{
     itemName.clear();
     price.clear();
     count.clear();
+    itemCount = 0;
  }
 
 
