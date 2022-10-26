@@ -1,6 +1,7 @@
 
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -193,13 +194,39 @@ class _AddItemState extends State<AddItem> {
     if (!price.contains('.')){
       price += '.00';
     }
-    await FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').doc().set({
-      'itemName': itemName,
-      'price': price,
-      'category': widget.category,
-      'description': itemDesc,
-      'creationDate': Timestamp.now(),
-    });
+
+    if (isAllRestaurants) {
+      await FirebaseFirestore.instance.collection('restaurants').where(
+          'managerID', isEqualTo: FirebaseAuth.instance.currentUser?.uid).get()
+          .then(
+              (value) => {
+            value.docs.forEach((element) async {
+              await FirebaseFirestore.instance.collection('restaurants/${element.id}/menu').doc().set({
+                'itemName': itemName,
+                'price': price,
+                'category': widget.category,
+                'description': itemDesc,
+                'creationDate': Timestamp.now(),
+                'isVegan': isVegan,
+                'isVegetarian': isVegetarian,
+                'isGlutenFree': isGlutenFree,
+                'isNuts': isNuts
+              });
+            })
+          });
+    } else {
+      await FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').doc().set({
+        'itemName': itemName,
+        'price': price,
+        'category': widget.category,
+        'description': itemDesc,
+        'creationDate': Timestamp.now(),
+        'isVegan': isVegan,
+        'isVegetarian': isVegetarian,
+        'isGlutenFree': isGlutenFree,
+        'isNuts': isNuts
+      });
+    }
   }
 
   validate(String itemName, String price, String itemDesc) async {
@@ -208,13 +235,32 @@ class _AddItemState extends State<AddItem> {
             (value) => {
           if (value.docs.isNotEmpty) {
             value.docs.forEach((element) {
-              if (element['name'].toUpperCase() == itemName.toUpperCase()){
+              if (element['itemName'].toUpperCase() == itemName.toUpperCase()){
                 error = true;
                 flag = true;
               }
             })
           }
         });
+
+    if (isAllRestaurants){
+      await FirebaseFirestore.instance.collection('restaurants').where('managerID', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
+          .where('isActive', isEqualTo: true).get().then(
+              (value) => {
+            if (value.docs.isNotEmpty) {
+              value.docs.forEach((element) async{
+                await FirebaseFirestore.instance.collection('restaurants/${element.id}/menu').get().then(
+                        (element) => {
+                          element.docs.forEach((item) {
+                            if (item['itemName'].toUpperCase() == itemName.toUpperCase()){
+                              error = true;
+                              flag = true;
+                            }
+                        })
+                });
+              })}
+            });
+    }
 
     if (itemName == "" || itemName.length > 50 || price == ""){
       error = true;
