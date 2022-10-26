@@ -32,6 +32,19 @@ class _ViewMemberOrder extends State<ViewMemberOrder> {
         ),
         body: Column(
           children: [
+            Align(
+              alignment: Alignment.topLeft,
+              child:
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.black87,
+                ),
+              ),
+            ),
             Expanded(
               child: StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('tables/'+widget.tableID+'/tableOrders')
