@@ -96,7 +96,7 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                               child: ListTile(
                                 title: Row(
                                   children: [
-                                    Text(snapshot.data?.docs[index]['name'] ?? ''),
+                                    Text(snapshot.data?.docs[index]['itemName'] ?? ''),
                                     Spacer(),
                                     Text(snapshot.data?.docs[index]['price'] ?? ''),
                                   ],
@@ -114,7 +114,7 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                         children: [
                                           AlertDialog(
                                             insetPadding: EdgeInsets.zero,
-                                            title: Text(snapshot.data?.docs[index]['name']),
+                                            title: Text(snapshot.data?.docs[index]['itemName']),
 
                                             content: Builder(
                                               builder: (context) {
