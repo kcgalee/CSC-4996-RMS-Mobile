@@ -216,9 +216,36 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
                   ),
                   CustomSubButton(text: "TABLE STATUS",
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) =>  TableStatus(createOrderInfo: createOrderInfo, tableID: tableID, tableNum: tableNum, waiterName: waiterName)),
-                        );
+                        if (restName != "") {
+                          Navigator.push(context, MaterialPageRoute(
+                              builder: (context) =>  TableStatus(createOrderInfo: createOrderInfo, tableID: tableID, tableNum: tableNum, waiterName: waiterName)));
+                        }
+                        if (restName == "") {
+                          showDialog<void>(
+                            context: context,
+                            barrierDismissible: false, // user must tap button!
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Alert!'),
+                                content: SingleChildScrollView(
+                                  child: ListBody(
+                                    children: const <Widget>[
+                                      Text('Scan a QR Code first to access the menu! One will be provided by the restaurant you are at.'),
+                                    ],
+                                  ),
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: const Text('OK'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
                       }
                   ),
 
