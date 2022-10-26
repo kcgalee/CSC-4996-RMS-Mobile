@@ -101,9 +101,10 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
                                   ),
                                 ],
                               ),
+                              if (snapshot.data!['waiterName'] != '')
                               Row(
                                 children:  [
-                                  const Text(
+                                   const Text(
                                     'Waiter ',
                                     style: TextStyle(fontSize: 20, color: Colors.white),
                                   ),
