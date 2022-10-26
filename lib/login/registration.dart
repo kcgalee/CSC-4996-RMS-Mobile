@@ -452,6 +452,7 @@ class RegistrationBodyState extends State<RegistrationBody> {
           'fName': firstName,
           'type': 'customer',
           'date': Timestamp.fromDate(now),
+          'tableID' : '',
         }
 
     );
