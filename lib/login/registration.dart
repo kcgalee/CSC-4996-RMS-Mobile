@@ -532,8 +532,10 @@ class RegistrationBodyState extends State<RegistrationBody> {
       'zipcode': zip,
       'isActive': true,
       'creationDate': Timestamp.fromDate(now),
-      'openTime': '',
-      'closeTime': ''
+      'openTimeWKend': '10:30 AM',
+      'closeTimeWKend': '10:30 pm',
+      'openTimeWKday': '8:30 AM',
+      'closeTimeWKday': '8:00 PM'
     }
     );
 

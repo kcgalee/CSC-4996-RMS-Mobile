@@ -74,7 +74,10 @@ class _ManageRestaurant extends State<ManageRestaurant> {
                                       MaterialPageRoute(builder: (context) => EditRestaurant(restID: snapshot.data?.docs[index].reference.id ?? '', rName: snapshot.data?.docs[index]['restName'] ?? '',
                                           rAddress: snapshot.data?.docs[index]['address'] ?? '', rCity: snapshot.data?.docs[index]['city'] ?? '', rState: snapshot.data?.docs[index]['state'] ?? '',
                                           rZip: snapshot.data?.docs[index]['zipcode'] ?? '', rEmail: snapshot.data?.docs[index]['email'] ?? '', rPhone: snapshot.data?.docs[index]['phone'] ?? '',
-                                          rOpen: snapshot.data?.docs[index]['openTime'] ?? '', rClose: snapshot.data?.docs[index]['closeTime'] ?? '')
+                                          rOpenWKday: snapshot.data?.docs[index]['openTimeWKday'] ?? '',
+                                          rCloseWKday: snapshot.data?.docs[index]['closeTimeWKday'] ?? '',
+                                          rOpenWKend: snapshot.data?.docs[index]['openTimeWKend'] ?? '',
+                                          rCloseWKend: snapshot.data?.docs[index]['closeTimeWKend'] ?? '')
                                       )
                                   );
                                 },
