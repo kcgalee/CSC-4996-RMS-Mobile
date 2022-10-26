@@ -110,6 +110,7 @@ class _ViewOrder extends State<ViewOrder> {
 
               }
               else {
+
                 createOrderInfo.placeOrder(tableID, restID);
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => PlacedOrders(tableID: tableID)));
