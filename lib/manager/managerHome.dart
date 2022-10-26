@@ -26,9 +26,9 @@ String greeting = '';
         drawer: const ManagerNavigationDrawer(),
         appBar: AppBar(
           title: const Text("Manager Home"),
-          backgroundColor: Colors.white,
+          backgroundColor: const Color(0xff57c269),
           foregroundColor: Colors.black,
-          elevation: 1,
+          elevation: 0,
         ),
         body: FutureBuilder(
           future: getManagerName(),
@@ -47,11 +47,28 @@ String greeting = '';
                               child: Center(
                                 child: Column(
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(26),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      padding: const EdgeInsets.all(40),
+                                      decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          bottomLeft: Radius.circular(20),
+                                          bottomRight: Radius.circular(20),
+                                        ),
+                                        color: Color(0xff57c269),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey,
+                                            offset: Offset(5.0, 5.0),
+                                            blurRadius: 10.0,
+                                            spreadRadius: 1.0,
+                                          )
+                                        ],
+                                      ),
                                       child: Text(greeting,
-                                        style: const TextStyle(fontSize: 25,),),
+                                        style: const TextStyle(fontSize: 25,color: Colors.white),),
                                     ),
+                                    const SizedBox(height: 50,),
                                           CustomSubButton(
                                             text: 'MANAGE RESTAURANTS',
                                             onPressed:  () {

@@ -309,8 +309,42 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
                       }
                   ),
 
-
-
+                  CustomSubButton(text: "REQUEST WAITER",
+                    onPressed: () {
+                      if (restName != "") {
+                        createOrderInfo.request('Request Waiter', tableID);
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => PlacedOrders(tableID: tableID)));
+                      }
+                      if (restName == "") {
+                        showDialog<void>(
+                          context: context,
+                          barrierDismissible: false, // user must tap button!
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text('Alert!'),
+                              content: SingleChildScrollView(
+                                child: ListBody(
+                                  children: const <Widget>[
+                                    Text('Scan a QR Code first to access the menu! One will be provided by the restaurant you are at.'),
+                                  ],
+                                ),
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text('OK'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                      //SEND REQUEST FOR WAITER
+                    },
+                  ),
                 ], //Children
               ),
             )
@@ -364,6 +398,6 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
     FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).update({
       'tableID' : ''
     });
-  }//deleteRI
+  }
 
 }
