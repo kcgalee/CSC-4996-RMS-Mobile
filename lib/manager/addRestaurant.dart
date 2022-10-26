@@ -34,6 +34,8 @@ class _AddRestaurant extends State<AddRestaurant> {
       r'^(A[KLRZ]|C[AOT]|D[CE]|FL|GA|HI|I[ADLN]|K[SY]|LA|M[ADEINOST]|N[CDEHJMVY]|O[HKR]|PA|RI|S[CD]|T[NX]|UT|V[AT]|W[AIVY])$');
   bool openTimeChanged = false;
   bool closeTimeChanged = false;
+  bool openTimeChanged2 = false;
+  bool closeTimeChanged2 = false;
   bool flag = false;
   var uID = FirebaseAuth.instance.currentUser?.uid;
 

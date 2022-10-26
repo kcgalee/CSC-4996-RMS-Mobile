@@ -16,12 +16,14 @@ class EditRestaurant extends StatefulWidget {
   final String rZip;
   final String rEmail;
   final String rPhone;
-  final String rOpen;
-  final String rClose;
+  final String rOpenWKday;
+  final String rCloseWKday;
+  final String rOpenWKend;
+  final String rCloseWKend;
 
   const EditRestaurant({Key? key, required this.restID, required this.rName, required this.rAddress, required this.rCity,
     required this.rState, required this.rZip, required this.rEmail, required this.rPhone,
-    required this.rOpen, required this.rClose}) : super(key: key);
+    required this.rOpenWKday, required this.rCloseWKday, required this.rOpenWKend, required this.rCloseWKend}) : super(key: key);
 
 
 
@@ -43,13 +45,19 @@ class _EditRestaurant extends State<EditRestaurant> {
       r'^(A[KLRZ]|C[AOT]|D[CE]|FL|GA|HI|I[ADLN]|K[SY]|LA|M[ADEINOST]|N[CDEHJMVY]|O[HKR]|PA|RI|S[CD]|T[NX]|UT|V[AT]|W[AIVY])$');
   bool openTimeChanged = false;
   bool closeTimeChanged = false;
+  bool openTimeChanged2 = false;
+  bool closeTimeChanged2 = false;
   bool flag = false;
 
   TimeOfDay openTime = TimeOfDay(hour: 10, minute: 30);
   TimeOfDay closeTime = TimeOfDay(hour: 10, minute: 30);
+  TimeOfDay openTime2 = TimeOfDay(hour: 10, minute: 30);
+  TimeOfDay closeTime2 = TimeOfDay(hour: 10, minute: 30);
 
   String oTOD = "10:30 AM";
   String cTOD = "10:30 PM";
+  String oTOD2 = "10:30 AM";
+  String cTOD2 = "10:30 PM";
 
   @override
   void initState() {
@@ -61,13 +69,21 @@ class _EditRestaurant extends State<EditRestaurant> {
     zipController.text = widget.rZip;
     emailController.text = widget.rEmail;
     phoneNumberController.text = widget.rPhone;
-    if (widget.rOpen != "") {
+    if (widget.rOpenWKday != "") {
       //openTime = TimeOfDay(hour: int.parse(widget.rOpen.substring(0, widget.rOpen.indexOf(':'))), minute: int.parse(widget.rOpen.substring(widget.rOpen.indexOf(':')+1, widget.rOpen.indexOf(':')+3)));
-      oTOD = widget.rOpen;
+      oTOD = widget.rOpenWKday;
     }
-    if (widget.rClose != "") {
+    if (widget.rCloseWKday != "") {
       //closeTime = TimeOfDay(hour: int.parse(widget.rClose.substring(0, widget.rClose.indexOf(':'))), minute: int.parse(widget.rClose.substring(widget.rClose.indexOf(':')+1, widget.rClose.indexOf(':')+3)));
-      cTOD = widget.rClose;
+      cTOD = widget.rCloseWKday;
+    }
+    if (widget.rOpenWKend != "") {
+      //openTime = TimeOfDay(hour: int.parse(widget.rOpen.substring(0, widget.rOpen.indexOf(':'))), minute: int.parse(widget.rOpen.substring(widget.rOpen.indexOf(':')+1, widget.rOpen.indexOf(':')+3)));
+      oTOD2 = widget.rOpenWKend;
+    }
+    if (widget.rCloseWKend != "") {
+      //closeTime = TimeOfDay(hour: int.parse(widget.rClose.substring(0, widget.rClose.indexOf(':'))), minute: int.parse(widget.rClose.substring(widget.rClose.indexOf(':')+1, widget.rClose.indexOf(':')+3)));
+      cTOD2 = widget.rCloseWKend;
     }
     super.initState();
   }
@@ -202,7 +218,7 @@ class _EditRestaurant extends State<EditRestaurant> {
                         openTimeChanged = true
                       });
                     },
-                    child: Text('Opening Time', textAlign: TextAlign.center,),
+                    child: Text('Opening Time Weekday', textAlign: TextAlign.center,),
                   ),
 
                   SizedBox(
@@ -243,12 +259,94 @@ class _EditRestaurant extends State<EditRestaurant> {
                         closeTimeChanged = true
                       });
                     },
-                    child: Text('Closing Time', textAlign: TextAlign.center,),
+                    child: Text('Closing Time Weekday', textAlign: TextAlign.center,),
                   ),
 
                   SizedBox(
                     child: Text(
                       cTOD,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(bottom: 26),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: Size(120, 56),
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black54,
+                      side: const BorderSide(color: Colors.black, width: 2),
+                    ),
+                    onPressed: () async {
+                      TimeOfDay? newTime = await showTimePicker(
+                        context: context,
+                        initialTime: openTime2,
+                      );
+
+                      // if 'Cancel' => null
+                      if (newTime == null) return;
+                      //if 'OK' => TimeOfDay
+                      setState(() =>
+                      {
+                        openTime2 = newTime,
+                        oTOD2 = openTime2.format(context).toString(),
+                        openTimeChanged2 = true
+                      });
+                    },
+                    child: Text('Open Time Weekend', textAlign: TextAlign.center,),
+                  ),
+
+                  SizedBox(
+                    child: Text(
+                      oTOD2,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(bottom: 26),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: Size(120, 56),
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black54,
+                      side: const BorderSide(color: Colors.black, width: 2),
+                    ),
+                    onPressed: () async {
+                      TimeOfDay? newTime = await showTimePicker(
+                        context: context,
+                        initialTime: closeTime2,
+                      );
+
+                      // if 'Cancel' => null
+                      if (newTime == null) return;
+                      //if 'OK' => TimeOfDay
+                      setState(() =>
+                      {
+                        closeTime2 = newTime,
+                        cTOD2 = closeTime2.format(context).toString(),
+                        closeTimeChanged2 = true
+                      });
+                    },
+                    child: Text('Close Time Weekend', textAlign: TextAlign.center,),
+                  ),
+
+                  SizedBox(
+                    child: Text(
+                      cTOD2,
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
@@ -281,8 +379,8 @@ class _EditRestaurant extends State<EditRestaurant> {
                           zipController.text.trim(),
                           emailController.text.trim(),
                           phoneNumberController.text.trim(),
-                          openTimeChanged,
-                          closeTimeChanged);
+                          openTimeChanged, closeTimeChanged,
+                        openTimeChanged2, closeTimeChanged2);
                       if (flag == true){
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
@@ -320,11 +418,19 @@ class _EditRestaurant extends State<EditRestaurant> {
                         }
 
                         if (openTimeChanged != false) {
-                          updateOpenTime(openTime);
+                          updateOpenTimeWKday(openTime);
                         }
 
                         if (closeTimeChanged != false) {
-                          updateCloseTime(closeTime);
+                          updateCloseTimeWKday(closeTime);
+                        }
+
+                        if (openTimeChanged2 != false) {
+                          updateOpenTimeWKend(openTime2);
+                        }
+
+                        if (closeTimeChanged2 != false) {
+                          updateCloseTimeWKend(closeTime2);
                         }
                         Navigator.pop(context,
                             MaterialPageRoute(builder: (context) => ManageRestaurant()
@@ -414,25 +520,43 @@ class _EditRestaurant extends State<EditRestaurant> {
     });
   }
 
-  updateOpenTime(var oTime) async {
+  updateOpenTimeWKday(var oTime) async {
     var user = await FirebaseFirestore.instance.collection('restaurants').doc(
         widget.restID).get();
     await user.reference.update({
-      'openTime': oTOD
+      'openTimeWKday': oTOD
     });
   }
 
-  updateCloseTime(var cTime) async {
+  updateCloseTimeWKday(var cTime) async {
     var user = await FirebaseFirestore.instance.collection('restaurants').doc(
         widget.restID).get();
     await user.reference.update({
-      'closeTime': cTOD
+      'closeTimeWKday': cTOD
     });
   }
+
+  updateOpenTimeWKend(var oTime) async {
+    var user = await FirebaseFirestore.instance.collection('restaurants').doc(
+        widget.restID).get();
+    await user.reference.update({
+      'openTimeWKend': oTOD2
+    });
+  }
+
+  updateCloseTimeWKend(var cTime) async {
+    var user = await FirebaseFirestore.instance.collection('restaurants').doc(
+        widget.restID).get();
+    await user.reference.update({
+      'closeTimeWKend': cTOD2
+    });
+  }
+
+
 
   validate(String rName, String rAddress, String rCity, String rState,
       String rZip, String rEmail, String rPhone, bool oChanged,
-      bool cChanged) async {
+      bool cChanged, bool oChanged2, bool cChanged2) async {
     bool error = false;
     bool unchanged = false;
     if (rName.length > 40 || rName == "") {
@@ -462,7 +586,8 @@ class _EditRestaurant extends State<EditRestaurant> {
     } else if (rName == widget.rName && rAddress == widget.rAddress
         && rCity == widget.rCity && rState == widget.rState
         && rZip == widget.rZip && rEmail == widget.rEmail
-        && rPhone == widget.rPhone && oChanged == false && cChanged == false) {
+        && rPhone == widget.rPhone && oChanged == false && cChanged == false
+        && oChanged2 == false && cChanged2 == false) {
       unchanged = true;
     }
     return [error, unchanged];
