@@ -75,9 +75,9 @@ class _SelectRestaurant extends State<SelectRestaurant> {
                                   subtitle: Text(snapshot.data?.docs[index]['address'] ?? ''),
                                   onTap: () {
                                     String? rID = snapshot.data?.docs[index].id;
-
+                                    String? restName = snapshot.data?.docs[index]['restName'];
                                     if(text == 'table'){
-                                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddTable(text: rID.toString())));
+                                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddTable(text: rID.toString(), restName: restName.toString())));
                                     }
                                     else if (text == 'employee'){
                                       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddEmployee(text: rID.toString())));
