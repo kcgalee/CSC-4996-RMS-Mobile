@@ -28,6 +28,9 @@ class _GenerateQRCode extends State<GenerateQRCode> {
     drawer: const ManagerNavigationDrawer(),
     appBar: AppBar(
       title: Text('Table ' + tableNum + ' QR Code'),
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.black,
+      elevation: 1,
     ),
     body: Center (
       child: SingleChildScrollView (
