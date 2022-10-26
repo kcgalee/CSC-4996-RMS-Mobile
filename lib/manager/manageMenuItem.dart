@@ -61,16 +61,61 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                     return ListView.builder(
                         itemCount: snapshot.data?.docs.length,
                         itemBuilder: (context, index) {
-                          return ManagerTile(
-                              taskName: snapshot.data?.docs[index]['itemName'] + ' \$' + snapshot.data?.docs[index]['price'],
-                              subTitle: snapshot.data?.docs[index]['description'] ?? '',
-                              onPressedEdit:  (){
+                          if (widget.category != "utensil"){
+                            var dietaryText = "";
 
-                              },
-                              onPressedDelete: () async {
-
+                            if (snapshot.data?.docs[index]['isVegan'] == true){
+                              if (dietaryText == ""){
+                                dietaryText += "\nVegan";
+                              } else {
+                                dietaryText += " Vegan";
                               }
-                          );
+                            }
+                            if (snapshot.data?.docs[index]['isVegetarian'] == true){
+                              if (dietaryText == ""){
+                                dietaryText += "\nVegetarian";
+                              } else {
+                                dietaryText += " Vegetarian";
+                              }
+                            }
+                            if (snapshot.data?.docs[index]['isNuts'] == true){
+                              if (dietaryText == ""){
+                                dietaryText += "\nNuts";
+                              } else {
+                                dietaryText += " Nuts";
+                              }
+                            }
+                            if (snapshot.data?.docs[index]['isGlutenFree'] == true){
+                              if (dietaryText == ""){
+                                dietaryText += "\nGluten Free";
+                              } else {
+                                dietaryText += " Gluten Free";
+                              }
+                            }
+
+                            return ManagerTile(
+                                taskName: snapshot.data?.docs[index]['itemName'] + ' \$' + snapshot.data?.docs[index]['price'] + dietaryText,
+                                subTitle: snapshot.data?.docs[index]['description'] ?? '',
+                                onPressedEdit:  (){
+
+                                },
+                                onPressedDelete: () async {
+
+                                }
+                            );
+                          } else {
+                            return ManagerTile(
+                                taskName: snapshot.data?.docs[index]['itemName'] + ' \$' + snapshot.data?.docs[index]['price'],
+                                subTitle: snapshot.data?.docs[index]['description'] ?? '',
+                                onPressedEdit:  (){
+
+                                },
+                                onPressedDelete: () async {
+
+                                }
+                            );
+                          }
+
                         }
                     );
                   }
