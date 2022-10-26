@@ -111,14 +111,6 @@ class _WaiterHomeState extends State<WaiterHome> {
                         },
                       ),
 
-                      CustomSubButton(
-                        text: 'SCAN QR CODE',
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => const QRScannerWaiter()));
-                        },
-                      ),
-
                     ], //Children
                   ),
                 ));
