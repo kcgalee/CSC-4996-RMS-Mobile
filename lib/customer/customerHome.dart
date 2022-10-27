@@ -3,22 +3,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/customer/Models/createOrderInfo.dart';
+import 'package:restaurant_management_system/customer/order.dart';
+import 'package:restaurant_management_system/customer/pastOrders.dart';
 import 'package:restaurant_management_system/customer/placedOrders.dart';
+import 'package:restaurant_management_system/customer/tableStatus.dart';
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
-import 'package:restaurant_management_system/widgets/customSubButton.dart';
-import 'tableStatus.dart';
-import 'order.dart';
+import '../widgets/customSubButton.dart';
 import 'qrScanner.dart';
 import 'package:restaurant_management_system/customer/Utility/navigation.dart';
 
-class CustomerHome extends StatelessWidget {
+class CustomerHome extends StatefulWidget {
+  const CustomerHome({Key? key}) : super(key: key);
 
-String restName = "";
-String tableID ="";
-String tableNum ="";
-String restID = "";
-String waiterName = "";
-CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentUser?.uid);
+  @override
+  State<CustomerHome> createState() => _CustomerHomeState();
+}
+
+class _CustomerHomeState extends State<CustomerHome> {
+
+
+  CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentUser?.uid);
 
   @override
   Widget build(BuildContext context) {
@@ -31,345 +35,276 @@ CreateOrderInfo createOrderInfo = CreateOrderInfo(FirebaseAuth.instance.currentU
         elevation: 0,
 
       ),
-      body: FutureBuilder (
-          future: getRestaurantId(),
-          builder: (context, snapshot) {
-            return SingleChildScrollView(
-            child: Center(
-              child: Column(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(40),
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(20),
-                      ),
-                      color: Color(0xff76bcff),
-                      boxShadow: [
-                        BoxShadow(
-                        color: Colors.grey,
-                        offset: Offset(5.0, 5.0),
-                        blurRadius: 10.0,
-                        spreadRadius: 1.0,
-                        )
-                      ],
-                    ),
-                    child:
-                      Column(
-                        children: [
-                          //const SizedBox(height: 20,),
-                          CustomMainButton(text: "QR SCAN",
-                            onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => const QRScanner()),
-                              );
-                            }
-                          ),
-                          const SizedBox(height: 20,),
 
-                        if(tableID != '')
-                          StreamBuilder(
-                               stream: FirebaseFirestore.instance.
-                               collection('tables').doc(tableID)
-                                   .snapshots(),
-                               builder: (context, snapshot) {
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+              children: [
 
-                     if(snapshot.data!['currentCapacity'] == 0) {
-                       deleteRestInfo();
-                     }
+                //=====================================
+                //Customer User Document Stream Builder
+                //=====================================
 
+                StreamBuilder(
+                    stream: FirebaseFirestore.instance.
+                    collection('users').doc(FirebaseAuth.instance.currentUser?.uid)
+                        .snapshots(),
+                    builder: (context, userSnapshot) {
 
-                    if(snapshot.data!['currentCapacity'] != 0) {
-                             return Column(
+                      //User not assigned to a table
+                      if(userSnapshot.data!['tableID'] == '') {
+
+                        return Column(
                             children: [
-                              Row(
-                              children:  [
-                                Text(
-                                  snapshot.data!['restName'] ?? 'Welcome',
-                                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.white),
-                                ),
-                              ],
-                            ),
-                              Row(
-                                children:  [
-                                  const Text(
-                                    'Table ' ,
-                                    style: TextStyle(fontSize: 20, color: Colors.white),
+                              Container(
+                                  padding: const EdgeInsets.all(40),
+                                  decoration: const BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(20),
+                                      bottomRight: Radius.circular(20),
+                                    ),
+                                    color: Color(0xff76bcff),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        offset: Offset(5.0, 5.0),
+                                        blurRadius: 10.0,
+                                        spreadRadius: 1.0,
+                                      )
+                                    ],
                                   ),
-                                  Text(
-                                    snapshot.data!['tableNum']?.toString() ?? "Please scan the QR code at your table once seated.",
-                                    style: const TextStyle(fontSize: 20, color: Colors.white),
-                                  ),
-                                ],
+                                  child: Column(
+                                      children: [
+                                        CustomMainButton(text: "QR SCAN",
+                                            onPressed: () {
+                                              Navigator.push(context, MaterialPageRoute(
+                                                  builder: (context) => const QRScanner()),
+                                              );
+                                            }
+                                        ),
+                                        const SizedBox(height: 20,),
+
+                                        Row(
+                                            children:  const [
+                                              Text(
+                                                "Welcome",
+                                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.white),
+                                              ),
+                                            ]
+                                        ),
+
+                                        Row(
+                                          children: const [
+                                            Text(
+                                              "Please scan the QR code at your table once seated.",
+                                              style: TextStyle(fontSize: 13, color: Colors.white),
+                                            ),
+                                          ],
+                                        ),
+
+                                      ]
+                                  )
                               ),
-                              if (snapshot.data!['waiterName'] != '')
-                              Row(
-                                children:  [
-                                   const Text(
-                                    'Waiter ',
-                                    style: TextStyle(fontSize: 20, color: Colors.white),
-                                  ),
-                                  Text(
-                                    snapshot.data!['waiterName'] ?? '',
-                                    style: TextStyle(fontSize: 20, color: Colors.white),
-                                  ),
-                                ],
+                              const SizedBox(height: 30,),
+                              Center(
+                                  child: Column(
+                                    children: [
+                                      CustomSubButton(text: "PAST ORDERS",
+                                          onPressed: () {
+                                            Navigator.push(context, MaterialPageRoute(
+                                                builder: (context) => PastOrders()),
+                                            );
+                                          }
+                                      ),
+
+                                    ],
+                                  )
                               ),
+
+
 
                             ]
-                          );
-                           } else{
-                             return Column(
-                               children: [
-                             Row(
-                             children:  const [
-                             Text(
-                              "Welcome",
-                               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.white),
-                                   ),
-                                ]
-                             ),
 
-                                 Row(
-                                   children: const [
-                                     Text(
-                                       "Please scan the QR code at your table once seated.",
-                                       style: TextStyle(fontSize: 13, color: Colors.white),
-                                     ),
-                                   ],
-                                 ),
-
-                                ]
-                             );
-                           }
-
-          }//builder
-
-      ),
-
-                          if(tableNum == '')
-                          Row(
-                            children:  const [
-                              Text(
-                                "Welcome",
-                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.white),
-                              ),
-
-                            ],
-                          ),
-
-                          if(tableNum == '')
-                          Row(
-                            children: const [
-                              Text(
-                                "Please scan the QR code at your table once seated.",
-                                style: TextStyle(fontSize: 13, color: Colors.white),
-                              ),
-                            ],
-                          ),
-
-
-                          //const SizedBox(height: 40,),
-                        ],
-                      ),
-                  ),
-                  const SizedBox(height: 60,),
-                  CustomMainButton(text: "MENU",
-                      onPressed: () {
-                        if (restName != "") {
-                          Navigator.push(context,
-                              MaterialPageRoute(
-                                  builder: (context) => Order(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
-                        }
-                        if (restName == "") {
-                          showDialog<void>(
-                            context: context,
-                            barrierDismissible: false, // user must tap button!
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text('Alert!'),
-                                content: SingleChildScrollView(
-                                  child: ListBody(
-                                    children: const <Widget>[
-                                      Text('Scan a QR Code first to access the menu! One will be provided by the restaurant you are at.'),
-                                    ],
-                                  ),
-                                ),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: const Text('OK'),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        }
+                        );
 
                       }
-                  ),
-                  CustomSubButton(text: "CURRENT ORDER",
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => PlacedOrders(tableID: tableID)),
+
+                      else {
+                        return SingleChildScrollView(
+                          child: Center(
+                            child: Column (
+                                children: [
+                                  //============================
+                                  //Table document Snapshot stream builder
+                                  //=============================
+                                  StreamBuilder(
+                                      stream: FirebaseFirestore.instance.
+                                      collection('tables').doc(userSnapshot.data!['tableID'])
+                                          .snapshots(),
+                                      builder: (context, tableSnapshot) {
+                                        return Column(
+                                            children: [
+                                              Container(
+                                                  padding: const EdgeInsets.all(40),
+                                                  decoration: const BoxDecoration(
+                                                    borderRadius: BorderRadius.only(
+                                                      bottomLeft: Radius.circular(20),
+                                                      bottomRight: Radius.circular(20),
+                                                    ),
+                                                    color: Color(0xff76bcff),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.grey,
+                                                        offset: Offset(5.0, 5.0),
+                                                        blurRadius: 10.0,
+                                                        spreadRadius: 1.0,
+                                                      )
+                                                    ],
+                                                  ),
+                                                  child: Column(
+                                                      children: [
+                                                        CustomMainButton(text: "QR SCAN",
+                                                            onPressed: () {
+                                                              Navigator.push(context, MaterialPageRoute(
+                                                                  builder: (context) => const QRScanner()),
+                                                              );
+                                                            }
+                                                        ),
+                                                        const SizedBox(height: 20,),
+
+                                                        Row(
+                                                            children:   [
+                                                              Text(
+                                                                tableSnapshot.data!['restName'],
+                                                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.white),
+                                                              ),
+                                                            ]
+                                                        ),
+
+                                                        Row(
+                                                          children:  [
+                                                            const Text(
+                                                              "Table ",
+                                                              style: TextStyle(fontSize: 13, color: Colors.white),
+                                                            ),
+                                                            Text(
+                                                              tableSnapshot.data!['tableNum'].toString(),
+                                                              style: TextStyle(fontSize: 13, color: Colors.white),
+                                                            ),
+                                                          ],
+                                                        ),
+
+                                                        if(tableSnapshot.data!['waiterName'] != '')
+                                                          Row(
+                                                            children:  [
+                                                              const Text(
+                                                                "Waiter ",
+                                                                style: TextStyle(fontSize: 13, color: Colors.white),
+                                                              ),
+                                                              Text(
+                                                                tableSnapshot.data!['waiterName'].toString(),
+                                                                style: TextStyle(fontSize: 13, color: Colors.white),
+                                                              ),
+                                                            ],
+                                                          ),
+
+                                                      ]
+                                                  )
+                                              ),
+                                              const SizedBox(height: 30,),
+                                              Center(
+                                                  child: Column(
+                                                    children: [
+
+                                                      //Menu Button
+                                                      CustomSubButton(text: "MENU",
+                                                          onPressed: () {
+                                                            Navigator.push(context, MaterialPageRoute(
+                                                                builder: (context) => Order(tableID: tableSnapshot.data!.id, restName: tableSnapshot.data!['restName'], restID: tableSnapshot.data!['restID'], createOrderInfo: createOrderInfo)),
+                                                            );
+                                                          }
+                                                      ),
+
+                                                      //Current Order Button
+                                                      CustomSubButton(text: "CURRENT ORDER",
+                                                          onPressed: () {
+                                                            Navigator.push(context, MaterialPageRoute(
+                                                                builder: (context) => PlacedOrders(tableID: tableSnapshot.data!.id)),
+                                                            );
+                                                          }
+                                                      ),
+
+                                                      //Table Status Button
+                                                      CustomSubButton(text: "TABLE STATUS",
+                                                          onPressed: () {
+                                                            Navigator.push(context, MaterialPageRoute(
+                                                                builder: (context) => TableStatus(createOrderInfo: createOrderInfo, tableID: tableSnapshot.data!['tableID'], tableNum: tableSnapshot.data!['tableNum'], waiterName: tableSnapshot.data!['waiterName'])),
+                                                            );
+                                                          }
+                                                      ),
+
+                                                      CustomSubButton(text: "REQUEST WAITER",
+                                                          onPressed: () {
+                                                            createOrderInfo.request('Request Waiter', tableSnapshot.data!.id);
+                                                            Navigator.push(context, MaterialPageRoute(
+                                                                builder: (context) => PlacedOrders(tableID: tableSnapshot.data!.id)),
+                                                            );
+                                                          }
+                                                      ),
+
+                                                      if(tableSnapshot.data!['billRequested'] != true)
+                                                        CustomSubButton(text: "REQUEST BILL",
+                                                            onPressed: () {
+                                                              createOrderInfo.request('Request Bill', tableSnapshot.data!.id);
+                                                              Navigator.push(context, MaterialPageRoute(
+                                                                  builder: (context) => PlacedOrders(tableID: tableSnapshot.data!.id)),
+                                                              );
+                                                            }
+                                                        ),
+
+                                                    ],
+                                                  )
+                                              ),
+
+
+
+                                            ]
+
+                                        );
+
+
+                                      } // end of tableSnapshot builder
+
+                                  ),
+
+                                  //================================
+                                  //End of table doc stream builder
+                                  //===============================
+                                ]
+                            ),
+                          ),
                         );
                       }
-                  ),
-                  CustomSubButton(text: "TABLE STATUS",
-                      onPressed: () {
-                        if (restName != "") {
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (context) =>  TableStatus(createOrderInfo: createOrderInfo, tableID: tableID, tableNum: tableNum, waiterName: waiterName)));
-                        }
-                        if (restName == "") {
-                          showDialog<void>(
-                            context: context,
-                            barrierDismissible: false, // user must tap button!
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text('Alert!'),
-                                content: SingleChildScrollView(
-                                  child: ListBody(
-                                    children: const <Widget>[
-                                      Text('Scan a QR Code first to access the menu! One will be provided by the restaurant you are at.'),
-                                    ],
-                                  ),
-                                ),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: const Text('OK'),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        }
-                      }
-                  ),
 
-                  CustomSubButton(text: "REQUEST WAITER",
-                    onPressed: () {
-                      if (restName != "") {
-                        createOrderInfo.request('Request Waiter', tableID);
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => PlacedOrders(tableID: tableID)));
-                      }
-                      if (restName == "") {
-                        showDialog<void>(
-                          context: context,
-                          barrierDismissible: false, // user must tap button!
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text('Alert!'),
-                              content: SingleChildScrollView(
-                                child: ListBody(
-                                  children: const <Widget>[
-                                    Text('Scan a QR Code first to access the menu! One will be provided by the restaurant you are at.'),
-                                  ],
-                                ),
-                              ),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: const Text('OK'),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      }
-                      //SEND REQUEST FOR WAITER
-                    },
-                  ),
+                      //================================
+                    } //End of customer User Doc Builder
+                  //===============================
 
-                  //REQUEST BILL
-                  if(tableID != '')
-                  CustomSubButton(text: "REQUEST BILL",
-                    onPressed: () async {
-                      bool test = await checkBillRequested();
-                      if( test == true){
-                        print("this is true");
-                      }
-                      else{
-                        print('bill requested');
-                        createOrderInfo.billRequest('Request Bill', tableID);
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) =>
-                                PlacedOrders(tableID: tableID)));
-                        //REQUEST BILL FROM WAITER
-                      }
-                    },
-                  ),
-                ], //Children
-              ),
-            )
-            );
-          }
+                ),
+                //=====================================
+                // End of Customer User Document Stream Builder
+                //=====================================
+
+
+
+
+              ]
+          ),
+        ),
       ),
     );
   }
 
 
-    Future<String> getRestaurantId() async {
-
-      final docRef2 = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid.toString());
-      await docRef2.get().then(
-              (DocumentSnapshot doc){
-            final data = doc.data() as Map<String, dynamic>;
-            tableID = data['tableID'].toString().trim();
-          });
-
-
-    final docRef = FirebaseFirestore.instance.collection('tables').doc(tableID);
-    await docRef.get().then(
-            (DocumentSnapshot doc){
-          final data = doc.data() as Map<String, dynamic>;
-          restID = data['restID'].toString().trim();
-        });
-
-    print(restID);
-
-    final docRef3 = FirebaseFirestore.instance.collection('restaurants').doc(restID);
-    await docRef3.get().then(
-            (DocumentSnapshot doc){
-          final data = doc.data() as Map<String, dynamic>;
-          restName =  data['restName'].toString().trim();
-        });
-      await FirebaseFirestore.instance.collection('tables').doc(tableID).get().then(
-              (element) {
-            tableNum = element['tableNum'].toString();
-          });
-
-      await FirebaseFirestore.instance.collection('tables').doc(tableID).get().then(
-              (element) {
-            waiterName = element['waiterName'];
-          });
-
-    createOrderInfo.setter(tableID);
-    return "";
-    }
-
-  deleteRestInfo(){
-    FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).update({
-      'tableID' : ''
-    });
-  }
-
-Future<bool> checkBillRequested() async {
-  bool texter = true;
-  await FirebaseFirestore.instance.collection('tables').doc(tableID).get().then(
-          (element) {
-        texter = element['billRequested'];
-      });
-  return texter;
-}
 
 }
