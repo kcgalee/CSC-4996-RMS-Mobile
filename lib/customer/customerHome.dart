@@ -280,6 +280,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                                         CustomSubButton(
                                             text: "REQUEST WAITER",
                                             onPressed: () {
+                                              if (tableSnapshot.data!['waiterID'] != ''){
                                               createOrderInfo.request(
                                                   'Request Waiter',
                                                   tableSnapshot.data!.id);
@@ -291,29 +292,119 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                             tableID:
                                                                 tableSnapshot
                                                                     .data!.id)),
-                                              );
+                                              ); }
+
+                                              //NO WAITER AT TABLE ERROR
+                                              else {
+                                                showDialog<void>(
+                                                  context: context,
+                                                  barrierDismissible: false, // user must tap button!
+                                                  builder: (BuildContext context) {
+                                                    return AlertDialog(
+                                                      title: const Text('Alert!'),
+                                                      content: SingleChildScrollView(
+                                                        child: ListBody(
+                                                          children: const <Widget>[
+                                                            Text('Waiter Must be assigned to your table before you can submit a request.'),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      actions: <Widget>[
+                                                        TextButton(
+                                                          child: const Text('OK'),
+                                                          onPressed: () {
+                                                            Navigator.of(context).pop();
+                                                          },
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                              }
                                             }),
 
-                                        if (tableSnapshot
-                                                .data!['billRequested'] !=
-                                            true)
+                                        //=====================
+                                        //BILL REQUESTED BUTTON
+                                        //======================
                                           CustomSubButton(
                                               text: "REQUEST BILL",
                                               onPressed: () {
-                                                createOrderInfo.request(
-                                                    'Request Bill',
-                                                    tableSnapshot.data!.id);
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          PlacedOrders(
-                                                              tableID:
-                                                                  tableSnapshot
-                                                                      .data!
-                                                                      .id)),
-                                                );
+                                                if (tableSnapshot
+                                                    .data!['billRequested'] ==
+                                                    true) {
+                                                  createOrderInfo.request(
+                                                      'Request Bill',
+                                                      tableSnapshot.data!.id);
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            PlacedOrders(
+                                                                tableID:
+                                                                tableSnapshot
+                                                                    .data!
+                                                                    .id)),
+                                                  );
+                                                }
+
+                                                //NO WAITER AT TABLE ERROR
+                                                else if (tableSnapshot.data!['waiterID'] != '') {
+                                                  showDialog<void>(
+                                                    context: context,
+                                                    barrierDismissible: false, // user must tap button!
+                                                    builder: (BuildContext context) {
+                                                      return AlertDialog(
+                                                        title: const Text('Alert!'),
+                                                        content: SingleChildScrollView(
+                                                          child: ListBody(
+                                                            children: const <Widget>[
+                                                              Text('Waiter Must be assigned to your table before you can submit a request.'),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        actions: <Widget>[
+                                                          TextButton(
+                                                            child: const Text('OK'),
+                                                            onPressed: () {
+                                                              Navigator.of(context).pop();
+                                                            },
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  );
+                                                }
+                                                //BILL ALREADY REQUESTED ERROR
+                                                else if (tableSnapshot.data!['billRequested'] == true) {
+                                                  showDialog<void>(
+                                                    context: context,
+                                                    barrierDismissible: false, // user must tap button!
+                                                    builder: (BuildContext context) {
+                                                      return AlertDialog(
+                                                        title: const Text('Alert!'),
+                                                        content: SingleChildScrollView(
+                                                          child: ListBody(
+                                                            children: const <Widget>[
+                                                              Text('Bill has already been requested.'),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        actions: <Widget>[
+                                                          TextButton(
+                                                            child: const Text('OK'),
+                                                            onPressed: () {
+                                                              Navigator.of(context).pop();
+                                                            },
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  );
+
+                                                }
                                               }),
+
+
                                       ],
                                     )),
                                   ]);
