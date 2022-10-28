@@ -63,7 +63,7 @@ class _ViewMemberOrder extends State<ViewMemberOrder> {
                                   + '\nQuantity: ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
                                   + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '')
                                   + '\nPrice: ' + (snapshot.data?.docs[index]['price'] ?? ''),
-                              time: snapshot.data?.docs[index]['timePlaced'],
+                              time: snapshot.data?.docs[index]['timePlaced'] ?? '',
                               oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
                             );
                           }

@@ -1,127 +1,143 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/customer/placedOrders.dart';
-import 'package:restaurant_management_system/widgets/orderTile.dart';
-
 import '../widgets/customSubButton.dart';
-import '../widgets/dialog_box.dart';
-import '../widgets/request_tile.dart';
+import '../widgets/orderTile.dart';
 import 'Models/createOrderInfo.dart';
 
 
 
 class ViewOrder extends StatefulWidget {
-  final tableID, restName, restID;
   CreateOrderInfo createOrderInfo;
 
-  ViewOrder({Key? key, required this.tableID,
-    required this.restName, required this.restID, required this.createOrderInfo}) : super(key: key);
+  ViewOrder({Key? key, required this.createOrderInfo}) : super(key: key);
 
   @override
-  State<ViewOrder> createState() => _ViewOrder(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo );
+  State<ViewOrder> createState() => _ViewOrder();
 }
 
 
 
 class _ViewOrder extends State<ViewOrder> {
-  CreateOrderInfo createOrderInfo;
 
-  final tableID, restName, restID;
-
-  _ViewOrder({Key? key, required this.tableID,
-    required this.restName, required this.restID, required this.createOrderInfo});
-
-  final _controller = TextEditingController();
-  List<String> tableDocList = [];
-
-  //List of task
-  List toDoList = [];
-
-  // checkbox was tapped
-  void checkBoxChanged(bool? value, int index) {
-    setState(() {
-      toDoList[index][1] = !toDoList[index][1];
-    });
-  }
-
-  //save new task
-  void saveNewTask() {
-    setState(() {
-      toDoList.add([ _controller.text, false]);
-      _controller.clear();
-    });
-    Navigator.of(context).pop();
-  }
-
-  // create new task
-  void createNewTask() {
-    showDialog(context: context, builder: (context) {
-      return DialogBox(
-        controller: _controller,
-        onSave: saveNewTask,
-        onCancle: () => Navigator.of(context).pop(),
-      );
-    },);
-  }
-
-  //delete tasks
-  void deleteTask(int index) {
-    setState(() {
-      toDoList.removeAt(index);
-    });
-  }
+ @override
+ Widget build(BuildContext context) {
+   return Scaffold(
+       appBar: AppBar(
+         title: const Text('Home'),
+         backgroundColor: const Color(0xff76bcff),
+         foregroundColor: Colors.black,
+         elevation: 0,
+       ),
+       body:
 
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: const Text('Current Order',),
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          elevation: 1,
-        ),
-        body: Column(
-          children: [
-            Expanded(
-                child:
-                ListView.builder(
-                    itemCount: createOrderInfo.itemID.length,
-                    itemBuilder: (context, index) {
-                      return OrderTile(
-                        taskName: createOrderInfo.itemName[index] + "\n" +
-                            createOrderInfo.count[index].toString()
-                            + "\n" + createOrderInfo.price[index].toString(),
-                        createOrderInfo: createOrderInfo,
-                      );
-                    }
-                )
-            ),
+             //=====================================
+             //Customer User Document Stream Builder
+             //=====================================
 
-            CustomSubButton(text: "PLACE ORDER",
-                onPressed: () {
-              createOrderInfo.setter(tableID);
-              if(createOrderInfo.waiterID == ''){
-              //TODO error for no waiterID
-              }
-              else if (createOrderInfo.itemID.length == 0) {
-                //TODO error for no items in order
+             StreamBuilder(
+                 stream: FirebaseFirestore.instance
+                     .collection('users')
+                     .doc(FirebaseAuth.instance.currentUser?.uid)
+                     .snapshots(),
+                 builder: (context, userSnapshot) {
+                   if(userSnapshot.hasData) {
+                     //============================
+                     //Table document Snapshot stream builder
+                     //=============================
+                     return StreamBuilder(
+                         stream: FirebaseFirestore.instance
+                             .collection('tables')
+                             .doc(userSnapshot.data!['tableID'])
+                             .snapshots(),
+                         builder: (context, tableSnapshot) {
+                           return Column(
+                             children: [
 
-              }
-              else {
+                               Expanded(
 
-                createOrderInfo.placeOrder(tableID, restID);
-                Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => PlacedOrders(tableID: tableID)));
-              }//end of else
-                }
-            ),
+                                   child: SizedBox(
+                                       height: 200.0,
+                                       child: ListView.builder(
+                                           itemCount: widget.createOrderInfo
+                                               .itemID.length,
+                                           itemBuilder: (context, index) {
+                                             return OrderTile(
+                                               taskName: "${widget
+                                                   .createOrderInfo
+                                                   .itemName[index]}"
+                                                   "\n${widget.createOrderInfo
+                                                   .count[index]}"
+                                                   "\n${widget.createOrderInfo
+                                                   .price[index]}",
+                                               createOrderInfo: widget
+                                                   .createOrderInfo,
+                                             );
+                                           }
+                                       )
+                                   )
+                               ),
 
-          ],
-        )
-    );
-  }
+                               CustomSubButton(text: "PLACE ORDER",
+                                   onPressed: () {
+                                     if (tableSnapshot.data!['waiterID'] ==
+                                         '') {
+                                       print("no waiter");
+                                     }
+                                     else
+                                     if (widget.createOrderInfo.itemID.isEmpty) {
+                                       //TODO error for no items in order
+                                        print('no items');
+                                     }
+                                       else {
+                                       widget.createOrderInfo.placeOrder(
+                                           tableSnapshot.data!.id,
+                                           tableSnapshot.data!['tableNum'].toString(),
+                                           tableSnapshot.data!['waiterID'],
+                                           tableSnapshot.data!['restID']);
+                                       Navigator.pop(context);
+                                       Navigator.push(
+                                           context, MaterialPageRoute(
+                                           builder: (
+                                               context) => const PlacedOrders()));
+                                     } //end of else
+
+                                   }
+                               ),
+
+                             ],
+                           );
+                         } // end of tableSnapshot builder
+
+                     );
+                   }
+                   else {
+                     return
+                       const Text('No Data to display');
+                   }
+
+                           //================================
+                           //End of table doc stream builder
+                           //===============================
+
+
+
+
+
+                   //================================
+                 } //End of customer User Doc Builder
+               //===============================
+
+             ),
+             //=====================================
+             // End of Customer User Document Stream Builder
+             //=====================================
+
+
+       );
+ }
 
 
 }

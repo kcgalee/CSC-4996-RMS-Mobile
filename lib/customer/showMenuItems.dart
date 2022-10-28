@@ -45,7 +45,7 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                   onPressed: (){
                         Navigator.push(context,
                         MaterialPageRoute(
-                     builder: (context) => ViewOrder(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
+                     builder: (context) => ViewOrder(createOrderInfo: createOrderInfo)));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
@@ -154,9 +154,10 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                       print(price);
                                                  createOrderInfo.orderSetter(snapshot.data?.docs[index].id as String, count!, snapshot.data?.docs[index]['itemName'], price.toStringAsFixed(2));
                                                   Navigator.of(context).pop();
+                                                  print('item count: ${createOrderInfo.itemCount}');
                                                   Navigator.push(context,
                                                       MaterialPageRoute(
-                                                          builder: (context) => ViewOrder(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
+                                                          builder: (context) => ViewOrder(createOrderInfo: createOrderInfo)));
 
                                                 },
                                               ),

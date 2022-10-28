@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:restaurant_management_system/customer/Models/restaurantInfo.dart';
 
-class CreateOrderInfo extends RestaurantInfo{
+class CreateOrderInfo{
 
   late List<String> itemID = [];
   late List<int> count = [];
@@ -29,14 +28,15 @@ class CreateOrderInfo extends RestaurantInfo{
         });
   }
 
-  void placeOrder(String _tableID, String restID) {
+  void placeOrder(String tableID, String tableNum, String waiterID, String restID) {
     for(int i = 0; i < itemCount; i++) {
-      placeOrderHelper(itemID[i], itemName[i], count[i], price[i], _tableID, restID);
+      placeOrderHelper(itemID[i], itemName[i], count[i], price[i], tableID, tableNum, waiterID, restID);
     }
     orderClear();
   }//place order
 
-  void placeOrderHelper(String itemID, String itemName, int count, String price, String _tableID, String restID)
+  void placeOrderHelper(String itemID, String itemName, int count, String price,
+  String tableID, String tableNum, String waiterID, String restID)
   {
     print("HELPER");
     var uID = FirebaseAuth.instance.currentUser?.uid.toString();
@@ -58,15 +58,15 @@ class CreateOrderInfo extends RestaurantInfo{
         'itemName' : itemName,
         'quantity' :count,
         'tableNum' : tableNum,
-        'restID' : super.restaurantID,
-        'tableID' : _tableID,
+        'restID' : restID,
+        'tableID' : tableID,
         'waiterID': waiterID,
         'status' : 'placed',
       'timePlaced': Timestamp.fromDate(now),
     }
     );
 
-       FirebaseFirestore.instance.collection('tables/$_tableID/tableOrders').doc(orderID)
+       FirebaseFirestore.instance.collection('tables/$tableID/tableOrders').doc(orderID)
 
             .set(
 
@@ -78,8 +78,8 @@ class CreateOrderInfo extends RestaurantInfo{
           'itemName' : itemName,
           'quantity' : count,
           'tableNum' : tableNum,
-          'restID' : super.restaurantID,
-          'tableID' : _tableID,
+          'restID' : restID,
+          'tableID' : tableID,
           'waiterID': waiterID,
           'status' : 'placed',
           'timePlaced': Timestamp.fromDate(now),
@@ -89,7 +89,7 @@ class CreateOrderInfo extends RestaurantInfo{
 
   }
 
- Future<void> request(String request, String _tableID) async {
+ Future<void> request(String request, String tableID, String tableNum, String waiterID, String restID) async {
 
    var uID = FirebaseAuth.instance.currentUser?.uid.toString();
    final DateTime now = DateTime.now();
@@ -104,8 +104,8 @@ class CreateOrderInfo extends RestaurantInfo{
         'custName' : custName,
          'custID' : uID.toString(),
          'itemName' : request,
-         'restID' : restaurantID,
-         'tableID' : _tableID,
+         'restID' : restID,
+         'tableID' : tableID,
         'tableNum' : tableNum,
          'waiterID': waiterID,
          'status' : 'placed',
@@ -115,13 +115,13 @@ class CreateOrderInfo extends RestaurantInfo{
        }
    );
 
-   FirebaseFirestore.instance.collection('tables/$_tableID/tableOrders').add(
+   FirebaseFirestore.instance.collection('tables/$tableID/tableOrders').add(
        {
          'custName' : custName,
          'custID' : uID.toString(),
          'itemName' : request,
-         'restID' : restaurantID,
-         'tableID' : _tableID,
+         'restID' : restID,
+         'tableID' : tableID,
          'tableNum' : tableNum,
          'waiterID': waiterID,
          'status' : 'placed',
@@ -133,7 +133,7 @@ class CreateOrderInfo extends RestaurantInfo{
 
 
  }
-  Future<void> billRequest(String request, String _tableID) async {
+  Future<void> billRequest(String request, String tableID, String tableNum, String waiterID, String restID) async {
 
     var uID = FirebaseAuth.instance.currentUser?.uid.toString();
     final DateTime now = DateTime.now();
@@ -148,8 +148,8 @@ class CreateOrderInfo extends RestaurantInfo{
           'custName' : custName,
           'custID' : uID.toString(),
           'itemName' : request,
-          'restID' : restaurantID,
-          'tableID' : _tableID,
+          'restID' : restID,
+          'tableID' : tableID,
           'tableNum' : tableNum,
           'waiterID': waiterID,
           'status' : 'placed',
@@ -159,7 +159,7 @@ class CreateOrderInfo extends RestaurantInfo{
         }
     );
 
-    FirebaseFirestore.instance.collection('tables').doc(_tableID).update({
+    FirebaseFirestore.instance.collection('tables').doc(tableID).update({
       'billRequested' : true,
     });
 

@@ -200,6 +200,6 @@ class RequestTile extends StatelessWidget {
   convertTime(time) {
     DateFormat formatter = DateFormat('h:mm:ss a');
     //var ndate = new DateTime.fromMillisecondsSinceEpoch(time.toDate() * 1000);
-    newTime = formatter.format(time.toDate());
+    newTime = formatter.format(time.toDate);
   }
 }
