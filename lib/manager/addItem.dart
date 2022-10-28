@@ -263,7 +263,6 @@ class _AddItemState extends State<AddItem> {
     if (itemName == "" || itemName.length > 50 || price == ""){
       error = true;
     } else if ((price != "" && !pricePattern.hasMatch(price))) {
-      print('yo');
       error = true;
     } else if (itemDesc.length > 150){
       error = true;
