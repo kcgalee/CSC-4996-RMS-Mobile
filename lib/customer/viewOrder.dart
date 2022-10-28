@@ -5,6 +5,7 @@ import 'package:restaurant_management_system/customer/placedOrders.dart';
 import '../widgets/customSubButton.dart';
 import '../widgets/orderTile.dart';
 import 'Models/createOrderInfo.dart';
+import 'customerHome.dart';
 
 
 
@@ -45,6 +46,30 @@ class _ViewOrder extends State<ViewOrder> {
 
                    //Check for data in document
                    if(userSnapshot.hasData) {
+
+
+                     //===============================
+                     //ERROR HANDLING FOR CLOSED TABLE
+                     //===============================
+
+                     if(userSnapshot.data!['tableID'] == ''){
+                       return Column(
+                         children:  [
+                           const Text('Table Closed'),
+
+                           CustomSubButton(text: "Back to Home Page",
+                             onPressed: () {
+                               Navigator.push(context,
+                                   MaterialPageRoute(
+                                       builder: (context) =>
+                                           CustomerHome()));
+                             },
+                           ),
+
+                         ],
+
+                       );
+                     }
 
 
                      //============================

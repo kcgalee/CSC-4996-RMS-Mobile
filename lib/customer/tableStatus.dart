@@ -3,8 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:restaurant_management_system/customer/viewMemberOrder.dart';
 
+import '../widgets/customSubButton.dart';
 import 'Models/createOrderInfo.dart';
 import 'Utility/navigation.dart';
+import 'customerHome.dart';
 
 
 class TableStatus extends StatefulWidget {
@@ -51,6 +53,30 @@ class _TableStatusState extends State<TableStatus> {
                     .snapshots(),
                 builder: (context, userSnapshot) {
                   if(userSnapshot.hasData) {
+
+                    //===============================
+                    //ERROR HANDLING FOR CLOSED TABLE
+                    //===============================
+
+                    if(userSnapshot.data!['tableID'] == ''){
+                      return Column(
+                        children:  [
+                          const Text('Table Closed'),
+
+                          CustomSubButton(text: "Back to Home Page",
+                            onPressed: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          CustomerHome()));
+                            },
+                          ),
+
+                        ],
+
+                      );
+                    }
+
                     return Expanded(
                       child: StreamBuilder(
                           stream: FirebaseFirestore.instance
