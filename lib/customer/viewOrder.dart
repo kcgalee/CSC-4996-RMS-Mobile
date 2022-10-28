@@ -36,14 +36,17 @@ class _ViewOrder extends State<ViewOrder> {
              //=====================================
              //Customer User Document Stream Builder
              //=====================================
-
              StreamBuilder(
                  stream: FirebaseFirestore.instance
                      .collection('users')
                      .doc(FirebaseAuth.instance.currentUser?.uid)
                      .snapshots(),
                  builder: (context, userSnapshot) {
+
+                   //Check for data in document
                    if(userSnapshot.hasData) {
+
+
                      //============================
                      //Table document Snapshot stream builder
                      //=============================
@@ -80,18 +83,109 @@ class _ViewOrder extends State<ViewOrder> {
                                    )
                                ),
 
+
+                               //==================
+                               //PLACE ORDER BUTTON
+                               //==================
+
                                CustomSubButton(text: "PLACE ORDER",
                                    onPressed: () {
-                                     if (tableSnapshot.data!['waiterID'] ==
-                                         '') {
-                                       print("no waiter");
+
+                                    //======================================
+                                     //Error Handling for NO assigned waiter
+                                     //=====================================
+                                     if (tableSnapshot.data!['waiterID'] == '') {
+                                       showDialog<void>(
+                                         context: context,
+                                         barrierDismissible: false, // user must tap button!
+                                         builder: (BuildContext context) {
+                                           return AlertDialog(
+                                             title: const Text('Alert!'),
+                                             content: SingleChildScrollView(
+                                               child: ListBody(
+                                                 children: const <Widget>[
+                                                   Text('Waiter Must be assigned to your table before you can submit an order.'),
+                                                 ],
+                                               ),
+                                             ),
+                                             actions: <Widget>[
+                                               TextButton(
+                                                 child: const Text('OK'),
+                                                 onPressed: () {
+                                                   Navigator.of(context).pop();
+                                                 },
+                                               ),
+                                             ],
+                                           );
+                                         },
+                                       );
                                      }
-                                     else
-                                     if (widget.createOrderInfo.itemID.isEmpty) {
-                                       //TODO error for no items in order
-                                        print('no items');
+
+                                     //===================================
+                                     //Error Handling for NO items in cart
+                                     //===================================
+                                     else if (widget.createOrderInfo.itemID.isEmpty) {
+                                       showDialog<void>(
+                                         context: context,
+                                         barrierDismissible: false, // user must tap button!
+                                         builder: (BuildContext context) {
+                                           return AlertDialog(
+                                             title: const Text('Alert!'),
+                                             content: SingleChildScrollView(
+                                               child: ListBody(
+                                                 children: const <Widget>[
+                                                   Text('No items in order.'),
+                                                 ],
+                                               ),
+                                             ),
+                                             actions: <Widget>[
+                                               TextButton(
+                                                 child: const Text('OK'),
+                                                 onPressed: () {
+                                                   Navigator.of(context).pop();
+                                                 },
+                                               ),
+                                             ],
+                                           );
+                                         },
+                                       );
                                      }
-                                       else {
+
+                                     //=================================
+                                     //ERROR HANDLING FOR BILL REQUESTED
+                                     //=================================
+                                     else if (tableSnapshot.data!['billRequested']) {
+                                       showDialog<void>(
+                                         context: context,
+                                         barrierDismissible: false, // user must tap button!
+                                         builder: (BuildContext context) {
+                                           return AlertDialog(
+                                             title: const Text('Alert!'),
+                                             content: SingleChildScrollView(
+                                               child: ListBody(
+                                                 children: const <Widget>[
+                                                   Text('Bill requested, cannot place anymore orders.'),
+                                                 ],
+                                               ),
+                                             ),
+                                             actions: <Widget>[
+                                               TextButton(
+                                                 child: const Text('OK'),
+                                                 onPressed: () {
+                                                   Navigator.of(context).pop();
+                                                 },
+                                               ),
+                                             ],
+                                           );
+                                         },
+                                       );
+                                     }
+
+
+                                     //=======================
+                                     //NO ERRORS PLACE ORDER
+                                     //=======================
+                                     else {
                                        widget.createOrderInfo.placeOrder(
                                            tableSnapshot.data!.id,
                                            tableSnapshot.data!['tableNum'].toString(),
@@ -112,23 +206,20 @@ class _ViewOrder extends State<ViewOrder> {
                          } // end of tableSnapshot builder
 
                      );
+                     //================================
+                     //End of table doc stream builder
+                     //===============================
+
+
                    }
+
+                   //Display if userSnapshot has no data
                    else {
                      return
                        const Text('No Data to display');
                    }
 
-                           //================================
-                           //End of table doc stream builder
-                           //===============================
-
-
-
-
-
-                   //================================
                  } //End of customer User Doc Builder
-               //===============================
 
              ),
              //=====================================
