@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/Waiter/waiterHome.dart';
+import 'package:restaurant_management_system/login/login.dart';
 import 'package:restaurant_management_system/login/verify.dart';
 import 'package:restaurant_management_system/manager/managerHome.dart';
 import '../customer/customerHome.dart';
@@ -276,10 +277,6 @@ class RegistrationBodyState extends State<RegistrationBody> {
                   hintText: "Password",
                   prefixIcon: Icon(Icons.lock, color: Colors.black),
                 ),
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (value) =>
-                value != null && value.length < 6
-                    ? 'Password must be at least 6 characters' : null,
               ),
               TextField(
                 controller: confirmPwController,
@@ -372,7 +369,7 @@ class RegistrationBodyState extends State<RegistrationBody> {
                             onPressed: () async {
                               if (pwController.text.trim() ==
                                   confirmPwController.text.trim()) {
-                                await managerRegistrationChecker(
+                                if (await managerRegistrationChecker(
                                     emailController.text.trim(),
                                     pwController.text.trim(),
                                     firstNameController.text.trim(),
@@ -383,16 +380,25 @@ class RegistrationBodyState extends State<RegistrationBody> {
                                     cityController.text.trim(),
                                     stateController.text.trim(),
                                     zipController.text.trim(),
-                                    restPhoneController.text.trim()
-                                );
+                                    restPhoneController.text.trim()) == true){
+                                  Navigator.pop(context, 'Confirm');
+                                  await FirebaseAuth.instance.signOut();
+                                  Navigator.push(
+                                      context, MaterialPageRoute(builder: (context) => Login()));
+                                }
                                  }
-                              else {
-                                print("That's incorrect");
+                              else if (pwController.text.trim() !=
+                                  confirmPwController.text.trim()){
+                                Navigator.pop(context, 'Confirm');
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  content: Text('Account could not be created. Passwords must match.'),
+                                ));
+                              } else {
+                                Navigator.pop(context, 'Confirm');
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  content: Text('Account could not be created.'),
+                                ));
                               }
-                              Navigator.pop(context, 'Confirm');
-                              Navigator.push(
-                                  context, MaterialPageRoute(builder: (context) => ManagerHome()));
-
                             },
                             child: const Text('Confirm'),
                           ),
@@ -466,7 +472,6 @@ class RegistrationBodyState extends State<RegistrationBody> {
       String address, String city, String state, String zip, String restPhone) async {
     //run dart pub add email_validator in terminal to add dependencies
     //validate e-mail
-        print("this is good here");
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -503,7 +508,6 @@ class RegistrationBodyState extends State<RegistrationBody> {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     CollectionReference rest = FirebaseFirestore.instance.collection('restaurants');
     final DateTime now = DateTime.now();
-    print("this is good");
     users
         .doc(UID)
         .set(
