@@ -141,7 +141,14 @@ class _ViewTableState extends State<ViewTable> {
   //in-progress
   Future closeTable() async{
     var memCount = 0;
-    var members = await FirebaseFirestore.instance.collection('tables/' + widget.tableID + '/tableMembers').get();
+    var members = await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableMembers').get();
+
+    await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableMembers').get().then((value){
+      for(int i = 0; i < value.docs.length; i++) {
+        clearTable(value.docs[i].data()['userID']);
+      }
+    });
+
     for (var doc in members.docs){
       await doc.reference.delete();
       memCount++;
@@ -167,4 +174,11 @@ class _ViewTableState extends State<ViewTable> {
       'restID': rID,
     });
   }
+
+  void clearTable(String userID) {
+    FirebaseFirestore.instance.collection('users').doc(userID).update({
+      'tableID': '',
+    } );
+  }
+
 }
