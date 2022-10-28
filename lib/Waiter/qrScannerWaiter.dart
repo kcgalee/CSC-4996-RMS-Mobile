@@ -7,7 +7,6 @@ import 'package:restaurant_management_system/Waiter/waiterHome.dart';
 import 'package:restaurant_management_system/Waiter/waiterRequest.dart';
 import 'package:restaurant_management_system/Waiter/waiterTables.dart';
 
-import '../customer/Models/restaurantInfo.dart';
 
 
 class QRScannerWaiter extends StatefulWidget {
@@ -73,8 +72,6 @@ class _QRScannerState extends State<QRScannerWaiter> {
   }
 
   void setTable (String tableID) async {
-    RestaurantInfo restaurantMenu = RestaurantInfo();
-    restaurantMenu.setter(tableID);
     String name = "";
     var uId = FirebaseAuth.instance.currentUser?.uid.toString();
     final docRef = FirebaseFirestore.instance.collection('users').doc(uId);

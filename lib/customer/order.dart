@@ -42,7 +42,7 @@ class _Order extends State<Order> {
                 onPressed: (){
                   Navigator.push(context,
                       MaterialPageRoute(
-                          builder: (context) => ViewOrder(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
+                          builder: (context) => ViewOrder(createOrderInfo: createOrderInfo)));
 
                 },
                 style: ElevatedButton.styleFrom(
@@ -84,97 +84,47 @@ class _Order extends State<Order> {
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(
-                                  builder: (context) => ShowMenuItems(text: 'appetizer', tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo,)));
+                                  builder: (context) => ShowMenuItems(text: 'appetizer', restName: restName, createOrderInfo: createOrderInfo,)));
                         },
                     ),
                     CustomSubButton(text: "ENTREES",
                       onPressed: () {
                         Navigator.push(context,
                             MaterialPageRoute(
-                                builder: (context) => ShowMenuItems(text: 'entree', tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo,)));
+                                builder: (context) => ShowMenuItems(text: 'entree',restName: restName, createOrderInfo: createOrderInfo,)));
                       },
                     ),
                     CustomSubButton(text: "DESSERTS",
                       onPressed: () {
                         Navigator.push(context,
                             MaterialPageRoute(
-                                builder: (context) => ShowMenuItems(text: 'dessert', tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
+                                builder: (context) => ShowMenuItems(text: 'dessert', restName: restName, createOrderInfo: createOrderInfo)));
                       },
                     ),
                     CustomSubButton(text: "DRINKS",
                       onPressed: () {
                         Navigator.push(context,
                             MaterialPageRoute(
-                                builder: (context) => ShowMenuItems(text: 'drink', tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
+                                builder: (context) => ShowMenuItems(text: 'drink',restName: restName,  createOrderInfo: createOrderInfo)));
                       },
                     ),
                     CustomSubButton(text: "CONDIMENTS",
                       onPressed: () {
                         Navigator.push(context,
                             MaterialPageRoute(
-                                builder: (context) => ShowMenuItems(text: 'condiment', tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
+                                builder: (context) => ShowMenuItems(text: 'condiment',  restName: restName, createOrderInfo: createOrderInfo)));
                       },
                     ),
                     CustomSubButton(text: "UTENSILS",
                       onPressed: () {
                         Navigator.push(context,
                             MaterialPageRoute(
-                                builder: (context) => ShowMenuItems(text: 'utensil', tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
+                                builder: (context) => ShowMenuItems(text: 'utensil', restName: restName, createOrderInfo: createOrderInfo)));
 
                       },
                     ),
-                    CustomMainButton(text: "REQUEST WAITER",
-                      onPressed: () {
-                        if (restName != "") {
-                          createOrderInfo.request('Request Waiter', tableID);
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => PlacedOrders(tableID: tableID)));
-                        }
-                        if (restName == "") {
-                          showDialog<void>(
-                            context: context,
-                            barrierDismissible: false, // user must tap button!
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text('Alert!'),
-                                content: SingleChildScrollView(
-                                  child: ListBody(
-                                    children: const <Widget>[
-                                      Text('Scan a QR Code first to access the menu! One will be provided by the restaurant you are at.'),
-                                    ],
-                                  ),
-                                ),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: const Text('OK'),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        }
-                        //SEND REQUEST FOR WAITER
-                      },
-                    ),
-                    CustomMainButton(text: "REQUEST BILL",
-                      onPressed: () async {
-                        bool test = await checkBillRequested();
-                        if( test == true){
-                          print("this is true");
-                        }
-                        else{
-                          print('bill requested');
-                          createOrderInfo.billRequest('Request Bill', tableID);
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (context) =>
-                                  PlacedOrders(tableID: tableID)));
-                          //REQUEST BILL FROM WAITER
-                        }
-                      },
-                    ),
+
+
 
 
 
@@ -184,14 +134,7 @@ class _Order extends State<Order> {
     );
   }
 
-  Future<bool> checkBillRequested() async {
-    bool texter = true;
-    await FirebaseFirestore.instance.collection('tables').doc(tableID).get().then(
-            (element) {
-           texter = element['billRequested'];
-        });
-    return texter;
-  }
+
 
 
 

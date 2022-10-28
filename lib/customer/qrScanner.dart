@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-import '../customer/Models/restaurantInfo.dart';
 import 'customerHome.dart';
 
 class QRScanner extends StatefulWidget {
@@ -68,8 +67,7 @@ class _QRScannerState extends State<QRScanner> {
   }
 
   void setTable (String tableID) async {
-    RestaurantInfo restaurantInfo= RestaurantInfo();
-    restaurantInfo.setter(tableID);
+
     String name = "";
     var currentCapacity = 0;
     var maxCapacity = 0;

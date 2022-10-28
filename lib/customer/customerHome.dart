@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -45,9 +46,12 @@ class _CustomerHomeState extends State<CustomerHome> {
                       .doc(FirebaseAuth.instance.currentUser?.uid)
                       .snapshots(),
                   builder: (context, userSnapshot) {
+
                     //User not assigned to a table
+                    if(userSnapshot.hasData){
                     if (userSnapshot.data!['tableID'] == '') {
-                      return Column(children: [
+                      return Column(
+                          children: [
                         Container(
                             padding: const EdgeInsets.all(40),
                             decoration: const BoxDecoration(
@@ -116,8 +120,9 @@ class _CustomerHomeState extends State<CustomerHome> {
                           ],
                         )),
                       ]);
-                    } else {
-                      return SingleChildScrollView(
+                    }  else {
+                      if(userSnapshot.data!['tableID'] != '') {
+                        return SingleChildScrollView(
                         child: Center(
                           child: Column(children: [
                             //============================
@@ -177,14 +182,14 @@ class _CustomerHomeState extends State<CustomerHome> {
                                               const Text(
                                                 "Table ",
                                                 style: TextStyle(
-                                                    fontSize: 13,
+                                                    fontSize: 20,
                                                     color: Colors.white),
                                               ),
                                               Text(
                                                 tableSnapshot.data!['tableNum']
                                                     .toString(),
                                                 style: const TextStyle(
-                                                    fontSize: 13,
+                                                    fontSize: 20,
                                                     color: Colors.white),
                                               ),
                                             ],
@@ -197,15 +202,15 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                 const Text(
                                                   "Waiter ",
                                                   style: TextStyle(
-                                                      fontSize: 13,
+                                                      fontSize: 20,
                                                       color: Colors.white),
                                                 ),
                                                 Text(
                                                   tableSnapshot
                                                       .data!['waiterName']
                                                       .toString(),
-                                                  style: TextStyle(
-                                                      fontSize: 13,
+                                                  style: const TextStyle(
+                                                      fontSize: 20,
                                                       color: Colors.white),
                                                 ),
                                               ],
@@ -244,10 +249,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        PlacedOrders(
-                                                            tableID:
-                                                                tableSnapshot
-                                                                    .data!.id)),
+                                                        PlacedOrders()),
                                               );
                                             }),
 
@@ -260,16 +262,10 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                 MaterialPageRoute(
                                                     builder: (context) =>
                                                         TableStatus(
-                                                            createOrderInfo:
-                                                                createOrderInfo,
-                                                            tableID:
-                                                                tableSnapshot
-                                                                        .data![
-                                                                    'tableID'],
                                                             tableNum:
                                                                 tableSnapshot
                                                                         .data![
-                                                                    'tableNum'],
+                                                                    'tableNum'].toString(),
                                                             waiterName:
                                                                 tableSnapshot
                                                                         .data![
@@ -283,15 +279,16 @@ class _CustomerHomeState extends State<CustomerHome> {
                                               if (tableSnapshot.data!['waiterID'] != ''){
                                               createOrderInfo.request(
                                                   'Request Waiter',
-                                                  tableSnapshot.data!.id);
+                                                  tableSnapshot.data!.id,
+                                              tableSnapshot.data!['tableNum'].toString(),
+                                                tableSnapshot.data!['waiterID'],
+                                                tableSnapshot.data!['restID']
+                                              );
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        PlacedOrders(
-                                                            tableID:
-                                                                tableSnapshot
-                                                                    .data!.id)),
+                                                        PlacedOrders()),
                                               ); }
 
                                               //NO WAITER AT TABLE ERROR
@@ -330,25 +327,24 @@ class _CustomerHomeState extends State<CustomerHome> {
                                               text: "REQUEST BILL",
                                               onPressed: () {
                                                 if (tableSnapshot
-                                                    .data!['billRequested'] ==
+                                                    .data!['billRequested'] !=
                                                     true) {
-                                                  createOrderInfo.request(
+                                                  createOrderInfo.billRequest(
                                                       'Request Bill',
-                                                      tableSnapshot.data!.id);
+                                                      tableSnapshot.data!.id,
+                                                      tableSnapshot.data!['tableNum'].toString(),
+                                                      tableSnapshot.data!['waiterID'],
+                                                      tableSnapshot.data!['restID']);
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            PlacedOrders(
-                                                                tableID:
-                                                                tableSnapshot
-                                                                    .data!
-                                                                    .id)),
+                                                            PlacedOrders()),
                                                   );
                                                 }
 
                                                 //NO WAITER AT TABLE ERROR
-                                                else if (tableSnapshot.data!['waiterID'] != '') {
+                                                else if (tableSnapshot.data!['waiterID'] == '') {
                                                   showDialog<void>(
                                                     context: context,
                                                     barrierDismissible: false, // user must tap button!
@@ -408,11 +404,16 @@ class _CustomerHomeState extends State<CustomerHome> {
                                       ],
                                     )),
                                   ]);
-
                                   }
-                                  return const Center(
+
+
+                                 else  {
+                                    return const Center(
                                     child: Text ("ERROR, NO TABLE"),
-                                  );//end of if document has data
+                                  );
+                                  }//end of if document has data
+
+
                                 } // end of tableSnapshot builder
 
                                 ),
@@ -423,7 +424,16 @@ class _CustomerHomeState extends State<CustomerHome> {
                           ]),
                         ),
                       );
+                      }
                     }
+
+                    }
+
+
+                      return const Center(
+                        child: Text ("ERROR, NO TABLE"),
+                      );
+
 
                     //================================
                   } //End of customer User Doc Builder

@@ -6,69 +6,66 @@ import 'package:restaurant_management_system/widgets/ordersPlacedTile.dart';
 import '../widgets/request_tile.dart';
 import 'Utility/navigation.dart';
 
-
 class PlacedOrders extends StatefulWidget {
-  final String tableID;
-  const PlacedOrders({Key? key, required this.tableID}) : super(key: key);
+  const PlacedOrders({Key? key}) : super(key: key);
   @override
   State<PlacedOrders> createState() => _PlacedOrders();
 }
 
 class _PlacedOrders extends State<PlacedOrders> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         drawer: const NavigationDrawer(),
-        backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text('Placed Orders',),
-          backgroundColor: Colors.white,
+          title: const Text('Placed Orders'),
+          backgroundColor: const Color(0xff76bcff),
           foregroundColor: Colors.black,
-          elevation: 1,
+          elevation: 0,
         ),
         body: Column(
           children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child:
-              IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(
-                  Icons.arrow_back,
-                  color: Colors.black87,
-                ),
-              ),
-            ),
-            Expanded(
-              child: StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection('tables/'+widget.tableID+'/tableOrders').orderBy('timePlaced', descending: true).snapshots(),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData || (snapshot.data?.size == 0)) {
-                      return Center(child:Text('You have no orders'));
-                    } else {
-                      return ListView.builder(
-                          itemCount: snapshot.data?.docs.length,
-                          itemBuilder: (context, index) {
-                            return OrdersPlacedTile(
-                              taskName:
-                                  '\nItem: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
-                                  + '  x ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
-                                  + '\nPlaced by ' + (snapshot.data?.docs[index]['custName'] ?? '')
-                                  + '\nPrice: \$' + (snapshot.data?.docs[index]['price'] ?? '')
-                                  ,
-                                  time: snapshot.data?.docs[index]['timePlaced'],
-                                  oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
-                            );
+            StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(FirebaseAuth.instance.currentUser?.uid)
+                    .snapshots(),
+                builder: (context, userSnapshot) {
+                  if(userSnapshot.hasData) {
+                    return Expanded(
+                    child: StreamBuilder(
+                        stream: FirebaseFirestore.instance
+                            .collection(
+                                'tables/${userSnapshot.data!['tableID']}/tableOrders')
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData || (snapshot.data?.size == 0)) {
+                            return Center(
+                                child: Text('You have no active requests'));
+                          } else {
+                            return ListView.builder(
+                                itemCount: snapshot.data?.docs.length,
+                                itemBuilder: (context, index){
+                                  return OrdersPlacedTile(
+                                      taskName: '\nItem: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
+                                          + '  x ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
+                                          + '\nPlaced by ' + (snapshot.data?.docs[index]['custName'] ?? '')
+                                          + '\nPrice: \$' + (snapshot.data?.docs[index]['price'] ?? ''),
+                                      time:(snapshot.data?.docs[index]['timePlaced'] ?? '') ,
+                                      oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
+                                  );
+
+
+                                });
                           }
-                      );
-                    }
-                  }),
-            ),
+                        }),
+                  );
+                  }
+                  else{
+                    return const Text("no data found");
+                  }
+                })
           ],
-        )
-    );
+        ));
   }
 }
