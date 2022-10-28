@@ -31,7 +31,8 @@ class _PlacedOrders extends State<PlacedOrders> {
                     .doc(FirebaseAuth.instance.currentUser?.uid)
                     .snapshots(),
                 builder: (context, userSnapshot) {
-                  return Expanded(
+                  if(userSnapshot.hasData) {
+                    return Expanded(
                     child: StreamBuilder(
                         stream: FirebaseFirestore.instance
                             .collection(
@@ -59,6 +60,10 @@ class _PlacedOrders extends State<PlacedOrders> {
                           }
                         }),
                   );
+                  }
+                  else{
+                    return const Text("no data found");
+                  }
                 })
           ],
         ));
