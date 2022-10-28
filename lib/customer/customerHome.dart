@@ -284,12 +284,34 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                 tableSnapshot.data!['waiterID'],
                                                 tableSnapshot.data!['restID']
                                               );
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        PlacedOrders()),
-                                              ); }
+
+                                              //Display message that waiter has been requested
+                                              showDialog<void>(
+                                                context: context,
+                                                barrierDismissible: false, // user must tap button!
+                                                builder: (BuildContext context) {
+                                                  return AlertDialog(
+                                                    title: const Text('Alert!'),
+                                                    content: SingleChildScrollView(
+                                                      child: ListBody(
+                                                        children: const <Widget>[
+                                                          Text('Waiter has been requested!'),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    actions: <Widget>[
+                                                      TextButton(
+                                                        child: const Text('OK'),
+                                                        onPressed: () {
+                                                          Navigator.of(context).pop();
+                                                        },
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
+
+                                              }
 
                                               //NO WAITER AT TABLE ERROR
                                               else {
@@ -335,12 +357,34 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                       tableSnapshot.data!['tableNum'].toString(),
                                                       tableSnapshot.data!['waiterID'],
                                                       tableSnapshot.data!['restID']);
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            PlacedOrders()),
+
+
+                                                  //Display message that bill has been requested
+                                                  showDialog<void>(
+                                                    context: context,
+                                                    barrierDismissible: false, // user must tap button!
+                                                    builder: (BuildContext context) {
+                                                      return AlertDialog(
+                                                        title: const Text('Alert!'),
+                                                        content: SingleChildScrollView(
+                                                          child: ListBody(
+                                                            children: const <Widget>[
+                                                              Text('Bill request sent!'),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        actions: <Widget>[
+                                                          TextButton(
+                                                            child: const Text('OK'),
+                                                            onPressed: () {
+                                                              Navigator.of(context).pop();
+                                                            },
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
                                                   );
+
                                                 }
 
                                                 //NO WAITER AT TABLE ERROR
