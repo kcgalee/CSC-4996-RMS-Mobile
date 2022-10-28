@@ -8,7 +8,8 @@ import 'selectRestaurant.dart';
 
 class SelectCategory extends StatefulWidget {
   final String restaurantID;
-  const SelectCategory({Key? key, required  this.restaurantID}) : super(key: key);
+  final String rName;
+  const SelectCategory({Key? key, required  this.restaurantID, required this.rName}) : super(key: key);
 
   @override
   State<SelectCategory> createState() => _SelectCategoryState();
@@ -17,7 +18,7 @@ class SelectCategory extends StatefulWidget {
 class _SelectCategoryState extends State<SelectCategory> {
   @override
   Widget build(BuildContext context) {
-
+    String title = widget.rName + '\nselect a category';
     return Scaffold(
         drawer: const ManagerNavigationDrawer(),
         appBar: AppBar(
@@ -39,38 +40,38 @@ class _SelectCategoryState extends State<SelectCategory> {
               );
             }),
           ),
-          const Padding(
+          Padding(
             padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
-            child: Text("select a category",style: TextStyle(fontSize: 30),),
+            child: Text(title,style: TextStyle(fontSize: 30),),
           ),
         CustomSubButton(text: "APPETIZERS",
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder:  (context) =>  ManageMenuItem(restaurantID: widget.restaurantID, category: 'appetizer')));
+            Navigator.push(context, MaterialPageRoute(builder:  (context) =>  ManageMenuItem(restaurantID: widget.restaurantID, category: 'appetizer', rName: widget.rName)));
             }
           ),
         CustomSubButton(text: "ENTREES",
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder:  (context) =>  ManageMenuItem(restaurantID: widget.restaurantID, category: 'entree')));
+              Navigator.push(context, MaterialPageRoute(builder:  (context) =>  ManageMenuItem(restaurantID: widget.restaurantID, category: 'entree', rName: widget.rName)));
             }
         ),
         CustomSubButton(text: "DESSERTS",
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder:  (context) =>  ManageMenuItem(restaurantID: widget.restaurantID, category: 'dessert')));
+              Navigator.push(context, MaterialPageRoute(builder:  (context) =>  ManageMenuItem(restaurantID: widget.restaurantID, category: 'dessert', rName: widget.rName)));
             }
         ),
         CustomSubButton(text: "DRINKS",
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder:  (context) =>  ManageMenuItem(restaurantID: widget.restaurantID, category: 'drink')));
+              Navigator.push(context, MaterialPageRoute(builder:  (context) =>  ManageMenuItem(restaurantID: widget.restaurantID, category: 'drink', rName: widget.rName)));
             }
         ),
         CustomSubButton(text: "CONDIMENTS",
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder:  (context) =>  ManageMenuItem(restaurantID: widget.restaurantID, category: 'condiment')));
+              Navigator.push(context, MaterialPageRoute(builder:  (context) =>  ManageMenuItem(restaurantID: widget.restaurantID, category: 'condiment', rName: widget.rName)));
             }
         ),
         CustomSubButton(text: "UTENSILS",
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder:  (context) =>  ManageMenuItem(restaurantID: widget.restaurantID, category: 'utensil')));
+              Navigator.push(context, MaterialPageRoute(builder:  (context) =>  ManageMenuItem(restaurantID: widget.restaurantID, category: 'utensil', rName: widget.rName)));
             }
         ),
       ], //Children

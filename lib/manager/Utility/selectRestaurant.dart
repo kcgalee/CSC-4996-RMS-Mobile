@@ -80,10 +80,10 @@ class _SelectRestaurant extends State<SelectRestaurant> {
                                       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddTable(text: rID.toString(), restName: restName.toString())));
                                     }
                                     else if (text == 'employee'){
-                                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddEmployee(text: rID.toString())));
+                                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddEmployee(text: rID.toString(), rName: restName.toString())));
                                       }
                                     else if (text == 'menu'){
-                                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectCategory(restaurantID: rID.toString())));
+                                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectCategory(restaurantID: rID.toString(), rName: restName.toString())));
                                     }
                                     else{
 

@@ -41,6 +41,7 @@ class _AddTable extends State<AddTable> {
         padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
         child: Column(
         children: [
+          Text(widget.restName),
           CustomBackButton(onPressed: () {
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'table')));
           }),
@@ -93,26 +94,23 @@ class _AddTable extends State<AddTable> {
 
           CustomMainButton(
             text: "Add Table",
-            onPressed: () async =>
-            {
-              if(await checkTableNumber(tableNumberController.text.trim())){
+            onPressed: () async {
+              bool status = await checkTableNumber(int.parse(tableNumberController.text.trim()));
+              if(!status){
                 newTableData(int.parse(tableNumberController.text.trim()),
                     int.parse(tableCapacityController.text.trim()),
                     tableTypeController.text.trim(),
-                    tableLocationController.text.trim()),
+                    tableLocationController.text.trim());
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('A table already exists with that number.'),
+                ));
               }
-              else {
-                print("table number in use.")
-              }
-
             }
-            )
-
+            ),
         ]),
       )
-
-
-              );
+  );
 
   void newTableData(int tableNum, int maxCapacity, String tableType, String location ) async {
     CollectionReference users = FirebaseFirestore.instance.collection('tables');
@@ -142,12 +140,17 @@ class _AddTable extends State<AddTable> {
     push(MaterialPageRoute(builder:(context)=>GenerateQRCode(tableId, tableNum.toString())));
   }
 
-  Future<bool> checkTableNumber(String tableNumber) async {
-    return true;
+  checkTableNumber(int tableNumber) async {
+    bool flag = false;
+    await FirebaseFirestore.instance.collection('tables').where('restID', isEqualTo: text).get().then(
+            (value) {
+              value.docs.forEach((element) {
+                if (element['tableNum'] == tableNumber) {
+                  flag = true;
+                }
+              });
+            });
+    return flag;
    }
-
-
-
-
 }
 
