@@ -46,6 +46,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                       .doc(FirebaseAuth.instance.currentUser?.uid)
                       .snapshots(),
                   builder: (context, userSnapshot) {
+
                     //User not assigned to a table
                     if(userSnapshot.hasData){
                     if (userSnapshot.data!['tableID'] == '') {
@@ -120,7 +121,8 @@ class _CustomerHomeState extends State<CustomerHome> {
                         )),
                       ]);
                     }  else {
-                      return SingleChildScrollView(
+                      if(userSnapshot.data!['tableID'] != '') {
+                        return SingleChildScrollView(
                         child: Center(
                           child: Column(children: [
                             //============================
@@ -402,11 +404,16 @@ class _CustomerHomeState extends State<CustomerHome> {
                                       ],
                                     )),
                                   ]);
-
                                   }
-                                  return const Center(
+
+
+                                 else  {
+                                    return const Center(
                                     child: Text ("ERROR, NO TABLE"),
-                                  );//end of if document has data
+                                  );
+                                  }//end of if document has data
+
+
                                 } // end of tableSnapshot builder
 
                                 ),
@@ -417,14 +424,17 @@ class _CustomerHomeState extends State<CustomerHome> {
                           ]),
                         ),
                       );
+                      }
                     }
 
                     }
-                    else {
+
+
                       return const Center(
                         child: Text ("ERROR, NO TABLE"),
                       );
-                    }
+
+
                     //================================
                   } //End of customer User Doc Builder
                   //===============================

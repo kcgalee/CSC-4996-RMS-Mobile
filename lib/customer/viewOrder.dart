@@ -25,7 +25,7 @@ class _ViewOrder extends State<ViewOrder> {
  Widget build(BuildContext context) {
    return Scaffold(
        appBar: AppBar(
-         title: const Text('Home'),
+         title: const Text('Order'),
          backgroundColor: const Color(0xff76bcff),
          foregroundColor: Colors.black,
          elevation: 0,
