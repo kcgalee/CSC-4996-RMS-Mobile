@@ -11,8 +11,8 @@ import 'Utility/managerTile.dart';
 class ManageMenuItem extends StatefulWidget {
   final String restaurantID;
   final String category;
-
-  const ManageMenuItem({Key? key, required this.restaurantID, required this.category}) : super(key: key);
+  final String rName;
+  const ManageMenuItem({Key? key, required this.restaurantID, required this.category, required this.rName}) : super(key: key);
 
   @override
   State<ManageMenuItem> createState() => _ManageMenuItemState();
@@ -34,7 +34,7 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
         onPressed: () {
           Navigator.push(context,
               MaterialPageRoute(
-                  builder: (context) =>  AddItem(restaurantID: widget.restaurantID, category: widget.category)
+                  builder: (context) =>  AddItem(restaurantID: widget.restaurantID, category: widget.category, rName: widget.rName)
               )
           );
         },
@@ -47,7 +47,7 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
           Padding(
             padding: const EdgeInsets.only(left: 24),
             child: CustomBackButton(onPressed: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectCategory(restaurantID: widget.restaurantID)));
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectCategory(restaurantID: widget.restaurantID, rName: widget.rName)));
             }),
           ),
           Expanded(
