@@ -3,7 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/customer/viewOrder.dart';
 import 'package:counter/counter.dart';
+import '../widgets/customSubButton.dart';
 import 'Models/createOrderInfo.dart';
+import 'customerHome.dart';
 
 class ShowMenuItems extends StatefulWidget {
   final String text, restName;
@@ -67,6 +69,31 @@ class _ShowMenuItems extends State<ShowMenuItems> {
           builder: (context, userSnapshot) {
             //Check for data in document
             if (userSnapshot.hasData) {
+
+              //===============================
+              //ERROR HANDLING FOR CLOSED TABLE
+              //===============================
+
+              if(userSnapshot.data!['tableID'] == ''){
+                return Column(
+                  children:  [
+                    const Text('Table Closed'),
+
+                  CustomSubButton(text: "Back to Home Page",
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CustomerHome()));
+                  },
+                ),
+
+                  ],
+
+                );
+              }
+
+
               //============================
               //Table document Snapshot stream builder
               //=============================
@@ -76,10 +103,9 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                       .doc(userSnapshot.data!['tableID'])
                       .snapshots(),
                   builder: (context, tableSnapshot) {
-                    //=====================================
-                    //Beginning of REST MENU STREAM BUILDER
-                    //=====================================
-                    return StreamBuilder(
+                    if(tableSnapshot.hasData) {
+
+                      return StreamBuilder(
                         stream: FirebaseFirestore.instance
                             .collection(
                                 'restaurants/${tableSnapshot.data!['restID']}/menu')
@@ -270,6 +296,11 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                 });
                           }
                         });
+                    }
+
+                    else {
+                      return const Text('No Data to display');
+                    }
 
                     //=====================================
                     //End of REST MENU STREAM BUILDER

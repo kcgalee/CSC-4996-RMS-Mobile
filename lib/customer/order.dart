@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/customer/customerHome.dart';
 import 'package:restaurant_management_system/customer/placedOrders.dart';
 import 'package:restaurant_management_system/customer/showMenuItems.dart';
 import 'package:restaurant_management_system/customer/viewOrder.dart';
@@ -60,76 +61,144 @@ class _Order extends State<Order> {
           ],
         ),
         body: Center(
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child:
+          //===============================
+          //Start of user doc stream builder
+          //=================================
+
+          child: StreamBuilder(
+            stream: FirebaseFirestore.instance.collection('users')
+              .doc(FirebaseAuth.instance.currentUser?.uid)
+              .snapshots(),
+                builder: (context, userSnapshot) {
+
+              //CHECK THAT SNAPSHOT HAS DATA
+              if(userSnapshot.hasData) {
+
+
+                //===============================
+                //ERROR HANDLING FOR CLOSED TABLE
+                //===============================
+                if(userSnapshot.data!['tableID'] == ''){
+                  return Column(
+                    children:  [
+                      const Text('Table Closed'),
+
+                      CustomSubButton(text: "Back to Home Page",
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      CustomerHome()));
+                        },
+                      ),
+
+                    ],
+
+                  );
+                }
+
+                if (userSnapshot.data!['tableID'] != '') {
+                  return Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child:
                         IconButton(
                           onPressed: () {
                             Navigator.pop(context);
                           },
                           icon: const Icon(
-                              Icons.arrow_back,
-                              color: Colors.black87,
+                            Icons.arrow_back,
+                            color: Colors.black87,
                           ),
                         ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 26.0),
-                      child: Text(restName,
-                        style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
-                    ),
-                    CustomSubButton(text: "APPETIZERS",
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 26.0),
+                        child: Text(restName,
+                          style: const TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.bold),),
+                      ),
+                      CustomSubButton(text: "APPETIZERS",
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(
-                                  builder: (context) => ShowMenuItems(text: 'appetizer', restName: restName, createOrderInfo: createOrderInfo,)));
+                                  builder: (context) =>
+                                      ShowMenuItems(text: 'appetizer',
+                                        restName: restName,
+                                        createOrderInfo: createOrderInfo,)));
                         },
-                    ),
-                    CustomSubButton(text: "ENTREES",
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(
-                                builder: (context) => ShowMenuItems(text: 'entree',restName: restName, createOrderInfo: createOrderInfo,)));
-                      },
-                    ),
-                    CustomSubButton(text: "DESSERTS",
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(
-                                builder: (context) => ShowMenuItems(text: 'dessert', restName: restName, createOrderInfo: createOrderInfo)));
-                      },
-                    ),
-                    CustomSubButton(text: "DRINKS",
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(
-                                builder: (context) => ShowMenuItems(text: 'drink',restName: restName,  createOrderInfo: createOrderInfo)));
-                      },
-                    ),
-                    CustomSubButton(text: "CONDIMENTS",
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(
-                                builder: (context) => ShowMenuItems(text: 'condiment',  restName: restName, createOrderInfo: createOrderInfo)));
-                      },
-                    ),
-                    CustomSubButton(text: "UTENSILS",
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(
-                                builder: (context) => ShowMenuItems(text: 'utensil', restName: restName, createOrderInfo: createOrderInfo)));
+                      ),
+                      CustomSubButton(text: "ENTREES",
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ShowMenuItems(text: 'entree',
+                                        restName: restName,
+                                        createOrderInfo: createOrderInfo,)));
+                        },
+                      ),
+                      CustomSubButton(text: "DESSERTS",
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ShowMenuItems(text: 'dessert',
+                                          restName: restName,
+                                          createOrderInfo: createOrderInfo)));
+                        },
+                      ),
+                      CustomSubButton(text: "DRINKS",
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ShowMenuItems(text: 'drink',
+                                          restName: restName,
+                                          createOrderInfo: createOrderInfo)));
+                        },
+                      ),
+                      CustomSubButton(text: "CONDIMENTS",
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ShowMenuItems(text: 'condiment',
+                                          restName: restName,
+                                          createOrderInfo: createOrderInfo)));
+                        },
+                      ),
+                      CustomSubButton(text: "UTENSILS",
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ShowMenuItems(text: 'utensil',
+                                          restName: restName,
+                                          createOrderInfo: createOrderInfo)));
+                        },
+                      ),
 
-                      },
-                    ),
+
+                    ], //Children
+                  );
+                }
 
 
+                //===========================
+                //table closed error handling
+                //===========================
+
+              }
 
 
+                return const Text('no data to show');
 
-                  ], //Children
-                )
+          } )
+              //======================
+              //End of user doc stream builder
+              //======================
     )
     );
   }

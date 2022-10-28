@@ -66,7 +66,7 @@ class OrdersPlacedTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 //task name and time
-                Text(taskName + '\n' + newTime,
+                Text(taskName + '\n' + 'Time Placed $newTime',
                     style: const TextStyle(color: Colors.black54,
                         fontSize: 15,
                         fontWeight: FontWeight.bold)),

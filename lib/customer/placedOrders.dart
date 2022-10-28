@@ -3,8 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/widgets/ordersPlacedTile.dart';
 
+import '../widgets/customSubButton.dart';
 import '../widgets/request_tile.dart';
 import 'Utility/navigation.dart';
+import 'customerHome.dart';
 
 class PlacedOrders extends StatefulWidget {
   const PlacedOrders({Key? key}) : super(key: key);
@@ -32,6 +34,30 @@ class _PlacedOrders extends State<PlacedOrders> {
                     .snapshots(),
                 builder: (context, userSnapshot) {
                   if(userSnapshot.hasData) {
+
+                    //===============================
+                    //ERROR HANDLING FOR CLOSED TABLE
+                    //===============================
+
+                    if(userSnapshot.data!['tableID'] == ''){
+                      return Column(
+                        children:  [
+                          const Text('Table Closed'),
+
+                          CustomSubButton(text: "Back to Home Page",
+                            onPressed: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          CustomerHome()));
+                            },
+                          ),
+
+                        ],
+
+                      );
+                    }
+
                     return Expanded(
                     child: StreamBuilder(
                         stream: FirebaseFirestore.instance

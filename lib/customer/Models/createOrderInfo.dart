@@ -115,23 +115,6 @@ class CreateOrderInfo{
        }
    );
 
-   FirebaseFirestore.instance.collection('tables/$tableID/tableOrders').add(
-       {
-         'custName' : custName,
-         'custID' : uID.toString(),
-         'itemName' : request,
-         'restID' : restID,
-         'tableID' : tableID,
-         'tableNum' : tableNum,
-         'waiterID': waiterID,
-         'status' : 'placed',
-         'timePlaced': Timestamp.fromDate(now),
-         'price' : '0.00',
-         'quantity' : 1
-       }
-   );
-
-
  }
   Future<void> billRequest(String request, String tableID, String tableNum, String waiterID, String restID) async {
 
