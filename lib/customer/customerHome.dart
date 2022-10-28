@@ -180,14 +180,14 @@ class _CustomerHomeState extends State<CustomerHome> {
                                               const Text(
                                                 "Table ",
                                                 style: TextStyle(
-                                                    fontSize: 13,
+                                                    fontSize: 20,
                                                     color: Colors.white),
                                               ),
                                               Text(
                                                 tableSnapshot.data!['tableNum']
                                                     .toString(),
                                                 style: const TextStyle(
-                                                    fontSize: 13,
+                                                    fontSize: 20,
                                                     color: Colors.white),
                                               ),
                                             ],
@@ -200,15 +200,15 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                 const Text(
                                                   "Waiter ",
                                                   style: TextStyle(
-                                                      fontSize: 13,
+                                                      fontSize: 20,
                                                       color: Colors.white),
                                                 ),
                                                 Text(
                                                   tableSnapshot
                                                       .data!['waiterName']
                                                       .toString(),
-                                                  style: TextStyle(
-                                                      fontSize: 13,
+                                                  style: const TextStyle(
+                                                      fontSize: 20,
                                                       color: Colors.white),
                                                 ),
                                               ],
