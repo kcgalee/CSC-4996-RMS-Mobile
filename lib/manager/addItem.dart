@@ -14,8 +14,9 @@ import 'Utility/MangerNavigationDrawer.dart';
 class AddItem extends StatefulWidget {
   String restaurantID;
   String category;
+  final String rName;
 
-  AddItem({Key? key, required this.restaurantID, required this.category}) : super(key: key);
+  AddItem({Key? key, required this.restaurantID, required this.category, required this.rName}) : super(key: key);
   @override
   State<AddItem> createState() => _AddItemState();
 }
@@ -175,7 +176,7 @@ class _AddItemState extends State<AddItem> {
                     } else {
                       addItem(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => ManageMenuItem(restaurantID: widget.restaurantID, category: widget.category)
+                          MaterialPageRoute(builder: (context) => ManageMenuItem(restaurantID: widget.restaurantID, category: widget.category, rName: widget.rName)
                           )
                       );
                     }

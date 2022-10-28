@@ -10,7 +10,8 @@ import 'Utility/selectRestaurant.dart';
 
 class AddEmployee extends StatefulWidget {
   final String text;
-  AddEmployee({Key? key, required this.text}) : super(key: key);
+  final String rName;
+  AddEmployee({Key? key, required this.text, required this.rName}) : super(key: key);
 
   @override
   State<AddEmployee> createState() => _AddEmployee(restID: text);
@@ -43,6 +44,7 @@ class _AddEmployee extends State<AddEmployee> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Text(widget.rName),
           CustomBackButton(onPressed: () {
             Navigator.push(context,
                 MaterialPageRoute(
