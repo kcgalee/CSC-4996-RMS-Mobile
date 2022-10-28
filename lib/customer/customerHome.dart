@@ -260,16 +260,10 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                 MaterialPageRoute(
                                                     builder: (context) =>
                                                         TableStatus(
-                                                            createOrderInfo:
-                                                                createOrderInfo,
-                                                            tableID:
-                                                                tableSnapshot
-                                                                        .data![
-                                                                    'tableID'],
                                                             tableNum:
                                                                 tableSnapshot
                                                                         .data![
-                                                                    'tableNum'],
+                                                                    'tableNum'].toString(),
                                                             waiterName:
                                                                 tableSnapshot
                                                                         .data![

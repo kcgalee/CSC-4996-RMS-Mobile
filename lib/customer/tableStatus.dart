@@ -8,18 +8,15 @@ import 'Utility/navigation.dart';
 
 
 class TableStatus extends StatefulWidget {
-  CreateOrderInfo createOrderInfo;
-  String tableID, tableNum, waiterName;
-  TableStatus({Key? key, required this.createOrderInfo, required this.tableID,
-  required this.tableNum, required this.waiterName}) :super(key: key);
+String tableNum, waiterName;
+  TableStatus({Key? key, required this.tableNum, required this.waiterName }) :super(key: key);
 
   @override
   State<TableStatus> createState() => _TableStatusState();
 }
 
 class _TableStatusState extends State<TableStatus> {
-  String restName = "";
-  String restID = "";
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,41 +44,54 @@ class _TableStatusState extends State<TableStatus> {
                 ),
               ),
             ),
-            Expanded(
-              child: StreamBuilder(
-                  stream: FirebaseFirestore.instance.
-                  collection('tables/${widget.tableID}/tableMembers')
-                      .snapshots(),
+            StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(FirebaseAuth.instance.currentUser?.uid)
+                    .snapshots(),
+                builder: (context, userSnapshot) {
+                  if(userSnapshot.hasData) {
+                    return Expanded(
+                      child: StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection(
+                              'tables/${userSnapshot.data!['tableID']}/tableMembers')
+                              .snapshots(),
+                          builder: (context, tableSnapshot) {
+                            if(tableSnapshot.hasData) {
+                              return ListView.builder(
+                                  itemCount: tableSnapshot.data?.docs.length,
+                                  itemBuilder: (context, index){
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        decoration: BoxDecoration(color: Colors.grey[100],
+                                            border: Border.all(color: Colors.black54,width: 2)
+                                        ),
+                                        child: ListTile(
+                                          title: Text(tableSnapshot.data?.docs[index]['fName'] ?? ''),
+                                          onTap: () {
+                                            var custID = tableSnapshot.data?.docs[index]['userID'];
+                                            var custName = tableSnapshot.data?.docs[index]['fName'];
+                                            Navigator.push(context, MaterialPageRoute(
+                                                builder: (context) =>  ViewMemberOrder(custID: custID, custName: custName,)));
+                                          },
+                                        ),
+                                      ),
+                                    );
 
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
-                      return Center(child: Text("NO TABLE MEMBERS"),);
-                    } else {
-                      return ListView.builder(
-                          itemCount: snapshot.data?.docs.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                decoration: BoxDecoration(color: Colors.grey[100],
-                                    border: Border.all(color: Colors.black54,width: 2)
-                                ),
-                                child: ListTile(
-                                  title: Text(snapshot.data?.docs[index]['fName'] ?? ''),
-                                  onTap: () {
-                                   var custID = snapshot.data?.docs[index]['userID'];
-                                   var custName = snapshot.data?.docs[index]['fName'];
-                                    Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) =>  ViewMemberOrder(createOrderInfo: widget.createOrderInfo, tableID: widget.tableID, custID: custID, custName: custName)));
-                                  },
-                                ),
-                              ),
-                            );
-                          }
-                      );
-                    }
-                  }),
-            ),
+                                  });
+                            }
+                            else {
+                              return Text('no items to display');
+                            }
+                          }),
+                    );
+                  }
+                  else{
+                    return const Text("no data found");
+                  }
+                })
           ],
         )
 
