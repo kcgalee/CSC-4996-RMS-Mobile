@@ -1,10 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_management_system/customer/Models/createOrderInfo.dart';
 import 'package:restaurant_management_system/widgets/ordersPlacedTile.dart';
-
-import '../widgets/request_tile.dart';
 import 'Utility/navigation.dart';
 
 
