@@ -1,9 +1,5 @@
-
-import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/manageMenuItem.dart';
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
@@ -263,7 +259,6 @@ class _AddItemState extends State<AddItem> {
     if (itemName == "" || itemName.length > 50 || price == ""){
       error = true;
     } else if ((price != "" && !pricePattern.hasMatch(price))) {
-      print('yo');
       error = true;
     } else if (itemDesc.length > 150){
       error = true;

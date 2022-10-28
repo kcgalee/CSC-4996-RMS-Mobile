@@ -35,7 +35,6 @@ class MyApp extends StatelessWidget {
 
     Future getAT() async {
       final userID = FirebaseAuth.instance.currentUser?.uid;
-      print(userID);
       if (userID != null){
         isLogged = true;
       }
@@ -65,7 +64,6 @@ class MyApp extends StatelessWidget {
       home: FutureBuilder(
         future: getAT(),
         builder: (context, snapshot) {
-          print(isLogged);
           if (isLogged == false){
             return MainScreen();
           } else {

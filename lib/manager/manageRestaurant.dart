@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/Utility/managerTile.dart';
 import 'package:restaurant_management_system/manager/editRestaurant.dart';
 import 'package:restaurant_management_system/widgets/customBackButton.dart';
-
 import 'Utility/MangerNavigationDrawer.dart';
 import 'addRestaurant.dart';
 import 'managerHome.dart';
