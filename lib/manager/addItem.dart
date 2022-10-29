@@ -32,7 +32,7 @@ class _AddItemState extends State<AddItem> {
   bool isAllRestaurants = false;
   bool isKosher = false;
   bool isHalal = false;
-  bool isPescatarians = false;
+  bool isPescatarian = false;
   bool isLactoseFree = false;
 
   @override
@@ -174,11 +174,11 @@ class _AddItemState extends State<AddItem> {
                     },
                   ),
                   CustomCheckBox(
-                    title: 'Pescatarians',
-                    value: isPescatarians,
+                    title: 'Pescatarian',
+                    value: isPescatarian,
                     onChanged: (value){
                       setState(() {
-                        isPescatarians   = value!;
+                        isPescatarian   = value!;
                       });
                     },
                   )
