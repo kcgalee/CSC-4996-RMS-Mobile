@@ -1,10 +1,7 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
 import 'package:restaurant_management_system/widgets/customTextForm.dart';
-
 import '../widgets/customBackButton.dart';
 import 'GenerateQRCode.dart';
 import 'Utility/MangerNavigationDrawer.dart';

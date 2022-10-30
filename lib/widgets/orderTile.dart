@@ -1,11 +1,5 @@
-import 'dart:async';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:restaurant_management_system/customer/Models/createOrderInfo.dart';
-
-//import 'package:flutter_slidable/flutter_slidable.dart';
 
 
 class OrderTile extends StatelessWidget {
@@ -61,7 +55,7 @@ class OrderTile extends StatelessWidget {
   }
 
   getItemName() {
-    print("hello");
+    return '';
   }
 
 

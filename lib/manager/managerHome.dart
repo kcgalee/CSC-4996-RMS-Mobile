@@ -2,10 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/Utility/selectRestaurant.dart';
-import 'package:restaurant_management_system/manager/addTable.dart';
 import 'package:restaurant_management_system/manager/manageEmployee.dart';
 import 'package:restaurant_management_system/manager/manageRestaurant.dart';
-
 import '../login/mainscreen.dart';
 import '../widgets/customSubButton.dart';
 import 'Utility/MangerNavigationDrawer.dart';

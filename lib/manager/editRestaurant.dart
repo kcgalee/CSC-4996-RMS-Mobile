@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/widgets/customTextForm.dart';
-
 import '../widgets/customBackButton.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 import 'manageRestaurant.dart';

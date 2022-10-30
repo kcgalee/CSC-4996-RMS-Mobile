@@ -38,7 +38,7 @@ class CreateOrderInfo{
   void placeOrderHelper(String itemID, String itemName, int count, String price,
   String tableID, String tableNum, String waiterID, String restID)
   {
-    print("HELPER");
+
     var uID = FirebaseAuth.instance.currentUser?.uid.toString();
     final DateTime now = DateTime.now();
     CollectionReference users = FirebaseFirestore.instance.collection('orders');

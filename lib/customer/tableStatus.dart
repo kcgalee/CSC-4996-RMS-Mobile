@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:restaurant_management_system/customer/viewMemberOrder.dart';
-
 import '../widgets/customSubButton.dart';
-import 'Models/createOrderInfo.dart';
 import 'Utility/navigation.dart';
 import 'customerHome.dart';
 

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-
 import 'customerHome.dart';
 
 class QRScanner extends StatefulWidget {
@@ -85,8 +84,8 @@ class _QRScannerState extends State<QRScanner> {
           maxCapacity = element['maxCapacity'];
         });
 
-      print(currentCapacity);
-      print(maxCapacity);
+
+
     FirebaseFirestore.instance.collection('users').doc(uId).update({
       'tableID' : tableID
     });
@@ -105,9 +104,7 @@ class _QRScannerState extends State<QRScanner> {
           });
 
     }
-    else {
-      print("too many customers");
-    }
+
 
     Navigator.push(context, MaterialPageRoute(builder: (context)=> new CustomerHome()));
   }

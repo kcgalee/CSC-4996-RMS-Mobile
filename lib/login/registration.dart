@@ -1,14 +1,9 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_management_system/Waiter/waiterHome.dart';
 import 'package:restaurant_management_system/login/login.dart';
-import 'package:restaurant_management_system/login/verify.dart';
-import 'package:restaurant_management_system/manager/managerHome.dart';
 import '../customer/customerHome.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; //save for later use
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 
 
 enum WidgetMarker {

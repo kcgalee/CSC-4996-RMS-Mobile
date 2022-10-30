@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/Utility/managerTile.dart';
 import 'package:restaurant_management_system/manager/Utility/selectRestaurant.dart';
-import 'package:restaurant_management_system/manager/addEmployee.dart';
 import 'package:restaurant_management_system/manager/managerHome.dart';
 import '../widgets/customBackButton.dart';
 import 'Utility/MangerNavigationDrawer.dart';
