@@ -5,6 +5,7 @@ import 'package:restaurant_management_system/manager/manageMenuItem.dart';
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
 import 'package:restaurant_management_system/widgets/customTextForm.dart';
 import '../widgets/customBackButton.dart';
+import '../widgets/customCheckBox.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 
 class AddItem extends StatefulWidget {
@@ -29,6 +30,10 @@ class _AddItemState extends State<AddItem> {
   bool isGlutenFree = false;
   bool isNuts = false;
   bool isAllRestaurants = false;
+  bool isKosher = false;
+  bool isHalal = false;
+  bool isPescatarian = false;
+  bool isLactoseFree = false;
 
   @override
   void initState() {
@@ -89,72 +94,113 @@ class _AddItemState extends State<AddItem> {
                   icon: const Icon(Icons.description, color: Colors.black)
               ),
 
-              CheckboxListTile(
-                title: const Text('Vegan'),
-                controlAffinity: ListTileControlAffinity.leading,
-                value: isVegan,
-                onChanged: (value){
-                  setState(() {
-                    isVegan = value!;
-                  });
-                },
-                activeColor: Colors.black,
-                checkColor: Colors.white,
+              Row(
+                children: [
+                  CustomCheckBox(
+                      title: 'Vegan',
+                      value: isVegan,
+                      onChanged: (value){
+                        setState(() {
+                          isVegan = value!;
+                        });
+                      },
+                  ),
+                  CustomCheckBox(
+                    title: 'Vegetarian',
+                    value: isVegetarian,
+                    onChanged: (value){
+                      setState(() {
+                        isVegetarian = value!;
+                      });
+                    },
+                  ),
+                ],
               ),
 
-              CheckboxListTile(
-                title: const Text('Vegetarian'),
-                controlAffinity: ListTileControlAffinity.leading,
-                value: isVegetarian,
-                onChanged: (value){
-                  setState(() {
-                    isVegetarian = value!;
-                  });
-                },
-                activeColor: Colors.black,
-                checkColor: Colors.white,
+              Row(
+                children: [
+                  CustomCheckBox(
+                    title: 'Gluten Free',
+                    value: isGlutenFree,
+                    onChanged: (value){
+                      setState(() {
+                        isGlutenFree = value!;
+                      });
+                    },
+                  ),
+                  CustomCheckBox(
+                    title: 'Nuts',
+                    value: isNuts,
+                    onChanged: (value){
+                      setState(() {
+                        isNuts = value!;
+                      });
+                    },
+                  ),
+                ],
               ),
 
-              CheckboxListTile(
-                title: const Text('Gluten Free'),
-                controlAffinity: ListTileControlAffinity.leading,
-                value: isGlutenFree,
-                onChanged: (value){
-                  setState(() {
-                    isGlutenFree = value!;
-                  });
-                },
-                activeColor: Colors.black,
-                checkColor: Colors.white,
+              Row(
+                children: [
+                  CustomCheckBox(
+                      title: 'Halal',
+                      value: isHalal,
+                      onChanged: (value){
+                        setState(() {
+                          isHalal = value!;
+                        });
+                      },
+                  ),
+                  CustomCheckBox(
+                      title: 'Kosher',
+                      value: isKosher,
+                      onChanged: (value){
+                        setState(() {
+                          isKosher = value!;
+                        });
+                      },
+                  )
+                ],
               ),
+              Row(
+                children: [
+                  CustomCheckBox(
+                    title: 'Lactose Free',
+                    value: isLactoseFree,
+                    onChanged: (value){
+                      setState(() {
+                        isLactoseFree = value!;
+                      });
+                    },
+                  ),
+                  CustomCheckBox(
+                    title: 'Pescatarian',
+                    value: isPescatarian,
+                    onChanged: (value){
+                      setState(() {
+                        isPescatarian   = value!;
+                      });
+                    },
+                  )
+                ],
+              ),
+
 
               Padding(
-                padding: const EdgeInsets.only(bottom: 30),
-                child: CheckboxListTile(
-                  title: const Text('Nuts'),
-                  controlAffinity: ListTileControlAffinity.leading,
-                  value: isNuts,
-                  onChanged: (value){
-                    setState(() {
-                      isNuts = value!;
-                    });
-                  },
-                  activeColor: Colors.black,
-                  checkColor: Colors.white,
+                padding: const EdgeInsets.only(top: 30),
+                child: Row(
+                  children: [
+                    CustomCheckBox(
+                      title: 'Add to All Restaurants',
+                      value: isAllRestaurants,
+                      onChanged: (value){
+                        setState(() {
+                          isAllRestaurants = value!;
+                        });
+                      },
+                    ),
+                  ],
                 ),
-              ),
-
-              CheckboxListTile(
-                title: const Text('Add to All Restaurants'),
-                controlAffinity: ListTileControlAffinity.leading,
-                value: isAllRestaurants,
-                onChanged: (value){
-                  setState(() {
-                    isAllRestaurants = value!;
-                  });
-                },
-                activeColor: Colors.black,
-                checkColor: Colors.white,
               ),
 
               CustomMainButton(
