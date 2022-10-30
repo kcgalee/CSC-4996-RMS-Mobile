@@ -8,9 +8,6 @@ import 'package:intl/intl.dart';
 class RequestTile extends StatefulWidget {
   final String taskName;
   var time;
-  //final bool taskCompleted;
-  // Function(bool?)? onChanged;
-  //Function(BuildContext)? deleteFunction;
 
   final String orderID;
   final String oStatus;
@@ -63,139 +60,31 @@ class _RequestTileState extends State<RequestTile> {
 
     convertTime(widget.time);
 
-        DateFormat formatter = DateFormat('h:mm:ss ');
-        //newTime = formatter.format(time.toDate());
-        //Duration duration = DateTime.now().difference(DateTime.parse(time.toDate().toString()));
-      Stream<String> a;
-      return StreamBuilder(
-        stream: a = Stream.periodic(const Duration(seconds: 1), (time) {
-          Duration duration = DateTime.now().difference(DateTime.parse(widget.time.toDate().toString()));
-          String hours = duration.inHours.toString().padLeft(0, '2');
-          String minutes = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
-          String seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
-          return '\nElapsed Time: $hours:$minutes:$seconds';
-        }),
-        builder: (context, snapshot){
-            return Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15,top: 25),
-              child: Container(
-                padding: const EdgeInsets.only(right: 15,left: 10,bottom: 10,top: 10),
-                decoration: BoxDecoration(color: Colors.grey[100],
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.black54)
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    //task name and time
-                    Text(widget.taskName + '\nTime Placed: ' + newTime + (snapshot.data ?? '\nLoading. . .'),
-                        style: const TextStyle(color: Colors.black54,fontSize: 15, fontWeight: FontWeight.bold)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Visibility(
-                          visible: isVisible,
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.all(5),
-                                fixedSize: Size(100, 3),
-                                textStyle: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                ),
-                                backgroundColor: pColor,
-                                foregroundColor: Colors.black54,
-                                side: const BorderSide(
-                                  color: Colors.black38,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5)),
-                              ),
 
-                              onPressed: () => updatePlaced(),
-                              child: Text('Placed')),
-                        ),
-
-                        Visibility(
-                          visible: isVisible,
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.all(5),
-                                fixedSize: Size(100,30),
-                                textStyle: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                ),
-                                backgroundColor: iPColor,
-                                foregroundColor: Colors.black54,
-                                side: const BorderSide(
-                                  color: Colors.black38,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5)),
-                              ),
-
-                              onPressed: () => updateInProgress(),
-                              child: Text('In Progress')),
-                        ),
-
-                        Visibility(
-                          visible: isVisible,
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.all(5),
-                                fixedSize: Size(100, 30),
-                                textStyle: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                ),
-                                backgroundColor: dColor,
-                                foregroundColor: Colors.black54,
-                                side: const BorderSide(
-                                  color: Colors.black38,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5)),
-                              ),
-
-                              onPressed: () {
-                                super.dispose();
-                                updateDelivered();
-                              },
-                              child: const Text('Delivered')
-                          ),
-                        )
-
-                      ],
-                    ),
-
-                  ],
-                ),
-              ),
-            );
-          }
-      );
-
-
-
-
-    /*return FutureBuilder(
-      future: convertTime(time),
-      builder: (context, snapshot) {
-        return Padding(
+    //Duration duration = DateTime.now().difference(DateTime.parse(time.toDate().toString()));
+    return StreamBuilder(
+      stream: Stream.periodic(const Duration(seconds: 1), (time) {
+        Duration duration = DateTime.now().difference(widget.time.toDate());
+        String hours = duration.inHours.toString().padLeft(0, '2');
+        String minutes = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
+        String seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
+        return '\nElapsed Time: $hours:$minutes:$seconds';
+      }),
+      builder: (context, snapshot){
+          return Padding(
             padding: const EdgeInsets.only(left: 15, right: 15,top: 25),
             child: Container(
               padding: const EdgeInsets.only(right: 15,left: 10,bottom: 10,top: 10),
               decoration: BoxDecoration(color: Colors.grey[100],
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.black54)
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.black54)
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   //task name and time
-                  Text(taskName + '\nTime Placed: ' + newTime + '\n' + myDuration.inMinutes.toString(),
-                  style: const TextStyle(color: Colors.black54,fontSize: 15, fontWeight: FontWeight.bold)),
+                  Text(widget.taskName + '\nTime Placed: ' + newTime + (snapshot.data ?? '\nLoading. . .'),
+                      style: const TextStyle(color: Colors.black54,fontSize: 15, fontWeight: FontWeight.bold)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -264,7 +153,10 @@ class _RequestTileState extends State<RequestTile> {
                                   borderRadius: BorderRadius.circular(5)),
                             ),
 
-                            onPressed: () => updateDelivered(),
+                            onPressed: () {
+                              super.dispose();
+                              updateDelivered();
+                            },
                             child: const Text('Delivered')
                         ),
                       )
@@ -276,8 +168,8 @@ class _RequestTileState extends State<RequestTile> {
               ),
             ),
           );
-      },
-    );*/
+        }
+    );
   }
 
 
