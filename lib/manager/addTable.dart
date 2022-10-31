@@ -38,10 +38,11 @@ class _AddTable extends State<AddTable> {
         padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
         child: Column(
         children: [
-          Text(widget.restName),
           CustomBackButton(onPressed: () {
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'table')));
           }),
+          Text(widget.restName,style: const TextStyle(fontSize: 20),),
+          const SizedBox(height: 20,),
           CustomTextForm(
             hintText: "Table number",
             controller: tableNumberController,
