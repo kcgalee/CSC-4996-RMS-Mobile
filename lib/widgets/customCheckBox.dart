@@ -11,6 +11,7 @@ class CustomCheckBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Expanded(
       child: CheckboxListTile(
+        contentPadding: EdgeInsets.only(right: 0,left: 0),
         title: Text(title),
         controlAffinity: ListTileControlAffinity.leading,
         value: value,
