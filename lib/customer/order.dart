@@ -12,7 +12,8 @@ import 'Utility/navigation.dart';
 class Order extends StatefulWidget {
   String tableID, restName, restID;
   CreateOrderInfo createOrderInfo;
-  Order({Key? key, required this.tableID, required this.restName, required this.restID, required this.createOrderInfo}) :super(key: key);
+  Order({Key? key, required this.tableID, required this.restName,
+    required this.restID, required this.createOrderInfo}) :super(key: key);
 
   @override
   State<Order> createState() => _Order(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo);
@@ -29,7 +30,7 @@ class _Order extends State<Order> {
     return Scaffold(
         drawer: const NavigationDrawer(),
         appBar: AppBar(
-          title: Text('Menu'),
+          title: const Text('Menu'),
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
           elevation: 0,
