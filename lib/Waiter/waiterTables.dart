@@ -64,7 +64,9 @@ class _WaiterTablesState extends State<WaiterTables> {
                               onTap: () {
                                 Navigator.push(context,
                                     MaterialPageRoute(
-                                        builder: (context) => ViewTable(tableID: snapshot.data?.docs[index].reference.id ?? '', tableNum: snapshot.data?.docs[index]['tableNum'].toString() ?? '', assigned: true)
+                                        builder: (context) => ViewTable(tableID: snapshot.data?.docs[index].reference.id ?? '',
+                                            tableNum: snapshot.data?.docs[index]['tableNum'].toString() ?? '',
+                                            assigned: true, currentCapacity: snapshot.data?.docs[index]['currentCapacity'])
                                     )
                                 );
                               },

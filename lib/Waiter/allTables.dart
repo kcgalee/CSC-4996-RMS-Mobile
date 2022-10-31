@@ -78,7 +78,9 @@ class _AllTables extends State<AllTables> {
                               onTap: () {
                                 Navigator.push(context,
                                     MaterialPageRoute(
-                                        builder: (context) => ViewTable(tableID: snapshot.data?.docs[index].reference.id ?? '', tableNum: snapshot.data?.docs[index]['tableNum'].toString() ?? '', assigned: status)
+                                        builder: (context) => ViewTable(tableID: snapshot.data?.docs[index].reference.id ?? '',
+                                            tableNum: snapshot.data?.docs[index]['tableNum'].toString() ?? '',
+                                            assigned: status,  currentCapacity: snapshot.data?.docs[index]['currentCapacity'])
                                     )
                                 );
                               },
