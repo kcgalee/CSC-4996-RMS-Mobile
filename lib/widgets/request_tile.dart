@@ -5,73 +5,86 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 
+class RequestTile extends StatefulWidget {
+  final String taskName;
+  var time;
 
-class RequestTile extends StatelessWidget {
- final String taskName;
- var time;
-  //final bool taskCompleted;
- // Function(bool?)? onChanged;
-  //Function(BuildContext)? deleteFunction;
-
- var newTime = "";
- final String orderID;
- final String oStatus;
-
- //pColor for placed  iPColor for in progress button, dColor for delivered button
- Color pColor = Color(0xffffebee);
- Color iPColor = Color(0xfff9fbe7);
- Color dColor = Color(0xffe8f5e9);
-
- final String tableID;
- final String orderDoc;
+  final String orderID;
+  final String oStatus;
 
 
+  final String tableID;
+  final String orderDoc;
 
- RequestTile({
+
+  RequestTile({
     super.key,
     required this.taskName,
-  //  required this.taskCompleted,
+    //  required this.taskCompleted,
     //required this.onChanged,
-   // required this.deleteFunction,
+    // required this.deleteFunction,
     required this.time,
     required this.orderID,
     required this.oStatus,
-   required this.tableID,
-   required this.orderDoc,
+    required this.tableID,
+    required this.orderDoc,
   });
+
+  @override
+  State<RequestTile> createState() => _RequestTileState();
+}
+
+
+
+class _RequestTileState extends State<RequestTile> {
+  var newTime = "";
+  //pColor for placed  iPColor for in progress button, dColor for delivered button
+  Color pColor = Color(0xffffebee);
+  Color iPColor = Color(0xfff9fbe7);
+  Color dColor = Color(0xffe8f5e9);
+
 
   @override
   Widget build(BuildContext context) {
     var isVisible = true;
-    if (oStatus == "delivered"){
+    if (widget.oStatus == "delivered"){
       isVisible = false;
     }
 
-    if (oStatus == "in progress"){
+    if (widget.oStatus == "in progress"){
       iPColor= Colors.orange.shade300;
     }
-    else if (oStatus =="placed"){
+    else if (widget.oStatus =="placed"){
       pColor = Colors.redAccent;
     }
 
+    convertTime(widget.time);
 
-    return FutureBuilder(
-      future: convertTime(time),
-      builder: (context, snapshot) {
-        return Padding(
+
+    //Duration duration = DateTime.now().difference(DateTime.parse(time.toDate().toString()));
+    return StreamBuilder(
+      stream: Stream.periodic(const Duration(seconds: 1), (time) {
+        Duration duration = DateTime.now().difference(widget.time.toDate());
+        String hours = duration.inHours.toString().padLeft(0, '2');
+        String minutes = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
+        String seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
+        return '\nElapsed Time: $hours:$minutes:$seconds';
+      }),
+      builder: (context, snapshot){
+          return Padding(
             padding: const EdgeInsets.only(left: 15, right: 15,top: 25),
             child: Container(
               padding: const EdgeInsets.only(right: 15,left: 10,bottom: 10,top: 10),
               decoration: BoxDecoration(color: Colors.grey[100],
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.black54)
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.black54)
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   //task name and time
-                  Text(taskName + '\nTime Placed: ' + newTime,
-                  style: const TextStyle(color: Colors.black54,fontSize: 15, fontWeight: FontWeight.bold)),
+                  Text(widget.taskName + '\nTime Placed: ' + newTime + (snapshot.data ?? '\nLoading. . .'),
+                      style: const TextStyle(color: Colors.black54,fontSize: 15, fontWeight: FontWeight.bold)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -140,7 +153,10 @@ class RequestTile extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(5)),
                             ),
 
-                            onPressed: () => updateDelivered(),
+                            onPressed: () {
+                              super.dispose();
+                              updateDelivered();
+                            },
                             child: const Text('Delivered')
                         ),
                       )
@@ -152,43 +168,43 @@ class RequestTile extends StatelessWidget {
               ),
             ),
           );
-      },
+        }
     );
   }
 
 
   Future updatePlaced() async {
-    var status = await FirebaseFirestore.instance.collection('orders').doc(orderID).get();
+    var status = await FirebaseFirestore.instance.collection('orders').doc(widget.orderID).get();
     if (status['status'] == 'in progress'){
       await status.reference.update({
         'status': 'placed'
       });
-      await FirebaseFirestore.instance.collection('tables/${tableID}/tableOrders').doc(orderDoc).update({
+      await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(widget.orderDoc).update({
         'status': 'placed'
       });
     }
   }
 
   Future updateInProgress() async {
-    var status = await FirebaseFirestore.instance.collection('orders').doc(orderID).get();
+    var status = await FirebaseFirestore.instance.collection('orders').doc(widget.orderID).get();
     if (status['status'] == 'placed'){
       await status.reference.update({
         'status': 'in progress'
       });
-      await FirebaseFirestore.instance.collection('tables/${tableID}/tableOrders').doc(orderDoc).update({
+      await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(widget.orderDoc).update({
         'status': 'in progress'
       });
     }
   }
 
  Future updateDelivered() async {
-   var status = await FirebaseFirestore.instance.collection('orders').doc(orderID).get();
+   var status = await FirebaseFirestore.instance.collection('orders').doc(widget.orderID).get();
    if ((status['status'] == 'placed') || (status['status'] == 'in progress')){
      await status.reference.update({
        'status': 'delivered',
        'timeDelivered': Timestamp.now(),
      });
-     await FirebaseFirestore.instance.collection('tables/${tableID}/tableOrders').doc(orderDoc).update({
+     await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(widget.orderDoc).update({
        'status': 'delivered',
        'timeDelivered': Timestamp.now(),
      });
@@ -197,8 +213,8 @@ class RequestTile extends StatelessWidget {
 
   //converts firebase time into human readable time
   convertTime(time) {
-    DateFormat formatter = DateFormat('h:mm:ss a');
+    DateFormat formatter = DateFormat('h:mm:ss ');
     //var ndate = new DateTime.fromMillisecondsSinceEpoch(time.toDate() * 1000);
-    newTime = formatter.format(time.toDate);
+    newTime = formatter.format(time.toDate());
   }
 }
