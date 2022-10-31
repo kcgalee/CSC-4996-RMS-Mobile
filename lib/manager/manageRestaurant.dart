@@ -99,6 +99,7 @@ class _ManageRestaurant extends State<ManageRestaurant> {
      var restaurant = await FirebaseFirestore.instance.collection('restaurants').doc(id).get();
      await restaurant.reference.update({
        'isActive': false,
+       'deletionDate': Timestamp.now(),
      });
   }
 }
