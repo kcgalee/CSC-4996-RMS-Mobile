@@ -125,6 +125,7 @@ class _Order extends State<Order> {
                                   builder: (context) =>
                                       ShowMenuItems(text: 'appetizer',
                                         restName: restName,
+                                        priority: 3,
                                         createOrderInfo: createOrderInfo,)));
                         },
                       ),
@@ -135,6 +136,7 @@ class _Order extends State<Order> {
                                   builder: (context) =>
                                       ShowMenuItems(text: 'entree',
                                         restName: restName,
+                                        priority: 3,
                                         createOrderInfo: createOrderInfo,)));
                         },
                       ),
@@ -145,6 +147,7 @@ class _Order extends State<Order> {
                                   builder: (context) =>
                                       ShowMenuItems(text: 'dessert',
                                           restName: restName,
+                                          priority: 3,
                                           createOrderInfo: createOrderInfo)));
                         },
                       ),
@@ -155,6 +158,7 @@ class _Order extends State<Order> {
                                   builder: (context) =>
                                       ShowMenuItems(text: 'drink',
                                           restName: restName,
+                                          priority: 2,
                                           createOrderInfo: createOrderInfo)));
                         },
                       ),
@@ -165,6 +169,7 @@ class _Order extends State<Order> {
                                   builder: (context) =>
                                       ShowMenuItems(text: 'condiment',
                                           restName: restName,
+                                          priority: 1,
                                           createOrderInfo: createOrderInfo)));
                         },
                       ),
@@ -175,6 +180,7 @@ class _Order extends State<Order> {
                                   builder: (context) =>
                                       ShowMenuItems(text: 'utensil',
                                           restName: restName,
+                                          priority: 1,
                                           createOrderInfo: createOrderInfo)));
                         },
                       ),

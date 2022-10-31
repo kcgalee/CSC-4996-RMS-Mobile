@@ -10,21 +10,24 @@ import 'customerHome.dart';
 
 class ShowMenuItems extends StatefulWidget {
   final String text, restName;
-  CreateOrderInfo createOrderInfo;
+  final int priority;
+  final CreateOrderInfo createOrderInfo;
 
   ShowMenuItems(
       {Key? key,
       required this.text,
       required this.restName,
+        required this.priority,
       required this.createOrderInfo})
       : super(key: key);
+
 
   @override
   State<ShowMenuItems> createState() => _ShowMenuItems();
 }
 
 class _ShowMenuItems extends State<ShowMenuItems> {
- final orderCommentsController =TextEditingController();
+ final orderCommentsController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -263,6 +266,7 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                               //NO ERRORS PLACE ADD ITEM TO ORDER
                                                               //=================================
                                                               else {
+                                                                String comment;
                                                                 count == null ? count = 1 : count = count?.toInt();
                                                                 var price = double.parse(menuSnapshot.data?.docs[index]['price']);
                                                                 price = price * count!;
@@ -272,7 +276,8 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                                     count!,
                                                                     menuSnapshot.data?.docs[index]['itemName'],
                                                                     price.toStringAsFixed(2),
-                                                                    orderCommentsController.text.toString());
+                                                                    orderCommentsController.text,
+                                                                    widget.priority);
 
                                                                 Navigator.of(context).pop();
 
@@ -324,4 +329,7 @@ class _ShowMenuItems extends State<ShowMenuItems> {
       //=====================================
     );
   }
+
+
+
 }
