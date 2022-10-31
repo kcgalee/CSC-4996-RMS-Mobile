@@ -44,7 +44,6 @@ class _AddEmployee extends State<AddEmployee> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(widget.rName),
           CustomBackButton(onPressed: () {
             Navigator.push(context,
                 MaterialPageRoute(
@@ -52,6 +51,8 @@ class _AddEmployee extends State<AddEmployee> {
                 )
             );
           }),
+          Text(widget.rName,style: const TextStyle(fontSize: 20),),
+          const SizedBox(height: 20,),
           Padding(
             padding: const EdgeInsets.only(bottom: 15),
             child: TextFormField(
