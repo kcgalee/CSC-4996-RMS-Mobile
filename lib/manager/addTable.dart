@@ -99,7 +99,7 @@ class _AddTable extends State<AddTable> {
                     tableTypeController.text.trim(),
                     tableLocationController.text.trim());
               } else {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text('A table already exists with that number.'),
                 ));
               }
@@ -108,6 +108,9 @@ class _AddTable extends State<AddTable> {
         ]),
       )
   );
+
+
+
 
   void newTableData(int tableNum, int maxCapacity, String tableType, String location ) async {
     CollectionReference users = FirebaseFirestore.instance.collection('tables');

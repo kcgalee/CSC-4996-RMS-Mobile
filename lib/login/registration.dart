@@ -1,9 +1,12 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/login/login.dart';
+import 'package:restaurant_management_system/widgets/passwordTextField.dart';
 import '../customer/customerHome.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; //save for later use
 import 'package:firebase_auth/firebase_auth.dart';
+
+import '../widgets/customTextForm.dart';
 
 
 enum WidgetMarker {
@@ -28,12 +31,14 @@ class Register extends StatefulWidget {
               backgroundColor: Colors.white,
               foregroundColor: Colors.black,
             ),
-            body: RegistrationBody(),
+            body: const RegistrationBody(),
         );
     }
 }
 
 class RegistrationBody extends StatefulWidget {
+  const RegistrationBody({super.key});
+
   @override
   State<StatefulWidget> createState() => RegistrationBodyState();
 }
@@ -47,6 +52,10 @@ class RegistrationBodyState extends State<RegistrationBody> {
   final lastNameController = TextEditingController();
   final restPhoneController = TextEditingController();
   final managerPhoneController = TextEditingController();
+  final phonePattern = RegExp(r'^(1-)?\d{3}-\d{3}-\d{4}$');
+  final zipPattern = RegExp(r'^[0-9]{5}(?:-[0-9]{4})?$');
+  final statePattern = RegExp(
+      r'^(A[KLRZ]|C[AOT]|D[CE]|FL|GA|HI|I[ADLN]|K[SY]|LA|M[ADEINOST]|N[CDEHJMVY]|O[HKR]|PA|RI|S[CD]|T[NX]|UT|V[AT]|W[AIVY])$');
   final resNameController = TextEditingController();
   final addressController = TextEditingController();
   final cityController = TextEditingController();
@@ -116,7 +125,7 @@ class RegistrationBodyState extends State<RegistrationBody> {
       case WidgetMarker.manager:
         return getManagerContainer();
     }
-    return getUserContainer();
+
   }
 
   Widget getUserContainer() {
@@ -128,69 +137,68 @@ class RegistrationBodyState extends State<RegistrationBody> {
             child: Wrap(
               runSpacing: 18.0,
               children: [
-                TextField(
+                CustomTextForm(
+                  hintText: "First Name",
                   controller: firstNameController,
                   keyboardType: TextInputType.name,
-                  decoration: const InputDecoration(
-                    hintText: "First Name",
-                    prefixIcon: Icon(Icons.person, color: Colors.black),
-                  ),
+                  icon: const Icon(Icons.person, color: Colors.black),
+                  validator: null,
+                  maxLines: 1,
+                  maxLength: 30,
                 ),
-                TextField(
+                CustomTextForm(
+                  hintText: "Last Name",
                   controller: lastNameController,
                   keyboardType: TextInputType.name,
-                  decoration: const InputDecoration(
-                    hintText: "Last Name",
-                    prefixIcon: Icon(Icons.person, color: Colors.black),
-                  ),
+                  icon: const Icon(Icons.person, color: Colors.black),
+                  validator: null,
+                  maxLines: 1,
+                  maxLength: 30,
                 ),
-                TextFormField(
-                  controller: emailController,
-                  keyboardType: TextInputType.name,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (email) =>
-                  email != null && !EmailValidator.validate(email)
-                      ? 'Enter valid email' : null,
-                  decoration: const InputDecoration(
-                    hintText: "Email",
-                    prefixIcon: Icon(Icons.mail, color: Colors.black),
-                  ),
+          CustomTextForm(
+              hintText: "Email",
+              controller: emailController,
+              validator: (email) =>
+              email != null && !EmailValidator.validate(email)
+                  ? 'Enter valid email' : null,
+              keyboardType: TextInputType.emailAddress,
+              maxLines: 1,
+              maxLength: 40,
+              icon: const Icon(Icons.email)
+          ),
 
-                ),
-                TextFormField(
+                PasswordTextField(
                   controller: pwController,
                   keyboardType: TextInputType.name,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    hintText: "Password",
-                    prefixIcon: Icon(Icons.lock, color: Colors.black),
-                  ),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  icon: const Icon(Icons.lock, color: Colors.black),
+                  hintText: 'Password',
                   validator: (value) =>
                   value != null && value.length < 6
                       ? 'Password must be at least 6 characters' : null,
+                  maxLength: 100,
+                  maxLines: 1,
                 ),
-                TextField(
+                PasswordTextField(
                   controller: confirmPwController,
                   keyboardType: TextInputType.name,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    hintText: "Confirm Password",
-                    prefixIcon: Icon(Icons.lock, color: Colors.black),
-                  ),
+                  icon: const Icon(Icons.lock, color: Colors.black),
+                  hintText: 'Confirm Password',
+                  validator: null,
+                  maxLength: 100,
+                  maxLines: 1,
                 ),
                 SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        fixedSize: Size(330, 56),
-                        textStyle: TextStyle(
+                        fixedSize: const Size(330, 56),
+                        textStyle: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
                         ),
                         backgroundColor: Colors.black87,
                         foregroundColor: Colors.white,
-                        side: BorderSide(
+                        side: const BorderSide(
                           color: Colors.black38,
                         ),
                         shape: RoundedRectangleBorder(
@@ -228,109 +236,132 @@ class RegistrationBodyState extends State<RegistrationBody> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextField(
+              CustomTextForm(
+                hintText: "First Name",
                 controller: firstNameController,
                 keyboardType: TextInputType.name,
-                decoration: const InputDecoration(
-                  hintText: "First Name",
-                  prefixIcon: Icon(Icons.person, color: Colors.black),
-                ),
+                icon: const Icon(Icons.person, color: Colors.black),
+                validator: null,
+                maxLines: 1,
+                maxLength: 30,
               ),
-              TextField(
+              CustomTextForm(
+                hintText: "Last Name",
                 controller: lastNameController,
                 keyboardType: TextInputType.name,
-                decoration: const InputDecoration(
-                  hintText: "Last Name",
-                  prefixIcon: Icon(Icons.person, color: Colors.black),
-                ),
+                icon: const Icon(Icons.person, color: Colors.black),
+                validator: null,
+                maxLines: 1,
+                maxLength: 30,
               ),
-              TextFormField(
-                controller: emailController,
-                keyboardType: TextInputType.name,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (email) =>
-                email != null && !EmailValidator.validate(email)
-                    ? 'Enter valid email' : null,
-                decoration: const InputDecoration(
+              CustomTextForm(
                   hintText: "Email",
-                  prefixIcon: Icon(Icons.mail, color: Colors.black),
-                ),
+                  controller: emailController,
+                  validator: (email) =>
+                  email != null && !EmailValidator.validate(email)
+                      ? 'Enter valid email' : null,
+                  keyboardType: TextInputType.emailAddress,
+                  maxLines: 1,
+                  maxLength: 40,
+                  icon: const Icon(Icons.email)
               ),
-              TextField(
-                controller: managerPhoneController,
-                keyboardType: TextInputType.name,
-                decoration: const InputDecoration(
+              CustomTextForm(
                   hintText: "Phone Number",
-                  prefixIcon: Icon(Icons.phone, color: Colors.black),
-                ),
+                  controller: managerPhoneController,
+                  validator: (number) =>
+                  number != null && !phonePattern.hasMatch(number)
+                      ? 'Enter valid phone number (ex: 222-333-6776)' : null,
+                  keyboardType: TextInputType.phone,
+                  maxLines: 1,
+                  maxLength: 12,
+                  icon: const Icon(Icons.phone)
               ),
-              TextFormField(
+              PasswordTextField(
                 controller: pwController,
                 keyboardType: TextInputType.name,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  hintText: "Password",
-                  prefixIcon: Icon(Icons.lock, color: Colors.black),
-                ),
+                icon: const Icon(Icons.lock, color: Colors.black),
+                hintText: 'Password',
+                validator: (value) =>
+                value != null && value.length < 6
+                    ? 'Password must be at least 6 characters' : null,
+                maxLength: 100,
+                maxLines: 1,
               ),
-              TextField(
+              PasswordTextField(
                 controller: confirmPwController,
                 keyboardType: TextInputType.name,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  hintText: "Confirm Password",
-                  prefixIcon: Icon(Icons.lock, color: Colors.black),
-                ),
+                icon: const Icon(Icons.lock, color: Colors.black),
+                hintText: 'Confirm Password',
+                validator: null,
+                maxLength: 100,
+                maxLines: 1,
               ),
               const SizedBox(height: 30,),
-              Text("Restaurant Information"),
-              TextField(
+              const Text("Restaurant Information"),
+              CustomTextForm(
+                hintText: "Restaurant Name",
                 controller: resNameController,
                 keyboardType: TextInputType.name,
-                decoration: const InputDecoration(
-                  hintText: "Restaurant Name",
-                  prefixIcon: Icon(Icons.food_bank, color: Colors.black),
-                ),
+                icon: const Icon(Icons.food_bank),
+                validator: null,
+                maxLines: 1,
+                maxLength: 40,
               ),
-              TextField(
-                controller: restPhoneController,
-                keyboardType: TextInputType.name,
-                decoration: const InputDecoration(
+              CustomTextForm(
                   hintText: "Phone Number",
-                  prefixIcon: Icon(Icons.phone, color: Colors.black),
-                ),
+                  controller: restPhoneController,
+                  validator: (number) =>
+                  number != null && !phonePattern.hasMatch(number)
+                      ? 'Enter valid phone number (ex: 222-333-6776)' : null,
+                  keyboardType: TextInputType.phone,
+                  maxLines: 1,
+                  maxLength: 12,
+                  icon: const Icon(Icons.phone)
               ),
-              TextField(
-                controller: addressController,
-                keyboardType: TextInputType.name,
-                decoration: const InputDecoration(
-                  hintText: "Street Address",
-                  prefixIcon: Icon(Icons.home, color: Colors.black),
-                ),
+              CustomTextForm(
+                  hintText: "Address",
+                  controller: addressController,
+                  validator: (rAddress) =>
+                  rAddress != null && rAddress.trim().length > 100
+                      ? 'Name must be between 1 to 100 characters' : null,
+                  keyboardType: TextInputType.text,
+                  maxLines: 1,
+                  maxLength: 100,
+                  icon: const Icon(Icons.home)
               ),
-              TextField(
-                controller: cityController,
-                keyboardType: TextInputType.name,
-                decoration: const InputDecoration(
+              CustomTextForm(
                   hintText: "City",
-                  prefixIcon: Icon(Icons.home, color: Colors.black),
-                ),
+                  controller: cityController,
+                  validator: (city) =>
+                  city != null && city.trim().length > 40
+                      ? 'City must be between 1 to 40 characters' : null,
+                  keyboardType: TextInputType.text,
+                  maxLines: 1,
+                  maxLength: 40,
+                  icon: const Icon(Icons.location_city)
               ),
-              TextField(
-                controller: stateController,
-                keyboardType: TextInputType.name,
-                decoration: const InputDecoration(
+              CustomTextForm(
                   hintText: "State",
-                  prefixIcon: Icon(Icons.home, color: Colors.black),
-                ),
+                  controller: stateController,
+                  validator: (state) =>
+                  state != null && !statePattern.hasMatch(state)
+                      ? 'State invalid (format: MI)' : null,
+                  keyboardType: TextInputType.text,
+                  maxLines: 1,
+                  maxLength: 2,
+                  icon: const Icon(Icons.location_city)
               ),
-              TextField(
-                controller: zipController,
-                keyboardType: TextInputType.name,
-                decoration: const InputDecoration(
+              CustomTextForm(
                   hintText: "Zip Code",
-                  prefixIcon: Icon(Icons.home, color: Colors.black),
-                ),
+                  controller: zipController,
+                  validator: (zip) =>
+                  zip != null && !zipPattern.hasMatch(zip)
+                      ? 'Zip code invalid (format: 12345 or 12345-2222)'
+                      : null,
+                  keyboardType: TextInputType.number,
+                  maxLines: 1,
+                  maxLength: 10,
+                  icon: const Icon(Icons.numbers)
               ),
               SizedBox(
                   width: double.infinity,

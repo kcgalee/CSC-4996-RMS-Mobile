@@ -12,7 +12,8 @@ import 'Utility/navigation.dart';
 class Order extends StatefulWidget {
   String tableID, restName, restID;
   CreateOrderInfo createOrderInfo;
-  Order({Key? key, required this.tableID, required this.restName, required this.restID, required this.createOrderInfo}) :super(key: key);
+  Order({Key? key, required this.tableID, required this.restName,
+    required this.restID, required this.createOrderInfo}) :super(key: key);
 
   @override
   State<Order> createState() => _Order(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo);
@@ -29,7 +30,7 @@ class _Order extends State<Order> {
     return Scaffold(
         drawer: const NavigationDrawer(),
         appBar: AppBar(
-          title: Text('Menu'),
+          title: const Text('Menu'),
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
           elevation: 0,
@@ -124,6 +125,7 @@ class _Order extends State<Order> {
                                   builder: (context) =>
                                       ShowMenuItems(text: 'appetizer',
                                         restName: restName,
+                                        priority: 3,
                                         createOrderInfo: createOrderInfo,)));
                         },
                       ),
@@ -134,6 +136,7 @@ class _Order extends State<Order> {
                                   builder: (context) =>
                                       ShowMenuItems(text: 'entree',
                                         restName: restName,
+                                        priority: 3,
                                         createOrderInfo: createOrderInfo,)));
                         },
                       ),
@@ -144,6 +147,7 @@ class _Order extends State<Order> {
                                   builder: (context) =>
                                       ShowMenuItems(text: 'dessert',
                                           restName: restName,
+                                          priority: 3,
                                           createOrderInfo: createOrderInfo)));
                         },
                       ),
@@ -154,6 +158,7 @@ class _Order extends State<Order> {
                                   builder: (context) =>
                                       ShowMenuItems(text: 'drink',
                                           restName: restName,
+                                          priority: 2,
                                           createOrderInfo: createOrderInfo)));
                         },
                       ),
@@ -164,6 +169,7 @@ class _Order extends State<Order> {
                                   builder: (context) =>
                                       ShowMenuItems(text: 'condiment',
                                           restName: restName,
+                                          priority: 1,
                                           createOrderInfo: createOrderInfo)));
                         },
                       ),
@@ -174,6 +180,7 @@ class _Order extends State<Order> {
                                   builder: (context) =>
                                       ShowMenuItems(text: 'utensil',
                                           restName: restName,
+                                          priority: 1,
                                           createOrderInfo: createOrderInfo)));
                         },
                       ),
