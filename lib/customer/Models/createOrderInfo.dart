@@ -7,6 +7,7 @@ class CreateOrderInfo{
   late List<int> count = [];
   late List<String> itemName= [];
   late List<String> price = [];
+  late List<String> orderComments = [];
   late int itemCount;
   late var custName;
   late var custID;
@@ -15,12 +16,13 @@ class CreateOrderInfo{
    itemCount = 0;
   }
 
-  orderSetter(String itemID, int count, String itemName, String price) async {
+  orderSetter(String itemID, int count, String itemName, String price, String comments) async {
     this.count.add(count);
     this.itemID.add(itemID);
     this.itemName.add(itemName);
     this.price.add(price);
-    this.itemCount++;
+    orderComments.add(comments);
+    itemCount++;
 
     await FirebaseFirestore.instance.collection('users').doc(custID).get().then(
             (element) {
@@ -30,12 +32,12 @@ class CreateOrderInfo{
 
   void placeOrder(String tableID, String tableNum, String waiterID, String restID) {
     for(int i = 0; i < itemCount; i++) {
-      placeOrderHelper(itemID[i], itemName[i], count[i], price[i], tableID, tableNum, waiterID, restID);
+      placeOrderHelper(itemID[i], itemName[i], count[i], price[i], orderComments[i], tableID, tableNum, waiterID, restID);
     }
     orderClear();
   }//place order
 
-  void placeOrderHelper(String itemID, String itemName, int count, String price,
+  void placeOrderHelper(String itemID, String itemName, int count, String price, String comments,
   String tableID, String tableNum, String waiterID, String restID)
   {
 
@@ -51,6 +53,7 @@ class CreateOrderInfo{
 
     users.doc(orderID).set(
     {
+        'orderComment' : comments,
         'price' : price,
         'custName' : custName,
         'custID' : uID.toString(),
@@ -71,6 +74,7 @@ class CreateOrderInfo{
             .set(
 
         {
+          'orderComment' : comments,
           'price' : price,
           'custName' : custName,
           'custID' : uID.toString(),

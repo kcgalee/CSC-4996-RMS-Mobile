@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/customer/viewOrder.dart';
 import 'package:counter/counter.dart';
+import 'package:restaurant_management_system/widgets/customTextForm.dart';
 import '../widgets/customSubButton.dart';
 import 'Models/createOrderInfo.dart';
 import 'customerHome.dart';
@@ -23,6 +24,7 @@ class ShowMenuItems extends StatefulWidget {
 }
 
 class _ShowMenuItems extends State<ShowMenuItems> {
+ final orderCommentsController =TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -143,18 +145,13 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                           child: ListTile(
                                             title: Row(
                                               children: [
-                                                Text(menuSnapshot
-                                                            .data?.docs[index]
-                                                        ['itemName'] ??
-                                                    ''),
+                                                Text(menuSnapshot.data?.docs[index]['itemName'] ?? ''),
                                                 Spacer(),
-                                                Text(menuSnapshot
-                                                            .data?.docs[index]
-                                                        ['price'] ??
-                                                    ''),
+                                                Text(menuSnapshot.data?.docs[index]['price'] ?? ''),
                                               ],
                                             ),
                                             onTap: () {
+                                              orderCommentsController.clear();
                                               int? count = 0;
                                               showDialog(
                                                 context: context,
@@ -167,10 +164,7 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                       AlertDialog(
                                                         insetPadding:
                                                             EdgeInsets.zero,
-                                                        title: Text(menuSnapshot
-                                                                .data
-                                                                ?.docs[index]
-                                                            ['itemName']),
+                                                        title: Text(menuSnapshot.data?.docs[index]['itemName']),
                                                         content: Builder(
                                                           builder: (context) {
                                                             // Get available height and width of the build area of this widget. Make a choice depending on the size.
@@ -190,22 +184,25 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                                   height - 600,
                                                               width:
                                                                   width - 400,
-                                                              child: Text(menuSnapshot
-                                                                          .data
-                                                                          ?.docs[index]
-                                                                      [
-                                                                      'description'] +
-                                                                  "\n" +
-                                                                  menuSnapshot
-                                                                          .data
-                                                                          ?.docs[index]
-                                                                      [
-                                                                      'price']),
-                                                            );
+                                                              child: Column(
+                                                                children: [
+                                                              Text(
+                                                                  menuSnapshot.data?.docs[index]['description'] +
+                                                                      "\n" + menuSnapshot.data?.docs[index]['price']),
+
+                                                                  CustomTextForm(
+                                                                      hintText: 'Order Comments',
+                                                                      controller: orderCommentsController,
+                                                                      validator: null,
+                                                                      keyboardType: TextInputType.text,
+                                                                      maxLines: 3,
+                                                                      maxLength: 100,
+                                                                      icon: const Icon(Icons.fastfood))
+                                                             ] ) );
                                                           },
                                                         ),
                                                         actions: <Widget>[
-                                                          TextButton(
+                                                         TextButton(
                                                             child: const Text(
                                                                 "Cancel"),
                                                             onPressed: () {
@@ -274,7 +271,8 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                                     menuSnapshot.data?.docs[index].id as String,
                                                                     count!,
                                                                     menuSnapshot.data?.docs[index]['itemName'],
-                                                                    price.toStringAsFixed(2));
+                                                                    price.toStringAsFixed(2),
+                                                                    orderCommentsController.text.toString());
 
                                                                 Navigator.of(context).pop();
 
