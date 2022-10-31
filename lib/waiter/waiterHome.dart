@@ -104,13 +104,19 @@ class _WaiterHomeState extends State<WaiterHome> {
                         },
                       ),
                       CustomSubButton(
-                        text: 'REQUESTS',
+                        text: 'ACTIVE REQUESTS',
                         onPressed: () {
                           Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => WaiterRequest(rName: restName)));
+                              MaterialPageRoute(builder: (context) => WaiterRequest(rName: restName, activity: 'active')));
                         },
                       ),
-
+                      CustomSubButton(
+                        text: 'INACTIVE REQUESTS',
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => WaiterRequest(rName: restName, activity: 'inactive')));
+                        },
+                      ),
                     ], //Children
                   ),
                 ));

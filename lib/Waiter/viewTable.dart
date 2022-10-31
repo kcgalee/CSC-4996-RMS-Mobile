@@ -138,7 +138,6 @@ class _ViewTableState extends State<ViewTable> {
     });
   }
 
-  //in-progress
   Future closeTable() async{
     var memCount = 0;
     var members = await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableMembers').get();
@@ -153,6 +152,18 @@ class _ViewTableState extends State<ViewTable> {
       await doc.reference.delete();
       memCount++;
     }
+
+
+    await FirebaseFirestore.instance.collection('tables/' + widget.tableID + '/tableOrders').get().then(
+            (value) {
+              value.docs.forEach((element) async {
+                if (element['status'] != 'delivered'){
+                  await FirebaseFirestore.instance.collection('orders').doc(element.id).update({
+                    'status': 'delivered',
+                  });
+                }
+              });
+            });
 
     var orders = await FirebaseFirestore.instance.collection('tables/' + widget.tableID + '/tableOrders').get();
     for (var doc in orders.docs){
