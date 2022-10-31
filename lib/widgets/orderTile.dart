@@ -24,10 +24,7 @@ class OrderTile extends StatelessWidget {
 
 
 
-    return FutureBuilder(
-      future: getItemName(),
-      builder: (context, snapshot) {
-        return Padding(
+    return Padding(
           padding: const EdgeInsets.only(left: 15, right: 15,top: 25),
           child: Container(
             padding: const EdgeInsets.only(right: 15,left: 10,bottom: 10,top: 10),
@@ -50,13 +47,9 @@ class OrderTile extends StatelessWidget {
             ),
           ),
         );
-      },
-    );
-  }
 
-  getItemName() {
-    return '';
   }
+  
 
 
 }
