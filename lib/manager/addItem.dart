@@ -187,7 +187,7 @@ class _AddItemState extends State<AddItem> {
 
 
               Padding(
-                padding: const EdgeInsets.only(top: 30),
+                padding: const EdgeInsets.only(top: 30,left: 25),
                 child: Row(
                   children: [
                     CustomCheckBox(
