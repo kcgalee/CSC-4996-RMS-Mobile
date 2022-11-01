@@ -92,6 +92,7 @@ class CreateOrderInfo{
           'waiterID': waiterID,
           'status' : 'placed',
           'timePlaced': Timestamp.fromDate(now),
+
         }
     );
 
@@ -110,6 +111,7 @@ class CreateOrderInfo{
 
    FirebaseFirestore.instance.collection('orders').add(
    {
+        'orderComment' : '',
         'custName' : custName,
          'custID' : uID.toString(),
          'itemName' : request,
@@ -138,6 +140,7 @@ class CreateOrderInfo{
 
     FirebaseFirestore.instance.collection('orders').add(
         {
+          'orderComment': '',
           'priority' : 1,
           'custName' : custName,
           'custID' : uID.toString(),
