@@ -264,7 +264,7 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                                           child:
                                                                               ListBody(
                                                                             children: const <Widget>[
-                                                                              Text('Bill requested, cannot place anymore orders.'),
+                                                                              Text('Bill requested, Can not place anymore orders.'),
                                                                             ],
                                                                           ),
                                                                         ),
