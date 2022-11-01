@@ -97,9 +97,9 @@ class _ViewOrder extends State<ViewOrder> {
                                                taskName: "${widget
                                                    .createOrderInfo
                                                    .itemName[index]}"
-                                                   "\n${widget.createOrderInfo
+                                                   " x ${widget.createOrderInfo
                                                    .count[index]}"
-                                                   "\n${widget.createOrderInfo
+                                                   "\n\$${widget.createOrderInfo
                                                    .price[index]}",
                                                createOrderInfo: widget
                                                    .createOrderInfo,
