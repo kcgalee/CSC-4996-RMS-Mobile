@@ -16,6 +16,8 @@ class RequestTile extends StatefulWidget {
   final String tableID;
   final String orderDoc;
 
+  final bool inactive;
+
 
   RequestTile({
     super.key,
@@ -28,6 +30,7 @@ class RequestTile extends StatefulWidget {
     required this.oStatus,
     required this.tableID,
     required this.orderDoc,
+    required this.inactive,
   });
 
   @override
@@ -46,168 +49,286 @@ class _RequestTileState extends State<RequestTile> {
 
   @override
   Widget build(BuildContext context) {
+    /*@override
+    void dispose() {
+
+      super.dispose();
+    }*/
+
     var isVisible = true;
-    if (widget.oStatus == "delivered"){
-      isVisible = false;
-    }
+
 
     if (widget.oStatus == "in progress"){
       iPColor= Colors.orange.shade300;
     }
     else if (widget.oStatus =="placed"){
       pColor = Colors.redAccent;
+    } else {
+      dColor = Colors.redAccent;
     }
 
     convertTime(widget.time);
 
-
-    //Duration duration = DateTime.now().difference(DateTime.parse(time.toDate().toString()));
-    return StreamBuilder(
-      stream: Stream.periodic(const Duration(seconds: 1), (time) {
-        Duration duration = DateTime.now().difference(widget.time.toDate());
-        String hours = duration.inHours.toString().padLeft(0, '2');
-        String minutes = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
-        String seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
-        return '\nElapsed Time: $hours:$minutes:$seconds';
-      }),
-      builder: (context, snapshot){
-          return Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15,top: 25),
-            child: Container(
-              padding: const EdgeInsets.only(right: 15,left: 10,bottom: 10,top: 10),
-              decoration: BoxDecoration(color: Colors.grey[100],
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.black54)
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+    if (widget.inactive){
+      return Padding(
+        padding: const EdgeInsets.only(left: 15, right: 15,top: 25),
+        child: Container(
+          padding: const EdgeInsets.only(right: 15,left: 10,bottom: 10,top: 10),
+          decoration: BoxDecoration(color: Colors.grey[100],
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.black54)
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              //task name and time
+              Text(widget.taskName + '\nTime Placed: ' + newTime,
+                  style: const TextStyle(color: Colors.black54,fontSize: 15, fontWeight: FontWeight.bold)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  //task name and time
-                  Text(widget.taskName + '\nTime Placed: ' + newTime + (snapshot.data ?? '\nLoading. . .'),
-                      style: const TextStyle(color: Colors.black54,fontSize: 15, fontWeight: FontWeight.bold)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Visibility(
-                        visible: isVisible,
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.all(5),
-                              fixedSize: Size(100, 3),
-                              textStyle: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                              ),
-                              backgroundColor: pColor,
-                              foregroundColor: Colors.black54,
-                              side: const BorderSide(
-                                color: Colors.black38,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                            ),
-
-                            onPressed: () => updatePlaced(),
-                            child: Text('Placed')),
-                      ),
-
-                      Visibility(
-                        visible: isVisible,
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.all(5),
-                              fixedSize: Size(100,30),
-                              textStyle: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                              ),
-                              backgroundColor: iPColor,
-                              foregroundColor: Colors.black54,
-                              side: const BorderSide(
-                                color: Colors.black38,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                            ),
-
-                            onPressed: () => updateInProgress(),
-                            child: Text('In Progress')),
-                      ),
-
-                      Visibility(
-                        visible: isVisible,
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.all(5),
-                              fixedSize: Size(100, 30),
-                              textStyle: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                              ),
-                              backgroundColor: dColor,
-                              foregroundColor: Colors.black54,
-                              side: const BorderSide(
-                                color: Colors.black38,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                            ),
-
-                            onPressed: () {
-                              super.dispose();
-                              updateDelivered();
-                            },
-                            child: const Text('Delivered')
+                  Visibility(
+                    visible: isVisible,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(5),
+                          fixedSize: Size(100, 3),
+                          textStyle: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                          backgroundColor: pColor,
+                          foregroundColor: Colors.black54,
+                          side: const BorderSide(
+                            color: Colors.black38,
+                          ),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
                         ),
-                      )
 
-                    ],
+                        onPressed: () => updatePlaced(),
+                        child: Text('Placed')),
                   ),
+
+                  Visibility(
+                    visible: isVisible,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.all(5),
+                          fixedSize: Size(100,30),
+                          textStyle: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                          backgroundColor: iPColor,
+                          foregroundColor: Colors.black54,
+                          side: const BorderSide(
+                            color: Colors.black38,
+                          ),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                        ),
+
+                        onPressed: () => updateInProgress(),
+                        child: Text('In Progress')),
+                  ),
+
+                  Visibility(
+                    visible: isVisible,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(5),
+                          fixedSize: Size(100, 30),
+                          textStyle: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                          backgroundColor: dColor,
+                          foregroundColor: Colors.black54,
+                          side: const BorderSide(
+                            color: Colors.black38,
+                          ),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                        ),
+
+                        onPressed: () {
+                          updateDelivered();
+                        },
+                        child: const Text('Delivered')
+                    ),
+                  )
 
                 ],
               ),
-            ),
-          );
-        }
-    );
+
+            ],
+          ),
+        ),
+      );
+    } else {
+      return StreamBuilder(
+          stream: Stream.periodic(const Duration(seconds: 1), (time) {
+            Duration duration = DateTime.now().difference(widget.time.toDate());
+            String hours = duration.inHours.toString().padLeft(0, '2');
+            String minutes = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
+            String seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
+            return '\nElapsed Time: $hours:$minutes:$seconds';
+          }),
+          builder: (context, snapshot){
+            return Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15,top: 25),
+              child: Container(
+                padding: const EdgeInsets.only(right: 15,left: 10,bottom: 10,top: 10),
+                decoration: BoxDecoration(color: Colors.grey[100],
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.black54)
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    //task name and time
+                    Text(widget.taskName + '\nTime Placed: ' + newTime + (snapshot.data ?? '\nLoading. . .'),
+                        style: const TextStyle(color: Colors.black54,fontSize: 15, fontWeight: FontWeight.bold)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Visibility(
+                          visible: isVisible,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.all(5),
+                                fixedSize: Size(100, 3),
+                                textStyle: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                ),
+                                backgroundColor: pColor,
+                                foregroundColor: Colors.black54,
+                                side: const BorderSide(
+                                  color: Colors.black38,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5)),
+                              ),
+
+                              onPressed: () => updatePlaced(),
+                              child: Text('Placed')),
+                        ),
+
+                        Visibility(
+                          visible: isVisible,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.all(5),
+                                fixedSize: Size(100,30),
+                                textStyle: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                ),
+                                backgroundColor: iPColor,
+                                foregroundColor: Colors.black54,
+                                side: const BorderSide(
+                                  color: Colors.black38,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5)),
+                              ),
+
+                              onPressed: () => updateInProgress(),
+                              child: Text('In Progress')),
+                        ),
+
+                        Visibility(
+                          visible: isVisible,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.all(5),
+                                fixedSize: Size(100, 30),
+                                textStyle: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                ),
+                                backgroundColor: dColor,
+                                foregroundColor: Colors.black54,
+                                side: const BorderSide(
+                                  color: Colors.black38,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5)),
+                              ),
+
+                              onPressed: () {
+                                updateDelivered();
+                              },
+                              child: const Text('Delivered')
+                          ),
+                        )
+
+                      ],
+                    ),
+
+                  ],
+                ),
+              ),
+            );
+          }
+      );
+    }
+    //Duration duration = DateTime.now().difference(DateTime.parse(time.toDate().toString()));
   }
 
 
   Future updatePlaced() async {
     var status = await FirebaseFirestore.instance.collection('orders').doc(widget.orderID).get();
-    if (status['status'] == 'in progress'){
+    if (status['status'] != 'placed'){
       await status.reference.update({
         'status': 'placed'
       });
-      await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(widget.orderDoc).update({
-        'status': 'placed'
-      });
+      await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(widget.orderDoc).get().then(
+              (value) async {
+                if (value.exists){
+                  await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(widget.orderDoc).update({
+                    'status': 'placed'
+                  });
+                }
+              });
     }
   }
 
   Future updateInProgress() async {
     var status = await FirebaseFirestore.instance.collection('orders').doc(widget.orderID).get();
-    if (status['status'] == 'placed'){
+    if (status['status'] != 'in progress'){
       await status.reference.update({
         'status': 'in progress'
       });
-      await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(widget.orderDoc).update({
-        'status': 'in progress'
-      });
+      await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(widget.orderDoc).get().then(
+              (value) async {
+            if (value.exists){
+              await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(widget.orderDoc).update({
+                'status': 'in progress'
+              });
+            }
+          });
     }
   }
 
  Future updateDelivered() async {
    var status = await FirebaseFirestore.instance.collection('orders').doc(widget.orderID).get();
-   if ((status['status'] == 'placed') || (status['status'] == 'in progress')){
+   if (status['status'] != 'delivered'){
      await status.reference.update({
        'status': 'delivered',
        'timeDelivered': Timestamp.now(),
      });
-     await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(widget.orderDoc).update({
-       'status': 'delivered',
-       'timeDelivered': Timestamp.now(),
-     });
+     await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(widget.orderDoc).get().then(
+             (value) async {
+           if (value.exists){
+             await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(widget.orderDoc).update({
+               'status': 'delivered',
+               'timeDelivered': Timestamp.now(),
+             });
+           }
+         });
    }
  }
 

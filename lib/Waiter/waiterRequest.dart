@@ -6,7 +6,8 @@ import '../widgets/request_tile.dart';
 
 class WaiterRequest extends StatefulWidget {
   final String rName;
-  const WaiterRequest({Key? key, required this.rName}) : super(key: key);
+  final String activity;
+  const WaiterRequest({Key? key, required this.rName, required this.activity}) : super(key: key);
 
   @override
   State<WaiterRequest> createState() => _WaiterRequestState();
@@ -18,64 +19,138 @@ class _WaiterRequestState extends State<WaiterRequest> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: const Text('Requests',),
+    if (widget.activity == 'active'){
+      return Scaffold(
           backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          elevation: 1,
-        ),
-        body: Column(
-          children: [
-            Text(widget.rName,
-              style: TextStyle(fontSize: 30,),),
-            Expanded(
-              child: StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection('orders')
-                      .where('waiterID', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
-                      .where('status', isNotEqualTo: 'delivered')
-                      .orderBy('status')
-                      .orderBy('timePlaced', descending: true).snapshots(),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData || (snapshot.data?.size == 0)) {
-                      return Center(child:Text('You have no active requests'));
-                    } else {
-                      return ListView.builder(
-                          itemCount: snapshot.data?.docs.length,
-                          itemBuilder: (context, index) {
-                            String text = '';
-                            if (snapshot.data?.docs[index]['itemName'] == 'Request Waiter'){
-                              text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
-                                  + '\nRequested: Waiter'
-                                  + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '');
-                            } else if (snapshot.data?.docs[index]['itemName'] == 'Request Bill'){
-                              text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
-                                  + '\nRequested: Bill'
-                                  + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '');
-                            } else {
-                              text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
-                                  + '\nItem: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
-                                  + '  x ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
-                                  + '\nPlaced by ' + (snapshot.data?.docs[index]['custName'] ?? '');
+          appBar: AppBar(
+            title: const Text('Active Requests',),
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+            elevation: 1,
+          ),
+          body: Column(
+            children: [
+              Text(widget.rName,
+                style: TextStyle(fontSize: 30,),),
+              Expanded(
+                child: StreamBuilder(
+                    stream: FirebaseFirestore.instance.collection('orders')
+                        .where('waiterID', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
+                        .where('status', isNotEqualTo: 'delivered')
+                        .orderBy('status')
+                        .orderBy('priority')
+                        .orderBy('timePlaced', descending: true).snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData || (snapshot.data?.size == 0)) {
+                        return Center(child:Text('You have no active requests'));
+                      } else {
+                        return ListView.builder(
+                            itemCount: snapshot.data?.docs.length,
+                            itemBuilder: (context, index) {
+                              String text = '';
+                              if (snapshot.data?.docs[index]['itemName'] == 'Request Waiter'){
+                                text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
+                                    + '\nRequested: Waiter'
+                                    + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '');
+                              } else if (snapshot.data?.docs[index]['itemName'] == 'Request Bill'){
+                                text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
+                                    + '\nRequested: Bill'
+                                    + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '');
+                              } else {
+                                text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
+                                    + '\nItem: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
+                                    + '  x ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
+                                    + '\nPlaced by ' + (snapshot.data?.docs[index]['custName'] ?? '');
+                              }
+                              if (snapshot.data?.docs[index]['orderComment'] != ''){
+                                text += '\nComments: ${snapshot.data?.docs[index]['orderComment']}';
+                              } else {
+                                text += '\nComments: none';
+                              }
+                              return RequestTile(
+                                taskName: text,
+                                //for debugging
+                                // + '\nStatus: ' + (snapshot.data?.docs[index]['status'] ?? ''),
+                                time: snapshot.data?.docs[index]['timePlaced'],
+                                orderID: (snapshot.data?.docs[index].reference.id ?? ''),
+                                oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
+                                tableID: snapshot.data?.docs[index]['tableID'],
+                                orderDoc: snapshot.data?.docs[index].reference.id ?? '',
+                                inactive: false,
+                              );
                             }
-                            return RequestTile(
-                              taskName: text,
-                              //for debugging
-                              // + '\nStatus: ' + (snapshot.data?.docs[index]['status'] ?? ''),
-                              time: snapshot.data?.docs[index]['timePlaced'],
-                              orderID: (snapshot.data?.docs[index].reference.id ?? ''),
-                              oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
-                              tableID: snapshot.data?.docs[index]['tableID'],
-                              orderDoc: snapshot.data?.docs[index].reference.id ?? '',
-                            );
-                          }
-                      );
-                    }
-                  }),
-            ),
-          ],
-        )
-    );
+                        );
+                      }
+                    }),
+              ),
+            ],
+          )
+      );
+    } else {
+      return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            title: const Text('Inactive Requests',),
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+            elevation: 1,
+          ),
+          body: Column(
+            children: [
+              Text(widget.rName,
+                style: TextStyle(fontSize: 30,),),
+              Expanded(
+                child: StreamBuilder(
+                    stream: FirebaseFirestore.instance.collection('orders')
+                        .where('waiterID', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
+                        .where('status', isEqualTo: 'delivered')
+                        .orderBy('timePlaced', descending: true).snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData || (snapshot.data?.size == 0)) {
+                        return Center(child:Text('You have no inactive requests'));
+                      } else {
+                        return ListView.builder(
+                            itemCount: snapshot.data?.docs.length,
+                            itemBuilder: (context, index) {
+                              String text = '';
+                              if (snapshot.data?.docs[index]['itemName'] == 'Request Waiter'){
+                                text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
+                                    + '\nRequested: Waiter'
+                                    + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '');
+                              } else if (snapshot.data?.docs[index]['itemName'] == 'Request Bill'){
+                                text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
+                                    + '\nRequested: Bill'
+                                    + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '');
+                              } else {
+                                text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
+                                    + '\nItem: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
+                                    + '  x ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
+                                    + '\nPlaced by ' + (snapshot.data?.docs[index]['custName'] ?? '');
+                              }
+                              if (snapshot.data?.docs[index]['orderComment'] != ''){
+                                text += '\nComments: ${snapshot.data?.docs[index]['orderComment']}';
+                              } else {
+                                text += '\nComments: none';
+                              }
+                              return RequestTile(
+                                taskName: text,
+                                //for debugging
+                                // + '\nStatus: ' + (snapshot.data?.docs[index]['status'] ?? ''),
+                                time: snapshot.data?.docs[index]['timePlaced'],
+                                orderID: (snapshot.data?.docs[index].reference.id ?? ''),
+                                oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
+                                tableID: snapshot.data?.docs[index]['tableID'],
+                                orderDoc: snapshot.data?.docs[index].reference.id ?? '',
+                                inactive: true,
+                              );
+                            }
+                        );
+                      }
+                    }),
+              ),
+            ],
+          )
+      );
+    }
   }
 }
