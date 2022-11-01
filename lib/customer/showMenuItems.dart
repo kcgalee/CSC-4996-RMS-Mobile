@@ -17,17 +17,16 @@ class ShowMenuItems extends StatefulWidget {
       {Key? key,
       required this.text,
       required this.restName,
-        required this.priority,
+      required this.priority,
       required this.createOrderInfo})
       : super(key: key);
-
 
   @override
   State<ShowMenuItems> createState() => _ShowMenuItems();
 }
 
 class _ShowMenuItems extends State<ShowMenuItems> {
- final orderCommentsController = TextEditingController();
+  final orderCommentsController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -74,30 +73,26 @@ class _ShowMenuItems extends State<ShowMenuItems> {
           builder: (context, userSnapshot) {
             //Check for data in document
             if (userSnapshot.hasData) {
-
               //===============================
               //ERROR HANDLING FOR CLOSED TABLE
               //===============================
 
-              if(userSnapshot.data!['tableID'] == ''){
+              if (userSnapshot.data!['tableID'] == '') {
                 return Column(
-                  children:  [
+                  children: [
                     const Text('Table Closed'),
-
-                  CustomSubButton(text: "Back to Home Page",
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                CustomerHome()));
-                  },
-                ),
-
+                    CustomSubButton(
+                      text: "Back to Home Page",
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CustomerHome()));
+                      },
+                    ),
                   ],
-
                 );
               }
-
 
               //============================
               //Table document Snapshot stream builder
@@ -108,200 +103,252 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                       .doc(userSnapshot.data!['tableID'])
                       .snapshots(),
                   builder: (context, tableSnapshot) {
-                    if(tableSnapshot.hasData) {
-
+                    if (tableSnapshot.hasData) {
                       return StreamBuilder(
-                        stream: FirebaseFirestore.instance
-                            .collection(
-                                'restaurants/${tableSnapshot.data!['restID']}/menu')
-                            .where('category', isEqualTo: widget.text)
-                            .snapshots(),
-                        builder: (context, menuSnapshot) {
-                          if (!menuSnapshot.hasData ||
-                              menuSnapshot.data?.docs.length == 0) {
-                            return const Center(
-                              child: Text("No items to display."),
-                            );
-                          } else {
-                            return ListView.builder(
-                                itemCount: menuSnapshot.data?.docs.length,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 10, left: 20, right: 20),
-                                      child: Container(
-                                          height: 70.0,
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              border: Border.all(
-                                                color: Colors.black,
-                                                width: 1.0,
+                          stream: FirebaseFirestore.instance
+                              .collection(
+                                  'restaurants/${tableSnapshot.data!['restID']}/menu')
+                              .where('category', isEqualTo: widget.text)
+                              .snapshots(),
+                          builder: (context, menuSnapshot) {
+                            if (!menuSnapshot.hasData ||
+                                menuSnapshot.data?.docs.length == 0) {
+                              return const Center(
+                                child: Text("No items to display."),
+                              );
+                            } else {
+                              return ListView.builder(
+                                  itemCount: menuSnapshot.data?.docs.length,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 10, left: 20, right: 20),
+                                        child: Container(
+                                            height: 70.0,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                border: Border.all(
+                                                  color: Colors.black,
+                                                  width: 1.0,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                boxShadow: const [
+                                                  BoxShadow(
+                                                      color: Colors.grey,
+                                                      blurRadius: 2.0,
+                                                      offset: Offset(2.0, 2.0))
+                                                ]),
+                                            child: ListTile(
+                                              title: Row(
+                                                children: [
+                                                  Text(menuSnapshot
+                                                              .data?.docs[index]
+                                                          ['itemName'] ??
+                                                      ''),
+                                                  Spacer(),
+                                                  Text(menuSnapshot
+                                                              .data?.docs[index]
+                                                          ['price'] ??
+                                                      ''),
+                                                ],
                                               ),
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                              boxShadow: const [
-                                                BoxShadow(
-                                                    color: Colors.grey,
-                                                    blurRadius: 2.0,
-                                                    offset: Offset(2.0, 2.0))
-                                              ]),
-                                          child: ListTile(
-                                            title: Row(
-                                              children: [
-                                                Text(menuSnapshot.data?.docs[index]['itemName'] ?? ''),
-                                                Spacer(),
-                                                Text(menuSnapshot.data?.docs[index]['price'] ?? ''),
-                                              ],
-                                            ),
-                                            onTap: () {
-                                              orderCommentsController.clear();
-                                              int? count = 0;
-                                              showDialog(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  return Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
-                                                    children: [
-                                                      AlertDialog(
-                                                        insetPadding:
-                                                            EdgeInsets.zero,
-                                                        title: Text(menuSnapshot.data?.docs[index]['itemName']),
-                                                        content: Builder(
-                                                          builder: (context) {
-                                                            // Get available height and width of the build area of this widget. Make a choice depending on the size.
-                                                            var height =
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .height;
-                                                            var width =
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width;
+                                              onTap: () {
+                                                orderCommentsController.clear();
+                                                int? count = 0;
+                                                showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      children: [
+                                                        AlertDialog(
+                                                          insetPadding:
+                                                              EdgeInsets.zero,
+                                                          title: Text(
+                                                              menuSnapshot.data
+                                                                          ?.docs[
+                                                                      index]
+                                                                  ['itemName']),
+                                                          content: Builder(
+                                                            builder: (context) {
+                                                              // Get available height and width of the build area of this widget. Make a choice depending on the size.
+                                                              var height =
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .height;
+                                                              var width =
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width;
 
-                                                            return Container(
-                                                              height:
-                                                                  height - 600,
-                                                              width:
-                                                                  width - 400,
-                                                              child: Column(
-                                                                children: [
-                                                              Text(
-                                                                  menuSnapshot.data?.docs[index]['description'] +
-                                                                      "\n" + menuSnapshot.data?.docs[index]['price']),
-
-                                                                  CustomTextForm(
-                                                                      hintText: 'Order Comments',
-                                                                      controller: orderCommentsController,
-                                                                      validator: null,
-                                                                      keyboardType: TextInputType.text,
-                                                                      maxLines: 3,
-                                                                      maxLength: 100,
-                                                                      icon: const Icon(Icons.fastfood))
-                                                             ] ) );
-                                                          },
-                                                        ),
-                                                        actions: <Widget>[
-                                                         TextButton(
-                                                            child: const Text(
-                                                                "Cancel"),
-                                                            onPressed: () {
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
+                                                              return Container(
+                                                                  height:
+                                                                      height -
+                                                                          600,
+                                                                  width: width -
+                                                                      400,
+                                                                  child: Column(
+                                                                      children: [
+                                                                        Text(menuSnapshot.data?.docs[index]['description'] +
+                                                                            "\n\n \$" +
+                                                                            menuSnapshot.data?.docs[index]['price']),
+                                                                        CustomTextForm(
+                                                                            hintText:
+                                                                                'Order Comments',
+                                                                            controller:
+                                                                                orderCommentsController,
+                                                                            validator:
+                                                                                null,
+                                                                            keyboardType: TextInputType
+                                                                                .text,
+                                                                            maxLines:
+                                                                                2,
+                                                                            maxLength:
+                                                                                100,
+                                                                            icon:
+                                                                                const Icon(Icons.fastfood))
+                                                                      ]));
                                                             },
                                                           ),
-                                                          Counter(
-                                                            min: 1,
-                                                            max: 10,
-                                                            bound: 1,
-                                                            step: 1,
-                                                            onValueChanged:
-                                                                (value) {
-                                                              count =
-                                                                  value as int?;
-                                                            },
-                                                          ),
-                                                          TextButton(
-                                                            child: const Text(
-                                                                "Add to Order"),
-                                                            onPressed: () {
+                                                          actions: <Widget>[
+                                                            TextButton(
+                                                              child: const Text(
+                                                                  "Cancel"),
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                            ),
+                                                            Counter(
+                                                              min: 1,
+                                                              max: 10,
+                                                              bound: 1,
+                                                              step: 1,
+                                                              onValueChanged:
+                                                                  (value) {
+                                                                count = value
+                                                                    as int?;
+                                                              },
+                                                            ),
+                                                            TextButton(
+                                                              child: const Text(
+                                                                  "Add to Order"),
+                                                              onPressed: () {
+                                                                //=================================
+                                                                //ERROR HANDLING FOR BILL REQUESTED
+                                                                //=================================
+                                                                if (tableSnapshot
+                                                                        .data![
+                                                                    'billRequested']) {
+                                                                  showDialog<
+                                                                      void>(
+                                                                    context:
+                                                                        context,
+                                                                    barrierDismissible:
+                                                                        false,
+                                                                    // user must tap button!
+                                                                    builder:
+                                                                        (BuildContext
+                                                                            context) {
+                                                                      return AlertDialog(
+                                                                        title: const Text(
+                                                                            'Alert!'),
+                                                                        content:
+                                                                            SingleChildScrollView(
+                                                                          child:
+                                                                              ListBody(
+                                                                            children: const <Widget>[
+                                                                              Text('Bill requested, cannot place anymore orders.'),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                        actions: <
+                                                                            Widget>[
+                                                                          TextButton(
+                                                                            child:
+                                                                                const Text('OK'),
+                                                                            onPressed:
+                                                                                () {
+                                                                              Navigator.of(context).pop();
+                                                                            },
+                                                                          ),
+                                                                        ],
+                                                                      );
+                                                                    },
+                                                                  );
+                                                                }
 
-                                                              //=================================
-                                                              //ERROR HANDLING FOR BILL REQUESTED
-                                                              //=================================
-                                                              if (tableSnapshot.data!['billRequested']) {
-                                                                showDialog<void>(
-                                                                  context: context,
-                                                                  barrierDismissible: false, // user must tap button!
-                                                                  builder: (BuildContext context) {
-                                                                    return AlertDialog(
-                                                                      title: const Text('Alert!'),
-                                                                      content: SingleChildScrollView(
+                                                                //=================================
+                                                                //NO ERRORS PLACE ADD ITEM TO ORDER
+                                                                //=================================
+                                                                else {
+                                                                  String
+                                                                      comment;
+                                                                  count == null
+                                                                      ? count =
+                                                                          1
+                                                                      : count =
+                                                                          count
+                                                                              ?.toInt();
+                                                                  var price = double.parse(menuSnapshot
+                                                                          .data
+                                                                          ?.docs[index]
+                                                                      [
+                                                                      'price']);
+                                                                  price = price *
+                                                                      count!;
 
-                                                                        child: ListBody(
-                                                                          children: const <Widget>
+                                                                  widget.createOrderInfo.orderSetter(
+                                                                      menuSnapshot
+                                                                              .data
+                                                                              ?.docs[
+                                                                                  index]
+                                                                              .id
+                                                                          as String,
+                                                                      count!,
+                                                                      menuSnapshot
+                                                                              .data
+                                                                              ?.docs[index]
                                                                           [
-                                                                            Text('Bill requested, cannot place anymore orders.'),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                      actions: <Widget>[
-                                                                        TextButton(
-                                                                          child: const Text('OK'),
-                                                                          onPressed: () {
-                                                                            Navigator.of(context).pop();
-                                                                          },
-                                                                        ),
-                                                                      ],
-                                                                    );
-                                                                  },
-                                                                );
-                                                              }
+                                                                          'itemName'],
+                                                                      price
+                                                                          .toStringAsFixed(
+                                                                              2),
+                                                                      orderCommentsController
+                                                                          .text,
+                                                                      widget
+                                                                          .priority);
 
-                                                              //=================================
-                                                              //NO ERRORS PLACE ADD ITEM TO ORDER
-                                                              //=================================
-                                                              else {
-                                                                String comment;
-                                                                count == null ? count = 1 : count = count?.toInt();
-                                                                var price = double.parse(menuSnapshot.data?.docs[index]['price']);
-                                                                price = price * count!;
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop();
 
-                                                                widget.createOrderInfo.orderSetter(
-                                                                    menuSnapshot.data?.docs[index].id as String,
-                                                                    count!,
-                                                                    menuSnapshot.data?.docs[index]['itemName'],
-                                                                    price.toStringAsFixed(2),
-                                                                    orderCommentsController.text,
-                                                                    widget.priority);
-
-                                                                Navigator.of(context).pop();
-
-                                                                Navigator.push(context,
-                                                                    MaterialPageRoute(
-                                                                        builder: (context) =>
-                                                                                ViewOrder(createOrderInfo: widget.createOrderInfo)));
-                                                              }
-                                                            },
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                              );
-                                            },
-                                          )));
-                                });
-                          }
-                        });
-                    }
-
-                    else {
+                                                                  Navigator.push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                          builder: (context) =>
+                                                                              ViewOrder(createOrderInfo: widget.createOrderInfo)));
+                                                                }
+                                                              },
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            )));
+                                  });
+                            }
+                          });
+                    } else {
                       return const Text('No Data to display');
                     }
 
@@ -329,7 +376,4 @@ class _ShowMenuItems extends State<ShowMenuItems> {
       //=====================================
     );
   }
-
-
-
 }
