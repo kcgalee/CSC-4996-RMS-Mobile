@@ -170,10 +170,10 @@ class _RequestTileState extends State<RequestTile> {
       return StreamBuilder(
           stream: Stream.periodic(const Duration(seconds: 1), (time) {
             Duration duration = DateTime.now().difference(widget.time.toDate());
-            String hours = duration.inHours.toString().padLeft(0, '2');
-            String minutes = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
-            String seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
-            return '\nElapsed Time: $hours:$minutes:$seconds';
+            //String hours = duration.inHours.toString().padLeft(0, '2');
+            String minutes = duration.inMinutes.toString().padLeft(1, '0');
+            //String seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
+            return '\nOrdered ${minutes} minutes ago';
           }),
           builder: (context, snapshot){
             return Padding(
@@ -188,7 +188,7 @@ class _RequestTileState extends State<RequestTile> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     //task name and time
-                    Text(widget.taskName + '\nTime Placed: ' + newTime + (snapshot.data ?? '\nLoading. . .'),
+                    Text(widget.taskName + (snapshot.data ?? '\nLoading. . .'),
                         style: const TextStyle(color: Colors.black54,fontSize: 15, fontWeight: FontWeight.bold)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
