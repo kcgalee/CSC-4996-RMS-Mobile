@@ -19,7 +19,7 @@ class _PlacedOrders extends State<PlacedOrders> {
         drawer: const NavigationDrawer(),
         appBar: AppBar(
           title: const Text('Current Orders'),
-          backgroundColor: const Color(0xff76bcff),
+          backgroundColor: Colors.white,
           foregroundColor: Colors.black,
           elevation: 0,
         ),
