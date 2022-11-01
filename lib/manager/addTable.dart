@@ -48,10 +48,10 @@ class _AddTable extends State<AddTable> {
             controller: tableNumberController,
             keyboardType: TextInputType.number,
             maxLines: 1,
-            maxLength: 10,
+            maxLength: 2,
             validator: (tablenum) =>
             tablenum != null && !numberPattern.hasMatch(tablenum)
-                ? 'number must be between 1 to 9999999999 ' : null,
+                ? 'number must be between 1 to 99 ' : null,
             icon: const Icon(Icons.numbers, color: Colors.black)
         ),
 
@@ -71,10 +71,10 @@ class _AddTable extends State<AddTable> {
               controller: tableCapacityController,
               keyboardType: TextInputType.number,
               maxLines: 1,
-              maxLength: 3,
+              maxLength: 2,
               validator: (maxCapacity) =>
               maxCapacity != null && !numberPattern.hasMatch(maxCapacity)
-                  ? 'number must be between 1 to 999' : null,
+                  ? 'number must be between 1 to 99' : null,
 
               icon: const Icon(Icons.people, color: Colors.black)
           ),
