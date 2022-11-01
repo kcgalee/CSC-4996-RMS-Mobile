@@ -9,7 +9,7 @@ import 'selectRestaurant.dart';
 class SelectCategory extends StatefulWidget {
   final String restaurantID;
   final String rName;
-  const SelectCategory({Key? key, required  this.restaurantID, required this.rName}) : super(key: key);
+  const SelectCategory({Key? key, required this.restaurantID, required this.rName}) : super(key: key);
 
   @override
   State<SelectCategory> createState() => _SelectCategoryState();

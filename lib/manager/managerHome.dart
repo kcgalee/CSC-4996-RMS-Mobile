@@ -98,17 +98,10 @@ String greeting = '';
                                             ),
                                            */
                                           CustomSubButton(
-                                            text: 'ADD TABLE',
+                                            text: 'MANAGE TABLES',
                                             onPressed: () {
                                               Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'table')));
                                               //TODO CREATE ADD TABLES FEATURE
-                                            },
-                                          ),
-                                          CustomSubButton(
-                                            text: 'REMOVE TABLE',
-                                            onPressed: () {
-                                              //TODO REMOVE TABLES
-
                                             },
                                           ),
                                           CustomSubButton(
