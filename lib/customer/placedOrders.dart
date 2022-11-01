@@ -18,7 +18,7 @@ class _PlacedOrders extends State<PlacedOrders> {
     return Scaffold(
         drawer: const NavigationDrawer(),
         appBar: AppBar(
-          title: const Text('Placed Orders'),
+          title: const Text('Current Orders'),
           backgroundColor: const Color(0xff76bcff),
           foregroundColor: Colors.black,
           elevation: 0,
@@ -57,32 +57,50 @@ class _PlacedOrders extends State<PlacedOrders> {
                     }
 
                     return Expanded(
-                    child: StreamBuilder(
-                        stream: FirebaseFirestore.instance
-                            .collection(
-                                'tables/${userSnapshot.data!['tableID']}/tableOrders')
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData || (snapshot.data?.size == 0)) {
-                            return Center(
-                                child: Text('You have no active requests'));
-                          } else {
-                            return ListView.builder(
-                                itemCount: snapshot.data?.docs.length,
-                                itemBuilder: (context, index){
-                                  return OrdersPlacedTile(
-                                      taskName: '\nItem: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
-                                          + '  x ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
-                                          + '\nPlaced by ' + (snapshot.data?.docs[index]['custName'] ?? '')
-                                          + '\nPrice: \$' + (snapshot.data?.docs[index]['price'] ?? ''),
-                                      time:(snapshot.data?.docs[index]['timePlaced'] ?? '') ,
-                                      oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
-                                  );
+
+                    child: Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child:
+                          IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: const Icon(
+                              Icons.arrow_back,
+                              color: Colors.black87,
+                            ),
+                          ),
+                        ),
+                        StreamBuilder(
+                            stream: FirebaseFirestore.instance
+                                .collection(
+                                    'tables/${userSnapshot.data!['tableID']}/tableOrders')
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData || (snapshot.data?.size == 0)) {
+                                return Center(
+                                    child: Text('You have no active requests'));
+                              } else {
+                                return ListView.builder(
+                                    itemCount: snapshot.data?.docs.length,
+                                    itemBuilder: (context, index){
+                                      return OrdersPlacedTile(
+                                          taskName: '\nItem: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
+                                              + '  x ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
+                                              + '\nPlaced by ' + (snapshot.data?.docs[index]['custName'] ?? '')
+                                              + '\nPrice: \$' + (snapshot.data?.docs[index]['price'] ?? ''),
+                                          time:(snapshot.data?.docs[index]['timePlaced'] ?? '') ,
+                                          oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
+                                      );
 
 
-                                });
-                          }
-                        }),
+                                    });
+                              }
+                            }),
+                      ],
+                    ),
                   );
                   }
                   else{
