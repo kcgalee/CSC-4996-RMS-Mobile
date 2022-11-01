@@ -37,7 +37,7 @@ class _WaiterHomeState extends State<WaiterHome> {
               .where('waiterID', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
               .where('status', isNotEqualTo: 'delivered').snapshots(),
           builder: (context, snapshot){
-            if (snapshot.data?.docs.length == 0){
+            if (snapshot.data?.docs.length == null){
               return Center(child: CircularProgressIndicator());
             } else {
               //store active requests and generate text
