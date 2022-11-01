@@ -74,6 +74,13 @@ class _ManageTables extends State<ManageTables> {
                                 onPressedEdit:  (){
                                 },
                                 onPressedDelete: () async {
+                                  if (snapshot.data?.docs[index]['currentCapacity'] != 0){
+                                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                      content: Text('Cannot delete a table while it is in use'),
+                                    ));
+                                  } else {
+                                    //deleteTable(snapshot.data?.docs[index].id);
+                                  }
                                 }
                             );
                           }
