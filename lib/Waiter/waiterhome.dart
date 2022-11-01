@@ -32,96 +32,115 @@ class _WaiterHomeState extends State<WaiterHome> {
           foregroundColor: Colors.black,
           elevation: 0,
         ),
-        body: FutureBuilder(
-          future: getName(),
-          builder: (context, snapshot) {
-            return SingleChildScrollView(
-                child: Center(
-                  child: Column(
-                    children: [
-                      Container(
-                          width: MediaQuery.of(context).size.width,
-                          padding: const EdgeInsets.all(40),
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(20),
-                            ),
-                            color: Color(0xff7678ff),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey,
-                                offset: Offset(5.0, 5.0),
-                                blurRadius: 10.0,
-                                spreadRadius: 1.0,
-                              )
-                            ],
+        body: StreamBuilder(
+          stream: FirebaseFirestore.instance.collection('orders')
+              .where('waiterID', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
+              .where('status', isNotEqualTo: 'delivered').snapshots(),
+          builder: (context, snapshot){
+            if (snapshot.data?.docs.length == 0){
+              return Center(child: CircularProgressIndicator());
+            } else {
+              //store active requests and generate text
+              var activeReqNum = snapshot.data?.docs.length;
+              //String reqText = '\nActive Requests: ${activeReqNum}';
+
+              return FutureBuilder(
+                future: getName(),
+                builder: (context, snapshot) {
+                  if (snapshot.data != 1){
+                    return Center(child: CircularProgressIndicator());
+                  } else {
+                    //greeting text constructed here
+                    greeting = 'Hello, ${waiterName}!\n${restName}\nManager: ${managerName}\nActive Requests: ${activeReqNum}';
+                    return SingleChildScrollView(
+                        child: Center(
+                          child: Column(
+                            children: [
+                              Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: const EdgeInsets.all(40),
+                                  decoration: const BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(20),
+                                      bottomRight: Radius.circular(20),
+                                    ),
+                                    color: Color(0xff7678ff),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        offset: Offset(5.0, 5.0),
+                                        blurRadius: 10.0,
+                                        spreadRadius: 1.0,
+                                      )
+                                    ],
+                                  ),
+                                  child:
+                                  Column(
+                                      children: [
+                                        CustomMainButton(
+                                          text: 'SCAN QR CODE',
+                                          onPressed: () {
+                                            Navigator.push(context,
+                                                MaterialPageRoute(builder: (context) => const QRScannerWaiter()));
+                                          },
+                                        ),
+                                        const SizedBox(height: 20,),
+                                        Text(greeting,
+                                          style: const TextStyle(fontSize: 30,color: Colors.white),),
+                                      ]
+                                  )
+                              ),
+                                  /*
+                              CustomSubButton(
+                                text: 'CLOCK IN',
+                                onPressed: () {  },
+                              ),
+                              CustomSubButton(
+                                text: 'CLOCK OUT',
+                                onPressed: () {  },
+                              ),*/
+                              const SizedBox(height: 60,),
+
+                              CustomSubButton(
+                                text: 'ASSIGNED TABLES',
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => const WaiterTables()),
+                                  );
+                                },
+
+                              ),
+                              CustomSubButton(
+                                text: 'VIEW ALL TABLES',
+                                onPressed: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) => const AllTables()));
+                                },
+                              ),
+                              CustomSubButton(
+                                text: 'ACTIVE REQUESTS',
+                                onPressed: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) => WaiterRequest(rName: restName, activity: 'active')));
+                                },
+                              ),
+                              CustomSubButton(
+                                text: 'INACTIVE REQUESTS',
+                                onPressed: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) => WaiterRequest(rName: restName, activity: 'inactive')));
+                                },
+                              ),
+                            ], //Children
                           ),
-                          child:
-                          Column(
-                              children: [
-                                CustomMainButton(
-                                  text: 'SCAN QR CODE',
-                                  onPressed: () {
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (context) => const QRScannerWaiter()));
-                                  },
-                                ),
-                                const SizedBox(height: 20,),
-                                Text(greeting,
-                                  style: const TextStyle(fontSize: 30,color: Colors.white),),
-                              ]
-                          )
-                      ),
-
-                      /*
-                  CustomSubButton(
-                    text: 'CLOCK IN',
-                    onPressed: () {  },
-                  ),
-                  CustomSubButton(
-                    text: 'CLOCK OUT',
-                    onPressed: () {  },
-                  ),*/
-                      const SizedBox(height: 60,),
-
-                      CustomSubButton(
-                        text: 'ASSIGNED TABLES',
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const WaiterTables()),
-                          );
-                        },
-
-                      ),
-                      CustomSubButton(
-                        text: 'VIEW ALL TABLES',
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => const AllTables()));
-                        },
-                      ),
-                      CustomSubButton(
-                        text: 'ACTIVE REQUESTS',
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => WaiterRequest(rName: restName, activity: 'active')));
-                        },
-                      ),
-                      CustomSubButton(
-                        text: 'INACTIVE REQUESTS',
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => WaiterRequest(rName: restName, activity: 'inactive')));
-                        },
-                      ),
-                    ], //Children
-                  ),
-                ));
-          },
-        ));
+                        ));
+                  }
+            });
+          }}
+        )
+    );
   }
 
   Future getName() async {
@@ -151,8 +170,7 @@ class _WaiterHomeState extends State<WaiterHome> {
             managerName = element['prefName'];
           }
         });
-    //greeting text constructed here
-    greeting = 'Hello, ${waiterName}!\n${restName}\nManager: ${managerName}';
+    return 1;
   }
 
 }
