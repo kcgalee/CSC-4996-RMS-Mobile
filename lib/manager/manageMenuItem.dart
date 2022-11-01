@@ -20,6 +20,7 @@ class ManageMenuItem extends StatefulWidget {
 class _ManageMenuItemState extends State<ManageMenuItem> {
   @override
   Widget build(BuildContext context) {
+    String title = '${widget.rName}: ${widget.category}';
     return Scaffold(
       drawer: const ManagerNavigationDrawer(),
       appBar: AppBar(

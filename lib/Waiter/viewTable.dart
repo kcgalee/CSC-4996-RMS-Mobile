@@ -12,8 +12,8 @@ class ViewTable extends StatefulWidget {
   final String tableID;
   final String tableNum;
   final bool assigned;
-
-  const ViewTable({super.key, required this.tableID, required this.tableNum, required this.assigned});
+  final int currentCapacity;
+  const ViewTable({super.key, required this.tableID, required this.tableNum, required this.assigned, required this.currentCapacity});
 
   @override
   State<ViewTable> createState() => _ViewTableState();
@@ -24,51 +24,108 @@ class _ViewTableState extends State<ViewTable> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.assigned == true){
-      return Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            title: Text("Table Orders"),
+    if (widget.assigned){
+      if (widget.currentCapacity != 0){
+        return Scaffold(
             backgroundColor: Colors.white,
-            foregroundColor: Colors.black,
-            elevation: 1,
-          ),
-          body: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Text('Table: '+ widget.tableNum,style: TextStyle(fontSize: 25,),),
-              ),
-              Expanded(
-                child: StreamBuilder(
-                    stream: FirebaseFirestore.instance.collection('tables/' + widget.tableID + '/tableOrders').orderBy('custName').orderBy('timePlaced', descending: true).snapshots(),
-                    builder: (context, snapshot){
-                      if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
-                        return Center(child: Text("No orders have been placed yet"),);
-                      } else {
-                        return ListView.builder(
-                            itemCount: snapshot.data?.docs.length,
-                            itemBuilder: (context, index){
-                              return ViewTableTile(
-                                  taskName: "x" + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
-                                      + ' ' + (snapshot.data?.docs[index]['itemName'].toString() ?? ''),
-                                  subTitle: ' \$' + (snapshot.data?.docs[index]['price'].toString() ?? ''
-                                  ));
-                            }
-                        );
-                      }
-                    }),
-              ),
-              CustomRedButton(
-                  text: 'CLOSE TABLE',
-                  onPressed: () => {
-                    closeTable(),
-                    Navigator.pop(context,
-                        MaterialPageRoute(builder: (context) => const WaiterTables()))
-                  }
-              ),],
-          )
-      );
+            appBar: AppBar(
+              title: Text("Table Orders"),
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
+              elevation: 1,
+            ),
+            body: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Text('Table: '+ widget.tableNum,style: TextStyle(fontSize: 25,),),
+                ),
+                Expanded(
+                  child: StreamBuilder(
+                      stream: FirebaseFirestore.instance.collection('tables/' + widget.tableID + '/tableOrders').orderBy('custName').orderBy('timePlaced', descending: true).snapshots(),
+                      builder: (context, snapshot){
+                        if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
+                          return Center(child: Text("No orders have been placed yet"),);
+                        } else {
+                          return ListView.builder(
+                              itemCount: snapshot.data?.docs.length,
+                              itemBuilder: (context, index){
+                                return ViewTableTile(
+                                    taskName: "x" + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
+                                        + ' ' + (snapshot.data?.docs[index]['itemName'].toString() ?? ''),
+                                    subTitle: ' \$' + (snapshot.data?.docs[index]['price'].toString() ?? ''
+                                    ));
+                              }
+                          );
+                        }
+                      }),
+                ),
+                CustomRedButton(
+                    text: 'LEAVE TABLE',
+                    onPressed: () => {
+                      leaveTable(),
+                      Navigator.pop(context,
+                          MaterialPageRoute(builder: (context) => const WaiterTables()))
+                    }
+                ),
+                CustomRedButton(
+                    text: 'CLOSE TABLE',
+                    onPressed: () => {
+                      closeTable(),
+                      Navigator.pop(context,
+                          MaterialPageRoute(builder: (context) => const WaiterTables()))
+                    }
+                ),
+              ],
+            )
+        );
+      } else {
+        return Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+              title: Text("Table Orders"),
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
+              elevation: 1,
+            ),
+            body: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Text('Table: '+ widget.tableNum,style: TextStyle(fontSize: 25,),),
+                ),
+                Expanded(
+                  child: StreamBuilder(
+                      stream: FirebaseFirestore.instance.collection('tables/' + widget.tableID + '/tableOrders').orderBy('custName').orderBy('timePlaced', descending: true).snapshots(),
+                      builder: (context, snapshot){
+                        if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
+                          return Center(child: Text("No orders have been placed yet"),);
+                        } else {
+                          return ListView.builder(
+                              itemCount: snapshot.data?.docs.length,
+                              itemBuilder: (context, index){
+                                return ViewTableTile(
+                                    taskName: "x" + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
+                                        + ' ' + (snapshot.data?.docs[index]['itemName'].toString() ?? ''),
+                                    subTitle: ' \$' + (snapshot.data?.docs[index]['price'].toString() ?? ''
+                                    ));
+                              }
+                          );
+                        }
+                      }),
+                ),
+                CustomRedButton(
+                    text: 'LEAVE TABLE',
+                    onPressed: () => {
+                      leaveTable(),
+                      Navigator.pop(context,
+                          MaterialPageRoute(builder: (context) => const WaiterTables()))
+                    }
+                ),
+              ],
+            )
+        );
+      }
     } else {
       return Scaffold(
           backgroundColor: Colors.white,
@@ -190,6 +247,14 @@ class _ViewTableState extends State<ViewTable> {
     FirebaseFirestore.instance.collection('users').doc(userID).update({
       'tableID': '',
     } );
+  }
+
+  leaveTable() async {
+    var table = await FirebaseFirestore.instance.collection('tables').doc(widget.tableID).get();
+    await table.reference.update({
+      'waiterID': '',
+      'waiterName': '',
+    });
   }
 
 }
