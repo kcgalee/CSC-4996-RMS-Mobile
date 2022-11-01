@@ -38,7 +38,6 @@ String greeting = '';
                       return Center(child:CircularProgressIndicator());
                     } else {
                         if (snapshot.data?['isActive'] == false){
-                          //kylie
                           return pendingActivation();
                         } else {
                           return SingleChildScrollView(
