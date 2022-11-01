@@ -38,10 +38,11 @@ class _AddTable extends State<AddTable> {
         padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
         child: Column(
         children: [
-          Text(widget.restName),
           CustomBackButton(onPressed: () {
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'table')));
           }),
+          Text(widget.restName,style: const TextStyle(fontSize: 20),),
+          const SizedBox(height: 20,),
           CustomTextForm(
             hintText: "Table number",
             controller: tableNumberController,
@@ -99,7 +100,7 @@ class _AddTable extends State<AddTable> {
                     tableTypeController.text.trim(),
                     tableLocationController.text.trim());
               } else {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text('A table already exists with that number.'),
                 ));
               }
@@ -108,6 +109,9 @@ class _AddTable extends State<AddTable> {
         ]),
       )
   );
+
+
+
 
   void newTableData(int tableNum, int maxCapacity, String tableType, String location ) async {
     CollectionReference users = FirebaseFirestore.instance.collection('tables');

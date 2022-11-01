@@ -275,10 +275,7 @@ class _RequestTileState extends State<RequestTile> {
           }
       );
     }
-
     //Duration duration = DateTime.now().difference(DateTime.parse(time.toDate().toString()));
-
-
   }
 
 
@@ -288,9 +285,14 @@ class _RequestTileState extends State<RequestTile> {
       await status.reference.update({
         'status': 'placed'
       });
-      await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(widget.orderDoc).update({
-        'status': 'placed'
-      });
+      await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(widget.orderDoc).get().then(
+              (value) async {
+                if (value.exists){
+                  await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(widget.orderDoc).update({
+                    'status': 'placed'
+                  });
+                }
+              });
     }
   }
 
@@ -300,9 +302,14 @@ class _RequestTileState extends State<RequestTile> {
       await status.reference.update({
         'status': 'in progress'
       });
-      await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(widget.orderDoc).update({
-        'status': 'in progress'
-      });
+      await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(widget.orderDoc).get().then(
+              (value) async {
+            if (value.exists){
+              await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(widget.orderDoc).update({
+                'status': 'in progress'
+              });
+            }
+          });
     }
   }
 
@@ -313,10 +320,15 @@ class _RequestTileState extends State<RequestTile> {
        'status': 'delivered',
        'timeDelivered': Timestamp.now(),
      });
-     await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(widget.orderDoc).update({
-       'status': 'delivered',
-       'timeDelivered': Timestamp.now(),
-     });
+     await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(widget.orderDoc).get().then(
+             (value) async {
+           if (value.exists){
+             await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(widget.orderDoc).update({
+               'status': 'delivered',
+               'timeDelivered': Timestamp.now(),
+             });
+           }
+         });
    }
  }
 
