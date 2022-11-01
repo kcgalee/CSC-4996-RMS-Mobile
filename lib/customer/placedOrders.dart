@@ -25,6 +25,19 @@ class _PlacedOrders extends State<PlacedOrders> {
         ),
         body: Column(
           children: [
+            Align(
+              alignment: Alignment.topLeft,
+              child:
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.black87,
+                ),
+              ),
+            ),
             StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection('users')
@@ -58,22 +71,7 @@ class _PlacedOrders extends State<PlacedOrders> {
 
                     return Expanded(
 
-                    child: Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child:
-                          IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: const Icon(
-                              Icons.arrow_back,
-                              color: Colors.black87,
-                            ),
-                          ),
-                        ),
-                        StreamBuilder(
+                    child: StreamBuilder(
                             stream: FirebaseFirestore.instance
                                 .collection(
                                     'tables/${userSnapshot.data!['tableID']}/tableOrders')
@@ -99,8 +97,6 @@ class _PlacedOrders extends State<PlacedOrders> {
                                     });
                               }
                             }),
-                      ],
-                    ),
                   );
                   }
                   else{

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/customer/placedOrders.dart';
+import '../widgets/customMainButton.dart';
 import '../widgets/customSubButton.dart';
 import '../widgets/orderTile.dart';
 import 'Models/createOrderInfo.dart';
@@ -27,7 +28,7 @@ class _ViewOrder extends State<ViewOrder> {
    return Scaffold(
        appBar: AppBar(
          title: const Text('Order'),
-         backgroundColor: const Color(0xff76bcff),
+         backgroundColor: Colors.white,
          foregroundColor: Colors.black,
          elevation: 0,
        ),
@@ -113,7 +114,7 @@ class _ViewOrder extends State<ViewOrder> {
                                //PLACE ORDER BUTTON
                                //==================
 
-                               CustomSubButton(text: "PLACE ORDER",
+                               CustomMainButton(text: "PLACE ORDER",
                                    onPressed: () {
 
                                     //======================================
