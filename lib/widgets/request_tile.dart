@@ -42,9 +42,13 @@ class RequestTile extends StatefulWidget {
 class _RequestTileState extends State<RequestTile> {
   var newTime = "";
   //pColor for placed  iPColor for in progress button, dColor for delivered button
-  Color pColor = Color(0xffffebee);
-  Color iPColor = Color(0xfff9fbe7);
-  Color dColor = Color(0xffe8f5e9);
+  Color pColor = Colors.white;
+  Color iPColor = Colors.white;
+  Color dColor = Colors.white;
+
+  Color pTexColor = Colors.black;
+  Color ipTexColor = Colors.black;
+  Color dTexColor = Colors.black;
 
 
   @override
@@ -59,12 +63,15 @@ class _RequestTileState extends State<RequestTile> {
 
 
     if (widget.oStatus == "in progress"){
-      iPColor= Colors.orange.shade300;
+      iPColor= Colors.black;
+      ipTexColor = Colors.white;
     }
     else if (widget.oStatus =="placed"){
-      pColor = Colors.redAccent;
+      pColor = Colors.black;
+      pTexColor = Colors.white;
     } else {
-      dColor = Colors.redAccent;
+      dColor = Colors.black;
+      dTexColor = Colors.white;
     }
 
     convertTime(widget.time);
@@ -98,7 +105,7 @@ class _RequestTileState extends State<RequestTile> {
                             fontSize: 15,
                           ),
                           backgroundColor: pColor,
-                          foregroundColor: Colors.black54,
+                          foregroundColor: pTexColor,
                           side: const BorderSide(
                             color: Colors.black38,
                           ),
@@ -121,7 +128,7 @@ class _RequestTileState extends State<RequestTile> {
                             fontSize: 15,
                           ),
                           backgroundColor: iPColor,
-                          foregroundColor: Colors.black54,
+                          foregroundColor: ipTexColor,
                           side: const BorderSide(
                             color: Colors.black38,
                           ),
@@ -144,7 +151,7 @@ class _RequestTileState extends State<RequestTile> {
                             fontSize: 15,
                           ),
                           backgroundColor: dColor,
-                          foregroundColor: Colors.black54,
+                          foregroundColor: dTexColor,
                           side: const BorderSide(
                             color: Colors.black38,
                           ),
@@ -204,7 +211,7 @@ class _RequestTileState extends State<RequestTile> {
                                   fontSize: 15,
                                 ),
                                 backgroundColor: pColor,
-                                foregroundColor: Colors.black54,
+                                foregroundColor: pTexColor,
                                 side: const BorderSide(
                                   color: Colors.black38,
                                 ),
@@ -227,7 +234,7 @@ class _RequestTileState extends State<RequestTile> {
                                   fontSize: 15,
                                 ),
                                 backgroundColor: iPColor,
-                                foregroundColor: Colors.black54,
+                                foregroundColor: ipTexColor,
                                 side: const BorderSide(
                                   color: Colors.black38,
                                 ),
@@ -250,7 +257,7 @@ class _RequestTileState extends State<RequestTile> {
                                   fontSize: 15,
                                 ),
                                 backgroundColor: dColor,
-                                foregroundColor: Colors.black54,
+                                foregroundColor: dTexColor,
                                 side: const BorderSide(
                                   color: Colors.black38,
                                 ),
