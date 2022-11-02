@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:restaurant_management_system/manager/manageMenuItem.dart';
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
 import 'package:restaurant_management_system/widgets/customTextForm.dart';
@@ -34,6 +38,7 @@ class _AddItemState extends State<AddItem> {
   bool isHalal = false;
   bool isPescatarian = false;
   bool isLactoseFree = false;
+  File? image;
 
   @override
   void initState() {
@@ -41,6 +46,18 @@ class _AddItemState extends State<AddItem> {
     priceController.text = '0.00';
 
     super.initState();
+  }
+
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+
+      final imageTemp = File(image.path);
+      setState(() => this.image = imageTemp);
+    } on PlatformException catch (e){
+      print('Failed to pick image: $e');
+    }
   }
 
   @override
@@ -184,7 +201,18 @@ class _AddItemState extends State<AddItem> {
                   )
                 ],
               ),
+              SizedBox(height: 20,),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: image != null ? Image.file(
+                  image!,
+                  height: 160,width: 160,
+                  fit: BoxFit.cover,
+                ) : Icon(Icons.image,size: 160,),
+              ),
+              SizedBox(height: 20,),
 
+              CustomMainButton(text: 'Pick a image', onPressed: () => pickImage()),
 
               Padding(
                 padding: const EdgeInsets.only(top: 30,left: 25),
