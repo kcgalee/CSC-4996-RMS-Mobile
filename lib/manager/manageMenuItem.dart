@@ -50,6 +50,12 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
               Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectCategory(restaurantID: widget.restaurantID, rName: widget.rName)));
             }),
           ),
+          
+          Padding(
+            padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
+            child: Text(title,style: TextStyle(fontSize: 30),textAlign: TextAlign.center,),
+          ),
+
           Expanded(
             child: StreamBuilder(
                 stream: FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').where('category', isEqualTo: widget.category).snapshots(),

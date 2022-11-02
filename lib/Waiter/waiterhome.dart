@@ -51,7 +51,7 @@ class _WaiterHomeState extends State<WaiterHome> {
                     return Center(child: CircularProgressIndicator());
                   } else {
                     //greeting text constructed here
-                    greeting = 'Hello, ${waiterName}!\n${restName}\nManager: ${managerName}\nActive Requests: ${activeReqNum}';
+                    greeting = 'Restaurant: ${restName}\nManager: ${managerName}\nActive Requests: ${activeReqNum}';
                     return SingleChildScrollView(
                         child: Center(
                           child: Column(
@@ -85,8 +85,17 @@ class _WaiterHomeState extends State<WaiterHome> {
                                           },
                                         ),
                                         const SizedBox(height: 20,),
-                                        Text(greeting,
-                                          style: const TextStyle(fontSize: 30,color: Colors.white),),
+                                        Row(
+                                          children: [
+                                            Text('Hello, ${waiterName}!', style: const TextStyle(fontSize: 30,color: Colors.white),),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 20,),
+                                        Row(
+                                          children: [
+                                            Text(greeting , style: const TextStyle(fontSize: 20,color: Colors.white),),
+                                          ],
+                                        )
                                       ]
                                   )
                               ),
@@ -120,7 +129,7 @@ class _WaiterHomeState extends State<WaiterHome> {
                                 },
                               ),
                               CustomSubButton(
-                                text: 'ACTIVE REQUESTS',
+                                text: 'ACTIVE REQUESTS' ,
                                 onPressed: () {
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) => WaiterRequest(rName: restName, activity: 'active')));

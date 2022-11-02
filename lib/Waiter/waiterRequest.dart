@@ -30,6 +30,7 @@ class _WaiterRequestState extends State<WaiterRequest> {
           ),
           body: Column(
             children: [
+              const SizedBox(height: 20,),
               Text(widget.rName,
                 style: TextStyle(fontSize: 30,),),
               Expanded(
@@ -97,6 +98,7 @@ class _WaiterRequestState extends State<WaiterRequest> {
           ),
           body: Column(
             children: [
+              const SizedBox(height: 20,),
               Text(widget.rName,
                 style: TextStyle(fontSize: 30,),),
               Expanded(
