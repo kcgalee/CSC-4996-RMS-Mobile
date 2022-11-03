@@ -52,14 +52,18 @@ class _EditTable extends State<EditTable> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
         child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+
             children: [
               CustomBackButton(
                   onPressed: () {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'table')));
               }),
               Text(title,style: const TextStyle(fontSize: 20),),
-              const SizedBox(height: 20,),
-              CustomTextForm(
+
+              Padding(
+                padding: const EdgeInsets.only(bottom: 15),
+                child: CustomTextForm(
                   hintText: "Table number",
                   controller: tableNumberController,
                   keyboardType: TextInputType.number,
@@ -69,67 +73,77 @@ class _EditTable extends State<EditTable> {
                   tablenum != null && !numberPattern.hasMatch(tablenum)
                       ? 'number must be between 1 to 99 ' : null,
                   icon: const Icon(Icons.numbers, color: Colors.black)
-              ),
+              ),),
 
-              CustomTextForm(
-                  hintText: "Table Location",
-                  controller: tableLocationController,
-                  keyboardType: TextInputType.text,
-                  maxLines: 1,
-                  maxLength: 20,
-                  validator: (tableLoc) =>
-                  tableLoc != null && tableLoc.trim().length > 20
-                      ? 'Text must be between 1 to 20 characters' : null,
-                  icon: const Icon(Icons.location_on, color: Colors.black)
-              ),
-              CustomTextForm(
-                  hintText: "Table Capacity",
-                  controller: tableCapacityController,
-                  keyboardType: TextInputType.number,
-                  maxLines: 1,
-                  maxLength: 2,
-                  validator: (maxCapacity) =>
-                  maxCapacity != null && !numberPattern.hasMatch(maxCapacity)
-                      ? 'number must be between 1 to 99' : null,
+              Padding(
+                  padding: const EdgeInsets.only(bottom: 15),
+                  child: CustomTextForm(
+                    hintText: "Table Location",
+                    controller: tableLocationController,
+                    keyboardType: TextInputType.text,
+                    maxLines: 1,
+                    maxLength: 20,
+                    validator: (tableLoc) =>
+                    tableLoc != null && tableLoc.trim().length > 20
+                        ? 'Text must be between 1 to 20 characters' : null,
+                    icon: const Icon(Icons.location_on, color: Colors.black)
+              ),),
 
-                  icon: const Icon(Icons.people, color: Colors.black)
-              ),
-              CustomTextForm(
-                  hintText: "Table Type",
-                  controller: tableTypeController,
-                  keyboardType: TextInputType.text,
-                  maxLines: 1,
-                  maxLength: 20,
-                  validator: (tableType) =>
-                  tableType != null && tableType.trim().length > 20
-                      ? 'Text must be between 1 to 20 characters' : null,
-                  icon: Icon(Icons.table_bar, color: Colors.black)
-              ),
+              Padding(
+                  padding: const EdgeInsets.only(bottom: 15),
+                  child: CustomTextForm(
+                    hintText: "Table Capacity",
+                    controller: tableCapacityController,
+                    keyboardType: TextInputType.number,
+                    maxLines: 1,
+                    maxLength: 2,
+                    validator: (maxCapacity) =>
+                    maxCapacity != null && !numberPattern.hasMatch(maxCapacity)
+                        ? 'number must be between 1 to 99' : null,
 
-              CustomMainButton(
-                  text: "update",
-                  onPressed: () async {
-                    bool status = await checkTableNumber(int.parse(tableNumberController.text.trim()));
-                    if(status){
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('A table already exists with that number.'),
-                      ));
-                    } else if (tableNumberController == widget.tableNum &&
-                        tableCapacityController == widget.tableMaxCap &&
-                        tableLocationController == widget.tableLoc &&
-                        tableTypeController == widget.tableType){
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('Update failed, there is no information to change.'),
-                      ));
-                    } else {
-                      newTableData(int.parse(tableNumberController.text.trim()),
-                          int.parse(tableCapacityController.text.trim()),
-                          tableTypeController.text.trim(),
-                          tableLocationController.text.trim());
-                    }
-                  }
-              ),
-            ]),
+                    icon: const Icon(Icons.people, color: Colors.black)
+              ),),
+
+              Padding(
+                  padding: const EdgeInsets.only(bottom: 15),
+                  child: CustomTextForm(
+                    hintText: "Table Type",
+                    controller: tableTypeController,
+                    keyboardType: TextInputType.text,
+                    maxLines: 1,
+                    maxLength: 20,
+                    validator: (tableType) =>
+                    tableType != null && tableType.trim().length > 20
+                        ? 'Text must be between 1 to 20 characters' : null,
+                    icon: Icon(Icons.table_bar, color: Colors.black)
+                  ),),
+
+              Padding(
+                  padding: const EdgeInsets.only(bottom: 15),
+                  child: CustomMainButton(
+                      text: "update",
+                      onPressed: () async {
+                        bool status = await checkTableNumber(int.parse(tableNumberController.text.trim()));
+                        if(tableNumberController.text == widget.tableNum.toString() &&
+                            tableCapacityController.text == widget.tableMaxCap.toString() &&
+                            tableLocationController.text == widget.tableLoc &&
+                            tableTypeController.text == widget.tableType){
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            content: Text('Update failed, there is no information to change.'),
+                          ));
+                        } else if (status){
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            content: Text('A table already exists with that number.'),
+                          ));
+                        } else {
+                          newTableData(int.parse(tableNumberController.text.trim()),
+                              int.parse(tableCapacityController.text.trim()),
+                              tableTypeController.text.trim(),
+                              tableLocationController.text.trim());
+                        }
+                      }
+                  ),),
+                  ]),
       )
   );
 
