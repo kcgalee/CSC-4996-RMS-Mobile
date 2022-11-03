@@ -5,6 +5,7 @@ import 'package:restaurant_management_system/Waiter/allTables.dart';
 import 'package:restaurant_management_system/Waiter/qrScannerWaiter.dart';
 import 'package:restaurant_management_system/Waiter/waiterTables.dart';
 import 'package:restaurant_management_system/Waiter/waiterRequest.dart';
+import '../widgets/customMainButton.dart';
 import '../widgets/customSubButton.dart';
 import 'Utility/waiterNavigation.dart';
 
@@ -27,9 +28,9 @@ class _WaiterHomeState extends State<WaiterHome> {
       drawer: const WaiterNavigationDrawer(),
         appBar: AppBar(
           title: const Text("Waiter Home"),
-          backgroundColor: Colors.white,
+          backgroundColor: const Color(0xff7678ff),
           foregroundColor: Colors.black,
-          elevation: 1,
+          elevation: 0,
         ),
         body: FutureBuilder(
           future: getName(),
@@ -38,11 +39,41 @@ class _WaiterHomeState extends State<WaiterHome> {
             child: Center(
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(26),
-                    child: Text(greeting,
-                    style: const TextStyle(fontSize: 30,),),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    padding: const EdgeInsets.all(40),
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(20),
+                      ),
+                      color: Color(0xff7678ff),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey,
+                          offset: Offset(5.0, 5.0),
+                          blurRadius: 10.0,
+                          spreadRadius: 1.0,
+                        )
+                      ],
+                    ),
+                    child:
+                      Column(
+                        children: [
+                          CustomMainButton(
+                          text: 'SCAN QR CODE',
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => const QRScannerWaiter()));
+                          },
+                        ),
+                        const SizedBox(height: 20,),
+                        Text(greeting,
+                        style: const TextStyle(fontSize: 30,color: Colors.white),),
+                        ]
+                      )
                   ),
+
                   /*
                   CustomSubButton(
                     text: 'CLOCK IN',
@@ -53,6 +84,7 @@ class _WaiterHomeState extends State<WaiterHome> {
                     text: 'CLOCK OUT',
                     onPressed: () {  },
                   ),*/
+                  const SizedBox(height: 60,),
 
                   CustomSubButton(
                     text: 'ASSIGNED TABLES',
