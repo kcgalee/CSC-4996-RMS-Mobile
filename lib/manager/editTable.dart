@@ -107,7 +107,7 @@ class _EditTable extends State<EditTable> {
               ),
 
               CustomMainButton(
-                  text: "Add Table",
+                  text: "update",
                   onPressed: () async {
                     bool status = await checkTableNumber(int.parse(tableNumberController.text.trim()));
                     if(status){
