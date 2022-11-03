@@ -73,14 +73,22 @@ class _ManageTables extends State<ManageTables> {
                                     + '\n' + (snapshot.data?.docs[index]['currentCapacity'].toString() ?? '') + '/'
                                     + (snapshot.data?.docs[index]['maxCapacity'].toString() ?? ''),
                                 onPressedEdit:  (){
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) =>  EditTable(tableID: snapshot.data?.docs[index].id ?? '',
-                                          restName: widget.restName, restID: widget.restaurantID, tableNum: snapshot.data?.docs[index]['tableNum'] ?? '',
-                                          tableType: snapshot.data?.docs[index]['type'].toString() ?? '',
-                                          tableLoc: snapshot.data?.docs[index]['location'].toString() ?? '',
-                                          tableMaxCap: snapshot.data?.docs[index]['maxCapacity'])
-                                      )
-                                  );
+                                  if (snapshot.data?.docs[index]['currentCapacity'] != 0) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                              'Cannot edit a table while it is in use'),
+                                        ));
+                                  } else {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) =>  EditTable(tableID: snapshot.data?.docs[index].id ?? '',
+                                            restName: widget.restName, restID: widget.restaurantID, tableNumber: snapshot.data?.docs[index]['tableNum'] ?? '',
+                                            tableType: snapshot.data?.docs[index]['type'].toString() ?? '',
+                                            tableLoc: snapshot.data?.docs[index]['location'].toString() ?? '',
+                                            tableMaxCap: snapshot.data?.docs[index]['maxCapacity'])
+                                        )
+                                    );
+                                  }
                                 },
                                 onPressedDelete: () async {
                                   if (snapshot.data?.docs[index]['currentCapacity'] != 0){

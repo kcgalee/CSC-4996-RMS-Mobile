@@ -9,9 +9,9 @@ import 'Utility/selectRestaurant.dart';
 
 class EditTable extends StatefulWidget {
   final String tableID, restName, restID, tableType, tableLoc;
-  final int tableNum, tableMaxCap;
+  final int tableNumber, tableMaxCap;
   EditTable({Key? key, required this.tableID, required this.restName, required this.restID,
-    required this.tableNum, required this.tableType,
+    required this.tableNumber, required this.tableType,
     required this.tableLoc, required this.tableMaxCap, }) : super(key: key);
   @override
   State<EditTable> createState() => _EditTable();
@@ -29,10 +29,10 @@ class _EditTable extends State<EditTable> {
   String title = '';
   @override
   void initState() {
-    title = '${widget.restName}: Table ${widget.tableNum}';
+    title = '${widget.restName}: Table ${widget.tableNumber}';
 
   //set default text
-    tableNumberController.text = widget.tableNum.toString();
+    tableNumberController.text = widget.tableNumber.toString();
     tableCapacityController.text = widget.tableMaxCap.toString();
     tableTypeController.text = widget.tableType;
     tableLocationController.text = widget.tableLoc;
@@ -100,7 +100,6 @@ class _EditTable extends State<EditTable> {
                     validator: (maxCapacity) =>
                     maxCapacity != null && !numberPattern.hasMatch(maxCapacity)
                         ? 'number must be between 1 to 99' : null,
-
                     icon: const Icon(Icons.people, color: Colors.black)
               ),),
 
@@ -124,7 +123,7 @@ class _EditTable extends State<EditTable> {
                       text: "UPDATE",
                       onPressed: () async {
                         bool status = await checkTableNumber(int.parse(tableNumberController.text.trim()));
-                        if(tableNumberController.text == widget.tableNum.toString() &&
+                        if(tableNumberController.text == widget.tableNumber.toString() &&
                             tableCapacityController.text == widget.tableMaxCap.toString() &&
                             tableLocationController.text == widget.tableLoc &&
                             tableTypeController.text == widget.tableType){
@@ -149,25 +148,13 @@ class _EditTable extends State<EditTable> {
 
   void newTableData(int tableNum, int maxCapacity, String tableType, String location ) async {
     CollectionReference users = FirebaseFirestore.instance.collection('tables');
-    String tableId = users
-        .doc()
-        .id
-        .toString()
-        .trim();
-    users
-        .doc(tableId)
-        .set(
+    String tableId = users.doc(widget.tableID).id.toString().trim();
+    users.doc(tableId).update(
         {
           'tableNum': tableNum,
           'maxCapacity': maxCapacity,
-          'restID': widget.restID,
-          'restName' : widget.restName,
           'type': tableType,
-          'waiterID': '',
-          'waiterName' : '',
-          'currentCapacity': 0,
           'location' : location,
-          'billRequested' : false
         }
     );
 
