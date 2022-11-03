@@ -121,7 +121,7 @@ class _EditTable extends State<EditTable> {
               Padding(
                   padding: const EdgeInsets.only(bottom: 15),
                   child: CustomMainButton(
-                      text: "update",
+                      text: "UPDATE",
                       onPressed: () async {
                         bool status = await checkTableNumber(int.parse(tableNumberController.text.trim()));
                         if(tableNumberController.text == widget.tableNum.toString() &&

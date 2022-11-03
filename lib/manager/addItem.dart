@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -39,12 +40,13 @@ class _AddItemState extends State<AddItem> {
   bool isPescatarian = false;
   bool isLactoseFree = false;
   File? image;
+  String title = '';
 
   @override
   void initState() {
     //set default text
     priceController.text = '0.00';
-
+    title = '${widget.rName}: ${widget.category}s';
     super.initState();
   }
 
@@ -61,7 +63,9 @@ class _AddItemState extends State<AddItem> {
   }
 
   @override
+
   Widget build(BuildContext context)=> Scaffold (
+
       drawer: const ManagerNavigationDrawer(),
       appBar: AppBar(
         title: Text("Add Item"),
@@ -77,6 +81,11 @@ class _AddItemState extends State<AddItem> {
               CustomBackButton(onPressed: () {
                 Navigator.pop(context);
               }),
+
+            Padding(
+              padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
+              child: Text(title,style: TextStyle(fontSize: 30),textAlign: TextAlign.center,),
+            ),
 
             Padding(
                 padding: const EdgeInsets.only(bottom: 15),
@@ -221,7 +230,7 @@ class _AddItemState extends State<AddItem> {
               ),
               SizedBox(height: 20,),
 
-              CustomMainButton(text: 'Pick a image', onPressed: () => pickImage()),
+              CustomMainButton(text: 'SELECT IMAGE', onPressed: () => pickImage()),
 
               Padding(
                 padding: const EdgeInsets.only(top: 30,left: 25),
@@ -241,7 +250,7 @@ class _AddItemState extends State<AddItem> {
               ),
 
               CustomMainButton(
-                  text: "Add Item",
+                  text: 'ADD ITEM',
                   onPressed: () async {
                     bool status = await validate(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
                     if (status == true && flag == true){
@@ -267,7 +276,24 @@ class _AddItemState extends State<AddItem> {
 
   );
 
+  uploadIMG(var itemID) async {
+    final storage = FirebaseStorage.instance.ref();
+
+    final storageRef = FirebaseStorage.instance.ref().child("${widget.restaurantID}/$itemID.jpg");
+    String downloadURL = await storageRef.getDownloadURL();
+    // Create the file metadata
+    final metadata = SettableMetadata(contentType: "image/jpeg");
+
+    try {
+      await storageRef.putFile(image!);
+    } on FirebaseException catch (e) {
+      // ...
+      print(e);
+    }
+  }
+
   addItem(String itemName, String price, String itemDesc) async {
+
     if (!price.contains('.')){
       price += '.00';
     }
@@ -278,7 +304,8 @@ class _AddItemState extends State<AddItem> {
           .then(
               (value) => {
             value.docs.forEach((element) async {
-              await FirebaseFirestore.instance.collection('restaurants/${element.id}/menu').doc().set({
+             var doc = FirebaseFirestore.instance.collection('restaurants/${element.id}/menu').doc();
+             await doc.set({
                 'itemName': itemName,
                 'price': price,
                 'category': widget.category,
@@ -292,11 +319,29 @@ class _AddItemState extends State<AddItem> {
                 'isHalal': isHalal,
                 'isPescatarian': isPescatarian,
                 'isLactose': isLactoseFree,
+                'imgURL': '',
               });
+              if (image != null){
+                final storage = FirebaseStorage.instance.ref();
+
+                final storageRef = FirebaseStorage.instance.ref().child("${widget.restaurantID}/${doc.id}.jpg");
+                String downloadURL = await storageRef.getDownloadURL();
+
+                try {
+                  await storageRef.putFile(image!);
+                } on FirebaseException catch (e) {
+                  // ...
+                  print(e);
+                }
+                await FirebaseFirestore.instance.collection('restaurants/${element.id}/menu').doc(doc.id).update({
+                  'imgURL': downloadURL,
+                });
+              }
             })
           });
     } else {
-      await FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').doc().set({
+      var doc = FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').doc();
+      await doc.set({
         'itemName': itemName,
         'price': price,
         'category': widget.category,
@@ -310,7 +355,24 @@ class _AddItemState extends State<AddItem> {
         'isHalal': isHalal,
         'isPescatarian': isPescatarian,
         'isLactose': isLactoseFree,
+        'imgURL': '',
       });
+      if (image != null) {
+        final storageRef = FirebaseStorage.instance.ref().child(
+            "${widget.restaurantID}/${doc.id}.jpg");
+
+        try {
+          await storageRef.putFile(image!);
+          String downloadURL = await storageRef.getDownloadURL();
+          await FirebaseFirestore.instance.collection(
+              'restaurants/${widget.restaurantID}/menu').doc(doc.id).update({
+            'imgURL': downloadURL,
+          });
+        } on FirebaseException catch (e) {
+          // ...
+          print(e);
+        }
+      }
     }
   }
 
