@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/customer/customerHome.dart';
 import 'package:restaurant_management_system/customer/showMenuItems.dart';
+import 'package:restaurant_management_system/customer/submitReview.dart';
 import 'package:restaurant_management_system/customer/viewOrder.dart';
 import '../widgets/customSubButton.dart';
 import 'Models/createOrderInfo.dart';
@@ -78,22 +79,10 @@ class _Order extends State<Order> {
                 //ERROR HANDLING FOR CLOSED TABLE
                 //===============================
                 if(userSnapshot.data!['tableID'] == ''){
-                  return Column(
-                    children:  [
-                      const Text('Table Closed'),
-
-                      CustomSubButton(text: "Back to Home Page",
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      CustomerHome()));
-                        },
-                      ),
-
-                    ],
-
-                  );
+                  Navigator.push(context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                          const SubmitReview()));
                 }
 
                 if (userSnapshot.data!['tableID'] != '') {

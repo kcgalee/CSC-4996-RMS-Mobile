@@ -70,34 +70,45 @@ class _QRScannerState extends State<QRScanner> {
     String name = "";
     var currentCapacity = 0;
     var maxCapacity = 0;
+    var restID;
 
+
+    //get customers first name to add to tableMembers
     var uId = FirebaseAuth.instance.currentUser?.uid.toString();
     await FirebaseFirestore.instance.collection('users').doc(uId).get().then(
             (element) {
           name = element['fName'];
         });
 
+    //Get some table information and restaurant information to add to customer doc
     await FirebaseFirestore.instance.collection('tables').doc(tableID).get().then(
 
             (element) {
           currentCapacity = element['currentCapacity'];
           maxCapacity = element['maxCapacity'];
+          restID = element['restID'];
         });
 
-
-
-    FirebaseFirestore.instance.collection('users').doc(uId).update({
-      'tableID' : tableID
-    });
-
-
+    //Check to see if table capacity is met, if it is then don't add customer, if not
+    //then add customer to table and add info to customer doc
     if(currentCapacity < maxCapacity) {
       currentCapacity++;
+
+      print(restID);
+      //Add table id and restID to user information
+      FirebaseFirestore.instance.collection('users').doc(uId).update({
+        'tableID' : tableID,
+        'restID' : restID
+      });
+
+      //add customer ID and name to tableMembers doc
       FirebaseFirestore.instance.collection('tables/$tableID/tableMembers').add(
           {
             'userID': uId,
             'fName': name
           });
+
+      //update current capacity on table doc
       FirebaseFirestore.instance.collection('tables').doc(tableID).update(
           {
             'currentCapacity' : currentCapacity
@@ -106,7 +117,7 @@ class _QRScannerState extends State<QRScanner> {
     }
 
 
-    Navigator.push(context, MaterialPageRoute(builder: (context)=> new CustomerHome()));
+    Navigator.push(context, MaterialPageRoute(builder: (context)=> const CustomerHome()));
   }
 
 }
