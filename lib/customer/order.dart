@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_management_system/customer/placedOrders.dart';
+import 'package:restaurant_management_system/customer/customerHome.dart';
 import 'package:restaurant_management_system/customer/showMenuItems.dart';
 import 'package:restaurant_management_system/customer/viewOrder.dart';
-import '../widgets/customMainButton.dart';
+import '../widgets/customIconButton.dart';
 import '../widgets/customSubButton.dart';
 import 'Models/createOrderInfo.dart';
 import 'Utility/navigation.dart';
@@ -13,7 +13,8 @@ import 'Utility/navigation.dart';
 class Order extends StatefulWidget {
   String tableID, restName, restID;
   CreateOrderInfo createOrderInfo;
-  Order({Key? key, required this.tableID, required this.restName, required this.restID, required this.createOrderInfo}) :super(key: key);
+  Order({Key? key, required this.tableID, required this.restName,
+    required this.restID, required this.createOrderInfo}) :super(key: key);
 
   @override
   State<Order> createState() => _Order(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo);
@@ -30,7 +31,7 @@ class _Order extends State<Order> {
     return Scaffold(
         drawer: const NavigationDrawer(),
         appBar: AppBar(
-          title: Text('Menu'),
+          title: const Text('Menu'),
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
           elevation: 0,
@@ -42,7 +43,7 @@ class _Order extends State<Order> {
                 onPressed: (){
                   Navigator.push(context,
                       MaterialPageRoute(
-                          builder: (context) => ViewOrder(tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
+                          builder: (context) => ViewOrder(createOrderInfo: createOrderInfo)));
 
                 },
                 style: ElevatedButton.styleFrom(
@@ -60,99 +61,155 @@ class _Order extends State<Order> {
           ],
         ),
         body: Center(
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child:
+          //===============================
+          //Start of user doc stream builder
+          //=================================
+
+          child: StreamBuilder(
+            stream: FirebaseFirestore.instance.collection('users')
+              .doc(FirebaseAuth.instance.currentUser?.uid)
+              .snapshots(),
+                builder: (context, userSnapshot) {
+
+              //CHECK THAT SNAPSHOT HAS DATA
+              if(userSnapshot.hasData) {
+
+
+                //===============================
+                //ERROR HANDLING FOR CLOSED TABLE
+                //===============================
+                if(userSnapshot.data!['tableID'] == ''){
+                  return Column(
+                    children:  [
+                      const Text('Table Closed'),
+
+                      CustomSubButton(text: "Back to Home Page",
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      CustomerHome()));
+                        },
+                      ),
+
+                    ],
+
+                  );
+                }
+
+                if (userSnapshot.data!['tableID'] != '') {
+                  return Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child:
                         IconButton(
                           onPressed: () {
                             Navigator.pop(context);
                           },
                           icon: const Icon(
-                              Icons.arrow_back,
-                              color: Colors.black87,
+                            Icons.arrow_back,
+                            color: Colors.black87,
                           ),
                         ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 26.0),
-                      child: Text(restName,
-                        style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
-                    ),
-                    CustomSubButton(text: "APPETIZERS",
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 26.0),
+                        child: Text(restName,
+                          style: const TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.bold),),
+                      ),
+                      CustomIconButton(text: "APPETIZERS",
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(
-                                  builder: (context) => ShowMenuItems(text: 'appetizer', tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo,)));
-                        },
-                    ),
-                    CustomSubButton(text: "ENTREES",
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(
-                                builder: (context) => ShowMenuItems(text: 'entree', tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo,)));
-                      },
-                    ),
-                    CustomSubButton(text: "DESSERTS",
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(
-                                builder: (context) => ShowMenuItems(text: 'dessert', tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
-                      },
-                    ),
-                    CustomSubButton(text: "DRINKS",
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(
-                                builder: (context) => ShowMenuItems(text: 'drink', tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
-                      },
-                    ),
-                    CustomSubButton(text: "CONDIMENTS",
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(
-                                builder: (context) => ShowMenuItems(text: 'condiment', tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
-                      },
-                    ),
-                    CustomSubButton(text: "UTENSILS",
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(
-                                builder: (context) => ShowMenuItems(text: 'utensil', tableID: tableID, restName: restName, restID: restID, createOrderInfo: createOrderInfo)));
+                                  builder: (context) =>
+                                      ShowMenuItems(text: 'appetizer',
+                                        restName: restName,
+                                        priority: 3,
+                                        createOrderInfo: createOrderInfo,)));
+                        }, iconInput: Icons.kebab_dining,
+                      ),
+                      CustomIconButton(text: "ENTREES",
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ShowMenuItems(text: 'entree',
+                                        restName: restName,
+                                        priority: 3,
+                                        createOrderInfo: createOrderInfo,)));
+                        }, iconInput: Icons.lunch_dining,
+                      ),
+                      CustomIconButton(text: "DESSERTS",
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ShowMenuItems(text: 'dessert',
+                                          restName: restName,
+                                          priority: 3,
+                                          createOrderInfo: createOrderInfo)));
+                        }, iconInput: Icons.icecream,
+                      ),
+                      CustomIconButton(text: "DRINKS",
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ShowMenuItems(text: 'drink',
+                                          restName: restName,
+                                          priority: 2,
+                                          createOrderInfo: createOrderInfo)));
+                        }, iconInput: Icons.liquor,
+                      ),
+                      CustomIconButton(text: "CONDIMENTS",
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ShowMenuItems(text: 'condiment',
+                                          restName: restName,
+                                          priority: 1,
+                                          createOrderInfo: createOrderInfo)));
+                        }, iconInput: Icons.battery_6_bar,
+                      ),
+                      CustomIconButton(text: "UTENSILS",
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ShowMenuItems(text: 'utensil',
+                                          restName: restName,
+                                          priority: 1,
+                                          createOrderInfo: createOrderInfo)));
+                        }, iconInput: Icons.restaurant,
+                      ),
 
-                      },
-                    ),
-                    CustomMainButton(text: "REQUEST BILL",
-                      onPressed: () async {
-                      bool test = await checkBillRequested();
-                      if( test == true){
-                        print("this is true");
-                      }
-                      else{
-                        print('bill requested');
-                        createOrderInfo.billRequest('Request Bill', tableID);
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) =>
-                                PlacedOrders(tableID: tableID)));
-                        //REQUEST BILL FROM WAITER
-                      }
-                      },
-                    ),
-                  ], //Children
-                )
+
+                    ], //Children
+                  );
+                }
+
+
+                //===========================
+                //table closed error handling
+                //===========================
+
+              }
+
+
+                return const Text('no data to show');
+
+          } )
+              //======================
+              //End of user doc stream builder
+              //======================
     )
     );
   }
 
-  Future<bool> checkBillRequested() async {
-    bool texter = true;
-    await FirebaseFirestore.instance.collection('tables').doc(tableID).get().then(
-            (element) {
-           texter = element['billRequested'];
-        });
-    return texter;
-  }
+
 
 
 

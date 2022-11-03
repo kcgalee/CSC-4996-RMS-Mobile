@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import '../widgets/ordersPlacedTile.dart';
 import '../widgets/pastOrdersTile.dart';
 import 'Utility/navigation.dart';
 
@@ -60,7 +58,7 @@ class _PastOrdersState extends State<PastOrders> {
                               'Item: ' + (snapshot.data?.docs[index]['itemName'] ?? ''),
                               time: snapshot.data?.docs[index]['timePlaced'],
                               oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
-                              //restName: snapshot.data?.docs[index]['restName'],
+                              restID: snapshot.data?.docs[index]['restID'],
                             );
                           }
                       );

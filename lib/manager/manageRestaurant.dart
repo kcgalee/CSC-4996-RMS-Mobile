@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/Utility/managerTile.dart';
 import 'package:restaurant_management_system/manager/editRestaurant.dart';
 import 'package:restaurant_management_system/widgets/customBackButton.dart';
-
 import 'Utility/MangerNavigationDrawer.dart';
 import 'addRestaurant.dart';
 import 'managerHome.dart';
@@ -68,8 +67,8 @@ class _ManageRestaurant extends State<ManageRestaurant> {
                           itemBuilder: (context, index) {
                             return ManagerTile(
                                 taskName: snapshot.data?.docs[index]['restName'] ?? '',
-                                subTitle: snapshot.data?.docs[index]['address'] ?? '',
-                                onPressedEdit:  (){
+                                subTitle: (snapshot.data?.docs[index]['address'] ?? '') + '\n' + (snapshot.data?.docs[index]['city'] ?? '') + ', ' + snapshot.data?.docs[index]['state'] ?? '',
+                                onPressedEdit:() {
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) => EditRestaurant(restID: snapshot.data?.docs[index].reference.id ?? '', rName: snapshot.data?.docs[index]['restName'] ?? '',
                                           rAddress: snapshot.data?.docs[index]['address'] ?? '', rCity: snapshot.data?.docs[index]['city'] ?? '', rState: snapshot.data?.docs[index]['state'] ?? '',
@@ -100,6 +99,7 @@ class _ManageRestaurant extends State<ManageRestaurant> {
      var restaurant = await FirebaseFirestore.instance.collection('restaurants').doc(id).get();
      await restaurant.reference.update({
        'isActive': false,
+       'deletionDate': Timestamp.now(),
      });
   }
 }

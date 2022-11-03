@@ -1,21 +1,24 @@
-
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:restaurant_management_system/manager/manageMenuItem.dart';
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
 import 'package:restaurant_management_system/widgets/customTextForm.dart';
 import '../widgets/customBackButton.dart';
+import '../widgets/customCheckBox.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 
 class AddItem extends StatefulWidget {
   String restaurantID;
   String category;
+  final String rName;
 
-  AddItem({Key? key, required this.restaurantID, required this.category}) : super(key: key);
+  AddItem({Key? key, required this.restaurantID, required this.category, required this.rName}) : super(key: key);
   @override
   State<AddItem> createState() => _AddItemState();
 }
@@ -32,17 +35,37 @@ class _AddItemState extends State<AddItem> {
   bool isGlutenFree = false;
   bool isNuts = false;
   bool isAllRestaurants = false;
+  bool isKosher = false;
+  bool isHalal = false;
+  bool isPescatarian = false;
+  bool isLactoseFree = false;
+  File? image;
+  String title = '';
 
   @override
   void initState() {
     //set default text
     priceController.text = '0.00';
-
+    title = '${widget.rName}: ${widget.category}s';
     super.initState();
   }
 
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+
+      final imageTemp = File(image.path);
+      setState(() => this.image = imageTemp);
+    } on PlatformException catch (e){
+      print('Failed to pick image: $e');
+    }
+  }
+
   @override
+
   Widget build(BuildContext context)=> Scaffold (
+
       drawer: const ManagerNavigationDrawer(),
       appBar: AppBar(
         title: Text("Add Item"),
@@ -50,6 +73,7 @@ class _AddItemState extends State<AddItem> {
         foregroundColor: Colors.black,
         elevation: 1,
       ),
+
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
         child: Column(
@@ -57,7 +81,15 @@ class _AddItemState extends State<AddItem> {
               CustomBackButton(onPressed: () {
                 Navigator.pop(context);
               }),
-              CustomTextForm(
+
+            Padding(
+              padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
+              child: Text(title,style: TextStyle(fontSize: 30),textAlign: TextAlign.center,),
+            ),
+
+            Padding(
+                padding: const EdgeInsets.only(bottom: 15),
+                child: CustomTextForm(
                   hintText: "Item Name",
                   controller: itemNameController,
                   keyboardType: TextInputType.text,
@@ -67,9 +99,11 @@ class _AddItemState extends State<AddItem> {
                   maxLines: 1,
                   maxLength: 50,
                   icon: const Icon(Icons.fastfood, color: Colors.black)
-              ),
+                ),),
 
-              CustomTextForm(
+            Padding(
+                padding: const EdgeInsets.only(bottom: 15),
+                child: CustomTextForm(
                   hintText: "Price (ex: 5 or 10.99)",
                   controller: priceController,
                   keyboardType: TextInputType.number,
@@ -79,8 +113,11 @@ class _AddItemState extends State<AddItem> {
                   maxLines: 1,
                   maxLength: 10,
                   icon: const Icon(Icons.attach_money, color: Colors.black)
-              ),
-              CustomTextForm(
+              ),),
+
+            Padding(
+                padding: const EdgeInsets.only(bottom: 15),
+                child: CustomTextForm(
                   hintText: "Item Description",
                   controller: itemDescController,
                   keyboardType: TextInputType.text,
@@ -90,78 +127,130 @@ class _AddItemState extends State<AddItem> {
                   maxLines: 4,
                   maxLength: 150,
                   icon: const Icon(Icons.description, color: Colors.black)
+              ),),
+
+              Row(
+                children: [
+                  CustomCheckBox(
+                      title: 'Vegan',
+                      value: isVegan,
+                      onChanged: (value){
+                        setState(() {
+                          isVegan = value!;
+                        });
+                      },
+                  ),
+                  CustomCheckBox(
+                    title: 'Vegetarian',
+                    value: isVegetarian,
+                    onChanged: (value){
+                      setState(() {
+                        isVegetarian = value!;
+                      });
+                    },
+                  ),
+                ],
               ),
 
-              CheckboxListTile(
-                title: const Text('Vegan'),
-                controlAffinity: ListTileControlAffinity.leading,
-                value: isVegan,
-                onChanged: (value){
-                  setState(() {
-                    isVegan = value!;
-                  });
-                },
-                activeColor: Colors.black,
-                checkColor: Colors.white,
+              Row(
+                children: [
+                  CustomCheckBox(
+                    title: 'Gluten Free',
+                    value: isGlutenFree,
+                    onChanged: (value){
+                      setState(() {
+                        isGlutenFree = value!;
+                      });
+                    },
+                  ),
+                  CustomCheckBox(
+                    title: 'Nuts',
+                    value: isNuts,
+                    onChanged: (value){
+                      setState(() {
+                        isNuts = value!;
+                      });
+                    },
+                  ),
+                ],
               ),
 
-              CheckboxListTile(
-                title: const Text('Vegetarian'),
-                controlAffinity: ListTileControlAffinity.leading,
-                value: isVegetarian,
-                onChanged: (value){
-                  setState(() {
-                    isVegetarian = value!;
-                  });
-                },
-                activeColor: Colors.black,
-                checkColor: Colors.white,
+              Row(
+                children: [
+                  CustomCheckBox(
+                      title: 'Halal',
+                      value: isHalal,
+                      onChanged: (value){
+                        setState(() {
+                          isHalal = value!;
+                        });
+                      },
+                  ),
+                  CustomCheckBox(
+                      title: 'Kosher',
+                      value: isKosher,
+                      onChanged: (value){
+                        setState(() {
+                          isKosher = value!;
+                        });
+                      },
+                  )
+                ],
               ),
+              Row(
+                children: [
+                  CustomCheckBox(
+                    title: 'Lactose Free',
+                    value: isLactoseFree,
+                    onChanged: (value){
+                      setState(() {
+                        isLactoseFree = value!;
+                      });
+                    },
+                  ),
+                  CustomCheckBox(
+                    title: 'Pescatarian',
+                    value: isPescatarian,
+                    onChanged: (value){
+                      setState(() {
+                        isPescatarian   = value!;
+                      });
+                    },
+                  )
+                ],
+              ),
+              SizedBox(height: 20,),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: image != null ? Image.file(
+                  image!,
+                  height: 160,width: 160,
+                  fit: BoxFit.cover,
+                ) : Icon(Icons.image,size: 160,),
+              ),
+              SizedBox(height: 20,),
 
-              CheckboxListTile(
-                title: const Text('Gluten Free'),
-                controlAffinity: ListTileControlAffinity.leading,
-                value: isGlutenFree,
-                onChanged: (value){
-                  setState(() {
-                    isGlutenFree = value!;
-                  });
-                },
-                activeColor: Colors.black,
-                checkColor: Colors.white,
-              ),
+              CustomMainButton(text: 'SELECT IMAGE', onPressed: () => pickImage()),
 
               Padding(
-                padding: const EdgeInsets.only(bottom: 30),
-                child: CheckboxListTile(
-                  title: const Text('Nuts'),
-                  controlAffinity: ListTileControlAffinity.leading,
-                  value: isNuts,
-                  onChanged: (value){
-                    setState(() {
-                      isNuts = value!;
-                    });
-                  },
-                  activeColor: Colors.black,
-                  checkColor: Colors.white,
+                padding: const EdgeInsets.only(top: 30,left: 25),
+                child: Row(
+                  children: [
+                    CustomCheckBox(
+                      title: 'Add to All Restaurants',
+                      value: isAllRestaurants,
+                      onChanged: (value){
+                        setState(() {
+                          isAllRestaurants = value!;
+                        });
+                      },
+                    ),
+                  ],
                 ),
               ),
 
-              CheckboxListTile(
-                title: const Text('Add to All Restaurants'),
-                controlAffinity: ListTileControlAffinity.leading,
-                value: isAllRestaurants,
-                onChanged: (value){
-                  setState(() {
-                    isAllRestaurants = value!;
-                  });
-                },
-                activeColor: Colors.black,
-                checkColor: Colors.white,
-              ),
-
               CustomMainButton(
-                  text: "Add Item",
+                  text: 'ADD ITEM',
                   onPressed: () async {
                     bool status = await validate(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
                     if (status == true && flag == true){
@@ -175,7 +264,7 @@ class _AddItemState extends State<AddItem> {
                     } else {
                       addItem(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => ManageMenuItem(restaurantID: widget.restaurantID, category: widget.category)
+                          MaterialPageRoute(builder: (context) => ManageMenuItem(restaurantID: widget.restaurantID, category: widget.category, rName: widget.rName)
                           )
                       );
                     }
@@ -187,7 +276,24 @@ class _AddItemState extends State<AddItem> {
 
   );
 
+  uploadIMG(var itemID) async {
+    final storage = FirebaseStorage.instance.ref();
+
+    final storageRef = FirebaseStorage.instance.ref().child("${widget.restaurantID}/$itemID.jpg");
+    String downloadURL = await storageRef.getDownloadURL();
+    // Create the file metadata
+    final metadata = SettableMetadata(contentType: "image/jpeg");
+
+    try {
+      await storageRef.putFile(image!);
+    } on FirebaseException catch (e) {
+      // ...
+      print(e);
+    }
+  }
+
   addItem(String itemName, String price, String itemDesc) async {
+
     if (!price.contains('.')){
       price += '.00';
     }
@@ -198,7 +304,8 @@ class _AddItemState extends State<AddItem> {
           .then(
               (value) => {
             value.docs.forEach((element) async {
-              await FirebaseFirestore.instance.collection('restaurants/${element.id}/menu').doc().set({
+             var doc = FirebaseFirestore.instance.collection('restaurants/${element.id}/menu').doc();
+             await doc.set({
                 'itemName': itemName,
                 'price': price,
                 'category': widget.category,
@@ -207,12 +314,34 @@ class _AddItemState extends State<AddItem> {
                 'isVegan': isVegan,
                 'isVegetarian': isVegetarian,
                 'isGlutenFree': isGlutenFree,
-                'isNuts': isNuts
+                'isNuts': isNuts,
+                'isKosher': isKosher,
+                'isHalal': isHalal,
+                'isPescatarian': isPescatarian,
+                'isLactose': isLactoseFree,
+                'imgURL': '',
               });
+              if (image != null){
+                final storage = FirebaseStorage.instance.ref();
+
+                final storageRef = FirebaseStorage.instance.ref().child("${widget.restaurantID}/${doc.id}.jpg");
+                String downloadURL = await storageRef.getDownloadURL();
+
+                try {
+                  await storageRef.putFile(image!);
+                } on FirebaseException catch (e) {
+                  // ...
+                  print(e);
+                }
+                await FirebaseFirestore.instance.collection('restaurants/${element.id}/menu').doc(doc.id).update({
+                  'imgURL': downloadURL,
+                });
+              }
             })
           });
     } else {
-      await FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').doc().set({
+      var doc = FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').doc();
+      await doc.set({
         'itemName': itemName,
         'price': price,
         'category': widget.category,
@@ -221,8 +350,29 @@ class _AddItemState extends State<AddItem> {
         'isVegan': isVegan,
         'isVegetarian': isVegetarian,
         'isGlutenFree': isGlutenFree,
-        'isNuts': isNuts
+        'isNuts': isNuts,
+        'isKosher': isKosher,
+        'isHalal': isHalal,
+        'isPescatarian': isPescatarian,
+        'isLactose': isLactoseFree,
+        'imgURL': '',
       });
+      if (image != null) {
+        final storageRef = FirebaseStorage.instance.ref().child(
+            "${widget.restaurantID}/${doc.id}.jpg");
+
+        try {
+          await storageRef.putFile(image!);
+          String downloadURL = await storageRef.getDownloadURL();
+          await FirebaseFirestore.instance.collection(
+              'restaurants/${widget.restaurantID}/menu').doc(doc.id).update({
+            'imgURL': downloadURL,
+          });
+        } on FirebaseException catch (e) {
+          // ...
+          print(e);
+        }
+      }
     }
   }
 
@@ -262,7 +412,6 @@ class _AddItemState extends State<AddItem> {
     if (itemName == "" || itemName.length > 50 || price == ""){
       error = true;
     } else if ((price != "" && !pricePattern.hasMatch(price))) {
-      print('yo');
       error = true;
     } else if (itemDesc.length > 150){
       error = true;

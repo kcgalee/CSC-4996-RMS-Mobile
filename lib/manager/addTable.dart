@@ -1,18 +1,15 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
 import 'package:restaurant_management_system/widgets/customTextForm.dart';
-
 import '../widgets/customBackButton.dart';
 import 'GenerateQRCode.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 import 'Utility/selectRestaurant.dart';
 
 class AddTable extends StatefulWidget {
-  final String text;
-  AddTable({Key? key, required this.text}) : super(key: key);
+  final String text, restName;
+  AddTable({Key? key, required this.text, required this.restName}) : super(key: key);
   @override
   State<AddTable> createState() => _AddTable(text: text);
 }
@@ -44,19 +41,26 @@ class _AddTable extends State<AddTable> {
           CustomBackButton(onPressed: () {
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'table')));
           }),
-          CustomTextForm(
-            hintText: "Table number",
-            controller: tableNumberController,
-            keyboardType: TextInputType.number,
-            maxLines: 1,
-            maxLength: 10,
-            validator: (tablenum) =>
-            tablenum != null && !numberPattern.hasMatch(tablenum)
-                ? 'number must be between 1 to 9999999999 ' : null,
-            icon: const Icon(Icons.numbers, color: Colors.black)
-        ),
+          Text(widget.restName,style: const TextStyle(fontSize: 20),),
+          const SizedBox(height: 20,),
 
-          CustomTextForm(
+        Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: CustomTextForm(
+              hintText: "Table number",
+              controller: tableNumberController,
+              keyboardType: TextInputType.number,
+              maxLines: 1,
+              maxLength: 2,
+              validator: (tablenum) =>
+              tablenum != null && !numberPattern.hasMatch(tablenum)
+                  ? 'number must be between 1 to 99 ' : null,
+              icon: const Icon(Icons.numbers, color: Colors.black)
+        ),),
+
+        Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: CustomTextForm(
               hintText: "Table Location",
               controller: tableLocationController,
               keyboardType: TextInputType.text,
@@ -66,20 +70,26 @@ class _AddTable extends State<AddTable> {
               tableLoc != null && tableLoc.trim().length > 20
                   ? 'Text must be between 1 to 20 characters' : null,
               icon: const Icon(Icons.location_on, color: Colors.black)
-          ),
-          CustomTextForm(
+          ),),
+
+      Padding(
+          padding: const EdgeInsets.only(bottom: 15),
+          child: CustomTextForm(
               hintText: "Table Capacity",
               controller: tableCapacityController,
               keyboardType: TextInputType.number,
               maxLines: 1,
-              maxLength: 3,
+              maxLength: 2,
               validator: (maxCapacity) =>
               maxCapacity != null && !numberPattern.hasMatch(maxCapacity)
-                  ? 'number must be between 1 to 999' : null,
+                  ? 'number must be between 1 to 99' : null,
 
               icon: const Icon(Icons.people, color: Colors.black)
-          ),
-          CustomTextForm(
+          ),),
+
+      Padding(
+          padding: const EdgeInsets.only(bottom: 15),
+          child: CustomTextForm(
               hintText: "Table Type",
               controller: tableTypeController,
               keyboardType: TextInputType.text,
@@ -89,30 +99,32 @@ class _AddTable extends State<AddTable> {
               tableType != null && tableType.trim().length > 20
                   ? 'Text must be between 1 to 20 characters' : null,
               icon: Icon(Icons.table_bar, color: Colors.black)
-          ),
+          ),),
 
-          CustomMainButton(
+      Padding(
+          padding: const EdgeInsets.only(bottom: 15),
+          child: CustomMainButton(
             text: "Add Table",
-            onPressed: () async =>
-            {
-              if(await checkTableNumber(tableNumberController.text.trim())){
+            onPressed: () async {
+              bool status = await checkTableNumber(int.parse(tableNumberController.text.trim()));
+              if(!status){
                 newTableData(int.parse(tableNumberController.text.trim()),
                     int.parse(tableCapacityController.text.trim()),
                     tableTypeController.text.trim(),
-                    tableLocationController.text.trim()),
+                    tableLocationController.text.trim());
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text('A table already exists with that number.'),
+                ));
               }
-              else {
-                print("table number in use.")
-              }
-
             }
-            )
-
+            ),),
         ]),
       )
+  );
 
 
-              );
+
 
   void newTableData(int tableNum, int maxCapacity, String tableType, String location ) async {
     CollectionReference users = FirebaseFirestore.instance.collection('tables');
@@ -128,6 +140,7 @@ class _AddTable extends State<AddTable> {
           'tableNum': tableNum,
           'maxCapacity': maxCapacity,
           'restID': text,
+          'restName' : widget.restName,
           'type': tableType,
           'waiterID': '',
           'waiterName' : '',
@@ -141,12 +154,17 @@ class _AddTable extends State<AddTable> {
     push(MaterialPageRoute(builder:(context)=>GenerateQRCode(tableId, tableNum.toString())));
   }
 
-  Future<bool> checkTableNumber(String tableNumber) async {
-    return true;
+  checkTableNumber(int tableNumber) async {
+    bool flag = false;
+    await FirebaseFirestore.instance.collection('tables').where('restID', isEqualTo: text).get().then(
+            (value) {
+              value.docs.forEach((element) {
+                if (element['tableNum'] == tableNumber) {
+                  flag = true;
+                }
+              });
+            });
+    return flag;
    }
-
-
-
-
 }
 

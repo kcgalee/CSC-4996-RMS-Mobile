@@ -4,13 +4,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/manageEmployee.dart';
+import 'package:restaurant_management_system/widgets/customMainButton.dart';
+import 'package:restaurant_management_system/widgets/customTextForm.dart';
 import '../widgets/customBackButton.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 import 'Utility/selectRestaurant.dart';
 
 class AddEmployee extends StatefulWidget {
   final String text;
-  AddEmployee({Key? key, required this.text}) : super(key: key);
+  final String rName;
+  AddEmployee({Key? key, required this.text, required this.rName}) : super(key: key);
 
   @override
   State<AddEmployee> createState() => _AddEmployee(restID: text);
@@ -29,6 +32,8 @@ class _AddEmployee extends State<AddEmployee> {
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final preferredNameController = TextEditingController();
+  final phonePattern = RegExp(r'^(1-)?\d{3}-\d{3}-\d{4}$');
+
   @override
   Widget build(BuildContext context)=> Scaffold (
     drawer: const ManagerNavigationDrawer(),
@@ -50,149 +55,101 @@ class _AddEmployee extends State<AddEmployee> {
                 )
             );
           }),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 15),
-            child: TextFormField(
+          Text(widget.rName,style: const TextStyle(fontSize: 20),),
+          const SizedBox(height: 20,),
+
+          CustomTextForm(
+              hintText: "First Name",
               controller: firstNameController,
+              validator: (fName) =>
+              fName != null && fName.trim().length > 20
+                  ? 'Name must be between 1 to 20 characters' : null,
               keyboardType: TextInputType.name,
-              decoration: const InputDecoration(
-                hintText: "First Name",
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 2),
-                  ),
-                  border: OutlineInputBorder()
-              ),
-            ),
+              maxLines: 1,
+              maxLength: 20,
+              icon: const Icon(Icons.person)
           ),
 
-          Padding(
-            padding: const EdgeInsets.only(bottom: 15),
-            child: TextFormField(
+          CustomTextForm(
+              hintText: "Last Name",
               controller: lastNameController,
+              validator: (lName) =>
+              lName != null && lName.trim().length > 20
+                  ? 'Name must be between 1 to 20 characters' : null,
               keyboardType: TextInputType.name,
-              decoration: const InputDecoration(
-                hintText: "Last Name",
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 2),
-                  ),
-                  border: OutlineInputBorder()
-              ),
-            ),
+              maxLines: 1,
+              maxLength: 20,
+              icon: const Icon(Icons.person)
           ),
 
-          Padding(
-            padding: const EdgeInsets.only(bottom: 15),
-            child: TextFormField(
+          CustomTextForm(
+              hintText: "Preferred Name",
               controller: preferredNameController,
+              validator: (pName) =>
+              pName != null && pName.trim().length > 20
+                  ? 'Name must be between 1 to 20 characters' : null,
               keyboardType: TextInputType.name,
-              decoration: const InputDecoration(
-                hintText: "Preferred Name",
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 2),
-                  ),
-                  border: OutlineInputBorder()
-              ),
-            ),
+              maxLines: 1,
+              maxLength: 20,
+              icon: const Icon(Icons.person)
           ),
 
-          Padding(
-            padding: const EdgeInsets.only(bottom: 15),
-            child: TextFormField(
+          CustomTextForm(
+              hintText: "Email",
               controller: emailController,
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                hintText: "Email",
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 2),
-                  ),
-                  border: OutlineInputBorder()
-              ),
-              autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (email) =>
               email != null && !EmailValidator.validate(email)
                   ? 'Enter valid email' : null,
-            ),
+              keyboardType: TextInputType.emailAddress,
+              maxLines: 1,
+              maxLength: 40,
+              icon: const Icon(Icons.email)
           ),
 
-          Padding(
-            padding: const EdgeInsets.only(bottom: 15),
-            child: TextFormField(
+          CustomTextForm(
+              hintText: "Phone Number",
               controller: phoneController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                  hintText: "Phone Number",
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 2),
-                  ),
-                  border: OutlineInputBorder()
-              ),
-            ),
+              validator: (number) =>
+              number != null && !phonePattern.hasMatch(number)
+                  ? 'Enter valid phone number (ex: 222-333-6776)' : null,
+              keyboardType: TextInputType.phone,
+              maxLines: 1,
+              maxLength: 12,
+              icon: const Icon(Icons.phone)
           ),
 
-          Padding(
-            padding: const EdgeInsets.only(bottom: 15),
-            child: TextFormField(
+          CustomTextForm(
+              hintText: "Password",
               controller: pwController,
-              keyboardType: TextInputType.name,
-              decoration: const InputDecoration(
-                hintText: "Password",
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 2),
-                  ),
-                  border: OutlineInputBorder()
-              ),
-              autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (value) =>
               value != null && value.length < 6
                   ? 'Password must be at least 6 characters' : null,
-            ),
+              keyboardType: TextInputType.text,
+              maxLines: 1,
+              maxLength: 40,
+              icon: const Icon(Icons.password)
           ),
 
-          Padding(
-            padding: const EdgeInsets.only(bottom: 26),
-            child: TextFormField(
+          CustomTextForm(
+              hintText:  "Confirm password",
               controller: confirmPwController,
-              keyboardType: TextInputType.name,
-              decoration:  const InputDecoration(
-                hintText: "Confirm password",
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 2),
-                  ),
-                  border: OutlineInputBorder()
-
-              ),
-              autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (value) =>
               value != pwController.text.trim()
                   ? 'Passwords must match' : null,
-            ),
+              keyboardType: TextInputType.text,
+              maxLines: 1,
+              maxLength: 40,
+              icon: const Icon(Icons.password)
           ),
 
-
-
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  fixedSize: const Size(330, 56),
-                  textStyle: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                  backgroundColor: Colors.black,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                ),
-                child: const Text("Add"),
+          CustomMainButton(
+              text: "Add",
               onPressed: () async {
-                 await registrationChecker(emailController.text.trim(), pwController.text.trim(),
-                      firstNameController.text.trim(), lastNameController.text.trim(),
-                      preferredNameController.text.trim(), managerID, phoneController.text.trim());
+                await registrationChecker(emailController.text.trim(), pwController.text.trim(),
+                    firstNameController.text.trim(), lastNameController.text.trim(),
+                    preferredNameController.text.trim(), managerID, phoneController.text.trim());
 
               }
-
-            ),
           )
         ], //Children
       ),

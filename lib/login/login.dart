@@ -63,10 +63,7 @@ class LoginState extends State<Login> {
                     decoration: const InputDecoration(
                       hintText: "Password",
                       prefixIcon: Icon(Icons.lock, color: Colors.black),
-                    ),
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (value) => value != null && value.length < 6
-                        ? 'Password must be at least 6 characters' : null,
+                    )
                 ),
                 Align(
                   alignment: Alignment.topRight,
@@ -145,13 +142,13 @@ class LoginState extends State<Login> {
       if (e.code == 'user-not-found') {
         //display user not found widget here
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Account does not exist with that Email!'),
+          content: Text('Account does not exist!'),
         ));
         return ('user not found');
       } else if (e.code == 'wrong-password') {
         //display invalid/incorrect password widget here
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Incorrect password, please try again.'),
+          content: Text('Either the password or email is incorrect, please try again.'),
         ));
         return ('wrong pw');
       }
@@ -190,3 +187,4 @@ class LoginState extends State<Login> {
     }
   }
 }
+

@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-
-import '../customer/Models/restaurantInfo.dart';
 import 'customerHome.dart';
 
 class QRScanner extends StatefulWidget {
@@ -68,8 +66,7 @@ class _QRScannerState extends State<QRScanner> {
   }
 
   void setTable (String tableID) async {
-    RestaurantInfo restaurantInfo= RestaurantInfo();
-    restaurantInfo.setter(tableID);
+
     String name = "";
     var currentCapacity = 0;
     var maxCapacity = 0;
@@ -86,6 +83,7 @@ class _QRScannerState extends State<QRScanner> {
           currentCapacity = element['currentCapacity'];
           maxCapacity = element['maxCapacity'];
         });
+
 
 
     FirebaseFirestore.instance.collection('users').doc(uId).update({
@@ -106,9 +104,7 @@ class _QRScannerState extends State<QRScanner> {
           });
 
     }
-    else {
-      print("too many customers");
-    }
+
 
     Navigator.push(context, MaterialPageRoute(builder: (context)=> new CustomerHome()));
   }
