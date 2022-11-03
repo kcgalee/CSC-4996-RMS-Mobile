@@ -65,10 +65,16 @@ class _RequestTileState extends State<RequestTile> {
     if (widget.oStatus == "in progress"){
       iPColor= Colors.black;
       ipTexColor = Colors.white;
+      pColor = Colors.white;
+      pTexColor = Colors.black;
+
     }
     else if (widget.oStatus =="placed"){
       pColor = Colors.black;
       pTexColor = Colors.white;
+      ipTexColor = Colors.black;
+      iPColor = Colors.white;
+
     } else {
       dColor = Colors.black;
       dTexColor = Colors.white;
