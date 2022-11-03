@@ -69,6 +69,7 @@ class _AddItemState extends State<AddItem> {
         foregroundColor: Colors.black,
         elevation: 1,
       ),
+
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
         child: Column(
@@ -76,7 +77,10 @@ class _AddItemState extends State<AddItem> {
               CustomBackButton(onPressed: () {
                 Navigator.pop(context);
               }),
-              CustomTextForm(
+
+            Padding(
+                padding: const EdgeInsets.only(bottom: 15),
+                child: CustomTextForm(
                   hintText: "Item Name",
                   controller: itemNameController,
                   keyboardType: TextInputType.text,
@@ -86,9 +90,11 @@ class _AddItemState extends State<AddItem> {
                   maxLines: 1,
                   maxLength: 50,
                   icon: const Icon(Icons.fastfood, color: Colors.black)
-              ),
+                ),),
 
-              CustomTextForm(
+            Padding(
+                padding: const EdgeInsets.only(bottom: 15),
+                child: CustomTextForm(
                   hintText: "Price (ex: 5 or 10.99)",
                   controller: priceController,
                   keyboardType: TextInputType.number,
@@ -98,8 +104,11 @@ class _AddItemState extends State<AddItem> {
                   maxLines: 1,
                   maxLength: 10,
                   icon: const Icon(Icons.attach_money, color: Colors.black)
-              ),
-              CustomTextForm(
+              ),),
+
+            Padding(
+                padding: const EdgeInsets.only(bottom: 15),
+                child: CustomTextForm(
                   hintText: "Item Description",
                   controller: itemDescController,
                   keyboardType: TextInputType.text,
@@ -109,7 +118,7 @@ class _AddItemState extends State<AddItem> {
                   maxLines: 4,
                   maxLength: 150,
                   icon: const Icon(Icons.description, color: Colors.black)
-              ),
+              ),),
 
               Row(
                 children: [
@@ -278,7 +287,11 @@ class _AddItemState extends State<AddItem> {
                 'isVegan': isVegan,
                 'isVegetarian': isVegetarian,
                 'isGlutenFree': isGlutenFree,
-                'isNuts': isNuts
+                'isNuts': isNuts,
+                'isKosher': isKosher,
+                'isHalal': isHalal,
+                'isPescatarian': isPescatarian,
+                'isLactose': isLactoseFree,
               });
             })
           });
@@ -292,7 +305,11 @@ class _AddItemState extends State<AddItem> {
         'isVegan': isVegan,
         'isVegetarian': isVegetarian,
         'isGlutenFree': isGlutenFree,
-        'isNuts': isNuts
+        'isNuts': isNuts,
+        'isKosher': isKosher,
+        'isHalal': isHalal,
+        'isPescatarian': isPescatarian,
+        'isLactose': isLactoseFree,
       });
     }
   }

@@ -20,7 +20,7 @@ class ManageMenuItem extends StatefulWidget {
 class _ManageMenuItemState extends State<ManageMenuItem> {
   @override
   Widget build(BuildContext context) {
-    String title = '${widget.rName}: ${widget.category}';
+    String title = '${widget.rName}: ${widget.category}s';
     return Scaffold(
       drawer: const ManagerNavigationDrawer(),
       appBar: AppBar(
@@ -89,6 +89,34 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                                 dietaryText += "\nNuts";
                               } else {
                                 dietaryText += " Nuts";
+                              }
+                            }
+                            if (snapshot.data?.docs[index]['isKosher'] == true){
+                              if (dietaryText == ""){
+                                dietaryText += "\nKosher";
+                              } else {
+                                dietaryText += " Kosher";
+                              }
+                            }
+                            if (snapshot.data?.docs[index]['isHalal'] == true){
+                              if (dietaryText == ""){
+                                dietaryText += "\nHalal";
+                              } else {
+                                dietaryText += " Halal";
+                              }
+                            }
+                            if (snapshot.data?.docs[index]['isPescatarian'] == true){
+                              if (dietaryText == ""){
+                                dietaryText += "\nPescatarian";
+                              } else {
+                                dietaryText += " Pescatarian";
+                              }
+                            }
+                            if (snapshot.data?.docs[index]['isLactose'] == true){
+                              if (dietaryText == ""){
+                                dietaryText += "\nLactose Free";
+                              } else {
+                                dietaryText += " Lactose Free";
                               }
                             }
                             if (snapshot.data?.docs[index]['isGlutenFree'] == true){
