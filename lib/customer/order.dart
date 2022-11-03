@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/customer/customerHome.dart';
 import 'package:restaurant_management_system/customer/showMenuItems.dart';
 import 'package:restaurant_management_system/customer/viewOrder.dart';
+import '../widgets/customIconButton.dart';
 import '../widgets/customSubButton.dart';
 import 'Models/createOrderInfo.dart';
 import 'Utility/navigation.dart';
@@ -118,7 +119,7 @@ class _Order extends State<Order> {
                           style: const TextStyle(
                               fontSize: 25, fontWeight: FontWeight.bold),),
                       ),
-                      CustomSubButton(text: "APPETIZERS",
+                      CustomIconButton(text: "APPETIZERS",
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(
@@ -127,9 +128,9 @@ class _Order extends State<Order> {
                                         restName: restName,
                                         priority: 3,
                                         createOrderInfo: createOrderInfo,)));
-                        },
+                        }, iconInput: Icons.kebab_dining,
                       ),
-                      CustomSubButton(text: "ENTREES",
+                      CustomIconButton(text: "ENTREES",
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(
@@ -138,9 +139,9 @@ class _Order extends State<Order> {
                                         restName: restName,
                                         priority: 3,
                                         createOrderInfo: createOrderInfo,)));
-                        },
+                        }, iconInput: Icons.lunch_dining,
                       ),
-                      CustomSubButton(text: "DESSERTS",
+                      CustomIconButton(text: "DESSERTS",
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(
@@ -149,9 +150,9 @@ class _Order extends State<Order> {
                                           restName: restName,
                                           priority: 3,
                                           createOrderInfo: createOrderInfo)));
-                        },
+                        }, iconInput: Icons.icecream,
                       ),
-                      CustomSubButton(text: "DRINKS",
+                      CustomIconButton(text: "DRINKS",
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(
@@ -160,9 +161,9 @@ class _Order extends State<Order> {
                                           restName: restName,
                                           priority: 2,
                                           createOrderInfo: createOrderInfo)));
-                        },
+                        }, iconInput: Icons.liquor,
                       ),
-                      CustomSubButton(text: "CONDIMENTS",
+                      CustomIconButton(text: "CONDIMENTS",
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(
@@ -171,9 +172,9 @@ class _Order extends State<Order> {
                                           restName: restName,
                                           priority: 1,
                                           createOrderInfo: createOrderInfo)));
-                        },
+                        }, iconInput: Icons.battery_6_bar,
                       ),
-                      CustomSubButton(text: "UTENSILS",
+                      CustomIconButton(text: "UTENSILS",
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(
@@ -182,7 +183,7 @@ class _Order extends State<Order> {
                                           restName: restName,
                                           priority: 1,
                                           createOrderInfo: createOrderInfo)));
-                        },
+                        }, iconInput: Icons.restaurant,
                       ),
 
 

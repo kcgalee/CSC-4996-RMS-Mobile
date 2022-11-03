@@ -107,12 +107,20 @@ class _CustomerHomeState extends State<CustomerHome> {
                           Center(
                               child: Column(
                             children: [
-                              const Text("PAST ORDERS",
-                              style: TextStyle(
-                                fontSize: 22,
-                                color: Colors.blue,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              Row(
+                                children: const [
+                                  Padding(
+                                      padding: EdgeInsets.only(left: 20),
+                                    child:
+                                      Text("PAST ORDERS",
+                                        style: TextStyle(
+                                          fontSize: 22,
+                                          color: Colors.black54,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                  )
+                                ],
                               ),
                               StreamBuilder(
                                   stream: FirebaseFirestore.instance.collection('orders')

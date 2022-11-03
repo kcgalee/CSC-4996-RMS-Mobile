@@ -5,12 +5,14 @@ import 'package:intl/intl.dart';
 class PastOrdersTile extends StatelessWidget {
   late final String taskName;
   var time;
+
   //final bool taskCompleted;
   // Function(bool?)? onChanged;
   //Function(BuildContext)? deleteFunction;
 
   var newTime = "";
   final String oStatus;
+
   //final String restName;
 
   //pColor for placed  iPColor for in progress button, dColor for delivered button
@@ -20,8 +22,6 @@ class PastOrdersTile extends StatelessWidget {
 
   var restID;
   var restName;
-
-
 
   PastOrdersTile({
     super.key,
@@ -43,28 +43,53 @@ class PastOrdersTile extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15, top: 25),
                 child: Container(
-                  padding: const EdgeInsets.only(
-                      right: 15, left: 10, bottom: 10, top: 10),
-                  decoration: BoxDecoration(color: Colors.grey[100],
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.black54)
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(12),
                   ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      //task name and time
-                      Text("$restName \n $taskName \n $newTime",
-                          style: const TextStyle(color: Colors.black54,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold)),
-
-
-                    ],
-                  ),
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              height: 100.0,
+                              width: 100.0,
+                              decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(12.0),
+                                    bottomLeft: Radius.circular(12.0)),
+                              ),
+                              child: Image.asset('assets/images/pizza.jpg'),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("$restName",
+                                    style: const TextStyle(
+                                      color: Colors.black38,
+                                      fontSize: 15,)
+                                ),
+                                Text("\n$taskName",
+                                    style: const TextStyle(
+                                        color: Colors.black54,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold)
+                                ),
+                                Text("\n$newTime",
+                                    style: const TextStyle(
+                                      color: Colors.black38,
+                                      fontSize: 15,)
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ]),
                 ),
               );
-            }
-              );
+            });
       },
     );
   }
@@ -76,17 +101,14 @@ class PastOrdersTile extends StatelessWidget {
   }
 
   getRestName() async {
-    await FirebaseFirestore.instance.collection('restaurants').doc(restID).get().then(
-            (element) {
-          restName = element['restName'];
-        });
+    await FirebaseFirestore.instance
+        .collection('restaurants')
+        .doc(restID)
+        .get()
+        .then((element) {
+      restName = element['restName'];
+    });
   }
-
-
 }
-
-
-
-
 
 //converts firebase time into human readable time
