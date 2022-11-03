@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/Utility/selectCategory.dart';
 import 'package:restaurant_management_system/manager/addItem.dart';
 import '../widgets/customBackButton.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 import 'Utility/managerTile.dart';
+import 'editItem.dart';
 
 
 class ManageMenuItem extends StatefulWidget {
@@ -67,6 +69,16 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                     return ListView.builder(
                         itemCount: snapshot.data?.docs.length,
                         itemBuilder: (context, index) {
+                          var dOptions = ({
+                            'isVegan': snapshot.data?.docs[index]['isVegan'],
+                            'isVegetarian': snapshot.data?.docs[index]['isVegetarian'],
+                            'isGlutenFree': snapshot.data?.docs[index]['isGlutenFree'],
+                            'isNuts': snapshot.data?.docs[index]['isNuts'],
+                            'isKosher': snapshot.data?.docs[index]['isKosher'],
+                            'isHalal': snapshot.data?.docs[index]['isHalal'],
+                            'isPescatarian': snapshot.data?.docs[index]['isPescatarian'],
+                            'isLactose': snapshot.data?.docs[index]['isLactose'],
+                          });
                           if (widget.category != "utensil"){
                             var dietaryText = "";
 
@@ -132,10 +144,20 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                                 subTitle: snapshot.data?.docs[index]['description'] ?? '',
                                 itemIMG:  snapshot.data?.docs[index]['imgURL'],
                                 onPressedEdit:  (){
-
+                                  Navigator.push(context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>  EditItem(itemID: snapshot.data?.docs[index].id ?? '', restaurantID: widget.restaurantID, category: widget.category,
+                                              rName: widget.rName, iName: snapshot.data?.docs[index]['itemName'], iDesc: snapshot.data?.docs[index]['description'],
+                                              iPrice: snapshot.data?.docs[index]['price'], iOptions: dOptions)
+                                      )
+                                  );
                                 },
                                 onPressedDelete: () async {
-                                  deleteItem(snapshot.data?.docs[index].id);
+                                  if (snapshot.data?.docs[index]['imgURL'] != ''){
+                                    await deleteItem(snapshot.data?.docs[index].id, true);
+                                  } else {
+                                    await deleteItem(snapshot.data?.docs[index].id, false);
+                                  }
                                 }
                             );
                           } else {
@@ -145,8 +167,12 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                                 onPressedEdit:  (){
 
                                 },
-                                onPressedDelete: ()  {
-                                  deleteItem(snapshot.data?.docs[index].id);
+                                onPressedDelete: () async {
+                                  if (snapshot.data?.docs[index]['imgURL'] != ''){
+                                    await deleteItem(snapshot.data?.docs[index].id, true);
+                                  } else {
+                                    await deleteItem(snapshot.data?.docs[index].id, false);
+                                  }
                                 }
                             );
                           }
@@ -161,7 +187,10 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
     );
   }
 
-  deleteItem(var itemID) async {
+  deleteItem(var itemID, bool flag) async {
     await FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').doc(itemID).delete();
+    if (flag){
+      await FirebaseStorage.instance.ref().child('${widget.restaurantID}/$itemID.jpg').delete();
+    }
   }
 }
