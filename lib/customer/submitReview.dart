@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../widgets/customTextForm.dart';
 import 'Utility/navigation.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class SubmitReview extends StatefulWidget {
   const SubmitReview({Key? key}) : super(key: key);
@@ -43,12 +44,26 @@ class _SubmitReviewState extends State<SubmitReview> {
             ),
           ),
           Container(
-
+              child: RatingBar.builder(
+                initialRating: 0,
+                minRating: 1,
+                direction: Axis.horizontal,
+                allowHalfRating: true,
+                itemCount: 5,
+                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                itemBuilder: (context, _) => Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                ),
+                onRatingUpdate: (rating) {
+                  print(rating);
+                },
+              )
           ),
           Container(
             padding: const EdgeInsets.all(10.0),
             child: CustomTextForm(
-                hintText: 'Type here',
+                hintText: 'Share your experience',
                 controller: reviewController,
                 validator: null,
                 keyboardType: TextInputType.text,
