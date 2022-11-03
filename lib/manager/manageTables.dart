@@ -5,7 +5,6 @@ import 'package:restaurant_management_system/manager/addTable.dart';
 import 'package:restaurant_management_system/widgets/customBackButton.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 import 'Utility/selectRestaurant.dart';
-import 'editTable.dart';
 import 'managerHome.dart';
 
 class ManageTables extends StatefulWidget {
@@ -72,21 +71,13 @@ class _ManageTables extends State<ManageTables> {
                                     + '\nLocation: ' + (snapshot.data?.docs[index]['location'].toString() ?? '')
                                     + '\n' + (snapshot.data?.docs[index]['currentCapacity'].toString() ?? '') + '/'
                                     + (snapshot.data?.docs[index]['maxCapacity'].toString() ?? ''),
-                                onPressedEdit:  (){
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) =>  EditTable(tableID: snapshot.data?.docs[index].id ?? '',
-                                          restName: widget.restName, restID: widget.restaurantID, tableNum: snapshot.data?.docs[index]['tableNum'] ?? '',
-                                          tableType: snapshot.data?.docs[index]['type'].toString() ?? '',
-                                          tableLoc: snapshot.data?.docs[index]['location'].toString() ?? '',
-                                          tableMaxCap: snapshot.data?.docs[index]['maxCapacity'])
-                                      )
-                                  );
+                                onPressedEdit: (p0) => {
                                 },
-                                onPressedDelete: () async {
+                                onPressedDelete: (p0) =>  {
                                   if (snapshot.data?.docs[index]['currentCapacity'] != 0){
                                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                                       content: Text('Cannot delete a table while it is in use'),
-                                    ));
+                                    ))
                                   } else {
                                     //deleteTable(snapshot.data?.docs[index].id);
                                   }

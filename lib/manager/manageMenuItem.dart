@@ -20,7 +20,7 @@ class ManageMenuItem extends StatefulWidget {
 class _ManageMenuItemState extends State<ManageMenuItem> {
   @override
   Widget build(BuildContext context) {
-    String title = '${widget.rName}: ${widget.category}s';
+    String title = '${widget.rName}: ${widget.category}';
     return Scaffold(
       drawer: const ManagerNavigationDrawer(),
       appBar: AppBar(
@@ -91,34 +91,6 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                                 dietaryText += " Nuts";
                               }
                             }
-                            if (snapshot.data?.docs[index]['isKosher'] == true){
-                              if (dietaryText == ""){
-                                dietaryText += "\nKosher";
-                              } else {
-                                dietaryText += " Kosher";
-                              }
-                            }
-                            if (snapshot.data?.docs[index]['isHalal'] == true){
-                              if (dietaryText == ""){
-                                dietaryText += "\nHalal";
-                              } else {
-                                dietaryText += " Halal";
-                              }
-                            }
-                            if (snapshot.data?.docs[index]['isPescatarian'] == true){
-                              if (dietaryText == ""){
-                                dietaryText += "\nPescatarian";
-                              } else {
-                                dietaryText += " Pescatarian";
-                              }
-                            }
-                            if (snapshot.data?.docs[index]['isLactose'] == true){
-                              if (dietaryText == ""){
-                                dietaryText += "\nLactose Free";
-                              } else {
-                                dietaryText += " Lactose Free";
-                              }
-                            }
                             if (snapshot.data?.docs[index]['isGlutenFree'] == true){
                               if (dietaryText == ""){
                                 dietaryText += "\nGluten Free";
@@ -130,23 +102,15 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                             return ManagerTile(
                                 taskName: snapshot.data?.docs[index]['itemName'] + ' \$' + snapshot.data?.docs[index]['price'] + dietaryText,
                                 subTitle: snapshot.data?.docs[index]['description'] ?? '',
-                                onPressedEdit:  (){
-
-                                },
-                                onPressedDelete: () async {
-
-                                }
+                                onPressedEdit: (p0) => {},
+                                onPressedDelete: (p0) => {},
                             );
                           } else {
                             return ManagerTile(
                                 taskName: snapshot.data?.docs[index]['itemName'] + ' \$' + snapshot.data?.docs[index]['price'],
                                 subTitle: snapshot.data?.docs[index]['description'] ?? '',
-                                onPressedEdit:  (){
-
-                                },
-                                onPressedDelete: () async {
-
-                                }
+                                onPressedEdit:  (p0) => (){},
+                                onPressedDelete: (p0) => {}
                             );
                           }
 

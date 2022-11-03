@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_management_system/customer/submitReview.dart';
 import 'package:restaurant_management_system/widgets/ordersPlacedTile.dart';
 import '../widgets/customSubButton.dart';
 import 'Utility/navigation.dart';
@@ -52,10 +51,22 @@ class _PlacedOrders extends State<PlacedOrders> {
                     //===============================
 
                     if(userSnapshot.data!['tableID'] == ''){
-                      Navigator.push(context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                              const SubmitReview()));
+                      return Column(
+                        children:  [
+                          const Text('Table Closed'),
+
+                          CustomSubButton(text: "Back to Home Page",
+                            onPressed: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          CustomerHome()));
+                            },
+                          ),
+
+                        ],
+
+                      );
                     }
 
                     return Expanded(

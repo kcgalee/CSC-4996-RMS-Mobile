@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_management_system/customer/submitReview.dart';
 import 'package:restaurant_management_system/widgets/ordersPlacedTile.dart';
-import '../widgets/customSubButton.dart';
 import 'Utility/navigation.dart';
 
 
@@ -50,19 +48,6 @@ class _ViewMemberOrder extends State<ViewMemberOrder> {
                     .snapshots(),
                 builder: (context, userSnapshot) {
                   if(userSnapshot.hasData) {
-
-                    //===============================
-                    //ERROR HANDLING FOR CLOSED TABLE
-                    //===============================
-
-                    if(userSnapshot.data!['tableID'] == ''){
-                       Navigator.push(context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                              const SubmitReview()));
-                    }
-
-
                     return Expanded(
                       child: StreamBuilder(
                           stream: FirebaseFirestore.instance
