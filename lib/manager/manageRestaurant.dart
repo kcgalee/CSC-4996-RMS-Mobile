@@ -79,7 +79,9 @@ class _ManageRestaurant extends State<ManageRestaurant> {
                                           rCloseWKend: snapshot.data?.docs[index]['closeTimeWKend'] ?? '')
                                       )
                                   ),
-                                onPressedDelete: (p0) => {},
+                                onPressedDelete: (p0) => {
+                                deleteRestaurant(snapshot.data?.docs[index].reference.id)
+                            },
                               /*() async {
                                   deleteRestaurant(snapshot.data?.docs[index].reference.id);
                                 }*/
