@@ -278,7 +278,11 @@ class _AddItemState extends State<AddItem> {
                 'isVegan': isVegan,
                 'isVegetarian': isVegetarian,
                 'isGlutenFree': isGlutenFree,
-                'isNuts': isNuts
+                'isNuts': isNuts,
+                'isKosher': isKosher,
+                'isHalal': isHalal,
+                'isPescatarian': isPescatarian,
+                'isLactose': isLactoseFree,
               });
             })
           });
@@ -292,7 +296,11 @@ class _AddItemState extends State<AddItem> {
         'isVegan': isVegan,
         'isVegetarian': isVegetarian,
         'isGlutenFree': isGlutenFree,
-        'isNuts': isNuts
+        'isNuts': isNuts,
+        'isKosher': isKosher,
+        'isHalal': isHalal,
+        'isPescatarian': isPescatarian,
+        'isLactose': isLactoseFree,
       });
     }
   }
