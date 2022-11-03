@@ -102,23 +102,15 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                             return ManagerTile(
                                 taskName: snapshot.data?.docs[index]['itemName'] + ' \$' + snapshot.data?.docs[index]['price'] + dietaryText,
                                 subTitle: snapshot.data?.docs[index]['description'] ?? '',
-                                onPressedEdit:  (){
-
-                                },
-                                onPressedDelete: () async {
-
-                                }
+                                onPressedEdit: (p0) => {},
+                                onPressedDelete: (p0) => {},
                             );
                           } else {
                             return ManagerTile(
                                 taskName: snapshot.data?.docs[index]['itemName'] + ' \$' + snapshot.data?.docs[index]['price'],
                                 subTitle: snapshot.data?.docs[index]['description'] ?? '',
-                                onPressedEdit:  (){
-
-                                },
-                                onPressedDelete: () async {
-
-                                }
+                                onPressedEdit:  (p0) => (){},
+                                onPressedDelete: (p0) => {}
                             );
                           }
 
