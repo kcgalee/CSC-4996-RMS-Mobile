@@ -22,7 +22,7 @@ class ManagerTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    if (itemIMG != ''){
+    if (itemIMG != null && itemIMG != ''){
       return FutureBuilder(
         builder: (context, snapshot) {
           return Padding(
