@@ -58,7 +58,9 @@ class _AddEmployee extends State<AddEmployee> {
           Text(widget.rName,style: const TextStyle(fontSize: 20),),
           const SizedBox(height: 20,),
 
-          CustomTextForm(
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: CustomTextForm(
               hintText: "First Name",
               controller: firstNameController,
               validator: (fName) =>
@@ -68,9 +70,11 @@ class _AddEmployee extends State<AddEmployee> {
               maxLines: 1,
               maxLength: 20,
               icon: const Icon(Icons.person)
-          ),
+          ),),
 
-          CustomTextForm(
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: CustomTextForm(
               hintText: "Last Name",
               controller: lastNameController,
               validator: (lName) =>
@@ -80,9 +84,11 @@ class _AddEmployee extends State<AddEmployee> {
               maxLines: 1,
               maxLength: 20,
               icon: const Icon(Icons.person)
-          ),
+          ),),
 
-          CustomTextForm(
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: CustomTextForm(
               hintText: "Preferred Name",
               controller: preferredNameController,
               validator: (pName) =>
@@ -92,9 +98,11 @@ class _AddEmployee extends State<AddEmployee> {
               maxLines: 1,
               maxLength: 20,
               icon: const Icon(Icons.person)
-          ),
+          ),),
 
-          CustomTextForm(
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: CustomTextForm(
               hintText: "Email",
               controller: emailController,
               validator: (email) =>
@@ -104,9 +112,11 @@ class _AddEmployee extends State<AddEmployee> {
               maxLines: 1,
               maxLength: 40,
               icon: const Icon(Icons.email)
-          ),
+          ),),
 
-          CustomTextForm(
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: CustomTextForm(
               hintText: "Phone Number",
               controller: phoneController,
               validator: (number) =>
@@ -116,9 +126,11 @@ class _AddEmployee extends State<AddEmployee> {
               maxLines: 1,
               maxLength: 12,
               icon: const Icon(Icons.phone)
-          ),
+          ),),
 
-          CustomTextForm(
+        Padding(
+          padding: const EdgeInsets.only(bottom: 15),
+          child: CustomTextForm(
               hintText: "Password",
               controller: pwController,
               validator: (value) =>
@@ -128,9 +140,11 @@ class _AddEmployee extends State<AddEmployee> {
               maxLines: 1,
               maxLength: 40,
               icon: const Icon(Icons.password)
-          ),
+          ),),
 
-          CustomTextForm(
+        Padding(
+          padding: const EdgeInsets.only(bottom: 15),
+          child: CustomTextForm(
               hintText:  "Confirm password",
               controller: confirmPwController,
               validator: (value) =>
@@ -140,10 +154,11 @@ class _AddEmployee extends State<AddEmployee> {
               maxLines: 1,
               maxLength: 40,
               icon: const Icon(Icons.password)
-          ),
+          ),),
 
+          
           CustomMainButton(
-              text: "Add",
+              text: "ADD",
               onPressed: () async {
                 await registrationChecker(emailController.text.trim(), pwController.text.trim(),
                     firstNameController.text.trim(), lastNameController.text.trim(),
