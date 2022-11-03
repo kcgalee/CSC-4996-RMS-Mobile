@@ -46,7 +46,7 @@ dependencies:
   toggle_switch: ^2.0.1
   counter: ^0.2.2
   path_provider: ^2.0.11
-
+  flutter_rating_bar: ^4.0.1
 
 
 dev_dependencies:
