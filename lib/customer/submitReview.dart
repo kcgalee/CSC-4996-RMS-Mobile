@@ -1,10 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import '../widgets/customMainButton.dart';
 import '../widgets/customTextForm.dart';
 import 'Utility/navigation.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
+import 'customerHome.dart';
 
 class SubmitReview extends StatefulWidget {
   const SubmitReview({Key? key}) : super(key: key);
@@ -16,9 +18,10 @@ class SubmitReview extends StatefulWidget {
 class _SubmitReviewState extends State<SubmitReview> {
   final reviewController = TextEditingController();
   String currentDate = DateFormat('MM-dd-yyyy').format(DateTime.now());
-
+  var starRating;
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.white,
       drawer: const NavigationDrawer(),
@@ -29,8 +32,14 @@ class _SubmitReviewState extends State<SubmitReview> {
         elevation: 1,
       ),
       body: SingleChildScrollView(
-        child:
-          Column(
+
+        child: StreamBuilder (
+        stream: FirebaseFirestore.instance.collection('users')
+                .doc(FirebaseAuth.instance.currentUser?.uid)
+                .snapshots(),
+        builder: (context, userSnapshot) {
+          if(userSnapshot.hasData) {
+            return  Column(
             children: [
               Align(
                 alignment: Alignment.topLeft,
@@ -48,8 +57,8 @@ class _SubmitReviewState extends State<SubmitReview> {
               Container(
                 padding: const EdgeInsets.all(20.0),
                   alignment: Alignment.topLeft,
-                child: const Text("Review by",
-                    style: TextStyle(
+                child:  Text("Reviewed by ${userSnapshot.data!['fName']}",
+                    style: const TextStyle(
                         fontWeight:
                         FontWeight.bold,
                         fontSize: 20,),
@@ -73,7 +82,7 @@ class _SubmitReviewState extends State<SubmitReview> {
                   color: Colors.amber,
                 ),
                 onRatingUpdate: (rating) {
-                  print(rating);
+                  starRating = rating;
                 },
               ),
               Container(
@@ -93,11 +102,23 @@ class _SubmitReviewState extends State<SubmitReview> {
                 child: CustomMainButton(
                     text: "SUBMIT REVIEW",
                     onPressed: () {
+                      addReview(reviewController.text.toString(), starRating,
+                          userSnapshot.data!.id, userSnapshot.data!['restID']);
+
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> const CustomerHome()));
                     }),
               )
             ],
-          ),
-      ),
+          );
+          }
+
+          else {
+            return const Text('No data to show');
+          }
+
+    }
+      )
+    ),
     );
   }
 
@@ -105,6 +126,16 @@ class _SubmitReviewState extends State<SubmitReview> {
     var now = DateTime.now();
     var formatter = DateFormat('MM-dd-yyyy');
     String formattedDate = formatter.format(now);
+  }
+
+  void addReview(String comment, double rating, String uid, String restID){
+    FirebaseFirestore.instance.collection('reviews').doc().set({
+      'description' : comment,
+      'restID' : restID,
+      'custID' : uid,
+      'rating' : rating
+    });
+
   }
 
 }
