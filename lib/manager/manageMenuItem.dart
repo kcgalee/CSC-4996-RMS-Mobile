@@ -135,7 +135,7 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
 
                                 },
                                 onPressedDelete: () async {
-
+                                  deleteItem(snapshot.data?.docs[index].id);
                                 }
                             );
                           } else {
@@ -145,12 +145,11 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                                 onPressedEdit:  (){
 
                                 },
-                                onPressedDelete: () async {
-
+                                onPressedDelete: ()  {
+                                  deleteItem(snapshot.data?.docs[index].id);
                                 }
                             );
                           }
-
                         }
                     );
                   }
@@ -160,5 +159,9 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
       ),
 
     );
+  }
+
+  deleteItem(var itemID) async {
+    await FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').doc(itemID).delete();
   }
 }

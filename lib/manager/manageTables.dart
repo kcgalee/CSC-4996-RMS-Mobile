@@ -96,7 +96,7 @@ class _ManageTables extends State<ManageTables> {
                                       content: Text('Cannot delete a table while it is in use'),
                                     ));
                                   } else {
-                                    //deleteTable(snapshot.data?.docs[index].id);
+                                    deleteTable(snapshot.data?.docs[index].id);
                                   }
                                 }
                             );
