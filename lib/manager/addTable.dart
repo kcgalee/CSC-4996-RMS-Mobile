@@ -43,19 +43,24 @@ class _AddTable extends State<AddTable> {
           }),
           Text(widget.restName,style: const TextStyle(fontSize: 20),),
           const SizedBox(height: 20,),
-          CustomTextForm(
-            hintText: "Table number",
-            controller: tableNumberController,
-            keyboardType: TextInputType.number,
-            maxLines: 1,
-            maxLength: 2,
-            validator: (tablenum) =>
-            tablenum != null && !numberPattern.hasMatch(tablenum)
-                ? 'number must be between 1 to 99 ' : null,
-            icon: const Icon(Icons.numbers, color: Colors.black)
-        ),
 
-          CustomTextForm(
+        Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: CustomTextForm(
+              hintText: "Table number",
+              controller: tableNumberController,
+              keyboardType: TextInputType.number,
+              maxLines: 1,
+              maxLength: 2,
+              validator: (tablenum) =>
+              tablenum != null && !numberPattern.hasMatch(tablenum)
+                  ? 'number must be between 1 to 99 ' : null,
+              icon: const Icon(Icons.numbers, color: Colors.black)
+        ),),
+
+        Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: CustomTextForm(
               hintText: "Table Location",
               controller: tableLocationController,
               keyboardType: TextInputType.text,
@@ -65,8 +70,11 @@ class _AddTable extends State<AddTable> {
               tableLoc != null && tableLoc.trim().length > 20
                   ? 'Text must be between 1 to 20 characters' : null,
               icon: const Icon(Icons.location_on, color: Colors.black)
-          ),
-          CustomTextForm(
+          ),),
+
+      Padding(
+          padding: const EdgeInsets.only(bottom: 15),
+          child: CustomTextForm(
               hintText: "Table Capacity",
               controller: tableCapacityController,
               keyboardType: TextInputType.number,
@@ -77,8 +85,11 @@ class _AddTable extends State<AddTable> {
                   ? 'number must be between 1 to 99' : null,
 
               icon: const Icon(Icons.people, color: Colors.black)
-          ),
-          CustomTextForm(
+          ),),
+
+      Padding(
+          padding: const EdgeInsets.only(bottom: 15),
+          child: CustomTextForm(
               hintText: "Table Type",
               controller: tableTypeController,
               keyboardType: TextInputType.text,
@@ -88,9 +99,11 @@ class _AddTable extends State<AddTable> {
               tableType != null && tableType.trim().length > 20
                   ? 'Text must be between 1 to 20 characters' : null,
               icon: Icon(Icons.table_bar, color: Colors.black)
-          ),
+          ),),
 
-          CustomMainButton(
+      Padding(
+          padding: const EdgeInsets.only(bottom: 15),
+          child: CustomMainButton(
             text: "Add Table",
             onPressed: () async {
               bool status = await checkTableNumber(int.parse(tableNumberController.text.trim()));
@@ -105,7 +118,7 @@ class _AddTable extends State<AddTable> {
                 ));
               }
             }
-            ),
+            ),),
         ]),
       )
   );
