@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -17,6 +18,9 @@ class PastOrdersTile extends StatelessWidget {
   Color iPColor = Color(0xfff9fbe7);
   Color dColor = Color(0xffe8f5e9);
 
+  var restID;
+  var restName;
+
 
 
   PastOrdersTile({
@@ -24,6 +28,7 @@ class PastOrdersTile extends StatelessWidget {
     required this.taskName,
     required this.time,
     required this.oStatus,
+    required this.restID,
     //required this.restName
   });
 
@@ -32,26 +37,34 @@ class PastOrdersTile extends StatelessWidget {
     return FutureBuilder(
       future: convertTime(time),
       builder: (context, snapshot) {
-        return Padding(
-          padding: const EdgeInsets.only(left: 15, right: 15,top: 25),
-          child: Container(
-            padding: const EdgeInsets.only(right: 15,left: 10,bottom: 10,top: 10),
-            decoration: BoxDecoration(color: Colors.grey[100],
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.black54)
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                //task name and time
-                Text(taskName + '\n' + newTime,
-                    style: const TextStyle(color: Colors.black54,fontSize: 15, fontWeight: FontWeight.bold)),
+        return FutureBuilder(
+            future: getRestName(),
+            builder: (context, snapshot) {
+              return Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15, top: 25),
+                child: Container(
+                  padding: const EdgeInsets.only(
+                      right: 15, left: 10, bottom: 10, top: 10),
+                  decoration: BoxDecoration(color: Colors.grey[100],
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.black54)
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //task name and time
+                      Text("$restName \n $taskName \n $newTime",
+                          style: const TextStyle(color: Colors.black54,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold)),
 
 
-              ],
-            ),
-          ),
-        );
+                    ],
+                  ),
+                ),
+              );
+            }
+              );
       },
     );
   }
@@ -62,6 +75,12 @@ class PastOrdersTile extends StatelessWidget {
     newTime = formatter.format(time.toDate());
   }
 
+  getRestName() async {
+    await FirebaseFirestore.instance.collection('restaurants').doc(restID).get().then(
+            (element) {
+          restName = element['restName'];
+        });
+  }
 
 
 }

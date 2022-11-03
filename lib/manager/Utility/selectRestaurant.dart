@@ -2,12 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/addEmployee.dart';
-import 'package:restaurant_management_system/manager/editRestaurant.dart';
 import 'package:restaurant_management_system/manager/Utility/selectCategory.dart';
 import 'package:restaurant_management_system/manager/managerHome.dart';
 
 import '../../widgets/customBackButton.dart';
-import '../addTable.dart';
+import '../manageTables.dart';
 import 'MangerNavigationDrawer.dart';
 
 
@@ -77,7 +76,7 @@ class _SelectRestaurant extends State<SelectRestaurant> {
                                     String? rID = snapshot.data?.docs[index].id;
                                     String? restName = snapshot.data?.docs[index]['restName'];
                                     if(text == 'table'){
-                                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddTable(text: rID.toString(), restName: restName.toString())));
+                                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => ManageTables(restaurantID: rID.toString(), restName: restName.toString())));
                                     }
                                     else if (text == 'employee'){
                                       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AddEmployee(text: rID.toString(), rName: restName.toString())));

@@ -58,7 +58,7 @@ class _PastOrdersState extends State<PastOrders> {
                               'Item: ' + (snapshot.data?.docs[index]['itemName'] ?? ''),
                               time: snapshot.data?.docs[index]['timePlaced'],
                               oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
-                              //restName: snapshot.data?.docs[index]['restName'],
+                              restID: snapshot.data?.docs[index]['restID'],
                             );
                           }
                       );

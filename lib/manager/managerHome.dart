@@ -38,7 +38,6 @@ String greeting = '';
                       return Center(child:CircularProgressIndicator());
                     } else {
                         if (snapshot.data?['isActive'] == false){
-                          //kylie
                           return pendingActivation();
                         } else {
                           return SingleChildScrollView(
@@ -98,17 +97,10 @@ String greeting = '';
                                             ),
                                            */
                                           CustomSubButton(
-                                            text: 'ADD TABLE',
+                                            text: 'MANAGE TABLES',
                                             onPressed: () {
                                               Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'table')));
                                               //TODO CREATE ADD TABLES FEATURE
-                                            },
-                                          ),
-                                          CustomSubButton(
-                                            text: 'REMOVE TABLE',
-                                            onPressed: () {
-                                              //TODO REMOVE TABLES
-
                                             },
                                           ),
                                           CustomSubButton(
