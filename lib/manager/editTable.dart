@@ -120,7 +120,7 @@ class _EditTable extends State<EditTable> {
               Padding(
                   padding: const EdgeInsets.only(bottom: 15),
                   child: CustomMainButton(
-                      text: "UPDATE",
+                      text: "SAVE CHANGES",
                       onPressed: () async {
                         bool status = await checkTableNumber(int.parse(tableNumberController.text.trim()));
                         if(tableNumberController.text == widget.tableNumber.toString() &&
@@ -128,7 +128,7 @@ class _EditTable extends State<EditTable> {
                             tableLocationController.text == widget.tableLoc &&
                             tableTypeController.text == widget.tableType){
                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                            content: Text('Update failed, there is no information to change.'),
+                            content: Text('Could not save changes, there is no information to update.'),
                           ));
                         } else if (status){
                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
