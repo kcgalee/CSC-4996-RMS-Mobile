@@ -72,13 +72,13 @@ class _ManageTables extends State<ManageTables> {
                                     + '\nLocation: ' + (snapshot.data?.docs[index]['location'].toString() ?? '')
                                     + '\n' + (snapshot.data?.docs[index]['currentCapacity'].toString() ?? '') + '/'
                                     + (snapshot.data?.docs[index]['maxCapacity'].toString() ?? ''),
-                                onPressedEdit:  (){
+                                onPressedEdit:  (p0) => {
                                   if (snapshot.data?.docs[index]['currentCapacity'] != 0) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
                                           content: Text(
                                               'Cannot edit a table while it is in use'),
-                                        ));
+                                        ))
                                   } else {
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (context) =>  EditTable(tableID: snapshot.data?.docs[index].id ?? '',
@@ -87,16 +87,16 @@ class _ManageTables extends State<ManageTables> {
                                             tableLoc: snapshot.data?.docs[index]['location'].toString() ?? '',
                                             tableMaxCap: snapshot.data?.docs[index]['maxCapacity'])
                                         )
-                                    );
+                                    )
                                   }
                                 },
-                                onPressedDelete: () async {
+                                onPressedDelete: (p0) =>   {
                                   if (snapshot.data?.docs[index]['currentCapacity'] != 0){
                                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                                       content: Text('Cannot delete a table while it is in use'),
-                                    ));
+                                    ))
                                   } else {
-                                    deleteTable(snapshot.data?.docs[index].id);
+                                    deleteTable(snapshot.data?.docs[index].id)
                                   }
                                 }
                             );
