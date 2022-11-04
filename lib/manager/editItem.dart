@@ -13,18 +13,24 @@ import '../widgets/customBackButton.dart';
 import '../widgets/customCheckBox.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 
-class AddItem extends StatefulWidget {
+class EditItem extends StatefulWidget {
   String restaurantID;
   String category;
   final String rName;
-
-  AddItem({Key? key, required this.restaurantID, required this.category, required this.rName}) : super(key: key);
+  final String iName;
+  final String iDesc;
+  final String iPrice;
+  final String itemID;
+  final Map<String, dynamic> iOptions;
+  EditItem({Key? key, required this.itemID,required this.restaurantID,
+    required this.category, required this.rName, required this.iName,
+    required this.iDesc, required this.iPrice, required this.iOptions}) : super(key: key);
   @override
-  State<AddItem> createState() => _AddItemState();
+  State<EditItem> createState() => _EditItem();
 }
 
 
-class _AddItemState extends State<AddItem> {
+class _EditItem extends State<EditItem> {
   final itemNameController = TextEditingController();
   final priceController = TextEditingController();
   final itemDescController = TextEditingController();
@@ -45,8 +51,19 @@ class _AddItemState extends State<AddItem> {
   @override
   void initState() {
     //set default text
-    priceController.text = '0.00';
-    title = '${widget.rName}: ${widget.category}s';
+    itemNameController.text = widget.iName;
+    itemDescController.text = widget.iDesc;
+    priceController.text = widget.iPrice;
+    title = widget.iName;
+    flag = false;
+    isVegan = widget.iOptions['isVegan'];
+    isVegetarian = widget.iOptions['isVegetarian'];
+    isGlutenFree = widget.iOptions['isGlutenFree'];
+    isNuts = widget.iOptions['isNuts'];
+    isKosher = widget.iOptions['isKosher'];
+    isHalal = widget.iOptions['isHalal'];
+    isPescatarian = widget.iOptions['isPescatarian'];
+    isLactoseFree = widget.iOptions['isLactose'];
     super.initState();
   }
 
@@ -63,12 +80,11 @@ class _AddItemState extends State<AddItem> {
   }
 
   @override
-
   Widget build(BuildContext context)=> Scaffold (
 
       drawer: const ManagerNavigationDrawer(),
       appBar: AppBar(
-        title: Text("Add Item"),
+        title: Text("Edit Item"),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 1,
@@ -82,63 +98,63 @@ class _AddItemState extends State<AddItem> {
                 Navigator.pop(context);
               }),
 
-            Padding(
-              padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
-              child: Text(title,style: TextStyle(fontSize: 30),textAlign: TextAlign.center,),
-            ),
+              Padding(
+                padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
+                child: Text(title,style: TextStyle(fontSize: 30),textAlign: TextAlign.center,),
+              ),
 
-            Padding(
+              Padding(
                 padding: const EdgeInsets.only(bottom: 15),
                 child: CustomTextForm(
-                  hintText: "Item Name",
-                  controller: itemNameController,
-                  keyboardType: TextInputType.text,
-                  validator: (name) =>
-                  name != null && name.trim().length > 50
-                      ? 'Name must be between 1 to 50 characters' : null,
-                  maxLines: 1,
-                  maxLength: 50,
-                  icon: const Icon(Icons.fastfood, color: Colors.black)
+                    hintText: "Item Name",
+                    controller: itemNameController,
+                    keyboardType: TextInputType.text,
+                    validator: (name) =>
+                    name != null && name.trim().length > 50
+                        ? 'Name must be between 1 to 50 characters' : null,
+                    maxLines: 1,
+                    maxLength: 50,
+                    icon: const Icon(Icons.fastfood, color: Colors.black)
                 ),),
 
-            Padding(
+              Padding(
                 padding: const EdgeInsets.only(bottom: 15),
                 child: CustomTextForm(
-                  hintText: "Price (ex: 5 or 10.99)",
-                  controller: priceController,
-                  keyboardType: TextInputType.number,
-                  validator: (price) =>
-                  price != null && !pricePattern.hasMatch(price)
-                      ? 'Enter valid price (ex: 1,000 or 25.50)' : null,
-                  maxLines: 1,
-                  maxLength: 10,
-                  icon: const Icon(Icons.attach_money, color: Colors.black)
-              ),),
+                    hintText: "Price (ex: 5 or 10.99)",
+                    controller: priceController,
+                    keyboardType: TextInputType.number,
+                    validator: (price) =>
+                    price != null && !pricePattern.hasMatch(price)
+                        ? 'Enter valid price (ex: 1,000 or 25.50)' : null,
+                    maxLines: 1,
+                    maxLength: 10,
+                    icon: const Icon(Icons.attach_money, color: Colors.black)
+                ),),
 
-            Padding(
+              Padding(
                 padding: const EdgeInsets.only(bottom: 15),
                 child: CustomTextForm(
-                  hintText: "Item Description",
-                  controller: itemDescController,
-                  keyboardType: TextInputType.text,
-                  validator: (desc) =>
-                  desc != null && desc.trim().length > 150
-                      ? 'Description cannot exceed 150 characters' : null,
-                  maxLines: 4,
-                  maxLength: 150,
-                  icon: const Icon(Icons.description, color: Colors.black)
-              ),),
+                    hintText: "Item Description",
+                    controller: itemDescController,
+                    keyboardType: TextInputType.text,
+                    validator: (desc) =>
+                    desc != null && desc.trim().length > 150
+                        ? 'Description cannot exceed 150 characters' : null,
+                    maxLines: 4,
+                    maxLength: 150,
+                    icon: const Icon(Icons.description, color: Colors.black)
+                ),),
 
               Row(
                 children: [
                   CustomCheckBox(
-                      title: 'Vegan',
-                      value: isVegan,
-                      onChanged: (value){
-                        setState(() {
-                          isVegan = value!;
-                        });
-                      },
+                    title: 'Vegan',
+                    value: isVegan,
+                    onChanged: (value){
+                      setState(() {
+                        isVegan = value!;
+                      });
+                    },
                   ),
                   CustomCheckBox(
                     title: 'Vegetarian',
@@ -178,22 +194,22 @@ class _AddItemState extends State<AddItem> {
               Row(
                 children: [
                   CustomCheckBox(
-                      title: 'Halal',
-                      value: isHalal,
-                      onChanged: (value){
-                        setState(() {
-                          isHalal = value!;
-                        });
-                      },
+                    title: 'Halal',
+                    value: isHalal,
+                    onChanged: (value){
+                      setState(() {
+                        isHalal = value!;
+                      });
+                    },
                   ),
                   CustomCheckBox(
-                      title: 'Kosher',
-                      value: isKosher,
-                      onChanged: (value){
-                        setState(() {
-                          isKosher = value!;
-                        });
-                      },
+                    title: 'Kosher',
+                    value: isKosher,
+                    onChanged: (value){
+                      setState(() {
+                        isKosher = value!;
+                      });
+                    },
                   )
                 ],
               ),
@@ -232,25 +248,8 @@ class _AddItemState extends State<AddItem> {
 
               CustomMainButton(text: 'SELECT IMAGE', onPressed: () => pickImage()),
 
-              Padding(
-                padding: const EdgeInsets.only(top: 30,left: 25),
-                child: Row(
-                  children: [
-                    CustomCheckBox(
-                      title: 'Add to All Restaurants',
-                      value: isAllRestaurants,
-                      onChanged: (value){
-                        setState(() {
-                          isAllRestaurants = value!;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-
               CustomMainButton(
-                  text: 'ADD ITEM',
+                  text: 'SAVE CHANGES',
                   onPressed: () async {
                     bool status = await validate(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
                     if (status == true && flag == true){
@@ -259,10 +258,16 @@ class _AddItemState extends State<AddItem> {
                       ));
                     } else if (status == true && flag == false){
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('Could not add item, please review item information'),
+                        content: Text('Could not save changes, please review item information'),
+                      ));
+                    } else if (itemNameController.text.trim() == widget.iName
+                        && priceController.text.trim() == widget.iPrice
+                        && itemDescController.text.trim() == widget.iDesc && image == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('There is no information to update'),
                       ));
                     } else {
-                      await addItem(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
+                      await editItem(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => ManageMenuItem(restaurantID: widget.restaurantID, category: widget.category, rName: widget.rName)
                           )
@@ -276,24 +281,23 @@ class _AddItemState extends State<AddItem> {
 
   );
 
-  addItem(String itemName, String price, String itemDesc) async {
+  editItem(String itemName, String price, String itemDesc) async {
     if (!price.contains('.')){
       price += '.00';
     }
 
     if (isAllRestaurants) {
-      await FirebaseFirestore.instance.collection('restaurants').where(
+      /*await FirebaseFirestore.instance.collection('restaurants').where(
           'managerID', isEqualTo: FirebaseAuth.instance.currentUser?.uid).get()
           .then(
               (value) => {
             value.docs.forEach((element) async {
-             var doc = FirebaseFirestore.instance.collection('restaurants/${element.id}/menu').doc();
-             await doc.set({
+              var doc = FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').doc(widget.itemID);
+              await doc.update({
                 'itemName': itemName,
                 'price': price,
                 'category': widget.category,
                 'description': itemDesc,
-                'creationDate': Timestamp.now(),
                 'isVegan': isVegan,
                 'isVegetarian': isVegetarian,
                 'isGlutenFree': isGlutenFree,
@@ -302,34 +306,32 @@ class _AddItemState extends State<AddItem> {
                 'isHalal': isHalal,
                 'isPescatarian': isPescatarian,
                 'isLactose': isLactoseFree,
-                'imgURL': '',
               });
-              if (image != null){
-                final storage = FirebaseStorage.instance.ref();
-
-                final storageRef = FirebaseStorage.instance.ref().child("${widget.restaurantID}/${doc.id}.jpg");
-                String downloadURL = await storageRef.getDownloadURL();
+              if (image != null) {
+                final storageRef = FirebaseStorage.instance.ref().child(
+                    "${widget.restaurantID}/${doc.id}.jpg");
 
                 try {
                   await storageRef.putFile(image!);
+                  String downloadURL = await storageRef.getDownloadURL();
+                  await FirebaseFirestore.instance.collection(
+                      'restaurants/${widget.restaurantID}/menu').doc(doc.id).update({
+                    'imgURL': downloadURL,
+                  });
                 } on FirebaseException catch (e) {
                   // ...
                   print(e);
                 }
-                await FirebaseFirestore.instance.collection('restaurants/${element.id}/menu').doc(doc.id).update({
-                  'imgURL': downloadURL,
-                });
               }
             })
-          });
+          });*/
     } else {
-      var doc = FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').doc();
-      await doc.set({
+      var doc = FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').doc(widget.itemID);
+      await doc.update({
         'itemName': itemName,
         'price': price,
         'category': widget.category,
         'description': itemDesc,
-        'creationDate': Timestamp.now(),
         'isVegan': isVegan,
         'isVegetarian': isVegetarian,
         'isGlutenFree': isGlutenFree,
@@ -338,12 +340,10 @@ class _AddItemState extends State<AddItem> {
         'isHalal': isHalal,
         'isPescatarian': isPescatarian,
         'isLactose': isLactoseFree,
-        'imgURL': '',
       });
       if (image != null) {
         final storageRef = FirebaseStorage.instance.ref().child(
             "${widget.restaurantID}/${doc.id}.jpg");
-
         try {
           await storageRef.putFile(image!);
           String downloadURL = await storageRef.getDownloadURL();
@@ -361,17 +361,20 @@ class _AddItemState extends State<AddItem> {
 
   validate(String itemName, String price, String itemDesc) async {
     bool error = false;
-    await FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').get().then(
-            (value) => {
-          if (value.docs.isNotEmpty) {
-            value.docs.forEach((element) {
-              if (element['itemName'].toUpperCase() == itemName.toUpperCase()){
-                error = true;
-                flag = true;
-              }
-            })
-          }
-        });
+    if (itemName != widget.iName){
+      await FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').get().then(
+              (value) => {
+            if (value.docs.isNotEmpty) {
+              value.docs.forEach((element) {
+                if (element['itemName'].toUpperCase() == itemName.toUpperCase()){
+                  error = true;
+                  flag = true;
+                }
+              })
+            }
+          });
+    }
+
 
     if (isAllRestaurants){
       await FirebaseFirestore.instance.collection('restaurants').where('managerID', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
@@ -381,15 +384,15 @@ class _AddItemState extends State<AddItem> {
               value.docs.forEach((element) async{
                 await FirebaseFirestore.instance.collection('restaurants/${element.id}/menu').get().then(
                         (element) => {
-                          element.docs.forEach((item) {
-                            if (item['itemName'].toUpperCase() == itemName.toUpperCase()){
-                              error = true;
-                              flag = true;
-                            }
-                        })
-                });
+                      element.docs.forEach((item) {
+                        if (item['itemName'].toUpperCase() == itemName.toUpperCase()){
+                          error = true;
+                          flag = true;
+                        }
+                      })
+                    });
               })}
-            });
+          });
     }
 
     if (itemName == "" || itemName.length > 50 || price == ""){

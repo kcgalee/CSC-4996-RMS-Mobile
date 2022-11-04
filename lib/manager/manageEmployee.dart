@@ -69,16 +69,16 @@ class _ManageEmployeeState extends State<ManageEmployee> {
                             return ManagerTile (
                               taskName: (snapshot.data?.docs[index]['fName'] ?? '') + ' ' + (snapshot.data?.docs[index]['lName'] ?? ''),
                               subTitle: snapshot.data?.docs[index]['email'] ?? '',
-                              onPressedDelete: (p0) => {},
-                              onPressedEdit: (p0) =>
+                              onPressedDelete: () {},
+                              onPressedEdit: () {
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (context) =>  EditEmployee(eID: (snapshot.data?.docs[index].reference.id ?? ''),
                                         fName: (snapshot.data?.docs[index]['fName'] ?? ''),
                                         lName: (snapshot.data?.docs[index]['lName'] ?? ''),
                                         prefName: (snapshot.data?.docs[index]['prefName'] ?? ''),
                                         phone: snapshot.data?.docs[index]['phone'] ?? '')
-                                ))
-
+                                    ));
+                              }
                             );
                           }
                       );

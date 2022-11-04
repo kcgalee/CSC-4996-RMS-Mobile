@@ -147,7 +147,7 @@ class _EditEmployee extends State<EditEmployee> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                   ),
-                  child: const Text("update"),
+                  child: const Text("SAVE CHANGES"),
                   onPressed: () async {
                     var status = validate(firstNameController.text.trim(), lastNameController.text.trim(), prefNameController.text.trim(), phoneController.text.trim());
                     if (status == true && flag == true){
@@ -156,7 +156,7 @@ class _EditEmployee extends State<EditEmployee> {
                       ));
                     } else if (status == true && flag == false) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('Could not update information, please review input'),
+                        content: Text('Could not save changes, please review input'),
                       ));
                     } else {
                       updateInfo(firstNameController.text.trim(), lastNameController.text.trim(), prefNameController.text.trim(), phoneController.text.trim());
@@ -179,7 +179,7 @@ class _EditEmployee extends State<EditEmployee> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                   ),
-                  child: const Text("cancel"),
+                  child: const Text("CANCEL"),
                   onPressed: (){
                     Navigator.pop(context);
                   }

@@ -368,7 +368,7 @@ class _EditRestaurant extends State<EditRestaurant> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
                     ),
-                    child: const Text("update"),
+                    child: const Text("SAVE CHANGES"),
                     onPressed: () async {
                       var res = await validate(
                           restaurantNameController.text.trim(),
@@ -383,11 +383,11 @@ class _EditRestaurant extends State<EditRestaurant> {
                       if (flag == true){
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
-                              'Update failed, a restaurant already exists at that address'),
+                              'Could not save changes, a restaurant already exists at that address'),
                         ));
                       } else if (res[0] == true && res[1] == false){
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text('Update failed, make sure all fields are entered correctly'),
+                            content: Text('Could not save changes, make sure all fields are entered correctly'),
                           ));
                       } else if (res[0] == false && res[1] == true){
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -450,7 +450,7 @@ class _EditRestaurant extends State<EditRestaurant> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
                     ),
-                    child: const Text("cancel"),
+                    child: const Text("CANCEL"),
                     onPressed: () {
                       Navigator.pop(context);
                     }
