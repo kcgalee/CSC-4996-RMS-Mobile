@@ -87,47 +87,41 @@ class _AddItemState extends State<AddItem> {
               child: Text(title,style: TextStyle(fontSize: 30),textAlign: TextAlign.center,),
             ),
 
-            Padding(
-                padding: const EdgeInsets.only(bottom: 15),
-                child: CustomTextForm(
-                  hintText: "Item Name",
-                  controller: itemNameController,
-                  keyboardType: TextInputType.text,
-                  validator: (name) =>
-                  name != null && name.trim().length > 50
-                      ? 'Name must be between 1 to 50 characters' : null,
-                  maxLines: 1,
-                  maxLength: 50,
-                  icon: const Icon(Icons.fastfood, color: Colors.black)
-                ),),
+            CustomTextForm(
+              hintText: "Item Name",
+              controller: itemNameController,
+              keyboardType: TextInputType.text,
+              validator: (name) =>
+              name != null && name.trim().length > 50
+                  ? 'Name must be between 1 to 50 characters' : null,
+              maxLines: 1,
+              maxLength: 50,
+              icon: const Icon(Icons.fastfood, color: Colors.black)
+            ),
 
-            Padding(
-                padding: const EdgeInsets.only(bottom: 15),
-                child: CustomTextForm(
-                  hintText: "Price (ex: 5 or 10.99)",
-                  controller: priceController,
-                  keyboardType: TextInputType.number,
-                  validator: (price) =>
-                  price != null && !pricePattern.hasMatch(price)
-                      ? 'Enter valid price (ex: 1,000 or 25.50)' : null,
-                  maxLines: 1,
-                  maxLength: 10,
-                  icon: const Icon(Icons.attach_money, color: Colors.black)
-              ),),
+            CustomTextForm(
+              hintText: "Price (ex: 5 or 10.99)",
+              controller: priceController,
+              keyboardType: TextInputType.number,
+              validator: (price) =>
+              price != null && !pricePattern.hasMatch(price)
+                  ? 'Enter valid price (ex: 1,000 or 25.50)' : null,
+              maxLines: 1,
+              maxLength: 10,
+              icon: const Icon(Icons.attach_money, color: Colors.black)
+              ),
 
-            Padding(
-                padding: const EdgeInsets.only(bottom: 15),
-                child: CustomTextForm(
-                  hintText: "Item Description",
-                  controller: itemDescController,
-                  keyboardType: TextInputType.text,
-                  validator: (desc) =>
-                  desc != null && desc.trim().length > 150
-                      ? 'Description cannot exceed 150 characters' : null,
-                  maxLines: 4,
-                  maxLength: 150,
-                  icon: const Icon(Icons.description, color: Colors.black)
-              ),),
+            CustomTextForm(
+              hintText: "Item Description",
+              controller: itemDescController,
+              keyboardType: TextInputType.text,
+              validator: (desc) =>
+              desc != null && desc.trim().length > 150
+                  ? 'Description cannot exceed 150 characters' : null,
+              maxLines: 4,
+              maxLength: 150,
+              icon: const Icon(Icons.description, color: Colors.black)
+              ),
 
               Row(
                 children: [

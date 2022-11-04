@@ -60,65 +60,58 @@ class _EditTable extends State<EditTable> {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'table')));
               }),
               Text(title,style: const TextStyle(fontSize: 20),),
+              SizedBox(height: 20,),
+
+              CustomTextForm(
+                hintText: "Table number",
+                controller: tableNumberController,
+                keyboardType: TextInputType.number,
+                maxLines: 1,
+                maxLength: 2,
+                validator: (tablenum) =>
+                tablenum != null && !numberPattern.hasMatch(tablenum)
+                    ? 'number must be between 1 to 99 ' : null,
+                icon: const Icon(Icons.numbers, color: Colors.black)
+              ),
+
+              CustomTextForm(
+                hintText: "Table Location",
+                controller: tableLocationController,
+                keyboardType: TextInputType.text,
+                maxLines: 1,
+                maxLength: 20,
+                validator: (tableLoc) =>
+                tableLoc != null && tableLoc.trim().length > 20
+                    ? 'Text must be between 1 to 20 characters' : null,
+                icon: const Icon(Icons.location_on, color: Colors.black)
+              ),
+
+              CustomTextForm(
+                hintText: "Table Capacity",
+                controller: tableCapacityController,
+                keyboardType: TextInputType.number,
+                maxLines: 1,
+                maxLength: 2,
+                validator: (maxCapacity) =>
+                maxCapacity != null && !numberPattern.hasMatch(maxCapacity)
+                    ? 'number must be between 1 to 99' : null,
+                icon: const Icon(Icons.people, color: Colors.black)
+              ),
+
+              CustomTextForm(
+                hintText: "Table Type",
+                controller: tableTypeController,
+                keyboardType: TextInputType.text,
+                maxLines: 1,
+                maxLength: 20,
+                validator: (tableType) =>
+                tableType != null && tableType.trim().length > 20
+                    ? 'Text must be between 1 to 20 characters' : null,
+                icon: Icon(Icons.table_bar, color: Colors.black)
+              ),
 
               Padding(
-                padding: const EdgeInsets.only(bottom: 15),
-                child: CustomTextForm(
-                  hintText: "Table number",
-                  controller: tableNumberController,
-                  keyboardType: TextInputType.number,
-                  maxLines: 1,
-                  maxLength: 2,
-                  validator: (tablenum) =>
-                  tablenum != null && !numberPattern.hasMatch(tablenum)
-                      ? 'number must be between 1 to 99 ' : null,
-                  icon: const Icon(Icons.numbers, color: Colors.black)
-              ),),
-
-              Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: CustomTextForm(
-                    hintText: "Table Location",
-                    controller: tableLocationController,
-                    keyboardType: TextInputType.text,
-                    maxLines: 1,
-                    maxLength: 20,
-                    validator: (tableLoc) =>
-                    tableLoc != null && tableLoc.trim().length > 20
-                        ? 'Text must be between 1 to 20 characters' : null,
-                    icon: const Icon(Icons.location_on, color: Colors.black)
-              ),),
-
-              Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: CustomTextForm(
-                    hintText: "Table Capacity",
-                    controller: tableCapacityController,
-                    keyboardType: TextInputType.number,
-                    maxLines: 1,
-                    maxLength: 2,
-                    validator: (maxCapacity) =>
-                    maxCapacity != null && !numberPattern.hasMatch(maxCapacity)
-                        ? 'number must be between 1 to 99' : null,
-                    icon: const Icon(Icons.people, color: Colors.black)
-              ),),
-
-              Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: CustomTextForm(
-                    hintText: "Table Type",
-                    controller: tableTypeController,
-                    keyboardType: TextInputType.text,
-                    maxLines: 1,
-                    maxLength: 20,
-                    validator: (tableType) =>
-                    tableType != null && tableType.trim().length > 20
-                        ? 'Text must be between 1 to 20 characters' : null,
-                    icon: Icon(Icons.table_bar, color: Colors.black)
-                  ),),
-
-              Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
+                  padding: const EdgeInsets.only(top: 15),
                   child: CustomMainButton(
                       text: "SAVE CHANGES",
                       onPressed: () async {

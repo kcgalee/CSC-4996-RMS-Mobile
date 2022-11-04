@@ -13,32 +13,25 @@ class CustomTextForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return
-      Expanded(
-        child:
-          Align(
-            alignment: Alignment.bottomCenter,
-            child:
-              Padding(
-                padding: const EdgeInsets.only(bottom: 0),
-                child: TextFormField(
-                  controller: controller,
-                  keyboardType: keyboardType,
-                  maxLines: maxLines,
-                  maxLength: maxLength,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: validator,
-                  decoration: InputDecoration(
-                      counter: Offstage(),
-                      hintText: hintText,
-                      prefixIcon: icon,
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(width: 2),
-                      ),
-                      border: OutlineInputBorder()
-                  ),
-                ),
+      Padding(
+        padding: const EdgeInsets.only(bottom: 15),
+        child: TextFormField(
+          controller: controller,
+          keyboardType: keyboardType,
+          maxLines: maxLines,
+          maxLength: maxLength,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: validator,
+          decoration: InputDecoration(
+              counter: Offstage(),
+              hintText: hintText,
+              prefixIcon: icon,
+              enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(width: 2),
               ),
+              border: OutlineInputBorder()
           ),
+        ),
       );
 
   }
