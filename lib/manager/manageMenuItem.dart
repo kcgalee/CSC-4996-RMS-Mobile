@@ -143,20 +143,20 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                                 taskName: snapshot.data?.docs[index]['itemName'] + ' \$' + snapshot.data?.docs[index]['price'] + dietaryText,
                                 subTitle: snapshot.data?.docs[index]['description'] ?? '',
                                 itemIMG:  snapshot.data?.docs[index]['imgURL'],
-                                onPressedEdit:  (){
+                                onPressedEdit:  (p0) => {
                                   Navigator.push(context,
                                       MaterialPageRoute(
                                           builder: (context) =>  EditItem(itemID: snapshot.data?.docs[index].id ?? '', restaurantID: widget.restaurantID, category: widget.category,
                                               rName: widget.rName, iName: snapshot.data?.docs[index]['itemName'], iDesc: snapshot.data?.docs[index]['description'],
                                               iPrice: snapshot.data?.docs[index]['price'], iOptions: dOptions)
                                       )
-                                  );
+                                  )
                                 },
-                                onPressedDelete: () async {
+                                onPressedDelete: (p0) =>  {
                                   if (snapshot.data?.docs[index]['imgURL'] != ''){
-                                    await deleteItem(snapshot.data?.docs[index].id, true);
+                                     deleteItem(snapshot.data?.docs[index].id, true)
                                   } else {
-                                    await deleteItem(snapshot.data?.docs[index].id, false);
+                                     deleteItem(snapshot.data?.docs[index].id, false)
                                   }
                                 }
                             );
@@ -164,14 +164,12 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                             return ManagerTile(
                                 taskName: snapshot.data?.docs[index]['itemName'] + ' \$' + snapshot.data?.docs[index]['price'],
                                 subTitle: snapshot.data?.docs[index]['description'] ?? '',
-                                onPressedEdit:  (){
-
-                                },
-                                onPressedDelete: () async {
+                                onPressedEdit:  (p0) =>{},
+                                onPressedDelete: (p0) => {
                                   if (snapshot.data?.docs[index]['imgURL'] != ''){
-                                    await deleteItem(snapshot.data?.docs[index].id, true);
+                                     deleteItem(snapshot.data?.docs[index].id, true)
                                   } else {
-                                    await deleteItem(snapshot.data?.docs[index].id, false);
+                                     deleteItem(snapshot.data?.docs[index].id, false)
                                   }
                                 }
                             );

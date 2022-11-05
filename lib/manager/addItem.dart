@@ -50,9 +50,9 @@ class _AddItemState extends State<AddItem> {
     super.initState();
   }
 
-  Future pickImage() async {
+  Future pickImage(ImageSource source) async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      final image = await ImagePicker().pickImage(source: source);
       if (image == null) return;
 
       final imageTemp = File(image.path);
@@ -223,8 +223,35 @@ class _AddItemState extends State<AddItem> {
                 ) : Icon(Icons.image,size: 160,),
               ),
               SizedBox(height: 20,),
-
-              CustomMainButton(text: 'SELECT IMAGE', onPressed: () => pickImage()),
+              // button to pick image for menu item
+              CustomMainButton(
+                  text: 'SELECT IMAGE',
+                  onPressed: (){
+                    showModalBottomSheet(
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(24),topRight:Radius.circular(24))
+                      ),
+                        backgroundColor: Colors.black,
+                        context: context,
+                      builder: (context) => Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ListTile(
+                            leading: const Icon(Icons.image,color: Colors.white,),
+                            title: const Text('Gallery',style: TextStyle(color: Colors.white),),
+                            onTap: () => pickImage(ImageSource.gallery),
+                          ),
+                          Divider(color: Colors.white,thickness: 1,indent: 10,endIndent: 10,),
+                          ListTile(
+                            leading: const Icon(Icons.camera_alt,color: Colors.white,),
+                            title: const Text('Camara',style: TextStyle(color: Colors.white)),
+                            onTap: () => pickImage(ImageSource.camera),
+                          ),
+                        ],
+                      )
+                    );
+                  }
+              ),
 
               Padding(
                 padding: const EdgeInsets.only(top: 30,left: 25),
