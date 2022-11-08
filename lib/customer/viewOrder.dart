@@ -94,6 +94,7 @@ class _ViewOrder extends State<ViewOrder> {
                                                .itemID.length,
                                            itemBuilder: (context, index) {
                                              return OrderTile(
+                                               imgURL: widget.createOrderInfo.imgURL[index],
                                                taskName: "${widget
                                                    .createOrderInfo
                                                    .itemName[index]}"
