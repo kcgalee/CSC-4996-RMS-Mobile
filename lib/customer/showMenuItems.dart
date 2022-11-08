@@ -147,9 +147,7 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                           ['itemName'] ??
                                                       ''),
 
-
-                                                  if(menuSnapshot.data?.docs[index]['imgURL'] != '')
-                                                  Image.network(menuSnapshot.data?.docs[index]['imgURL']),
+                                                  
 
                                                   const Spacer(),
                                                   Text(menuSnapshot
