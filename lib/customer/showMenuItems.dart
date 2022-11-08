@@ -146,11 +146,19 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                               .data?.docs[index]
                                                           ['itemName'] ??
                                                       ''),
-                                                  Spacer(),
+
+
+                                                  if(menuSnapshot.data?.docs[index]['imgURL'] != '')
+                                                  Image.network(menuSnapshot.data?.docs[index]['imgURL']),
+
+                                                  const Spacer(),
                                                   Text(menuSnapshot
                                                               .data?.docs[index]
                                                           ['price'] ??
-                                                      ''),
+                                                      '\n'),
+
+                                                  
+                                                  
                                                 ],
                                               ),
                                               onTap: () {
@@ -189,13 +197,17 @@ class _ShowMenuItems extends State<ShowMenuItems> {
 
                                                               return
                                                                   SizedBox(
-                                                                      height: 350,
+                                                                      height: 500,
                                                                       width: 500,
                                                                       child: Column(
                                                                           children: [
                                                                             Text(menuSnapshot.data?.docs[index]['description'] +
                                                                                 "\n\n \$" +
                                                                                 menuSnapshot.data?.docs[index]['price']),
+
+                                                                            if(menuSnapshot.data?.docs[index]['imgURL'] != '')
+                                                                              Image.network(menuSnapshot.data?.docs[index]['imgURL']),
+
                                                                             CustomTextForm(
                                                                                 hintText:
                                                                                     'Optional Order Comments',
@@ -326,7 +338,10 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                                           orderCommentsController
                                                                               .text,
                                                                           widget
-                                                                              .priority);
+                                                                              .priority,
+                                                                      
+                                                                      menuSnapshot.data?.docs[index]['imgURL'] as String
+                                                                      );
 
                                                                       Navigator.of(
                                                                               context)

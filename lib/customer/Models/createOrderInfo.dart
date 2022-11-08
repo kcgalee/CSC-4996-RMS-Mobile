@@ -8,6 +8,7 @@ class CreateOrderInfo{
   late List<String> itemName= [];
   late List<String> price = [];
   late List<String> orderComments = [];
+  late List<String> imgURL = [];
   late int itemCount;
   late var custName;
   late var custID;
@@ -17,9 +18,11 @@ class CreateOrderInfo{
    itemCount = 0;
   }
 
-  orderSetter(String itemID, int count, String itemName, String price, String comments, int priority) async {
+  orderSetter(String itemID, int count, String itemName, String price,
+      String comments, int priority, String imgURL) async {
     this.count.add(count);
     this.itemID.add(itemID);
+    this.imgURL.add(imgURL);
     this.itemName.add(itemName);
     this.price.add(price);
     orderComments.add(comments);
