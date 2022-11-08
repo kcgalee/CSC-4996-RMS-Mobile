@@ -89,13 +89,6 @@ String greeting = '';
                                               );
                                             },
                                           ),
-                                          /*  CustomSubButton(
-                                              text: 'SEE RATINGS',
-                                              onPressed:  () {
-                                                //TODO SHOW RATINGS
-                                              },
-                                            ),
-                                           */
                                           CustomSubButton(
                                             text: 'MANAGE TABLES',
                                             onPressed: () {
@@ -109,8 +102,14 @@ String greeting = '';
                                               Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'menu')));
                                               //TODO ADD TO MENU
                                             },
-                                          )
-
+                                          ),
+                                          CustomSubButton(
+                                            text: 'SEE RATINGS',
+                                            onPressed:  () {
+                                              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'ratings')));
+                                              //TODO SHOW RATINGS
+                                            },
+                                          ),
                                         ], //Children
                                       ),
                                     ));
