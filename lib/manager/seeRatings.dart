@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/Utility/managerTile.dart';
 import 'package:restaurant_management_system/widgets/customBackButton.dart';
@@ -17,7 +18,6 @@ class SeeRatings extends StatefulWidget {
 }
 
 class _SeeRatings extends State<SeeRatings> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,46 +28,70 @@ class _SeeRatings extends State<SeeRatings> {
           foregroundColor: Colors.black,
           elevation: 1,
         ),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 24),
-              child: CustomBackButton(onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(
-                        builder: (context) => SelectRestaurant(text: 'ratings')
-                    )
-                );
-              }),
-            ),
-            Text(widget.restName),
-            Expanded(
-              child: StreamBuilder(
+        body: StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('reviews').where('restID', isEqualTo: widget.restaurantID).orderBy('date', descending: true).snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
-                      return Center(child: Text("You currently have no reviews for ${widget.restName}."),);
+                      return Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 24),
+                                  child: CustomBackButton(onPressed: () {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(
+                                            builder: (context) => SelectRestaurant(text: 'ratings')
+                                        )
+                                    );
+                                  }),
+                                ),
+                                Text(widget.restName),
+                                Expanded(
+                                  child: Center(child: Text("You currently have no reviews for ${widget.restName}."),)
+                                )
+                              ]);
                     } else {
-                      return ListView.builder(
-                          itemCount: snapshot.data?.docs.length,
-                          itemBuilder: (context, index) {
-                            return ManagerTile(
-                                taskName: 'Rating: ' + (snapshot.data?.docs[index]['rating'].toString() ?? ''),
-                                subTitle: 'Name: ' + (snapshot.data?.docs[index]['custName'] ?? '')
-                                    + '\nDate: ' + (convertTime(snapshot.data?.docs[index]['date'])
-                                    + '\nDescription: ' + (snapshot.data?.docs[index]['description'] ?? '')),
-                                onPressedEdit:  (p0) => {
-                                },
-                                onPressedDelete: (p0) =>   {
-                                }
-                            );
-                          }
-                      );
+                      //calculate average rating for restaurant
+                      var sum = 0.0;
+                      var count = 0.0;
+                      var avg = 0.0;
+                      snapshot.data?.docs.forEach((element) {
+                        sum += element['rating'];
+                        count++;
+                      });
+                      avg = sum/count;
+
+                      return Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 24),
+                              child: CustomBackButton(onPressed: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SelectRestaurant(text: 'ratings')
+                                    )
+                                );
+                              }),
+                            ),
+                            Text('${widget.restName} $avg'),
+                            Expanded(
+                                child: ListView.builder(
+                                    itemCount: snapshot.data?.docs.length,
+                                    itemBuilder: (context, index) {
+                                      return ManagerTile(
+                                          taskName: 'Rating: ' + (snapshot.data?.docs[index]['rating'].toString() ?? ''),
+                                          subTitle: 'Name: ' + (snapshot.data?.docs[index]['custName'] ?? '')
+                                              + '\nDate: ' + (convertTime(snapshot.data?.docs[index]['date'])
+                                              + '\nDescription: ' + (snapshot.data?.docs[index]['description'] ?? '')),
+                                          onPressedEdit: (p0) => {
+                                          },
+                                          onPressedDelete: (p0) => {
+                                          }
+                                      );
+                                    }
+                                ))
+                          ]);
                     }
-                  }),
-            ),
-          ],
-        )
+                  })
     );
   }
 
