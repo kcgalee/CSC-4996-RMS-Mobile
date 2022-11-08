@@ -53,8 +53,9 @@ class _SeeRatings extends State<SeeRatings> {
                           itemBuilder: (context, index) {
                             return ManagerTile(
                                 taskName: 'Rating: ' + (snapshot.data?.docs[index]['rating'].toString() ?? ''),
-                                subTitle: 'Date: ' + (convertTime(snapshot.data?.docs[index]['date'])
-                                    + '\nDescription: ' + (snapshot.data?.docs[index]['description'].toString() ?? '')),
+                                subTitle: 'Name: ' + (snapshot.data?.docs[index]['custName'] ?? '')
+                                    + '\nDate: ' + (convertTime(snapshot.data?.docs[index]['date'])
+                                    + '\nDescription: ' + (snapshot.data?.docs[index]['description'] ?? '')),
                                 onPressedEdit:  (p0) => {
                                 },
                                 onPressedDelete: (p0) =>   {
