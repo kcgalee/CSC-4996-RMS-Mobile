@@ -7,6 +7,7 @@ import 'package:restaurant_management_system/manager/managerHome.dart';
 
 import '../../widgets/customBackButton.dart';
 import '../manageTables.dart';
+import '../seeRatings.dart';
 import 'MangerNavigationDrawer.dart';
 
 
@@ -84,8 +85,8 @@ class _SelectRestaurant extends State<SelectRestaurant> {
                                     else if (text == 'menu'){
                                       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectCategory(restaurantID: rID.toString(), rName: restName.toString())));
                                     }
-                                    else{
-
+                                    else if (text == 'ratings'){
+                                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SeeRatings(restaurantID: rID.toString(), restName: restName.toString())));
                                     }
                                   },
                                 ),

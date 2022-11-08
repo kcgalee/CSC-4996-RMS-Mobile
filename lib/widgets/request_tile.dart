@@ -182,11 +182,26 @@ class _RequestTileState extends State<RequestTile> {
     } else {
       return StreamBuilder(
           stream: Stream.periodic(const Duration(seconds: 1), (time) {
-            Duration duration = DateTime.now().difference(widget.time.toDate());
-            //String hours = duration.inHours.toString().padLeft(0, '2');
-            String minutes = duration.inMinutes.toString().padLeft(1, '0');
+            Duration duration = widget.time.toDate().difference(DateTime.now());
+            String days = duration.inDays.toString();
+            String hours = duration.inHours.toString().padLeft(0, '2');
+            String minutes = duration.inMinutes.remainder(60).toString().padLeft(1, '0');
+            if (days != '0'){
+              if (days == '1'){
+                return '\nOrdered $days day ago';
+              } else {
+                return '\nOrdered $days days ago';
+              }
+            } else if (hours != '0'){
+                if (hours == '1'){
+                  return '\nOrdered $hours hour $minutes minutes ago';
+                } else {
+                  return '\nOrdered $hours hours $minutes minutes ago';
+                }
+            } else {
+              return '\nOrdered ${minutes} minutes ago';
+            }
             //String seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
-            return '\nOrdered ${minutes} minutes ago';
           }),
           builder: (context, snapshot){
             return Padding(
@@ -347,7 +362,7 @@ class _RequestTileState extends State<RequestTile> {
 
   //converts firebase time into human readable time
   convertTime(time) {
-    DateFormat formatter = DateFormat('h:mm:ss ');
+    DateFormat formatter = DateFormat('h:mm:ss');
     //var ndate = new DateTime.fromMillisecondsSinceEpoch(time.toDate() * 1000);
     newTime = formatter.format(time.toDate());
   }
