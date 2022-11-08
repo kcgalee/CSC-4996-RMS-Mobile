@@ -6,6 +6,7 @@ import 'package:restaurant_management_system/manager/addItem.dart';
 import '../widgets/customBackButton.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 import 'Utility/managerTile.dart';
+import 'Utility/menuTile.dart';
 import 'editItem.dart';
 
 
@@ -83,65 +84,39 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                             var dietaryText = "";
 
                             if (snapshot.data?.docs[index]['isVegan'] == true){
-                              if (dietaryText == ""){
-                                dietaryText += "\nVegan";
-                              } else {
-                                dietaryText += " Vegan";
-                              }
+                                dietaryText += "Vegan";
                             }
                             if (snapshot.data?.docs[index]['isVegetarian'] == true){
-                              if (dietaryText == ""){
-                                dietaryText += "\nVegetarian";
-                              } else {
-                                dietaryText += " Vegetarian";
-                              }
+                                dietaryText += "Vegetarian";
                             }
                             if (snapshot.data?.docs[index]['isNuts'] == true){
-                              if (dietaryText == ""){
-                                dietaryText += "\nNuts";
-                              } else {
-                                dietaryText += " Nuts";
-                              }
+                                dietaryText += "Nuts";
+
                             }
                             if (snapshot.data?.docs[index]['isKosher'] == true){
-                              if (dietaryText == ""){
-                                dietaryText += "\nKosher";
-                              } else {
-                                dietaryText += " Kosher";
-                              }
+                                dietaryText += "Kosher";
+
                             }
                             if (snapshot.data?.docs[index]['isHalal'] == true){
-                              if (dietaryText == ""){
-                                dietaryText += "\nHalal";
-                              } else {
                                 dietaryText += " Halal";
-                              }
+
                             }
                             if (snapshot.data?.docs[index]['isPescatarian'] == true){
-                              if (dietaryText == ""){
-                                dietaryText += "\nPescatarian";
-                              } else {
-                                dietaryText += " Pescatarian";
-                              }
+                                dietaryText += "Pescatarian";
                             }
                             if (snapshot.data?.docs[index]['isLactose'] == true){
-                              if (dietaryText == ""){
-                                dietaryText += "\nLactose Free";
-                              } else {
-                                dietaryText += " Lactose Free";
-                              }
+                                dietaryText += "Lactose Free";
+
                             }
                             if (snapshot.data?.docs[index]['isGlutenFree'] == true){
-                              if (dietaryText == ""){
-                                dietaryText += "\nGluten Free";
-                              } else {
                                 dietaryText += " Gluten Free";
-                              }
+
                             }
 
-                            return ManagerTile(
-                                taskName: snapshot.data?.docs[index]['itemName'] + ' \$' + snapshot.data?.docs[index]['price'] + dietaryText,
-                                subTitle: snapshot.data?.docs[index]['description'] ?? '',
+                            return MenuTile(
+                                taskName: snapshot.data?.docs[index]['itemName'] ,
+                                subTitle: dietaryText + "\n\n" + snapshot.data?.docs[index]['description'] ?? '',
+                                price: ' \$' + snapshot.data?.docs[index]['price'],
                                 itemIMG:  snapshot.data?.docs[index]['imgURL'],
                                 onPressedEdit:  (p0) => {
                                   Navigator.push(context,
@@ -161,9 +136,10 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                                 }
                             );
                           } else {
-                            return ManagerTile(
-                                taskName: snapshot.data?.docs[index]['itemName'] + ' \$' + snapshot.data?.docs[index]['price'],
+                            return MenuTile(
+                                taskName: snapshot.data?.docs[index]['itemName'] ,
                                 subTitle: snapshot.data?.docs[index]['description'] ?? '',
+                                price: ' \$' + snapshot.data?.docs[index]['price'],
                                 onPressedEdit:  (p0) =>{},
                                 onPressedDelete: (p0) => {
                                   if (snapshot.data?.docs[index]['imgURL'] != ''){
