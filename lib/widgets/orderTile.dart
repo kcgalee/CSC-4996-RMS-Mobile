@@ -10,10 +10,13 @@ class OrderTile extends StatelessWidget {
   Color iPColor = Color(0xfff9fbe7);
   Color dColor = Color(0xffe8f5e9);
 
+  var imgURL;
+
 
 
   OrderTile({
     super.key,
+    required this.imgURL,
     required this.taskName,
     required this.createOrderInfo
   });
@@ -38,6 +41,9 @@ class OrderTile extends StatelessWidget {
                 //task name and time
                 Text(taskName,
                     style: const TextStyle(color: Colors.black54,fontSize: 15, fontWeight: FontWeight.bold)),
+
+                Image.network(imgURL),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
