@@ -147,8 +147,6 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                           ['itemName'] ??
                                                       ''),
 
-                                                  
-
                                                   const Spacer(),
                                                   Text(menuSnapshot
                                                               .data?.docs[index]
