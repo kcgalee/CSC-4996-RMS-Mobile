@@ -10,14 +10,13 @@ class ManagerTile extends StatelessWidget {
   Function(BuildContext) onPressedDelete;
   final String taskName;
    String subTitle;
-   final itemIMG;
 
   ManagerTile({
     super.key,
     required this.taskName,
     required this.subTitle,
     required this.onPressedEdit,
-    required this.onPressedDelete,  this.itemIMG,
+    required this.onPressedDelete,
   });
 
   @override
