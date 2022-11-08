@@ -129,14 +129,14 @@ class _WaiterHomeState extends State<WaiterHome> {
                                 },
                               ),
                               CustomSubButton(
-                                text: 'ACTIVE REQUESTS' ,
+                                text: 'CURRENT REQUESTS' ,
                                 onPressed: () {
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) => WaiterRequest(rName: restName, activity: 'active')));
                                 },
                               ),
                               CustomSubButton(
-                                text: 'INACTIVE REQUESTS',
+                                text: 'PAST REQUESTS',
                                 onPressed: () {
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) => WaiterRequest(rName: restName, activity: 'inactive')));
