@@ -22,6 +22,7 @@ class PastOrdersTile extends StatelessWidget {
 
   var restID;
   var restName;
+  final VoidCallback? onPressed;
 
   PastOrdersTile({
     super.key,
@@ -29,8 +30,9 @@ class PastOrdersTile extends StatelessWidget {
     required this.time,
     required this.oStatus,
     required this.restID,
-    //required this.restName
+    this.onPressed,
   });
+
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +44,23 @@ class PastOrdersTile extends StatelessWidget {
             builder: (context, snapshot) {
               return Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15, top: 25),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(12),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    fixedSize: const Size(330, 100),
+                    textStyle: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                    ),
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.black,
+                    side: const BorderSide(
+                        color: Colors.black38,
+                        width: 2
+                    ),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
                   ),
+                  onPressed: onPressed,
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -96,7 +110,6 @@ class PastOrdersTile extends StatelessWidget {
 
   convertTime(time) {
     DateFormat formatter = DateFormat.yMd();
-    //var ndate = new DateTime.fromMillisecondsSinceEpoch(time.toDate() * 1000);
     newTime = formatter.format(time.toDate());
   }
 
