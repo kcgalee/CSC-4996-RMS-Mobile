@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/widgets/ordersPlacedTile.dart';
 import '../widgets/customSubButton.dart';
@@ -102,6 +103,7 @@ class _PlacedOrders extends State<PlacedOrders> {
 
                                           }
 
+                                          //ALERT USER THAT ORDER IS IN PROGRESS
                                           else {
 
                                           }
@@ -118,7 +120,42 @@ class _PlacedOrders extends State<PlacedOrders> {
                                               deleteOrder(snapshot.data?.docs[index].id as String, collectionRef);
                                             }
 
+                                            //ALERT USER THAT ORDER IS IN PROGRESS
                                             else {
+                                              showDialog<void>(
+                                                context: context,
+                                                barrierDismissible:
+                                                false,
+                                                // user must tap button!
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    title: const Text(
+                                                        'Cannot delete order'),
+                                                    content:
+                                                    SingleChildScrollView(
+                                                      child: ListBody(
+                                                        children: const <
+                                                            Widget>[
+                                                          Text(
+                                                              'Order is in progress'),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    actions: <Widget>[
+                                                      TextButton(
+                                                        child:
+                                                        const Text(
+                                                            'OK'),
+                                                        onPressed: () {
+                                                          Navigator.of(
+                                                              context)
+                                                              .pop();
+                                                        },
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
 
                                             }
 
