@@ -160,7 +160,7 @@ class _SubmitReviewState extends State<SubmitReview> {
                             text: "SUBMIT REVIEW",
                             onPressed: () {
                               addReview(reviewController.text.toString(), starRating,
-                                  userSnapshot.data!.id, userSnapshot.data!['restID']);
+                                  userSnapshot.data!.id, userSnapshot.data!['fName'], userSnapshot.data!['restID']);
 
                               Navigator.push(context, MaterialPageRoute(builder: (context)=> const CustomerHome()));
                             }),
@@ -185,12 +185,15 @@ class _SubmitReviewState extends State<SubmitReview> {
     String formattedDate = formatter.format(now);
   }
 
-  void addReview(String comment, double rating, String uid, String restID){
+  void addReview(String comment, double rating, String uid, String custName, String restID){
+    var now = DateTime.now();
     FirebaseFirestore.instance.collection('reviews').doc().set({
       'description' : comment,
       'restID' : restID,
+      'custName' : custName,
       'custID' : uid,
-      'rating' : rating
+      'rating' : rating,
+      'date' : DateTime.now()
     });
 
   }
