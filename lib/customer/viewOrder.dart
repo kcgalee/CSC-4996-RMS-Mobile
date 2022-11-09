@@ -86,7 +86,6 @@ class _ViewOrder extends State<ViewOrder> {
                              children: [
 
                                Expanded(
-
                                    child: SizedBox(
                                        height: 200.0,
                                        child: ListView.builder(
@@ -104,6 +103,10 @@ class _ViewOrder extends State<ViewOrder> {
                                                    .price[index]}",
                                                createOrderInfo: widget
                                                    .createOrderInfo,
+                                               onPressedEdit: (BuildContext ) {
+
+                                               },
+                                               onPressedDelete: (BuildContext ) {  },
                                              );
                                            }
                                        )

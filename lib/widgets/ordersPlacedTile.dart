@@ -13,9 +13,13 @@ class OrdersPlacedTile extends StatelessWidget {
   final String oStatus;
 
   //pColor for placed  iPColor for in progress button, dColor for delivered button
-  Color pColor = Color(0xffffebee);
-  Color iPColor = Color(0xfff9fbe7);
-  Color dColor = Color(0xffe8f5e9);
+  Color pColor = Colors.white;
+  Color iPColor = Colors.white;
+  Color dColor = Colors.white;
+
+  Color pTextColor = Colors.black;
+  Color ipTextColor = Colors.black;
+  Color dTextColor = Colors.black;
 
 
   OrdersPlacedTile({
@@ -31,16 +35,24 @@ class OrdersPlacedTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var isVisible = true;
-    if (oStatus == "delivered") {
-      dColor = Colors.green.shade300;
-    }
 
-    if (oStatus == "in progress") {
-      iPColor = Colors.orange.shade300;
-    }
 
-    else if (oStatus == "placed") {
-      pColor = Colors.redAccent;
+    if (oStatus == "in progress"){
+      iPColor= Colors.black;
+      ipTextColor = Colors.white;
+      pColor = Colors.white;
+      pTextColor = Colors.black;
+
+    }
+    else if (oStatus =="placed"){
+      pColor = Colors.black;
+      pTextColor = Colors.white;
+      ipTextColor = Colors.black;
+      iPColor = Colors.white;
+
+    } else {
+      dColor = Colors.black;
+      dTextColor = Colors.white;
     }
 
 
@@ -78,7 +90,7 @@ class OrdersPlacedTile extends StatelessWidget {
                               fontSize: 15,
                             ),
                             backgroundColor: pColor,
-                            foregroundColor: Colors.black54,
+                            foregroundColor: pTextColor,
                             side: const BorderSide(
                               color: Colors.black38,
                             ),

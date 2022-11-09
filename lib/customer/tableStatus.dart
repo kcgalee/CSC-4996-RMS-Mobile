@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:restaurant_management_system/customer/submitReview.dart';
 import 'package:restaurant_management_system/customer/viewMemberOrder.dart';
-import '../widgets/customSubButton.dart';
 import 'Utility/navigation.dart';
 import 'customerHome.dart';
 
@@ -57,21 +57,30 @@ class _TableStatusState extends State<TableStatus> {
                     //===============================
 
                     if(userSnapshot.data!['tableID'] == ''){
-                      return Column(
-                        children:  [
-                          const Text('Table Closed'),
-
-                          CustomSubButton(text: "Back to Home Page",
-                            onPressed: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          CustomerHome()));
-                            },
-                          ),
-
-                        ],
-
+                      showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            title: const Text('Your table has been closed'),
+                            content: const Text('Thank you for coming!'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () => Navigator.push(context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                        const CustomerHome())
+                                ),
+                                child: const Text('Go to Home page'),
+                              ),
+                              TextButton(
+                                onPressed: () => Navigator.push(context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                        const SubmitReview())
+                                ),
+                                child: const Text('Leave a review'),
+                              ),
+                            ],
+                          )
                       );
                     }
 
@@ -107,7 +116,7 @@ class _TableStatusState extends State<TableStatus> {
                                   });
                             }
                             else {
-                              return Text('no items to display');
+                              return const Text('no items to display');
                             }
                           }),
                     );

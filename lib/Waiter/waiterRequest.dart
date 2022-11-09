@@ -23,7 +23,7 @@ class _WaiterRequestState extends State<WaiterRequest> {
       return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
-            title: const Text('Active Requests',),
+            title: const Text('Current Requests',),
             backgroundColor: Colors.white,
             foregroundColor: Colors.black,
             elevation: 1,
@@ -43,7 +43,7 @@ class _WaiterRequestState extends State<WaiterRequest> {
                         .orderBy('timePlaced', descending: true).snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData || (snapshot.data?.size == 0)) {
-                        return Center(child:Text('You have no active requests'));
+                        return Center(child:Text('You have no current requests'));
                       } else {
                         return ListView.builder(
                             itemCount: snapshot.data?.docs.length,
@@ -91,7 +91,7 @@ class _WaiterRequestState extends State<WaiterRequest> {
       return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
-            title: const Text('Inactive Requests',),
+            title: const Text('Past Requests',),
             backgroundColor: Colors.white,
             foregroundColor: Colors.black,
             elevation: 1,
@@ -109,7 +109,7 @@ class _WaiterRequestState extends State<WaiterRequest> {
                         .orderBy('timePlaced', descending: true).snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData || (snapshot.data?.size == 0)) {
-                        return Center(child:Text('You have no inactive requests'));
+                        return Center(child:Text('You have no past requests'));
                       } else {
                         return ListView.builder(
                             itemCount: snapshot.data?.docs.length,
