@@ -189,8 +189,11 @@ class _EditRestaurant extends State<EditRestaurant> {
                 maxLength: 12,
                 icon: const Icon(Icons.phone)
             ),
+            Text('Weekday Hours',style: TextStyle(fontSize: 20)),
+            Divider(thickness: 1,color: Colors.black),
 
             //time picker
+            // Opening Time Weekday
             Padding(
               padding: const EdgeInsets.only(bottom: 26),
               child: Row(
@@ -217,7 +220,7 @@ class _EditRestaurant extends State<EditRestaurant> {
                         openTimeChanged = true
                       });
                     },
-                    child: Text('Opening Time Weekday', textAlign: TextAlign.center,),
+                    child: Text('Opening', textAlign: TextAlign.center,),
                   ),
 
                   SizedBox(
@@ -229,7 +232,7 @@ class _EditRestaurant extends State<EditRestaurant> {
                 ],
               ),
             ),
-
+            // Closing Time Weekday
             Padding(
               padding: const EdgeInsets.only(bottom: 26),
               child: Row(
@@ -258,7 +261,7 @@ class _EditRestaurant extends State<EditRestaurant> {
                         closeTimeChanged = true
                       });
                     },
-                    child: Text('Closing Time Weekday', textAlign: TextAlign.center,),
+                    child: Text('Closing', textAlign: TextAlign.center,),
                   ),
 
                   SizedBox(
@@ -271,6 +274,9 @@ class _EditRestaurant extends State<EditRestaurant> {
               ),
             ),
 
+            Text('Weekend Hours',style: TextStyle(fontSize: 20)),
+            Divider(thickness: 1,color: Colors.black),
+            //Weekend Opening time
             Padding(
               padding: const EdgeInsets.only(bottom: 26),
               child: Row(
@@ -299,7 +305,7 @@ class _EditRestaurant extends State<EditRestaurant> {
                         openTimeChanged2 = true
                       });
                     },
-                    child: Text('Open Time Weekend', textAlign: TextAlign.center,),
+                    child: Text('Opening', textAlign: TextAlign.center,),
                   ),
 
                   SizedBox(
@@ -311,7 +317,7 @@ class _EditRestaurant extends State<EditRestaurant> {
                 ],
               ),
             ),
-
+            //Weekend Closing time
             Padding(
               padding: const EdgeInsets.only(bottom: 26),
               child: Row(
@@ -340,7 +346,7 @@ class _EditRestaurant extends State<EditRestaurant> {
                         closeTimeChanged2 = true
                       });
                     },
-                    child: Text('Close Time Weekend', textAlign: TextAlign.center,),
+                    child: Text('Closing', textAlign: TextAlign.center,),
                   ),
 
                   SizedBox(
@@ -363,12 +369,12 @@ class _EditRestaurant extends State<EditRestaurant> {
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                       ),
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.black,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
                     ),
-                    child: const Text("SAVE CHANGES"),
+                    child: const Text("SAVE"),
                     onPressed: () async {
                       var res = await validate(
                           restaurantNameController.text.trim(),
@@ -445,9 +451,10 @@ class _EditRestaurant extends State<EditRestaurant> {
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                       ),
-                      backgroundColor: Colors.redAccent,
-                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
                       shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 2,color: Colors.black54),
                           borderRadius: BorderRadius.circular(10)),
                     ),
                     child: const Text("CANCEL"),
