@@ -90,7 +90,39 @@ class _PlacedOrders extends State<PlacedOrders> {
                                               + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '')
                                               + '\nPrice: \$' + (snapshot.data?.docs[index]['price'] ?? ''),
                                           time:(snapshot.data?.docs[index]['timePlaced'] ?? '') ,
-                                          oStatus: (snapshot.data?.docs[index]['status'] ?? ''), onPressedEdit: (BuildContext ) {  }, onPressedDelete: (BuildContext ) {  },
+                                          oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
+
+                                        //===================================================
+                                        //Customer can edit order if no progress has been made
+                                        //===================================================
+                                        onPressedEdit: (BuildContext ) {
+
+                                           //Check to see if progress has been made
+                                          if(snapshot.data?.docs[index]['status'] == 'placed'){
+
+                                          }
+
+                                          else {
+
+                                          }
+
+                                      },
+                                        //======================================================
+                                        //Customer can delete order if no progress has been made
+                                        //======================================================
+                                        onPressedDelete: (BuildContext ) {
+
+                                            //check to see if progress has been made
+                                            if(snapshot.data?.docs[index]['status'] == 'placed'){
+                                              String collectionRef = 'tables/${userSnapshot.data!['tableID']}/tableOrders';
+                                              deleteOrder(snapshot.data?.docs[index].id as String, collectionRef);
+                                            }
+
+                                            else {
+
+                                            }
+
+                                      },
                                       );
 
 
@@ -105,5 +137,13 @@ class _PlacedOrders extends State<PlacedOrders> {
                 })
           ],
         ));
+  }
+
+  void deleteOrder(String orderID, String colectionRef){
+
+    FirebaseFirestore.instance.collection('orders').doc(orderID).delete();
+
+    FirebaseFirestore.instance.collection(colectionRef).doc(orderID).delete();
+
   }
 }
