@@ -82,7 +82,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                                 const SizedBox(
                                   height: 20,
                                 ),
-                                Row(children:  const [
+                                Row(children: const [
                                   Text(
                                     "Welcome!",
                                     style: TextStyle(
@@ -110,48 +110,65 @@ class _CustomerHomeState extends State<CustomerHome> {
                               Row(
                                 children: const [
                                   Padding(
-                                      padding: EdgeInsets.only(left: 20),
-                                    child:
-                                      Text("PAST ORDERS",
-                                        style: TextStyle(
-                                          fontSize: 22,
-                                          color: Colors.black54,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                    padding: EdgeInsets.only(left: 20),
+                                    child: Text(
+                                      "PAST ORDERS",
+                                      style: TextStyle(
+                                        fontSize: 22,
+                                        color: Colors.black54,
+                                        fontWeight: FontWeight.bold,
                                       ),
+                                    ),
                                   )
                                 ],
                               ),
                               StreamBuilder(
-                                  stream: FirebaseFirestore.instance.collection('orders')
-                                      .where('custID', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
-                                      .where('itemName', whereNotIn: ['Request Bill', 'Request Waiter', 'condiment', 'utensil'])
+                                  stream: FirebaseFirestore.instance
+                                      .collection('orders')
+                                      .where('custID',
+                                          isEqualTo: FirebaseAuth
+                                              .instance.currentUser?.uid)
+                                      .where('itemName', whereNotIn: [
+                                        'Request Bill',
+                                        'Request Waiter',
+                                        'condiment',
+                                        'utensil'
+                                      ])
                                       .orderBy('itemName')
                                       .orderBy('timePlaced', descending: false)
                                       .snapshots(),
                                   builder: (context, snapshot) {
-                                    if (!snapshot.hasData || (snapshot.data?.size == 0)) {
-                                      return Center(child:Text('You have no past orders'));
+                                    if (!snapshot.hasData ||
+                                        (snapshot.data?.size == 0)) {
+                                      return Center(
+                                          child:
+                                              Text('You have no past orders'));
                                     } else {
-                                      return
-                                        SizedBox(
-                                            height: 400.0,
-                                            child: ListView.builder(
-                                            itemCount: snapshot.data?.docs.length,
+                                      return SizedBox(
+                                        height: 400.0,
+                                        child: ListView.builder(
+                                            itemCount:
+                                                snapshot.data?.docs.length,
                                             itemBuilder: (context, index) {
                                               return PastOrdersTile(
-                                                taskName:
-                                                'Item: ' + (snapshot.data?.docs[index]['itemName'] ?? ''),
-                                                time: snapshot.data?.docs[index]['timePlaced'],
-                                                oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
-                                                restID: (snapshot.data?.docs[index]['restID'] ?? ''),
+                                                taskName: 'Item: ' +
+                                                    (snapshot.data?.docs[index]
+                                                            ['itemName'] ??
+                                                        ''),
+                                                time: snapshot.data?.docs[index]
+                                                    ['timePlaced'],
+                                                oStatus:
+                                                    (snapshot.data?.docs[index]
+                                                            ['status'] ??
+                                                        ''),
+                                                restID:
+                                                    (snapshot.data?.docs[index]
+                                                            ['restID'] ??
+                                                        ''),
                                                 //restName: snapshot.data?.docs[index]['restName'],
                                               );
-                                            }
-                                        ),
-
+                                            }),
                                       );
-
                                     }
                                   }),
                             ],
@@ -193,7 +210,6 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                 ],
                                               ),
                                               child: Column(children: [
-
                                                 const SizedBox(
                                                   height: 20,
                                                 ),
@@ -207,6 +223,33 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                         fontSize: 40,
                                                         color: Colors.white),
                                                   ),
+                                                  IconButton(
+                                                    icon: const Icon(Icons.info),
+                                                    color: Colors.white,
+                                                    onPressed: () =>
+                                                        showDialog<String>(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                              context) =>
+                                                          AlertDialog(
+                                                        title: Text(
+                                                            tableSnapshot
+                                                                .data!['restName'] + " Info"),
+                                                        content: const Text(
+                                                            'AlertDialog description'),
+                                                        actions: <Widget>[
+                                                          TextButton(
+                                                            onPressed: () =>
+                                                                Navigator.pop(
+                                                                    context,
+                                                                    'Close'),
+                                                            child: const Text(
+                                                                'Close'),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  )
                                                 ]),
                                                 Row(
                                                   children: [
@@ -573,10 +616,9 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                           PastOrders()),
+                                                              PastOrders()),
                                                     );
                                                   }),
-
                                             ],
                                           )),
                                         ]);
