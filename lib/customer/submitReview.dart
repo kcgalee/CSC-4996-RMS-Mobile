@@ -54,36 +54,52 @@ class _SubmitReviewState extends State<SubmitReview> {
                           ),
                         ),
                       ),
-                      Container(
-                          padding: const EdgeInsets.all(20.0),
-                          alignment: Alignment.topLeft,
-                          child:  Text("Reviewed by ${userSnapshot.data!['fName']}",
-                            style: const TextStyle(
-                              fontWeight:
-                              FontWeight.bold,
-                              fontSize: 20,),
-                          )
+                      Row(
+                        children: [
+                          Container(
+                              padding: const EdgeInsets.all(20.0),
+                              alignment: Alignment.topLeft,
+                              child:  Text("Review by ${userSnapshot.data!['fName']}",
+                              )
+                          ),
+                          const Spacer(),
+                          Container(
+                              padding: const EdgeInsets.all(20.0),
+                              alignment: Alignment.topLeft,
+                              child: Text(currentDate
+                              )
+                          ),
+                        ],
                       ),
-                      Container(
-                          padding: const EdgeInsets.only(left: 20.0, bottom: 20.0),
-                          alignment: Alignment.topLeft,
-                          child: Text(currentDate
-                          )
-                      ),
-                      RatingBar.builder(
-                        initialRating: 0,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: true,
-                        itemCount: 5,
-                        itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                        itemBuilder: (context, _) => const Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                        onRatingUpdate: (rating) {
-                          starRating = rating;
-                        },
+                      Row(
+
+                        children: [
+                          Container(
+                              padding: const EdgeInsets.only(top: 20.0, right: 10, left: 20.0, bottom: 20.0),
+                              alignment: Alignment.topLeft,
+                              child:  const Text("Restaurant Review",
+                                style: TextStyle(
+                                  fontWeight:
+                                  FontWeight.bold,
+                                  fontSize: 15,),
+                              )
+                          ),
+                          RatingBar.builder(
+                            initialRating: 0,
+                            minRating: 1,
+                            direction: Axis.horizontal,
+                            allowHalfRating: true,
+                            itemCount: 5,
+                            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                            itemBuilder: (context, _) => const Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                            ),
+                            onRatingUpdate: (rating) {
+                              starRating = rating;
+                            },
+                          ),
+                        ],
                       ),
                       Container(
                         padding: const EdgeInsets.all(20.0),
@@ -92,7 +108,48 @@ class _SubmitReviewState extends State<SubmitReview> {
                             controller: reviewController,
                             validator: null,
                             keyboardType: TextInputType.text,
-                            maxLines: 10,
+                            maxLines: 5,
+                            maxLength: 100,
+                            icon: const Icon(Icons.reviews)
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                              padding: const EdgeInsets.only(top: 20.0, right: 40.0, left: 20.0, bottom: 20.0),
+                              alignment: Alignment.topLeft,
+                              child:  const Text("Waiter Review",
+                                style: TextStyle(
+                                  fontWeight:
+                                  FontWeight.bold,
+                                  fontSize: 15,),
+                              )
+                          ),
+                          RatingBar.builder(
+                            initialRating: 0,
+                            minRating: 1,
+                            direction: Axis.horizontal,
+                            allowHalfRating: true,
+                            itemCount: 5,
+                            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                            itemBuilder: (context, _) => const Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                            ),
+                            onRatingUpdate: (rating) {
+                              starRating = rating;
+                            },
+                          ),
+                        ],
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(20.0),
+                        child: CustomTextForm(
+                            hintText: 'Share your experience',
+                            controller: reviewController,
+                            validator: null,
+                            keyboardType: TextInputType.text,
+                            maxLines: 5,
                             maxLength: 100,
                             icon: const Icon(Icons.reviews)
                         ),
@@ -103,7 +160,7 @@ class _SubmitReviewState extends State<SubmitReview> {
                             text: "SUBMIT REVIEW",
                             onPressed: () {
                               addReview(reviewController.text.toString(), starRating,
-                                  userSnapshot.data!.id, userSnapshot.data!['restID']);
+                                  userSnapshot.data!.id, userSnapshot.data!['fName'], userSnapshot.data!['restID']);
 
                               Navigator.push(context, MaterialPageRoute(builder: (context)=> const CustomerHome()));
                             }),
@@ -128,12 +185,15 @@ class _SubmitReviewState extends State<SubmitReview> {
     String formattedDate = formatter.format(now);
   }
 
-  void addReview(String comment, double rating, String uid, String restID){
+  void addReview(String comment, double rating, String uid, String custName, String restID){
+    var now = DateTime.now();
     FirebaseFirestore.instance.collection('reviews').doc().set({
       'description' : comment,
       'restID' : restID,
+      'custName' : custName,
       'custID' : uid,
-      'rating' : rating
+      'rating' : rating,
+      'date' : DateTime.now()
     });
 
   }

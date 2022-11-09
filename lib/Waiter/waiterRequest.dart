@@ -61,7 +61,7 @@ class _WaiterRequestState extends State<WaiterRequest> {
                                 text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
                                     + '\nItem: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
                                     + '  x ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
-                                    + '\nPlaced by ' + (snapshot.data?.docs[index]['custName'] ?? '');
+                                    + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '');
                               }
                               if (snapshot.data?.docs[index]['orderComment'] != ''){
                                 text += '\nComments: ${snapshot.data?.docs[index]['orderComment']}';

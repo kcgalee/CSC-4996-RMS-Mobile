@@ -50,6 +50,8 @@ class _RequestTileState extends State<RequestTile> {
   Color ipTextColor = Colors.black;
   Color dTextColor = Colors.black;
 
+  //color for time
+  Color timeColor = Colors.black;
 
   @override
   Widget build(BuildContext context) {
@@ -183,23 +185,23 @@ class _RequestTileState extends State<RequestTile> {
       return StreamBuilder(
           stream: Stream.periodic(const Duration(seconds: 1), (time) {
             Duration duration = widget.time.toDate().difference(DateTime.now());
-            String days = duration.inDays.toString();
-            String hours = duration.inHours.toString().padLeft(0, '2');
-            String minutes = duration.inMinutes.remainder(60).toString().padLeft(1, '0');
-            if (days != '0'){
-              if (days == '1'){
-                return '\nOrdered $days day ago';
-              } else {
-                return '\nOrdered $days days ago';
-              }
-            } else if (hours != '0'){
+            //String days = duration.inDays.toString();
+            String hours = duration.inHours.toString().padLeft(0, '2').replaceAll('-', '');
+            String minutes = duration.inMinutes.remainder(60).toString().padLeft(1, '0').replaceAll('-', '');
+            if (hours != '0'){
+              //if order placed an hour or more ago, then change time color to red
+              timeColor = Colors.red;
                 if (hours == '1'){
-                  return '\nOrdered $hours hour $minutes minutes ago';
+                  return '\nOrdered $hours hr ago';
                 } else {
-                  return '\nOrdered $hours hours $minutes minutes ago';
+                  return '\nOrdered $hours hrs ago';
                 }
             } else {
-              return '\nOrdered ${minutes} minutes ago';
+              if (int.parse(minutes) >= 35){
+                //if order placed 35min or more ago, then change time color to yellow
+                timeColor = Colors.yellow;
+              }
+              return '\nOrdered $minutes mins ago';
             }
             //String seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
           }),

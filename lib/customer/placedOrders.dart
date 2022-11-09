@@ -78,7 +78,7 @@ class _PlacedOrders extends State<PlacedOrders> {
                                 .snapshots(),
                             builder: (context, snapshot) {
                               if (!snapshot.hasData || (snapshot.data?.size == 0)) {
-                                return Center(
+                                return const Center(
                                     child: Text('You have no active requests'));
                               } else {
                                 return ListView.builder(
@@ -87,10 +87,10 @@ class _PlacedOrders extends State<PlacedOrders> {
                                       return OrdersPlacedTile(
                                           taskName: '\nItem: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
                                               + '  x ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
-                                              + '\nPlaced by ' + (snapshot.data?.docs[index]['custName'] ?? '')
+                                              + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '')
                                               + '\nPrice: \$' + (snapshot.data?.docs[index]['price'] ?? ''),
                                           time:(snapshot.data?.docs[index]['timePlaced'] ?? '') ,
-                                          oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
+                                          oStatus: (snapshot.data?.docs[index]['status'] ?? ''), onPressedEdit: (BuildContext ) {  }, onPressedDelete: (BuildContext ) {  },
                                       );
 
 
