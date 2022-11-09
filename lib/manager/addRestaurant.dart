@@ -140,7 +140,10 @@ class _AddRestaurant extends State<AddRestaurant> {
                     icon: const Icon(Icons.phone)
                 ),
 
+                Text('Weekday Hours',style: TextStyle(fontSize: 20)),
+                Divider(thickness: 1,color: Colors.black),
                 //time picker
+                //Opening Time Weekday
                 Padding(
                   padding: const EdgeInsets.only(bottom: 26),
                   child: Row(
@@ -166,7 +169,7 @@ class _AddRestaurant extends State<AddRestaurant> {
                             oTime = openTime.format(context).toString(),
                           });
                         },
-                        child: const Text('Opening Time Weekday', textAlign: TextAlign.center,),
+                        child: const Text('Opening', textAlign: TextAlign.center,),
                       ),
 
                       SizedBox(
@@ -179,6 +182,7 @@ class _AddRestaurant extends State<AddRestaurant> {
                   ),
                 ),
 
+               // Closing Time Weekday
                 Padding(
                   padding: const EdgeInsets.only(bottom: 26),
                   child: Row(
@@ -204,9 +208,8 @@ class _AddRestaurant extends State<AddRestaurant> {
                             cTime = closeTime.format(context).toString(),
                           });
                         },
-                        child: const Text('Closing Time Weekday', textAlign: TextAlign.center,),
+                        child: const Text('Closing', textAlign: TextAlign.center,),
                       ),
-
                       SizedBox(
                         child: Text(
                           closeTime.format(context).toString(),
@@ -216,7 +219,9 @@ class _AddRestaurant extends State<AddRestaurant> {
                     ],
                   ),
                 ),
-
+                Text('Weekend Hours',style: TextStyle(fontSize: 20)),
+                Divider(thickness: 1,color: Colors.black),
+                //Weekend Opening time
                 Padding(
                   padding: const EdgeInsets.only(bottom: 26),
                   child: Row(
@@ -242,7 +247,7 @@ class _AddRestaurant extends State<AddRestaurant> {
                             oTime2 = openTime2.format(context).toString(),
                           });
                         },
-                        child: const Text('Opening Time Weekend', textAlign: TextAlign.center,),
+                        child: const Text('Opening', textAlign: TextAlign.center,),
                       ),
 
                       SizedBox(
@@ -254,7 +259,7 @@ class _AddRestaurant extends State<AddRestaurant> {
                     ],
                   ),
                 ),
-
+                //Weekend Closing time
                 Padding(
                   padding: const EdgeInsets.only(bottom: 26),
                   child: Row(
@@ -280,7 +285,7 @@ class _AddRestaurant extends State<AddRestaurant> {
                             cTime2 = closeTime2.format(context).toString(),
                           });
                         },
-                        child: const Text('Closing Time Weekend', textAlign: TextAlign.center,),
+                        child: const Text('Closing', textAlign: TextAlign.center,),
                       ),
 
                       SizedBox(
@@ -303,7 +308,7 @@ class _AddRestaurant extends State<AddRestaurant> {
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
                           ),
-                          backgroundColor: Colors.green,
+                          backgroundColor: Colors.black,
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),

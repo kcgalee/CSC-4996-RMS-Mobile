@@ -142,12 +142,12 @@ class _EditEmployee extends State<EditEmployee> {
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
-                    backgroundColor: Colors.green,
+                    backgroundColor: Colors.black,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                   ),
-                  child: const Text("SAVE CHANGES"),
+                  child: const Text("SAVE"),
                   onPressed: () async {
                     var status = validate(firstNameController.text.trim(), lastNameController.text.trim(), prefNameController.text.trim(), phoneController.text.trim());
                     if (status == true && flag == true){
@@ -174,9 +174,10 @@ class _EditEmployee extends State<EditEmployee> {
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
-                    backgroundColor: Colors.redAccent,
-                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.black,
                     shape: RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.black54,width: 2),
                         borderRadius: BorderRadius.circular(10)),
                   ),
                   child: const Text("CANCEL"),
