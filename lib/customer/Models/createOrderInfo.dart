@@ -174,6 +174,18 @@ class CreateOrderInfo{
     itemCount = 0;
  }
 
+ //deletes item from current order
+void deleteItem(int index) {
+    itemCount = itemCount - 1;
+    itemID.removeAt(index);
+    itemName.removeAt(index);
+    count.removeAt(index);
+    imgURL.removeAt(index);
+    price.removeAt(index);
+    orderComments.removeAt(index);
+    priority.removeAt(index);
+}
+
 
 
 }
