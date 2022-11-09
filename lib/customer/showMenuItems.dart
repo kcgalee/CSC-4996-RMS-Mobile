@@ -129,8 +129,8 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                             decoration: BoxDecoration(
                                                 color: Colors.white,
                                                 border: Border.all(
-                                                  color: Colors.black,
-                                                  width: 1.0,
+                                                  color: Colors.black38,
+                                                  width: 2.0,
                                                 ),
                                                 borderRadius:
                                                     BorderRadius.circular(10.0),
