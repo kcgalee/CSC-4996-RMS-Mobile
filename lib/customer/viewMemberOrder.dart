@@ -66,7 +66,7 @@ class _ViewMemberOrder extends State<ViewMemberOrder> {
                                     return OrdersPlacedTile(
                                       taskName: '${'\nItem: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
                                           + '  x ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
-                                          + '\nPlaced by ' + (snapshot.data?.docs[index]['custName'] ?? '')}'
+                                          + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '')}'
                                           '\nPrice: \$' + (snapshot.data?.docs[index]['price'] ?? ''),
                                       time:(snapshot.data?.docs[index]['timePlaced'] ?? '') ,
                                       oStatus: (snapshot.data?.docs[index]['status'] ?? ''), onPressedEdit: (BuildContext ) {  }, onPressedDelete: (BuildContext ) {  },
