@@ -46,10 +46,12 @@ class _RequestTileState extends State<RequestTile> {
   Color iPColor = Colors.white;
   Color dColor = Colors.white;
 
-  Color pTexColor = Colors.black;
-  Color ipTexColor = Colors.black;
-  Color dTexColor = Colors.black;
+  Color pTextColor = Colors.black;
+  Color ipTextColor = Colors.black;
+  Color dTextColor = Colors.black;
 
+  //color for time
+  Color timeColor = Colors.black;
 
   @override
   Widget build(BuildContext context) {
@@ -64,20 +66,20 @@ class _RequestTileState extends State<RequestTile> {
 
     if (widget.oStatus == "in progress"){
       iPColor= Colors.black;
-      ipTexColor = Colors.white;
+      ipTextColor = Colors.white;
       pColor = Colors.white;
-      pTexColor = Colors.black;
+      pTextColor = Colors.black;
 
     }
     else if (widget.oStatus =="placed"){
       pColor = Colors.black;
-      pTexColor = Colors.white;
-      ipTexColor = Colors.black;
+      pTextColor = Colors.white;
+      ipTextColor = Colors.black;
       iPColor = Colors.white;
 
     } else {
       dColor = Colors.black;
-      dTexColor = Colors.white;
+      dTextColor = Colors.white;
     }
 
     convertTime(widget.time);
@@ -111,7 +113,7 @@ class _RequestTileState extends State<RequestTile> {
                             fontSize: 15,
                           ),
                           backgroundColor: pColor,
-                          foregroundColor: pTexColor,
+                          foregroundColor: pTextColor,
                           side: const BorderSide(
                             color: Colors.black38,
                           ),
@@ -134,7 +136,7 @@ class _RequestTileState extends State<RequestTile> {
                             fontSize: 15,
                           ),
                           backgroundColor: iPColor,
-                          foregroundColor: ipTexColor,
+                          foregroundColor: ipTextColor,
                           side: const BorderSide(
                             color: Colors.black38,
                           ),
@@ -157,7 +159,7 @@ class _RequestTileState extends State<RequestTile> {
                             fontSize: 15,
                           ),
                           backgroundColor: dColor,
-                          foregroundColor: dTexColor,
+                          foregroundColor: dTextColor,
                           side: const BorderSide(
                             color: Colors.black38,
                           ),
@@ -182,11 +184,26 @@ class _RequestTileState extends State<RequestTile> {
     } else {
       return StreamBuilder(
           stream: Stream.periodic(const Duration(seconds: 1), (time) {
-            Duration duration = DateTime.now().difference(widget.time.toDate());
-            //String hours = duration.inHours.toString().padLeft(0, '2');
-            String minutes = duration.inMinutes.toString().padLeft(1, '0');
+            Duration duration = widget.time.toDate().difference(DateTime.now());
+            //String days = duration.inDays.toString();
+            String hours = duration.inHours.toString().padLeft(0, '2').replaceAll('-', '');
+            String minutes = duration.inMinutes.remainder(60).toString().padLeft(1, '0').replaceAll('-', '');
+            if (hours != '0'){
+              //if order placed an hour or more ago, then change time color to red
+              timeColor = Colors.red;
+                if (hours == '1'){
+                  return '\nOrdered $hours hr ago';
+                } else {
+                  return '\nOrdered $hours hrs ago';
+                }
+            } else {
+              if (int.parse(minutes) >= 35){
+                //if order placed 35min or more ago, then change time color to yellow
+                timeColor = Colors.yellow;
+              }
+              return '\nOrdered $minutes mins ago';
+            }
             //String seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
-            return '\nOrdered ${minutes} minutes ago';
           }),
           builder: (context, snapshot){
             return Padding(
@@ -217,7 +234,7 @@ class _RequestTileState extends State<RequestTile> {
                                   fontSize: 15,
                                 ),
                                 backgroundColor: pColor,
-                                foregroundColor: pTexColor,
+                                foregroundColor: pTextColor,
                                 side: const BorderSide(
                                   color: Colors.black38,
                                 ),
@@ -240,7 +257,7 @@ class _RequestTileState extends State<RequestTile> {
                                   fontSize: 15,
                                 ),
                                 backgroundColor: iPColor,
-                                foregroundColor: ipTexColor,
+                                foregroundColor: ipTextColor,
                                 side: const BorderSide(
                                   color: Colors.black38,
                                 ),
@@ -263,7 +280,7 @@ class _RequestTileState extends State<RequestTile> {
                                   fontSize: 15,
                                 ),
                                 backgroundColor: dColor,
-                                foregroundColor: dTexColor,
+                                foregroundColor: dTextColor,
                                 side: const BorderSide(
                                   color: Colors.black38,
                                 ),
@@ -347,7 +364,7 @@ class _RequestTileState extends State<RequestTile> {
 
   //converts firebase time into human readable time
   convertTime(time) {
-    DateFormat formatter = DateFormat('h:mm:ss ');
+    DateFormat formatter = DateFormat('h:mm:ss');
     //var ndate = new DateTime.fromMillisecondsSinceEpoch(time.toDate() * 1000);
     newTime = formatter.format(time.toDate());
   }

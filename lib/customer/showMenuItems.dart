@@ -87,7 +87,7 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CustomerHome()));
+                                builder: (context) => const CustomerHome()));
                       },
                     ),
                   ],
@@ -128,8 +128,8 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                             decoration: BoxDecoration(
                                                 color: Colors.white,
                                                 border: Border.all(
-                                                  color: Colors.black,
-                                                  width: 1.0,
+                                                  color: Colors.black38,
+                                                  width: 2.0,
                                                 ),
                                                 borderRadius:
                                                     BorderRadius.circular(10.0),
@@ -147,14 +147,12 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                           ['itemName'] ??
                                                       ''),
 
-                                                  const Spacer(),
+                                                  Spacer(),
+                                                  
                                                   Text(menuSnapshot
                                                               .data?.docs[index]
                                                           ['price'] ??
                                                       '\n'),
-
-                                                  
-                                                  
                                                 ],
                                               ),
                                               onTap: () {
@@ -165,18 +163,13 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                   builder:
                                                       (BuildContext context) {
                                                     return Expanded(
-                                                        child:Column(
+                                                        child: Column(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment.end,
                                                       children: [
                                                         AlertDialog(
                                                           insetPadding:
                                                               EdgeInsets.zero,
-                                                          title: Text(
-                                                              menuSnapshot.data
-                                                                          ?.docs[
-                                                                      index]
-                                                                  ['itemName']),
                                                           content: Builder(
                                                             builder: (context) {
                                                               // Get available height and width of the build area of this widget. Make a choice depending on the size.
@@ -191,46 +184,66 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                                       .size
                                                                       .width;
 
-                                                              return
-                                                                  SizedBox(
-                                                                      height: 500,
-                                                                      width: 500,
-                                                                      child: Column(
-                                                                          children: [
-                                                                            Text(menuSnapshot.data?.docs[index]['description'] +
-                                                                                "\n\n \$" +
-                                                                                menuSnapshot.data?.docs[index]['price']),
-
-                                                                            if(menuSnapshot.data?.docs[index]['imgURL'] != '')
-                                                                              Image.network(menuSnapshot.data?.docs[index]['imgURL']),
-
-                                                                            CustomTextForm(
-                                                                                hintText:
-                                                                                    'Optional Order Comments',
-                                                                                controller:
-                                                                                    orderCommentsController,
-                                                                                validator:
-                                                                                    null,
-                                                                                keyboardType: TextInputType
-                                                                                    .text,
-                                                                                maxLines:
-                                                                                    2,
-                                                                                maxLength:
-                                                                                    100,
-                                                                                icon:
-                                                                                    const Icon(Icons.fastfood))
-                                                                          ]))
-                                                              ;
+                                                              return SizedBox(
+                                                                  height: 500,
+                                                                  width: 500,
+                                                                  child: Column(
+                                                                      children: [
+                                                                        if (menuSnapshot.data?.docs[index]['imgURL'] !=
+                                                                            '')
+                                                                          SizedBox(
+                                                                            height:
+                                                                                250,
+                                                                            width:
+                                                                                350,
+                                                                            child:
+                                                                                Image.network(menuSnapshot.data?.docs[index]['imgURL']),
+                                                                          ),
+                                                                        SizedBox(height: 20),
+                                                                        Text(
+                                                                          menuSnapshot.data?.docs[index]['itemName'],
+                                                                          style:
+                                                                              const TextStyle(
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                            fontSize:
+                                                                                20,
+                                                                          ),
+                                                                        ),
+                                                                        Text(menuSnapshot.data?.docs[index]['description'] +
+                                                                            "\n\n \$" +
+                                                                            menuSnapshot.data?.docs[index]['price']),
+                                                                        SizedBox(height: 20),
+                                                                        CustomTextForm(
+                                                                            hintText:
+                                                                                'Optional Order Comments',
+                                                                            controller:
+                                                                                orderCommentsController,
+                                                                            validator:
+                                                                                null,
+                                                                            keyboardType: TextInputType
+                                                                                .text,
+                                                                            maxLines:
+                                                                                2,
+                                                                            maxLength:
+                                                                                100,
+                                                                            icon:
+                                                                                const Icon(Icons.fastfood))
+                                                                      ])
+                                                              );
                                                             },
                                                           ),
                                                           actions: <Widget>[
                                                             Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
                                                               children: [
                                                                 TextButton(
                                                                   child: const Text(
                                                                       "Cancel"),
-                                                                  onPressed: () {
+                                                                  onPressed:
+                                                                      () {
                                                                     Navigator.of(
                                                                             context)
                                                                         .pop();
@@ -250,7 +263,8 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                                 TextButton(
                                                                   child: const Text(
                                                                       "Add to Order"),
-                                                                  onPressed: () {
+                                                                  onPressed:
+                                                                      () {
                                                                     //=================================
                                                                     //ERROR HANDLING FOR BILL REQUESTED
                                                                     //=================================
@@ -268,24 +282,20 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                                             (BuildContext
                                                                                 context) {
                                                                           return AlertDialog(
-                                                                            title: const Text(
-                                                                                'Alert!'),
+                                                                            title:
+                                                                                const Text('Alert!'),
                                                                             content:
                                                                                 SingleChildScrollView(
-                                                                              child:
-                                                                                  ListBody(
+                                                                              child: ListBody(
                                                                                 children: const <Widget>[
                                                                                   Text('Bill requested, Can not place anymore orders.'),
                                                                                 ],
                                                                               ),
                                                                             ),
-                                                                            actions: <
-                                                                                Widget>[
+                                                                            actions: <Widget>[
                                                                               TextButton(
-                                                                                child:
-                                                                                    const Text('OK'),
-                                                                                onPressed:
-                                                                                    () {
+                                                                                child: const Text('OK'),
+                                                                                onPressed: () {
                                                                                   Navigator.of(context).pop();
                                                                                 },
                                                                               ),
@@ -301,43 +311,34 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                                     else {
                                                                       String
                                                                           comment;
-                                                                      count == null
+                                                                      count ==
+                                                                              null
                                                                           ? count =
                                                                               1
                                                                           : count =
-                                                                              count
-                                                                                  ?.toInt();
+                                                                              count?.toInt();
                                                                       var price = double.parse(menuSnapshot
-                                                                              .data
-                                                                              ?.docs[index]
-                                                                          [
-                                                                          'price']);
+                                                                          .data
+                                                                          ?.docs[index]['price']);
                                                                       price = price *
                                                                           count!;
 
                                                                       widget.createOrderInfo.orderSetter(
-                                                                          menuSnapshot
-                                                                                  .data
-                                                                                  ?.docs[
-                                                                                      index]
-                                                                                  .id
+                                                                          menuSnapshot.data?.docs[index].id
                                                                               as String,
                                                                           count!,
-                                                                          menuSnapshot
-                                                                                  .data
-                                                                                  ?.docs[index]
+                                                                          menuSnapshot.data?.docs[index]
                                                                               [
                                                                               'itemName'],
-                                                                          price
-                                                                              .toStringAsFixed(
-                                                                                  2),
+                                                                          price.toStringAsFixed(
+                                                                              2),
                                                                           orderCommentsController
                                                                               .text,
                                                                           widget
                                                                               .priority,
-                                                                      
-                                                                      menuSnapshot.data?.docs[index]['imgURL'] as String
-                                                                      );
+                                                                          menuSnapshot
+                                                                              .data
+                                                                              ?.docs[index]['imgURL'] as String);
 
                                                                       Navigator.of(
                                                                               context)
@@ -346,8 +347,7 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                                       Navigator.push(
                                                                           context,
                                                                           MaterialPageRoute(
-                                                                              builder: (context) =>
-                                                                                  ViewOrder(createOrderInfo: widget.createOrderInfo)));
+                                                                              builder: (context) => ViewOrder(createOrderInfo: widget.createOrderInfo)));
                                                                     }
                                                                   },
                                                                 ),

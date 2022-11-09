@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 
 class OrdersPlacedTile extends StatelessWidget {
   late final String taskName;
   var time;
+  Function(BuildContext) onPressedEdit;
+  Function(BuildContext) onPressedDelete;
 
   //final bool taskCompleted;
   // Function(bool?)? onChanged;
@@ -13,9 +16,13 @@ class OrdersPlacedTile extends StatelessWidget {
   final String oStatus;
 
   //pColor for placed  iPColor for in progress button, dColor for delivered button
-  Color pColor = Color(0xffffebee);
-  Color iPColor = Color(0xfff9fbe7);
-  Color dColor = Color(0xffe8f5e9);
+  Color pColor = Colors.white;
+  Color iPColor = Colors.white;
+  Color dColor = Colors.white;
+
+  Color pTextColor = Colors.black;
+  Color ipTextColor = Colors.black;
+  Color dTextColor = Colors.black;
 
 
   OrdersPlacedTile({
@@ -26,21 +33,31 @@ class OrdersPlacedTile extends StatelessWidget {
     // required this.deleteFunction,
     required this.time,
     required this.oStatus,
+    required this.onPressedEdit,
+    required this.onPressedDelete,
   });
 
   @override
   Widget build(BuildContext context) {
     var isVisible = true;
-    if (oStatus == "delivered") {
-      dColor = Colors.green.shade300;
-    }
 
-    if (oStatus == "in progress") {
-      iPColor = Colors.orange.shade300;
-    }
 
-    else if (oStatus == "placed") {
-      pColor = Colors.redAccent;
+    if (oStatus == "in progress"){
+      iPColor= Colors.black;
+      ipTextColor = Colors.white;
+      pColor = Colors.white;
+      pTextColor = Colors.black;
+
+    }
+    else if (oStatus =="placed"){
+      pColor = Colors.black;
+      pTextColor = Colors.white;
+      ipTextColor = Colors.black;
+      iPColor = Colors.white;
+
+    } else {
+      dColor = Colors.black;
+      dTextColor = Colors.white;
     }
 
 
@@ -49,99 +66,120 @@ class OrdersPlacedTile extends StatelessWidget {
       builder: (context, snapshot) {
         return Padding(
           padding: const EdgeInsets.only(left: 15, right: 15, top: 25),
-          child: Container(
-            padding: const EdgeInsets.only(
-                right: 15, left: 10, bottom: 10, top: 10),
-            decoration: BoxDecoration(color: Colors.grey[100],
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.black54)
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          child: Slidable(
+            endActionPane: ActionPane(
+              motion: const StretchMotion(),
               children: [
-                //task name and time
-                Text(taskName + '\n' + 'Time Placed $newTime',
-                    style: const TextStyle(color: Colors.black54,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold)),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Visibility(
-                      visible: isVisible,
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.all(5),
-                            fixedSize: Size(100, 3),
-                            textStyle: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                            ),
-                            backgroundColor: pColor,
-                            foregroundColor: Colors.black54,
-                            side: const BorderSide(
-                              color: Colors.black38,
-                            ),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5)),
-                          ),
-
-                          onPressed: () => "hello",
-                          child: Text('Placed')),
-                    ),
-
-                    Visibility(
-                      visible: isVisible,
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.all(5),
-                            fixedSize: Size(100, 30),
-                            textStyle: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                            ),
-                            backgroundColor: iPColor,
-                            foregroundColor: Colors.black54,
-                            side: const BorderSide(
-                              color: Colors.black38,
-                            ),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5)),
-                          ),
-
-                          onPressed: () => "Hello",
-                          child: Text('In Progress')),
-                    ),
-
-                    Visibility(
-                      visible: isVisible,
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.all(5),
-                            fixedSize: Size(100, 3),
-                            textStyle: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                            ),
-                            backgroundColor: dColor,
-                            foregroundColor: Colors.black54,
-                            side: const BorderSide(
-                              color: Colors.black38,
-                            ),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5)),
-                          ),
-
-                          onPressed: () => "hello",
-                          child: Text('Delivered')),
-                    ),
-
-                  ],
+                SlidableAction(
+                  onPressed: onPressedEdit,
+                  icon: Icons.edit_note,
+                  label: 'EDIT',
+                  backgroundColor: Colors.blueAccent,
+                  borderRadius: BorderRadius.circular(10),
                 ),
-
-              ],
+                SlidableAction(
+                  onPressed: onPressedDelete,
+                  icon: Icons.delete,
+                  label: 'DELETE',
+                  backgroundColor: Colors.redAccent,
+                  borderRadius: BorderRadius.circular(10),
+                )
+              ]
             ),
-          ),
+            child: Container(
+              padding: const EdgeInsets.only(
+                  right: 15, left: 10, bottom: 10, top: 10),
+              decoration: BoxDecoration(color: Colors.grey[100],
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.black54)
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  //task name and time
+                  Text(taskName + '\n' + 'Time Placed $newTime',
+                      style: const TextStyle(color: Colors.black54,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Visibility(
+                        visible: isVisible,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.all(5),
+                              fixedSize: const Size(100, 3),
+                              textStyle: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                              backgroundColor: pColor,
+                              foregroundColor: pTextColor,
+                              side: const BorderSide(
+                                color: Colors.black38,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
+                            ),
+
+                            onPressed: () => "hello",
+                            child: Text('Placed')),
+                      ),
+
+                      Visibility(
+                        visible: isVisible,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.all(5),
+                              fixedSize: Size(100, 30),
+                              textStyle: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                              backgroundColor: iPColor,
+                              foregroundColor: Colors.black54,
+                              side: const BorderSide(
+                                color: Colors.black38,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
+                            ),
+
+                            onPressed: () => "Hello",
+                            child: Text('In Progress')),
+                      ),
+
+                      Visibility(
+                        visible: isVisible,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.all(5),
+                              fixedSize: Size(100, 3),
+                              textStyle: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                              backgroundColor: dColor,
+                              foregroundColor: Colors.black54,
+                              side: const BorderSide(
+                                color: Colors.black38,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
+                            ),
+
+                            onPressed: () => "hello",
+                            child: Text('Delivered')),
+                      ),
+
+                    ],
+                  ),
+
+                ],
+              ),
+            ),
+          )
         );
       },
     );

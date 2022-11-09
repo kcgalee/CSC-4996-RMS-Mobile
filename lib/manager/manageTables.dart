@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_management_system/manager/Utility/managerTile.dart';
 import 'package:restaurant_management_system/manager/addTable.dart';
 import 'package:restaurant_management_system/widgets/customBackButton.dart';
 import 'Utility/MangerNavigationDrawer.dart';
+import 'Utility/manageTableTile.dart';
 import 'Utility/selectRestaurant.dart';
 import 'editTable.dart';
 import 'managerHome.dart';
@@ -55,7 +55,8 @@ class _ManageTables extends State<ManageTables> {
                 );
               }),
             ),
-            Text(widget.restName),
+            Text(widget.restName,style: TextStyle(fontSize: 30),),
+            SizedBox(height: 20,),
             Expanded(
               child: StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('tables').where('restID', isEqualTo: widget.restaurantID).orderBy('tableNum').snapshots(),
@@ -66,12 +67,12 @@ class _ManageTables extends State<ManageTables> {
                       return ListView.builder(
                           itemCount: snapshot.data?.docs.length,
                           itemBuilder: (context, index) {
-                            return ManagerTile(
-                                taskName: snapshot.data?.docs[index]['tableNum'].toString() ?? '',
-                                subTitle: 'Type: ' + (snapshot.data?.docs[index]['type'].toString() ?? '')
-                                    + '\nLocation: ' + (snapshot.data?.docs[index]['location'].toString() ?? '')
-                                    + '\n' + (snapshot.data?.docs[index]['currentCapacity'].toString() ?? '') + '/'
+                            return ManageTableTile(
+                                capacity: (snapshot.data?.docs[index]['currentCapacity'].toString() ?? '') + '/'
                                     + (snapshot.data?.docs[index]['maxCapacity'].toString() ?? ''),
+                                tableNumber: snapshot.data?.docs[index]['tableNum'].toString() ?? '',
+                                subTitle: 'Type: ' + (snapshot.data?.docs[index]['type'].toString() ?? '')
+                                    + '\nLocation: ' + (snapshot.data?.docs[index]['location'].toString() ?? ''),
                                 onPressedEdit:  (p0) => {
                                   if (snapshot.data?.docs[index]['currentCapacity'] != 0) {
                                     ScaffoldMessenger.of(context).showSnackBar(

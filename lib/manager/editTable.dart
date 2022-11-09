@@ -123,7 +123,7 @@ class _EditTable extends State<EditTable> {
                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                             content: Text('Could not save changes, there is no information to update.'),
                           ));
-                        } else if (status){
+                        } else if (tableNumberController.text != widget.tableNumber.toString() && status){
                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                             content: Text('A table already exists with that number.'),
                           ));

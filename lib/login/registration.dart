@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/login/login.dart';
 import 'package:restaurant_management_system/widgets/passwordTextField.dart';
 import '../customer/customerHome.dart';
-import 'package:cloud_firestore/cloud_firestore.dart'; //save for later use
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../widgets/customTextForm.dart';
