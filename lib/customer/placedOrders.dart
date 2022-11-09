@@ -101,11 +101,47 @@ class _PlacedOrders extends State<PlacedOrders> {
                                            //Check to see if progress has been made
                                           if(snapshot.data?.docs[index]['status'] == 'placed'){
 
+
+
                                           }
 
                                           //ALERT USER THAT ORDER IS IN PROGRESS
                                           else {
 
+                                            showDialog<void>(
+                                              context: context,
+                                              barrierDismissible:
+                                              false,
+                                              // user must tap button!
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title: const Text(
+                                                      'Cannot delete order'),
+                                                  content:
+                                                  SingleChildScrollView(
+                                                    child: ListBody(
+                                                      children: const <
+                                                          Widget>[
+                                                        Text(
+                                                            'Order is in progress'),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      child:
+                                                      const Text(
+                                                          'OK'),
+                                                      onPressed: () {
+                                                        Navigator.of(
+                                                            context)
+                                                            .pop();
+                                                      },
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
                                           }
 
                                       },
