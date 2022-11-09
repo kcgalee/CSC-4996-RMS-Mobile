@@ -169,11 +169,6 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                         AlertDialog(
                                                           insetPadding:
                                                               EdgeInsets.zero,
-                                                          title: Text(
-                                                              menuSnapshot.data
-                                                                          ?.docs[
-                                                                      index]
-                                                                  ['itemName']),
                                                           content: Builder(
                                                             builder: (context) {
                                                               // Get available height and width of the build area of this widget. Make a choice depending on the size.
@@ -193,14 +188,31 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                                   width: 500,
                                                                   child: Column(
                                                                       children: [
+                                                                        if (menuSnapshot.data?.docs[index]['imgURL'] !=
+                                                                            '')
+                                                                          SizedBox(
+                                                                            height:
+                                                                                250,
+                                                                            width:
+                                                                                350,
+                                                                            child:
+                                                                                Image.network(menuSnapshot.data?.docs[index]['imgURL']),
+                                                                          ),
+                                                                        SizedBox(height: 20),
+                                                                        Text(
+                                                                          menuSnapshot.data?.docs[index]['itemName'],
+                                                                          style:
+                                                                              const TextStyle(
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                            fontSize:
+                                                                                20,
+                                                                          ),
+                                                                        ),
                                                                         Text(menuSnapshot.data?.docs[index]['description'] +
                                                                             "\n\n \$" +
                                                                             menuSnapshot.data?.docs[index]['price']),
-                                                                        if (menuSnapshot.data?.docs[index]['imgURL'] !=
-                                                                            '')
-                                                                          Image.network(menuSnapshot
-                                                                              .data
-                                                                              ?.docs[index]['imgURL']),
+                                                                        SizedBox(height: 20),
                                                                         CustomTextForm(
                                                                             hintText:
                                                                                 'Optional Order Comments',
@@ -216,7 +228,8 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                                                 100,
                                                                             icon:
                                                                                 const Icon(Icons.fastfood))
-                                                                      ]));
+                                                                      ])
+                                                              );
                                                             },
                                                           ),
                                                           actions: <Widget>[
