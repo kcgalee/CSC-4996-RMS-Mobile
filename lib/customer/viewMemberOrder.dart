@@ -69,7 +69,7 @@ class _ViewMemberOrder extends State<ViewMemberOrder> {
                                           + '\nPlaced by ' + (snapshot.data?.docs[index]['custName'] ?? '')}'
                                           '\nPrice: \$' + (snapshot.data?.docs[index]['price'] ?? ''),
                                       time:(snapshot.data?.docs[index]['timePlaced'] ?? '') ,
-                                      oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
+                                      oStatus: (snapshot.data?.docs[index]['status'] ?? ''), onPressedEdit: (BuildContext ) {  }, onPressedDelete: (BuildContext ) {  },
                                     );
 
 
