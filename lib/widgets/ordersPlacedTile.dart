@@ -97,7 +97,7 @@ class OrdersPlacedTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   //task name and time
-                  Text(taskName + '\n' + 'Time Placed: $newTime',
+                  Text(taskName + '\n' + 'Time Placed $newTime',
                       style: const TextStyle(color: Colors.black54,
                           fontSize: 15,
                           fontWeight: FontWeight.bold)),
@@ -109,7 +109,7 @@ class OrdersPlacedTile extends StatelessWidget {
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.all(5),
-                              fixedSize: Size(100, 3),
+                              fixedSize: const Size(100, 3),
                               textStyle: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15,
