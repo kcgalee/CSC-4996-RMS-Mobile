@@ -78,7 +78,8 @@ class _ManageEmployeeState extends State<ManageEmployee> {
                                         prefName: (snapshot.data?.docs[index]['prefName'] ?? ''),
                                         phone: snapshot.data?.docs[index]['phone'] ?? '')
                                     ))
-                              }
+                              },
+                              onTap: () {  },
                             );
                           }
                       );
