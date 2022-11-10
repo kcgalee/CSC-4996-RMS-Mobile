@@ -197,9 +197,11 @@ class _ViewTableState extends State<ViewTable> {
     await FirebaseFirestore.instance.collection('orders').where('tableID', isEqualTo: widget.tableID).where('waiterID', isEqualTo: 'unhandled').get().then(
           (orders) {
             if (orders.size != 0){
-              for (var element in orders.docs) {
-                element.data().update('waiterID', (value) => user);
-              }
+              orders.docs.forEach((element) {
+                element.reference.update({
+                  'waiterID': user,
+                });
+              });
             }
       });
   }
