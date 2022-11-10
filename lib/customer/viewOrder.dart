@@ -105,8 +105,20 @@ class _ViewOrder extends State<ViewOrder> {
                                                    .createOrderInfo,
                                                onPressedEdit: (BuildContext ) {
 
+
+
                                                },
-                                               onPressedDelete: (BuildContext ) {  },
+                                               onPressedDelete: (BuildContext ) {
+                                                 //Delete order from createOrderInfo object
+                                                widget.createOrderInfo.deleteItem(index);
+
+                                                //Reload page with new order list
+                                                Navigator.pop(context);
+                                                Navigator.push(
+                                                    context, MaterialPageRoute(
+                                                    builder: (
+                                                        context) => ViewOrder(createOrderInfo: widget.createOrderInfo)));
+                                               },
                                              );
                                            }
                                        )
@@ -259,6 +271,7 @@ class _ViewOrder extends State<ViewOrder> {
 
        );
  }
+
 
 
 }

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/widgets/ordersPlacedTile.dart';
 import '../widgets/customSubButton.dart';
@@ -90,7 +91,111 @@ class _PlacedOrders extends State<PlacedOrders> {
                                               + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '')
                                               + '\nPrice: \$' + (snapshot.data?.docs[index]['price'] ?? ''),
                                           time:(snapshot.data?.docs[index]['timePlaced'] ?? '') ,
-                                          oStatus: (snapshot.data?.docs[index]['status'] ?? ''), onPressedEdit: (BuildContext ) {  }, onPressedDelete: (BuildContext ) {  },
+                                          oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
+
+                                        //===================================================
+                                        //Customer can edit order if no progress has been made
+                                        //===================================================
+                                        onPressedEdit: (BuildContext ) {
+
+                                           //Check to see if progress has been made
+                                          if(snapshot.data?.docs[index]['status'] == 'placed'){
+
+
+
+                                          }
+
+                                          //ALERT USER THAT ORDER IS IN PROGRESS
+                                          else {
+
+                                            showDialog<void>(
+                                              context: context,
+                                              barrierDismissible:
+                                              false,
+                                              // user must tap button!
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title: const Text(
+                                                      'Cannot delete order'),
+                                                  content:
+                                                  SingleChildScrollView(
+                                                    child: ListBody(
+                                                      children: const <
+                                                          Widget>[
+                                                        Text(
+                                                            'Order is in progress'),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      child:
+                                                      const Text(
+                                                          'OK'),
+                                                      onPressed: () {
+                                                        Navigator.of(
+                                                            context)
+                                                            .pop();
+                                                      },
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          }
+
+                                      },
+                                        //======================================================
+                                        //Customer can delete order if no progress has been made
+                                        //======================================================
+                                        onPressedDelete: (BuildContext ) {
+
+                                            //check to see if progress has been made
+                                            if(snapshot.data?.docs[index]['status'] == 'placed'){
+                                              String collectionRef = 'tables/${userSnapshot.data!['tableID']}/tableOrders';
+                                              deleteOrder(snapshot.data?.docs[index].id as String, collectionRef);
+                                            }
+
+                                            //ALERT USER THAT ORDER IS IN PROGRESS
+                                            else {
+                                              showDialog<void>(
+                                                context: context,
+                                                barrierDismissible:
+                                                false,
+                                                // user must tap button!
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    title: const Text(
+                                                        'Cannot delete order'),
+                                                    content:
+                                                    SingleChildScrollView(
+                                                      child: ListBody(
+                                                        children: const <
+                                                            Widget>[
+                                                          Text(
+                                                              'Order is in progress'),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    actions: <Widget>[
+                                                      TextButton(
+                                                        child:
+                                                        const Text(
+                                                            'OK'),
+                                                        onPressed: () {
+                                                          Navigator.of(
+                                                              context)
+                                                              .pop();
+                                                        },
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
+
+                                            }
+
+                                      },
                                       );
 
 
@@ -105,5 +210,13 @@ class _PlacedOrders extends State<PlacedOrders> {
                 })
           ],
         ));
+  }
+
+  void deleteOrder(String orderID, String colectionRef){
+
+    FirebaseFirestore.instance.collection('orders').doc(orderID).delete();
+
+    FirebaseFirestore.instance.collection(colectionRef).doc(orderID).delete();
+
   }
 }
