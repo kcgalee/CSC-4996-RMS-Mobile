@@ -97,13 +97,13 @@ class _ManageRestaurant extends State<ManageRestaurant> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           SizedBox(height: 20,),
-                                          Text('Restaurant Name',style: TextStyle(fontSize: 20,),),
-                                          Text('Address',style: TextStyle(fontSize: 20,),),
-                                          Text('Phone Number',style: TextStyle(fontSize: 20,),),
-                                          Text('Email',style: TextStyle(fontSize: 20,),),
-                                          Text('Weekday Hours',style: TextStyle(fontSize: 20,),),
-                                          Text('Weekend Hours',style: TextStyle(fontSize: 20,),),
-
+                                          Text(snapshot.data?.docs[index]['restName'],style: TextStyle(fontSize: 20,),),
+                                          Text(snapshot.data?.docs[index]['address'],style: TextStyle(fontSize: 20,),),
+                                          Text('${snapshot.data?.docs[index]['zipcode']} ${snapshot.data?.docs[index]['city']}, ${snapshot.data?.docs[index]['state']}',style: TextStyle(fontSize: 20,),),
+                                          Text(snapshot.data?.docs[index]['phone'],style: TextStyle(fontSize: 20,),),
+                                          Text(snapshot.data?.docs[index]['email'],style: TextStyle(fontSize: 20,),),
+                                          Text('Weekday Hours: ${snapshot.data?.docs[index]['openTimeWKday']} - ${snapshot.data?.docs[index]['closeTimeWKday']}',style: TextStyle(fontSize: 20,),),
+                                          Text('Weekend Hours: ${snapshot.data?.docs[index]['openTimeWKend']} - ${snapshot.data?.docs[index]['closeTimeWKend']}',style: TextStyle(fontSize: 20,),),
                                         ],
                                       ),
                                     )

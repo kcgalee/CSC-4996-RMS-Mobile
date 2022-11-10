@@ -91,13 +91,12 @@ class _ManageEmployeeState extends State<ManageEmployee> {
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: const [
+                                        children: [
                                           SizedBox(height: 20,),
-                                          Text('Name',style: TextStyle(fontSize: 20,),),
-                                          Text('Preferrd Name',style: TextStyle(fontSize: 20,),),
-                                          Text('Email',style: TextStyle(fontSize: 20,),),
-                                          Text('Phone Number',style: TextStyle(fontSize: 20,),),
-
+                                          Text('${snapshot.data?.docs[index]['fName']} ${snapshot.data?.docs[index]['lName']}',style: TextStyle(fontSize: 20,),),
+                                          Text(snapshot.data?.docs[index]['prefName'] == '' ? 'Preferred name: N/A':'Preferred name: ${snapshot.data?.docs[index]['prefName']}',style: TextStyle(fontSize: 20,),),
+                                          Text(snapshot.data?.docs[index]['email'],style: TextStyle(fontSize: 20,),),
+                                          Text(snapshot.data?.docs[index]['phone'],style: TextStyle(fontSize: 20,),),
                                         ],
                                       ),
                                     )
