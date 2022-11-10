@@ -37,7 +37,7 @@ class NavigationDrawer extends StatelessWidget {
       ),
       ListTile(
         leading: const Icon(Icons.food_bank),
-        title: const Text('Past Orders'),
+        title: const Text('Past Visits'),
         onTap: () =>
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) =>  PastVisits())),
       ),
