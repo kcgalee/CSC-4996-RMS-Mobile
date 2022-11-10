@@ -82,7 +82,33 @@ class _ManageRestaurant extends State<ManageRestaurant> {
                                 },
                                 onPressedDelete: (p0) =>  {
                                   deleteRestaurant(snapshot.data?.docs[index].reference.id)
-                                }
+                                },
+                              onTap: (){
+                                showModalBottomSheet(
+                                    shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(topLeft: Radius.circular(24),topRight:Radius.circular(24))
+                                    ),
+                                    backgroundColor: Colors.white,
+                                    context: context,
+                                    builder: (context) => Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(height: 20,),
+                                          Text('Restaurant Name',style: TextStyle(fontSize: 20,),),
+                                          Text('Address',style: TextStyle(fontSize: 20,),),
+                                          Text('Phone Number',style: TextStyle(fontSize: 20,),),
+                                          Text('Email',style: TextStyle(fontSize: 20,),),
+                                          Text('Weekday Hours',style: TextStyle(fontSize: 20,),),
+                                          Text('Weekend Hours',style: TextStyle(fontSize: 20,),),
+
+                                        ],
+                                      ),
+                                    )
+                                );
+                              },
                             );
 
                           }

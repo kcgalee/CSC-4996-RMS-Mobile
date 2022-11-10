@@ -78,7 +78,31 @@ class _ManageEmployeeState extends State<ManageEmployee> {
                                         prefName: (snapshot.data?.docs[index]['prefName'] ?? ''),
                                         phone: snapshot.data?.docs[index]['phone'] ?? '')
                                     ))
-                              }
+                              },
+                              onTap: () {
+                                showModalBottomSheet(
+                                    shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(topLeft: Radius.circular(24),topRight:Radius.circular(24))
+                                    ),
+                                    backgroundColor: Colors.white,
+                                    context: context,
+                                    builder: (context) => Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: const [
+                                          SizedBox(height: 20,),
+                                          Text('Name',style: TextStyle(fontSize: 20,),),
+                                          Text('Preferrd Name',style: TextStyle(fontSize: 20,),),
+                                          Text('Email',style: TextStyle(fontSize: 20,),),
+                                          Text('Phone Number',style: TextStyle(fontSize: 20,),),
+
+                                        ],
+                                      ),
+                                    )
+                                );
+                              },
                             );
                           }
                       );
