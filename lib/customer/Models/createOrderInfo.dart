@@ -188,6 +188,11 @@ void deleteItem(int index) {
     priority.removeAt(index);
 }
 
+  updateOrder(int index, int count, String price, String comment) {
+    this.price[index] = price;
+    this.count[index] = count;
+    orderComments[index] = comment;
+  }
 
 
 }
