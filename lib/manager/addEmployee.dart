@@ -199,7 +199,8 @@ class _AddEmployee extends State<AddEmployee> {
           'restID' : restID,
           'date': Timestamp.fromDate(now),
           'managerID' : managerID,
-          'phone' : phone
+          'phone' : phone,
+          'isActive': true,
         }
 
 

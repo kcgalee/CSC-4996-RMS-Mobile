@@ -13,7 +13,7 @@ class ShowMenuItems extends StatefulWidget {
   final int priority;
   final CreateOrderInfo createOrderInfo;
 
-  ShowMenuItems(
+  const ShowMenuItems(
       {Key? key,
       required this.text,
       required this.restName,
@@ -309,8 +309,6 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                                     //NO ERRORS PLACE ADD ITEM TO ORDER
                                                                     //=================================
                                                                     else {
-                                                                      String
-                                                                          comment;
                                                                       count ==
                                                                               null
                                                                           ? count =

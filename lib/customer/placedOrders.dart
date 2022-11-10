@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:counter/counter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/widgets/ordersPlacedTile.dart';
 import '../widgets/customSubButton.dart';
+import '../widgets/customTextForm.dart';
 import 'Utility/navigation.dart';
 import 'customerHome.dart';
 
@@ -85,12 +88,281 @@ class _PlacedOrders extends State<PlacedOrders> {
                                     itemCount: snapshot.data?.docs.length,
                                     itemBuilder: (context, index){
                                       return OrdersPlacedTile(
-                                          taskName: '\nItem: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
+                                          taskName: '${'\nItem: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
                                               + '  x ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
-                                              + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '')
-                                              + '\nPrice: \$' + (snapshot.data?.docs[index]['price'] ?? ''),
+                                              + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '')}\nPrice: \$' + (snapshot.data?.docs[index]['price'] ?? ''),
                                           time:(snapshot.data?.docs[index]['timePlaced'] ?? '') ,
-                                          oStatus: (snapshot.data?.docs[index]['status'] ?? ''), onPressedEdit: (BuildContext ) {  }, onPressedDelete: (BuildContext ) {  },
+                                          oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
+
+                                        //===================================================
+                                        //Customer can edit order if no progress has been made
+                                        //===================================================
+                                        onPressedEdit: (BuildContext ) {
+
+                                           //Check to see if progress has been made
+                                          if(snapshot.data?.docs[index]['status'] == 'placed'){
+                                            int currentCount = snapshot
+                                                .data
+                                                ?.docs[index]['quantity'];
+                                            int? count = 0;
+                                            String collectionRef = 'tables/${userSnapshot.data!['tableID']}/tableOrders';
+                                            final orderCommentsController = TextEditingController();
+                                            orderCommentsController.clear();
+                                            //=============================
+                                            //Pop up for editing order
+                                            //=============================
+                                            showDialog(
+                                            context: context,
+                                          builder:
+                                            (context)
+                                            {
+                                              return Expanded(
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                    children: [
+                                                      AlertDialog(
+                                                        insetPadding:
+                                                        EdgeInsets.zero,
+                                                        content: Builder(
+                                                          builder: (context) {
+                                                            // Get available height and width of the build area of this widget. Make a choice depending on the size.
+                                                            var height =
+                                                                MediaQuery
+                                                                    .of(
+                                                                    context)
+                                                                    .size
+                                                                    .height;
+                                                            var width =
+                                                                MediaQuery
+                                                                    .of(
+                                                                    context)
+                                                                    .size
+                                                                    .width;
+
+                                                            return SizedBox(
+                                                                height: 500,
+                                                                width: 500,
+                                                                child: Column(
+                                                                    children: [
+                                                                      const Text('EDIT ORDER'),
+                                                                      if (snapshot
+                                                                          .data
+                                                                          ?.docs[index]['imgURL'] !=
+                                                                          '')
+                                                                        SizedBox(
+                                                                          height:
+                                                                          250,
+                                                                          width:
+                                                                          350,
+                                                                          child:
+                                                                          Image
+                                                                              .network(
+                                                                              snapshot
+                                                                                  .data
+                                                                                  ?.docs[index]['imgURL']),
+                                                                        ),
+                                                                      const SizedBox(
+                                                                          height: 20),
+                                                                      Text(
+                                                                        snapshot
+                                                                            .data
+                                                                            ?.docs[index]['itemName'],
+                                                                        style:
+                                                                        const TextStyle(
+                                                                          fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                          fontSize:
+                                                                          20,
+                                                                        ),
+                                                                      ),
+                                                                      Text(
+                                                                          "\$ ${snapshot.data?.docs[index]['price']}"),
+                                                                      const SizedBox(
+                                                                          height: 20),
+                                                                      CustomTextForm(
+                                                                          hintText:
+                                                                          'Optional Order Comments',
+                                                                          controller:
+                                                                          orderCommentsController,
+                                                                          validator:
+                                                                          null,
+                                                                          keyboardType: TextInputType
+                                                                              .text,
+                                                                          maxLines:
+                                                                          2,
+                                                                          maxLength:
+                                                                          100,
+                                                                          icon:
+                                                                          const Icon(Icons.fastfood))
+
+                                                                    ])
+                                                            );
+                                                          },
+                                                        ),
+                                                        actions: <Widget>[
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                            children: [
+                                                              TextButton(
+                                                                child: const Text(
+                                                                    "Cancel"),
+                                                                onPressed:
+                                                                    () {
+                                                                  Navigator.of(
+                                                                      context)
+                                                                      .pop();
+                                                                },
+                                                              ),
+                                                              Counter(
+                                                                initial: snapshot.data?.docs[index]['quantity'],
+                                                                min: 1,
+                                                                max: 10,
+                                                                bound: 1,
+                                                                step: 1,
+                                                                onValueChanged:
+                                                                    (value) {
+                                                                  count = value
+                                                                  as int?;
+                                                                },
+                                                              ),
+                                                              TextButton(
+                                                                child: const Text(
+                                                                    "Change Order"),
+                                                                onPressed:
+                                                                    () {
+                                                                  //=================================
+                                                                  //NO ERRORS PLACE ADD ITEM TO ORDER
+                                                                  //=================================
+                                                                  count ==
+                                                                      null
+                                                                      ? count =
+                                                                  1
+                                                                      : count =
+                                                                      count
+                                                                          ?.toInt();
+                                                                  var price = double
+                                                                      .parse(
+                                                                      snapshot
+                                                                          .data
+                                                                          ?.docs[index]['price'])/currentCount;
+
+                                                                  price =
+                                                                      price *
+                                                                          count!;
+
+                                                                  //Send new data to database
+                                                                    updateOrder(snapshot.data?.docs[index].id as String,
+                                                                        count!, price.toStringAsFixed(2), orderCommentsController.text.toString(), collectionRef);
+
+                                                                  Navigator.of(
+                                                                      context)
+                                                                      .pop();
+                                                                },
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ));
+                                            });
+                                          }
+
+                                          //ALERT USER THAT ORDER IS IN PROGRESS
+                                          else {
+
+                                            showDialog<void>(
+                                              context: context,
+                                              barrierDismissible:
+                                              false,
+                                              // user must tap button!
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title: const Text(
+                                                      'Cannot delete order'),
+                                                  content:
+                                                  SingleChildScrollView(
+                                                    child: ListBody(
+                                                      children: const <
+                                                          Widget>[
+                                                        Text(
+                                                            'Order is in progress'),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      child:
+                                                      const Text(
+                                                          'OK'),
+                                                      onPressed: () {
+                                                        Navigator.of(
+                                                            context)
+                                                            .pop();
+                                                      },
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          }
+
+                                      },
+                                        //======================================================
+                                        //Customer can delete order if no progress has been made
+                                        //======================================================
+                                        onPressedDelete: (BuildContext ) {
+
+                                            //check to see if progress has been made
+                                            if(snapshot.data?.docs[index]['status'] == 'placed'){
+                                              String collectionRef = 'tables/${userSnapshot.data!['tableID']}/tableOrders';
+                                              deleteOrder(snapshot.data?.docs[index].id as String, collectionRef);
+                                            }
+
+                                            //ALERT USER THAT ORDER IS IN PROGRESS
+                                            else {
+                                              showDialog<void>(
+                                                context: context,
+                                                barrierDismissible:
+                                                false,
+                                                // user must tap button!
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    title: const Text(
+                                                        'Cannot delete order'),
+                                                    content:
+                                                    SingleChildScrollView(
+                                                      child: ListBody(
+                                                        children: const <
+                                                            Widget>[
+                                                          Text(
+                                                              'Order is in progress'),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    actions: <Widget>[
+                                                      TextButton(
+                                                        child:
+                                                        const Text(
+                                                            'OK'),
+                                                        onPressed: () {
+                                                          Navigator.of(
+                                                              context)
+                                                              .pop();
+                                                        },
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
+
+                                            }
+
+                                      },
                                       );
 
 
@@ -106,4 +378,33 @@ class _PlacedOrders extends State<PlacedOrders> {
           ],
         ));
   }
+
+  void deleteOrder(String orderID, String colectionRef){
+
+    //deletes document from orders collection
+    FirebaseFirestore.instance.collection('orders').doc(orderID).delete();
+
+    //deletes document from tableOrders collection
+    FirebaseFirestore.instance.collection(colectionRef).doc(orderID).delete();
+
+  }
+
+  void updateOrder(String orderID, int count, String price, String comment, String collectionRef){
+
+    //update orders document
+    FirebaseFirestore.instance.collection('order').doc(orderID).update({
+      'quantity' : count,
+      'orderComment' : comment,
+      'price' : price,
+    });
+
+    //update tableOrders document
+    FirebaseFirestore.instance.collection(collectionRef).doc(orderID).update({
+      'quantity' : count,
+      'orderComment' : comment,
+      'price' : price,
+    });
+
+  }
+
 }
