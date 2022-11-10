@@ -175,7 +175,6 @@ class _ViewTableState extends State<ViewTable> {
     }
   }
 
-  //in-progress
   Future joinTable() async{
     String name = "";
     var user = FirebaseAuth.instance.currentUser?.uid;
@@ -194,6 +193,17 @@ class _ViewTableState extends State<ViewTable> {
       'waiterID': user,
       'waiterName': name,
     });
+
+    await FirebaseFirestore.instance.collection('orders').where('tableID', isEqualTo: widget.tableID).where('waiterID', isEqualTo: 'unhandled').get().then(
+          (orders) {
+            if (orders.size != 0){
+              orders.docs.forEach((element) {
+                element.reference.update({
+                  'waiterID': user,
+                });
+              });
+            }
+      });
   }
 
   Future closeTable() async{
@@ -251,6 +261,15 @@ class _ViewTableState extends State<ViewTable> {
   }
 
   leaveTable() async {
+    FirebaseFirestore.instance.collection('tables/' + widget.tableID + '/tableOrders').get().then(
+            (element) {
+              element.docs.forEach((element) async {
+                await FirebaseFirestore.instance.collection('orders').doc(element.id).update({
+                  'waiterID': 'unhandled',
+                });
+              });
+            });
+
     var table = await FirebaseFirestore.instance.collection('tables').doc(widget.tableID).get();
     await table.reference.update({
       'waiterID': '',

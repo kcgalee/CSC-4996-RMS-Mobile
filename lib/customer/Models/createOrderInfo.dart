@@ -37,15 +37,16 @@ class CreateOrderInfo{
 
   void placeOrder(String tableID, String tableNum, String waiterID, String restID) {
     for(int i = 0; i < itemCount; i++) {
-      placeOrderHelper(itemID[i], itemName[i], count[i], price[i], orderComments[i], priority[i],
-          tableID, tableNum, waiterID, restID);
+      placeOrderHelper(itemID[i], itemName[i], count[i], price[i],
+          orderComments[i], priority[i], tableID,
+          tableNum, waiterID, restID, imgURL[i]);
     }
     orderClear();
   }//place order
 
   void placeOrderHelper(String itemID, String itemName, int count, String price,
       String comments, int priority, String tableID, String tableNum,
-      String waiterID, String restID)
+      String waiterID, String restID, String imgURL)
   {
 
     var uID = FirebaseAuth.instance.currentUser?.uid.toString();
@@ -82,6 +83,7 @@ class CreateOrderInfo{
             .set(
 
         {
+          'imgURL' : imgURL,
           'orderComment' : comments,
           'price' : price,
           'custName' : custName,
@@ -174,6 +176,23 @@ class CreateOrderInfo{
     itemCount = 0;
  }
 
+ //deletes item from current order
+void deleteItem(int index) {
+    itemCount = itemCount - 1;
+    itemID.removeAt(index);
+    itemName.removeAt(index);
+    count.removeAt(index);
+    imgURL.removeAt(index);
+    price.removeAt(index);
+    orderComments.removeAt(index);
+    priority.removeAt(index);
+}
+
+  updateOrder(int index, int count, String price, String comment) {
+    this.price[index] = price;
+    this.count[index] = count;
+    orderComments[index] = comment;
+  }
 
 
 }

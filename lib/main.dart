@@ -21,15 +21,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    /*return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Restaurant Management System',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MainScreen(),
-    );
-  }*/
     String acctType = "";
     bool isLogged = false;
 

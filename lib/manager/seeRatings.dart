@@ -84,7 +84,8 @@ class _SeeRatings extends State<SeeRatings> {
                                           onPressedEdit: (p0) => {
                                           },
                                           onPressedDelete: (p0) => {
-                                          }
+                                          },
+                                        onTap: (){},
                                       );
                                     }
                                 ))

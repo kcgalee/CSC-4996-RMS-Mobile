@@ -21,6 +21,12 @@ class CustomerHome extends StatefulWidget {
 }
 
 class _CustomerHomeState extends State<CustomerHome> {
+  late var openTimeWk,
+      openTimeWkEnd,
+      closeTimeWk,
+      closeTimeWkEnd,
+      address,
+      phone;
   CreateOrderInfo createOrderInfo =
       CreateOrderInfo(FirebaseAuth.instance.currentUser?.uid);
 
@@ -140,7 +146,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                                   builder: (context, snapshot) {
                                     if (!snapshot.hasData ||
                                         (snapshot.data?.size == 0)) {
-                                      return Center(
+                                      return const Center(
                                           child:
                                               Text('You have no past orders'));
                                     } else {
@@ -223,33 +229,86 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                         fontSize: 40,
                                                         color: Colors.white),
                                                   ),
+
+                                                  //Restaurant Info Button
                                                   IconButton(
-                                                    icon: const Icon(Icons.info),
-                                                    color: Colors.white,
-                                                    onPressed: () =>
-                                                        showDialog<String>(
-                                                      context: context,
-                                                      builder: (BuildContext
-                                                              context) =>
-                                                          AlertDialog(
-                                                        title: Text(
-                                                            tableSnapshot
-                                                                .data!['restName'] + " Info"),
-                                                        content: const Text(
-                                                            'AlertDialog description'),
-                                                        actions: <Widget>[
-                                                          TextButton(
-                                                            onPressed: () =>
-                                                                Navigator.pop(
-                                                                    context,
-                                                                    'Close'),
-                                                            child: const Text(
-                                                                'Close'),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  )
+                                                      icon: const Icon(
+                                                          Icons.info),
+                                                      color: Colors.white,
+                                                      onPressed: () async => {
+                                                            //Retrieve restaurant open/closing time
+                                                            await getRestInfo(
+                                                                tableSnapshot
+                                                                        .data![
+                                                                    'restID']),
+
+                                                            showDialog<String>(
+                                                              context: context,
+                                                              builder: (BuildContext
+                                                                      context) =>
+
+                                                                  //display restaurant open/closing time, address, phone number
+                                                                  AlertDialog(
+                                                                title: Text(tableSnapshot
+                                                                            .data![
+                                                                        'restName'] +
+                                                                    " Info"),
+                                                                content:
+                                                                    SizedBox(
+                                                                  height: 300.0,
+                                                                  child: Column(
+                                                                    children: [
+                                                                      const Text(
+                                                                          'Address',
+                                                                          style: TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 20,
+                                                                              color: Colors.black)),
+                                                                      Text(
+                                                                          address),
+                                                                      const Text(
+                                                                          '\nPhone Number',
+                                                                          style: TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 20,
+                                                                              color: Colors.black)),
+                                                                      Text(
+                                                                          phone),
+                                                                      const Text(
+                                                                          "\nWeekday Hours",
+                                                                          style: TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 20,
+                                                                              color: Colors.black)),
+                                                                      Text(openTimeWk +
+                                                                          ' - ' +
+                                                                          closeTimeWk),
+                                                                      const Text(
+                                                                          "\nWeekend Hours",
+                                                                          style: TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 20,
+                                                                              color: Colors.black)),
+                                                                      Text(openTimeWkEnd +
+                                                                          ' - ' +
+                                                                          closeTimeWkEnd),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                actions: <
+                                                                    Widget>[
+                                                                  TextButton(
+                                                                    onPressed: () =>
+                                                                        Navigator.pop(
+                                                                            context,
+                                                                            'Close'),
+                                                                    child: const Text(
+                                                                        'Close'),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          })
                                                 ]),
                                                 Row(
                                                   children: [
@@ -656,5 +715,23 @@ class _CustomerHomeState extends State<CustomerHome> {
             ]),
           ),
         ));
+  }
+
+  getRestInfo(String restID) async {
+    await FirebaseFirestore.instance
+        .collection('restaurants')
+        .doc(restID)
+        .get()
+        .then((element) {
+      openTimeWk = element['openTimeWKday'];
+      closeTimeWk = element['closeTimeWKday'];
+
+      openTimeWkEnd = element['openTimeWKend'];
+      closeTimeWkEnd = element['closeTimeWKend'];
+
+      phone = element['phone'];
+      address =
+          '${element['address']}\n${element['zipcode']} ${element['city']}, ${element['state']}';
+    });
   }
 }
