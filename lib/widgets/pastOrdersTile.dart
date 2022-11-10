@@ -6,23 +6,17 @@ class PastOrdersTile extends StatelessWidget {
   late final String taskName;
   var time;
 
-  //final bool taskCompleted;
-  // Function(bool?)? onChanged;
-  //Function(BuildContext)? deleteFunction;
-
   var newTime = "";
   final String oStatus;
 
-  //final String restName;
 
   //pColor for placed  iPColor for in progress button, dColor for delivered button
-  Color pColor = Color(0xffffebee);
-  Color iPColor = Color(0xfff9fbe7);
-  Color dColor = Color(0xffe8f5e9);
+  Color pColor = const Color(0xffffebee);
+  Color iPColor = const Color(0xfff9fbe7);
+  Color dColor = const Color(0xffe8f5e9);
 
   var restID;
   var restName;
-  final VoidCallback? onPressed;
 
   PastOrdersTile({
     super.key,
@@ -30,9 +24,7 @@ class PastOrdersTile extends StatelessWidget {
     required this.time,
     required this.oStatus,
     required this.restID,
-    this.onPressed,
   });
-
 
   @override
   Widget build(BuildContext context) {
@@ -44,23 +36,11 @@ class PastOrdersTile extends StatelessWidget {
             builder: (context, snapshot) {
               return Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15, top: 25),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(330, 100),
-                    textStyle: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                    ),
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.black,
-                    side: const BorderSide(
-                        color: Colors.black38,
-                        width: 2
-                    ),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  onPressed: onPressed,
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
