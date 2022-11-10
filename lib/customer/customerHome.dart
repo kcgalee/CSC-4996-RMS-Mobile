@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/customer/Models/createOrderInfo.dart';
 import 'package:restaurant_management_system/customer/order.dart';
-import 'package:restaurant_management_system/customer/pastOrders.dart';
+import 'package:restaurant_management_system/customer/pastVisits.dart';
 import 'package:restaurant_management_system/customer/placedOrders.dart';
 import 'package:restaurant_management_system/customer/submitReview.dart';
 import 'package:restaurant_management_system/customer/tableStatus.dart';
@@ -669,13 +669,13 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                       }),
 
                                                   CustomSubButton(
-                                                      text: "PAST ORDERS",
+                                                      text: "PAST VISITS",
                                                       onPressed: () {
                                                         Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
                                                               builder: (context) =>
-                                                                  PastOrders()),
+                                                                  PastVisits()),
                                                         );
                                                       }),
                                                 ],
