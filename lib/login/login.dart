@@ -182,8 +182,6 @@ class LoginState extends State<Login> {
         ));
         FirebaseAuth.instance.signOut();
       }
-    } else {
-      print(message);
     }
   }
 }
