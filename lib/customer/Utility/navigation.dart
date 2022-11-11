@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/customer/customerHome.dart';
-import 'package:restaurant_management_system/customer/pastOrders.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:restaurant_management_system/login/mainscreen.dart';
+
+import '../pastVisits.dart';
 
 class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({Key? key}) : super(key: key);
@@ -36,9 +37,9 @@ class NavigationDrawer extends StatelessWidget {
       ),
       ListTile(
         leading: const Icon(Icons.food_bank),
-        title: const Text('Past Orders'),
+        title: const Text('Past Visits'),
         onTap: () =>
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) =>  PastOrders())),
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) =>  PastVisits())),
       ),
       ListTile(
         leading: const Icon(Icons.exit_to_app_outlined),
