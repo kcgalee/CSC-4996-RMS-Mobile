@@ -99,7 +99,10 @@ class _ManageTables extends State<ManageTables> {
                                   } else {
                                     deleteTable(snapshot.data?.docs[index].id)
                                   }
-                                }
+                                },
+                              onTap: (){
+                                  //******** QR code Generater here *********
+                              },
                             );
                           }
                       );
