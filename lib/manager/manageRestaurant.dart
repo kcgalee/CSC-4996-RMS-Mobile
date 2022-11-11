@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_management_system/manager/Utility/managerTile.dart';
 import 'package:restaurant_management_system/manager/editRestaurant.dart';
 import 'package:restaurant_management_system/widgets/customBackButton.dart';
 import 'Utility/MangerNavigationDrawer.dart';
+import 'Utility/manageRestaurantTile.dart';
 import 'addRestaurant.dart';
 import 'managerHome.dart';
 
@@ -65,9 +65,9 @@ class _ManageRestaurant extends State<ManageRestaurant> {
                       return ListView.builder(
                           itemCount: snapshot.data?.docs.length,
                           itemBuilder: (context, index) {
-                            return ManagerTile(
-                                taskName: snapshot.data?.docs[index]['restName'] ?? '',
-                                subTitle: (snapshot.data?.docs[index]['address'] ?? '') + '\n' + (snapshot.data?.docs[index]['city'] ?? '') + ', ' + snapshot.data?.docs[index]['state'] ?? '',
+                            return ManageRestaurantTile(
+                              restaurantName: snapshot.data?.docs[index]['restName'] ?? '',
+                              address: (snapshot.data?.docs[index]['address'] ?? '') + '\n' + (snapshot.data?.docs[index]['city'] ?? '') + ', ' + snapshot.data?.docs[index]['state'] ?? '',
                                 onPressedEdit:(p0) =>  {
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) => EditRestaurant(restID: snapshot.data?.docs[index].reference.id ?? '', rName: snapshot.data?.docs[index]['restName'] ?? '',
