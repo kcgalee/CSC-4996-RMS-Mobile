@@ -102,7 +102,9 @@ class _ViewOrder extends State<ViewOrder> {
                                                    " x ${widget.createOrderInfo
                                                    .count[index]}"
                                                    "\n\$${widget.createOrderInfo
-                                                   .price[index]}",
+                                                   .price[index]}"
+                                                    '\nComment: ${widget.createOrderInfo
+                                                       .orderComments[index]}',
                                                createOrderInfo: widget
                                                    .createOrderInfo,
 
