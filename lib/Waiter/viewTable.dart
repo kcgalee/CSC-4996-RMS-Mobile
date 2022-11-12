@@ -204,6 +204,15 @@ class _ViewTableState extends State<ViewTable> {
               });
             }
       });
+
+ //ADD waiterID to customer's user document
+    await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableMembers').get().then((value){
+      for(int i = 0; i < value.docs.length; i++) {
+        addWaiterID(value.docs[i].data()['userID']);
+      }
+    });
+
+
   }
 
   Future closeTable() async{
@@ -257,6 +266,12 @@ class _ViewTableState extends State<ViewTable> {
   void clearTable(String userID) {
     FirebaseFirestore.instance.collection('users').doc(userID).update({
       'tableID': '',
+    } );
+  }
+
+  void addWaiterID(String userID) {
+    FirebaseFirestore.instance.collection('users').doc(userID).update({
+      'waiterID': FirebaseAuth.instance.currentUser?.uid.toString(),
     } );
   }
 

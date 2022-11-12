@@ -16,9 +16,13 @@ class SubmitReview extends StatefulWidget {
 }
 
 class _SubmitReviewState extends State<SubmitReview> {
-  final reviewController = TextEditingController();
+  final restReviewController = TextEditingController();
+  final waiterReviewController = TextEditingController();
+
   String currentDate = DateFormat('MM-dd-yyyy').format(DateTime.now());
-  var starRating;
+  var restStarRating;
+  var waiterStarRating;
+
   @override
   Widget build(BuildContext context) {
 
@@ -96,7 +100,7 @@ class _SubmitReviewState extends State<SubmitReview> {
                               color: Colors.amber,
                             ),
                             onRatingUpdate: (rating) {
-                              starRating = rating;
+                              restStarRating = rating;
                             },
                           ),
                         ],
@@ -105,7 +109,7 @@ class _SubmitReviewState extends State<SubmitReview> {
                         padding: const EdgeInsets.all(20.0),
                         child: CustomTextForm(
                             hintText: 'Share your experience',
-                            controller: reviewController,
+                            controller: restReviewController,
                             validator: null,
                             keyboardType: TextInputType.text,
                             maxLines: 5,
@@ -137,7 +141,7 @@ class _SubmitReviewState extends State<SubmitReview> {
                               color: Colors.amber,
                             ),
                             onRatingUpdate: (rating) {
-                              starRating = rating;
+                              waiterStarRating = rating;
                             },
                           ),
                         ],
@@ -146,7 +150,7 @@ class _SubmitReviewState extends State<SubmitReview> {
                         padding: const EdgeInsets.all(20.0),
                         child: CustomTextForm(
                             hintText: 'Share your experience',
-                            controller: reviewController,
+                            controller: waiterReviewController,
                             validator: null,
                             keyboardType: TextInputType.text,
                             maxLines: 5,
@@ -159,8 +163,8 @@ class _SubmitReviewState extends State<SubmitReview> {
                         child: CustomMainButton(
                             text: "SUBMIT REVIEW",
                             onPressed: () {
-                              addReview(reviewController.text.toString(), starRating,
-                                  userSnapshot.data!.id, userSnapshot.data!['fName'], userSnapshot.data!['restID']);
+                              addRestReview(restReviewController.text.toString(), restStarRating, waiterReviewController.text.toString(),
+                                 waiterStarRating, userSnapshot.data!.id, userSnapshot.data!['fName'], userSnapshot.data!['restID'], userSnapshot.data!['waiterID']);
 
                               Navigator.push(context, MaterialPageRoute(builder: (context)=> const CustomerHome()));
                             }),
@@ -185,14 +189,16 @@ class _SubmitReviewState extends State<SubmitReview> {
     String formattedDate = formatter.format(now);
   }
 
-  void addReview(String comment, double rating, String uid, String custName, String restID){
-    var now = DateTime.now();
+  void addRestReview(String restComment, double restRating, String waiterComment, double waiterRating, String uid, String custName, String restID, String waiterID){
     FirebaseFirestore.instance.collection('reviews').doc().set({
-      'description' : comment,
+      'restDescription' : restComment,
       'restID' : restID,
       'custName' : custName,
       'custID' : uid,
-      'rating' : rating,
+      'restRating' : restRating,
+      'waiterID' : waiterID,
+      'waiterDescription' : waiterComment,
+      'waiterRating' : waiterRating,
       'date' : DateTime.now()
     });
 
