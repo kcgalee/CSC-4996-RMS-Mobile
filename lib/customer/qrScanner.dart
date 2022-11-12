@@ -70,6 +70,7 @@ class _QRScannerState extends State<QRScanner> {
     String name = "";
     var currentCapacity = 0;
     var maxCapacity = 0;
+    var waiterID = '';
 
     var uId = FirebaseAuth.instance.currentUser?.uid.toString();
     await FirebaseFirestore.instance.collection('users').doc(uId).get().then(
@@ -82,12 +83,14 @@ class _QRScannerState extends State<QRScanner> {
             (element) {
           currentCapacity = element['currentCapacity'];
           maxCapacity = element['maxCapacity'];
+          waiterID = element['waiterID'];
         });
 
 
 
     FirebaseFirestore.instance.collection('users').doc(uId).update({
-      'tableID' : tableID
+      'tableID' : tableID,
+      'waiterID' : waiterID
     });
 
 
