@@ -268,7 +268,7 @@ class _ViewTableState extends State<ViewTable> {
     
     var rID = table['restID'];
     await FirebaseFirestore.instance.collection('cpd').doc().set({
-      'date': DateFormat('EEEE').format(DateTime.now()),
+      'date': Timestamp.now(),
       'members': memCount,
       'restID': rID,
     });
