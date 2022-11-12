@@ -252,17 +252,19 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                             title: Text(tableSnapshot
                                                                 .data![
                                                             'restName'] +
-                                                                " Info"),
+                                                                " Info",
+                                                              textAlign: TextAlign.center,
+                                                            ),
                                                             content:
                                                             SizedBox(
-                                                              height: 300.0,
+                                                              height: 250.0,
                                                               child: Column(
                                                                 children: [
                                                                   const Text(
                                                                       'Address',
                                                                       style: TextStyle(
                                                                           fontWeight: FontWeight.bold,
-                                                                          fontSize: 20,
+                                                                          fontSize: 15,
                                                                           color: Colors.black)),
                                                                   Text(
                                                                       address),
@@ -270,7 +272,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                                       '\nPhone Number',
                                                                       style: TextStyle(
                                                                           fontWeight: FontWeight.bold,
-                                                                          fontSize: 20,
+                                                                          fontSize: 15,
                                                                           color: Colors.black)),
                                                                   Text(
                                                                       phone),
@@ -278,7 +280,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                                       "\nWeekday Hours",
                                                                       style: TextStyle(
                                                                           fontWeight: FontWeight.bold,
-                                                                          fontSize: 20,
+                                                                          fontSize: 15,
                                                                           color: Colors.black)),
                                                                   Text(openTimeWk +
                                                                       ' - ' +
@@ -287,7 +289,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                                       "\nWeekend Hours",
                                                                       style: TextStyle(
                                                                           fontWeight: FontWeight.bold,
-                                                                          fontSize: 20,
+                                                                          fontSize: 15,
                                                                           color: Colors.black)),
                                                                   Text(openTimeWkEnd +
                                                                       ' - ' +
