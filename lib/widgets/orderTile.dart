@@ -63,10 +63,8 @@ class OrderTile extends StatelessWidget {
               Row(
                 children: [
                   SizedBox(
-                    height:
-                    50,
-                    width:
-                    50,
+                    height: 50,
+                    width: 50,
                     child:
                     FittedBox(
                       fit: BoxFit.fill,
@@ -74,13 +72,15 @@ class OrderTile extends StatelessWidget {
                       Image.network(imgURL),
                     ),
                   ),
-                  SizedBox (width: 15),
-                  Text(taskName,
-                      style: const TextStyle(
-                          color: Colors.black54,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold)
-                  ),
+                  const SizedBox (width: 15),
+                  Flexible(
+                    child: Text(taskName,
+                        style: const TextStyle(
+                            color: Colors.black54,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold)
+                    ),
+                  )
                 ],
               ),
             ],
