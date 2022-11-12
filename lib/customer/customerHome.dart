@@ -118,7 +118,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                                       Padding(
                                         padding: EdgeInsets.only(left: 20),
                                         child: Text(
-                                          "PAST ORDERS",
+                                          "PAST VISITS",
                                           style: TextStyle(
                                             fontSize: 22,
                                             color: Colors.black54,
