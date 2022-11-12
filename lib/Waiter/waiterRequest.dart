@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../login/mainscreen.dart';
 import '../widgets/request_tile.dart';
 
 
@@ -19,7 +20,7 @@ class _WaiterRequestState extends State<WaiterRequest> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.activity == 'active'){
+    if (widget.activity == 'active') {
       return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -28,7 +29,91 @@ class _WaiterRequestState extends State<WaiterRequest> {
             foregroundColor: Colors.black,
             elevation: 1,
           ),
-          body: Column(
+          body: StreamBuilder(
+              stream: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).snapshots(),
+              builder: (context, snapshot){
+                if (!snapshot.hasData || (snapshot.data?.exists == false)) {
+                  return Center(child:CircularProgressIndicator());
+                } else {
+                  if (snapshot.data?['isActive'] == false){
+                    return AlertDialog(
+                      title: const Text('Account is Deactivated'),
+                      content: SingleChildScrollView(
+                        child: ListBody(
+                          children: const <Widget>[
+                            Text('Your Waiter account has been deactivated by your manager.'),
+                          ],
+                        ),
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          child: const Text('OK'),
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(
+                                    builder: (context) => const MainScreen()
+                                )
+                            );
+                          },
+                        ),
+                      ],
+                    );
+                  } else {
+                    return home();
+                  }
+                }
+              }
+          ));
+    } else {
+      return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            title: const Text('Past Requests',),
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+            elevation: 1,
+          ),
+          body: StreamBuilder(
+              stream: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).snapshots(),
+              builder: (context, snapshot){
+                if (!snapshot.hasData || (snapshot.data?.exists == false)) {
+                  return Center(child:CircularProgressIndicator());
+                } else {
+                  if (snapshot.data?['isActive'] == false){
+                    return AlertDialog(
+                      title: const Text('Account is Deactivated'),
+                      content: SingleChildScrollView(
+                        child: ListBody(
+                          children: const <Widget>[
+                            Text('Your Waiter account has been deactivated by your manager.'),
+                          ],
+                        ),
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          child: const Text('OK'),
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(
+                                    builder: (context) => const MainScreen()
+                                )
+                            );
+                          },
+                        ),
+                      ],
+                    );
+                  } else {
+                    return home();
+                  }
+                }
+              }
+          ));
+    }
+  }
+
+  Widget home() {
+    if (widget.activity == 'active'){
+      return Column(
             children: [
               const SizedBox(height: 20,),
               Text(widget.rName,
@@ -85,18 +170,9 @@ class _WaiterRequestState extends State<WaiterRequest> {
                     }),
               ),
             ],
-          )
       );
     } else {
-      return Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            title: const Text('Past Requests',),
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.black,
-            elevation: 1,
-          ),
-          body: Column(
+      return Column(
             children: [
               const SizedBox(height: 20,),
               Text(widget.rName,
@@ -151,7 +227,6 @@ class _WaiterRequestState extends State<WaiterRequest> {
                     }),
               ),
             ],
-          )
       );
     }
   }

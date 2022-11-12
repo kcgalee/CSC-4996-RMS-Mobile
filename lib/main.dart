@@ -63,7 +63,6 @@ class MyApp extends StatelessWidget {
             } else if (acctType == 'waiter'){
               return WaiterHome();
             } else if (acctType == 'manager'){
-              //should be manager home
               return ManagerHome();
             } else {
               return Login();

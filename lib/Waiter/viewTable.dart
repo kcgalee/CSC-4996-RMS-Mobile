@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/Waiter/Utility/viewTableTile.dart';
 import 'package:restaurant_management_system/waiter/waiterTables.dart';
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
+import '../login/mainscreen.dart';
 import '../widgets/customGreenButton.dart';
 import '../widgets/customRedButton.dart';
 import 'package:intl/intl.dart';
@@ -25,9 +26,7 @@ class _ViewTableState extends State<ViewTable> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.assigned){
-      if (widget.currentCapacity != 0){
-        return Scaffold(
+      return Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
               title: Text("Table Orders"),
@@ -35,7 +34,47 @@ class _ViewTableState extends State<ViewTable> {
               foregroundColor: Colors.black,
               elevation: 1,
             ),
-            body: Column(
+        body: StreamBuilder(
+          stream: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).snapshots(),
+          builder: (context, snapshot){
+            if (!snapshot.hasData || (snapshot.data?.exists == false)) {
+              return Center(child:CircularProgressIndicator());
+            } else {
+              if (snapshot.data?['isActive'] == false){
+                return AlertDialog(
+                  title: const Text('Account is Deactivated'),
+                  content: SingleChildScrollView(
+                    child: ListBody(
+                      children: const <Widget>[
+                        Text('Your Waiter account has been deactivated by your manager.'),
+                      ],
+                    ),
+                  ),
+                  actions: <Widget>[
+                    TextButton(
+                      child: const Text('OK'),
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(
+                                builder: (context) => const MainScreen()
+                            )
+                        );
+                      },
+                    ),
+                  ],
+                );
+              } else {
+                return home();
+              }
+            }
+          }
+        ));
+  }
+
+  Widget home() {
+    if (widget.assigned){
+      if (widget.currentCapacity != 0){
+        return Column(
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
@@ -78,18 +117,9 @@ class _ViewTableState extends State<ViewTable> {
                     }
                 ),
               ],
-            )
         );
       } else {
-        return Scaffold(
-            backgroundColor: Colors.white,
-            appBar: AppBar(
-              title: Text("Table Orders"),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
-              elevation: 1,
-            ),
-            body: Column(
+        return Column(
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
@@ -124,19 +154,10 @@ class _ViewTableState extends State<ViewTable> {
                     }
                 ),
               ],
-            )
         );
       }
     } else {
-      return Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            title: Text("Table Orders"),
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.black,
-            elevation: 1,
-          ),
-          body: Column(
+      return Column(
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 20),
@@ -170,7 +191,6 @@ class _ViewTableState extends State<ViewTable> {
                         MaterialPageRoute(builder: (context) => const WaiterTables()))
                   }
               ),],
-          )
       );
     }
   }
@@ -257,7 +277,7 @@ class _ViewTableState extends State<ViewTable> {
     
     var rID = table['restID'];
     await FirebaseFirestore.instance.collection('cpd').doc().set({
-      'date': DateFormat('EEEE').format(DateTime.now()),
+      'date': Timestamp.now(),
       'members': memCount,
       'restID': rID,
     });

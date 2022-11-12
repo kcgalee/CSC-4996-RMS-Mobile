@@ -157,6 +157,7 @@ class LoginState extends State<Login> {
 
   redirect(String email, String pw) async {
     final message = await logIn(email, pw);
+    bool isActive = false;
     if (message == null) {
       final userID = fAuth.currentUser?.uid;
       String acctType = "";
@@ -166,6 +167,11 @@ class LoginState extends State<Login> {
               (DocumentSnapshot doc){
             final data = doc.data() as Map<String, dynamic>;
             setState(() => acctType = data['type']);
+            if (acctType == 'waiter'){
+              if (data['isActive']){
+                isActive = true;
+              }
+            }
           }
       );
 
@@ -173,7 +179,14 @@ class LoginState extends State<Login> {
       if (acctType == 'customer'){
         Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerHome()));
       } else if (acctType == 'waiter') {
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> WaiterHome()));
+        if (!isActive){
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('This account has been deactivated'),
+          ));
+          FirebaseAuth.instance.signOut();
+        } else {
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> WaiterHome()));
+        }
       } else if (acctType == 'manager'){
         Navigator.push(context, MaterialPageRoute(builder: (context)=> ManagerHome()));
       } else {

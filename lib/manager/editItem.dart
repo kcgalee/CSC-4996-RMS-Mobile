@@ -262,7 +262,11 @@ class _EditItem extends State<EditItem> {
                       ));
                     } else if (itemNameController.text.trim() == widget.iName
                         && priceController.text.trim() == widget.iPrice
-                        && itemDescController.text.trim() == widget.iDesc && image == null) {
+                        && itemDescController.text.trim() == widget.iDesc && image == null
+                        && isVegan == widget.iOptions['isVegan'] && isVegetarian == widget.iOptions['isVegetarian']
+                        && isGlutenFree == widget.iOptions['isGlutenFree'] && isNuts == widget.iOptions['isNuts']
+                        && isKosher == widget.iOptions['isKosher'] && isHalal == widget.iOptions['isHalal']
+                        && isPescatarian == widget.iOptions['isPescatarian'] && isLactoseFree == widget.iOptions['isLactose']) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text('There is no information to update'),
                       ));
