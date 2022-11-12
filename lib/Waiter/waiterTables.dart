@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/waiter/viewTable.dart';
 
+import '../login/mainscreen.dart';
+
 
 class WaiterTables extends StatefulWidget {
   const WaiterTables({Key? key}) : super(key: key);
@@ -12,11 +14,7 @@ class WaiterTables extends StatefulWidget {
 }
 
 class _WaiterTablesState extends State<WaiterTables> {
-  // text controller
-  //final _controller = TextEditingController();
-
   var waiterRID;
-
   List<String> tableDocList = [];
 
   @override
@@ -29,7 +27,45 @@ class _WaiterTablesState extends State<WaiterTables> {
           foregroundColor: Colors.black,
           elevation: 1,
         ),
-        body: FutureBuilder(
+        body: StreamBuilder(
+            stream: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).snapshots(),
+            builder: (context, snapshot){
+              if (!snapshot.hasData || (snapshot.data?.exists == false)) {
+                return Center(child:CircularProgressIndicator());
+              } else {
+                if (snapshot.data?['isActive'] == false){
+                  return AlertDialog(
+                    title: const Text('Account is Deactivated'),
+                    content: SingleChildScrollView(
+                      child: ListBody(
+                        children: const <Widget>[
+                          Text('Your Waiter account has been deactivated by your manager.'),
+                        ],
+                      ),
+                    ),
+                    actions: <Widget>[
+                      TextButton(
+                        child: const Text('OK'),
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) => const MainScreen()
+                              )
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                } else {
+                  return home();
+                }
+              }
+            }
+        ));
+  }
+
+  Widget home() {
+    return FutureBuilder(
             future: getRID(),
             builder: (context, snapshot) {
               return StreamBuilder(
@@ -75,7 +111,7 @@ class _WaiterTablesState extends State<WaiterTables> {
                       );
                     }
                   });
-            })
+            }
     );
   }
 
