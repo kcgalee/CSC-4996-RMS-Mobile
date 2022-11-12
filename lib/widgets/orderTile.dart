@@ -66,7 +66,18 @@ class OrderTile extends StatelessWidget {
                       fontSize: 15,
                       fontWeight: FontWeight.bold)),
 
-              Image.network(imgURL),
+              SizedBox(
+                height:
+                250,
+                width:
+                350,
+                child:
+                FittedBox(
+                  fit: BoxFit.fill,
+                  child:
+                  Image.network(imgURL),
+                ),
+              ),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

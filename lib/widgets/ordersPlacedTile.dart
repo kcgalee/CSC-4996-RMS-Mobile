@@ -136,7 +136,7 @@ class OrdersPlacedTile extends StatelessWidget {
                                     fontSize: 15,
                                   ),
                                   backgroundColor: iPColor,
-                                  foregroundColor: Colors.black54,
+                                  foregroundColor: ipTextColor,
                                   side: const BorderSide(
                                     color: Colors.black38,
                                   ),
@@ -159,7 +159,7 @@ class OrdersPlacedTile extends StatelessWidget {
                                     fontSize: 15,
                                   ),
                                   backgroundColor: dColor,
-                                  foregroundColor: Colors.black54,
+                                  foregroundColor: dTextColor,
                                   side: const BorderSide(
                                     color: Colors.black38,
                                   ),
