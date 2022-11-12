@@ -69,7 +69,36 @@ class _ViewMemberOrder extends State<ViewMemberOrder> {
                                           + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '')}'
                                           '\nPrice: \$' + (snapshot.data?.docs[index]['price'] ?? ''),
                                       time:(snapshot.data?.docs[index]['timePlaced'] ?? '') ,
-                                      oStatus: (snapshot.data?.docs[index]['status'] ?? ''), onPressedEdit: (BuildContext ) {  }, onPressedDelete: (BuildContext ) {  },
+                                      oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
+                                      onPressedEdit: (BuildContext ) {  },
+                                      onPressedDelete: (BuildContext ) {  },
+                                      onTap: () {
+                                        showDialog<void>(
+                                          context: context,
+                                          barrierDismissible: false, // user must tap button!
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: Text('AlertDialog Title'),
+                                              content: SingleChildScrollView(
+                                                child: ListBody(
+                                                  children: <Widget>[
+                                                    Text('This is a demo alert dialog.'),
+                                                    Text('Would you like to approve of this message?'),
+                                                  ],
+                                                ),
+                                              ),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  child: const Text('Close'),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      },
                                     );
 
 
