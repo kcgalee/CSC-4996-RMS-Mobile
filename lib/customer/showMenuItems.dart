@@ -224,10 +224,13 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                                         SizedBox(height: 10),
                                                                         Row(
                                                                           children: [
-                                                                            Text(menuSnapshot.data?.docs[index]['description'] +
-                                                                                "\n\n \$" +
-                                                                                menuSnapshot.data?.docs[index]['price'],
-                                                                              textAlign: TextAlign.left),
+                                                                            Container(
+                                                                              width: 330,
+                                                                              child: Text(menuSnapshot.data?.docs[index]['description'] +
+                                                                                  "\n\n \$" +
+                                                                                  menuSnapshot.data?.docs[index]['price'],
+                                                                                  textAlign: TextAlign.left),
+                                                                            )
                                                                           ],
                                                                         ),
                                                                         SizedBox(height: 10),
