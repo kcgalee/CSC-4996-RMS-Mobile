@@ -60,27 +60,28 @@ class OrderTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //task name and time
-              Text(taskName,
-                  style: const TextStyle(
-                      color: Colors.black54,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold)),
-
-              SizedBox(
-                height:
-                250,
-                width:
-                350,
-                child:
-                FittedBox(
-                  fit: BoxFit.fill,
-                  child:
-                  Image.network(imgURL),
-                ),
-              ),
-
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    height:
+                    50,
+                    width:
+                    50,
+                    child:
+                    FittedBox(
+                      fit: BoxFit.fill,
+                      child:
+                      Image.network(imgURL),
+                    ),
+                  ),
+                  SizedBox (width: 15),
+                  Text(taskName,
+                      style: const TextStyle(
+                          color: Colors.black54,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold)
+                  ),
+                ],
               ),
             ],
           ),
