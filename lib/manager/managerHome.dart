@@ -18,8 +18,6 @@ class ManagerHome extends StatefulWidget {
 class _ManagerHomeState extends State<ManagerHome>{
 String greeting = '';
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,9 +104,16 @@ String greeting = '';
                                             },
                                           ),
                                           CustomSubButton(
-                                            text: 'SEE RATINGS',
+                                            text: 'RESTAURANT RATINGS',
                                             onPressed:  () {
-                                              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'ratings')));
+                                              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'restaurant ratings')));
+                                              //TODO SHOW RATINGS
+                                            },
+                                          ),
+                                          CustomSubButton(
+                                            text: 'WAITER RATINGS',
+                                            onPressed:  () {
+                                              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'waiter ratings')));
                                               //TODO SHOW RATINGS
                                             },
                                           ),

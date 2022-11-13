@@ -90,7 +90,8 @@ class _PlacedOrders extends State<PlacedOrders> {
                                       return OrdersPlacedTile(
                                           taskName: '${'\nItem: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
                                               + '  x ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
-                                              + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '')}\nPrice: \$' + (snapshot.data?.docs[index]['price'] ?? ''),
+                                              + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '')}\nPrice: \$' + (snapshot.data?.docs[index]['price'] ?? '')
+                                        + '\nComment: ${snapshot.data?.docs[index]['orderComment']}',
                                           time:(snapshot.data?.docs[index]['timePlaced'] ?? '') ,
                                           oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
 
@@ -362,6 +363,33 @@ class _PlacedOrders extends State<PlacedOrders> {
 
                                             }
 
+                                      },
+                                        onTap: () {
+                                        showDialog<void>(
+                                          context: context,
+                                          barrierDismissible: false, // user must tap button!
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: const Text('AlertDialog Title'),
+                                              content: SingleChildScrollView(
+                                                child: ListBody(
+                                                  children: const <Widget>[
+                                                    Text('This is a demo alert dialog.'),
+                                                    Text('Would you like to approve of this message?'),
+                                                  ],
+                                                ),
+                                              ),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  child: const Text('Approve'),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
                                       },
                                       );
 

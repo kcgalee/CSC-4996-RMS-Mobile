@@ -5,6 +5,7 @@ import 'package:restaurant_management_system/Waiter/allTables.dart';
 import 'package:restaurant_management_system/Waiter/qrScannerWaiter.dart';
 import 'package:restaurant_management_system/Waiter/waiterTables.dart';
 import 'package:restaurant_management_system/Waiter/waiterRequest.dart';
+import '../login/mainscreen.dart';
 import '../widgets/customMainButton.dart';
 import '../widgets/customSubButton.dart';
 import 'Utility/waiterNavigation.dart';
@@ -23,7 +24,7 @@ class _WaiterHomeState extends State<WaiterHome> {
   String greeting = "";
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return Scaffold(
         drawer: const WaiterNavigationDrawer(),
         appBar: AppBar(
@@ -32,7 +33,45 @@ class _WaiterHomeState extends State<WaiterHome> {
           foregroundColor: Colors.black,
           elevation: 0,
         ),
-        body: StreamBuilder(
+    body: StreamBuilder(
+      stream: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).snapshots(),
+      builder: (context, snapshot){
+        if (!snapshot.hasData || (snapshot.data?.exists == false)) {
+          return Center(child:CircularProgressIndicator());
+        } else {
+          if (snapshot.data?['isActive'] == false){
+            return AlertDialog(
+              title: const Text('Account is Deactivated'),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: const <Widget>[
+                    Text('Your Waiter account has been deactivated by your manager.'),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('OK'),
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(
+                            builder: (context) => const MainScreen()
+                        )
+                    );
+                  },
+                ),
+              ],
+            );
+          } else {
+            return home();
+          }
+        }
+      }
+    ));
+  }
+
+  Widget home() {
+        return StreamBuilder(
           stream: FirebaseFirestore.instance.collection('orders')
               .where('waiterID', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
               .where('status', isNotEqualTo: 'delivered').snapshots(),
@@ -148,7 +187,7 @@ class _WaiterHomeState extends State<WaiterHome> {
                   }
             });
           }}
-        )
+
     );
   }
 

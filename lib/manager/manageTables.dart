@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:restaurant_management_system/manager/addTable.dart';
 import 'package:restaurant_management_system/widgets/customBackButton.dart';
 import 'Utility/MangerNavigationDrawer.dart';
@@ -102,6 +103,31 @@ class _ManageTables extends State<ManageTables> {
                                 },
                               onTap: (){
                                   //******** QR code Generater here *********
+                                showModalBottomSheet(
+                                    shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(topLeft: Radius.circular(24),topRight:Radius.circular(24))
+                                    ),
+                                    backgroundColor: Colors.white,
+                                    context: context,
+                                    builder: (context) => Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(height: 20,),
+                                           Text('QR code for table ${snapshot.data?.docs[index]['tableNum']}',style: TextStyle(fontSize: 20,),),
+                                      QrImage(
+                                        data: (snapshot.data?.docs[index].id as String),
+                                        size: 200,
+                                        backgroundColor: Colors.white,),
+
+                                        ],
+                                      ),
+                                    )
+                                );
+
+
                               },
                             );
                           }

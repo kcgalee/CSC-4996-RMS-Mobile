@@ -6,19 +6,14 @@ class PastOrdersTile extends StatelessWidget {
   late final String taskName;
   var time;
 
-  //final bool taskCompleted;
-  // Function(bool?)? onChanged;
-  //Function(BuildContext)? deleteFunction;
-
   var newTime = "";
   final String oStatus;
 
-  //final String restName;
 
   //pColor for placed  iPColor for in progress button, dColor for delivered button
-  Color pColor = Color(0xffffebee);
-  Color iPColor = Color(0xfff9fbe7);
-  Color dColor = Color(0xffe8f5e9);
+  Color pColor = const Color(0xffffebee);
+  Color iPColor = const Color(0xfff9fbe7);
+  Color dColor = const Color(0xffe8f5e9);
 
   var restID;
   var restName;
@@ -29,7 +24,6 @@ class PastOrdersTile extends StatelessWidget {
     required this.time,
     required this.oStatus,
     required this.restID,
-    //required this.restName
   });
 
   @override
@@ -96,7 +90,6 @@ class PastOrdersTile extends StatelessWidget {
 
   convertTime(time) {
     DateFormat formatter = DateFormat.yMd();
-    //var ndate = new DateTime.fromMillisecondsSinceEpoch(time.toDate() * 1000);
     newTime = formatter.format(time.toDate());
   }
 

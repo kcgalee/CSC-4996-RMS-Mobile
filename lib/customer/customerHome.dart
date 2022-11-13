@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/customer/Models/createOrderInfo.dart';
 import 'package:restaurant_management_system/customer/order.dart';
-import 'package:restaurant_management_system/customer/pastOrders.dart';
+import 'package:restaurant_management_system/customer/pastVisits.dart';
 import 'package:restaurant_management_system/customer/placedOrders.dart';
 import 'package:restaurant_management_system/customer/submitReview.dart';
 import 'package:restaurant_management_system/customer/tableStatus.dart';
@@ -28,7 +28,7 @@ class _CustomerHomeState extends State<CustomerHome> {
       address,
       phone;
   CreateOrderInfo createOrderInfo =
-      CreateOrderInfo(FirebaseAuth.instance.currentUser?.uid);
+  CreateOrderInfo(FirebaseAuth.instance.currentUser?.uid);
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +82,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                const QRScanner()),
+                                            const QRScanner()),
                                       );
                                     }),
                                 const SizedBox(
@@ -112,73 +112,73 @@ class _CustomerHomeState extends State<CustomerHome> {
                           ),
                           Center(
                               child: Column(
-                            children: [
-                              Row(
-                                children: const [
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 20),
-                                    child: Text(
-                                      "PAST ORDERS",
-                                      style: TextStyle(
-                                        fontSize: 22,
-                                        color: Colors.black54,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              StreamBuilder(
-                                  stream: FirebaseFirestore.instance
-                                      .collection('orders')
-                                      .where('custID',
+                                children: [
+                                  Row(
+                                    children: const [
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 20),
+                                        child: Text(
+                                          "PAST VISITS",
+                                          style: TextStyle(
+                                            fontSize: 22,
+                                            color: Colors.black54,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  StreamBuilder(
+                                      stream: FirebaseFirestore.instance
+                                          .collection('orders')
+                                          .where('custID',
                                           isEqualTo: FirebaseAuth
                                               .instance.currentUser?.uid)
-                                      .where('itemName', whereNotIn: [
+                                          .where('itemName', whereNotIn: [
                                         'Request Bill',
                                         'Request Waiter',
                                         'condiment',
                                         'utensil'
                                       ])
-                                      .orderBy('itemName')
-                                      .orderBy('timePlaced', descending: false)
-                                      .snapshots(),
-                                  builder: (context, snapshot) {
-                                    if (!snapshot.hasData ||
-                                        (snapshot.data?.size == 0)) {
-                                      return const Center(
-                                          child:
+                                          .orderBy('itemName')
+                                          .orderBy('timePlaced', descending: false)
+                                          .snapshots(),
+                                      builder: (context, snapshot) {
+                                        if (!snapshot.hasData ||
+                                            (snapshot.data?.size == 0)) {
+                                          return const Center(
+                                              child:
                                               Text('You have no past orders'));
-                                    } else {
-                                      return SizedBox(
-                                        height: 400.0,
-                                        child: ListView.builder(
-                                            itemCount:
+                                        } else {
+                                          return SizedBox(
+                                            height: 400.0,
+                                            child: ListView.builder(
+                                                itemCount:
                                                 snapshot.data?.docs.length,
-                                            itemBuilder: (context, index) {
-                                              return PastOrdersTile(
-                                                taskName: 'Item: ' +
-                                                    (snapshot.data?.docs[index]
-                                                            ['itemName'] ??
-                                                        ''),
-                                                time: snapshot.data?.docs[index]
+                                                itemBuilder: (context, index) {
+                                                  return PastOrdersTile(
+                                                    taskName: 'Item: ' +
+                                                        (snapshot.data?.docs[index]
+                                                        ['itemName'] ??
+                                                            ''),
+                                                    time: snapshot.data?.docs[index]
                                                     ['timePlaced'],
-                                                oStatus:
+                                                    oStatus:
                                                     (snapshot.data?.docs[index]
-                                                            ['status'] ??
+                                                    ['status'] ??
                                                         ''),
-                                                restID:
+                                                    restID:
                                                     (snapshot.data?.docs[index]
-                                                            ['restID'] ??
+                                                    ['restID'] ??
                                                         ''),
-                                                //restName: snapshot.data?.docs[index]['restName'],
-                                              );
-                                            }),
-                                      );
-                                    }
-                                  }),
-                            ],
-                          )),
+                                                    //restName: snapshot.data?.docs[index]['restName'],
+                                                  );
+                                                }),
+                                          );
+                                        }
+                                      }),
+                                ],
+                              )),
                         ]);
                       } else {
                         if (userSnapshot.data!['tableID'] != '') {
@@ -201,9 +201,9 @@ class _CustomerHomeState extends State<CustomerHome> {
                                               decoration: const BoxDecoration(
                                                 borderRadius: BorderRadius.only(
                                                   bottomLeft:
-                                                      Radius.circular(20),
+                                                  Radius.circular(20),
                                                   bottomRight:
-                                                      Radius.circular(20),
+                                                  Radius.circular(20),
                                                 ),
                                                 color: Color(0xff76bcff),
                                                 boxShadow: [
@@ -225,7 +225,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                         .data!['restName'],
                                                     style: const TextStyle(
                                                         fontWeight:
-                                                            FontWeight.bold,
+                                                        FontWeight.bold,
                                                         fontSize: 40,
                                                         color: Colors.white),
                                                   ),
@@ -236,79 +236,81 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                           Icons.info),
                                                       color: Colors.white,
                                                       onPressed: () async => {
-                                                            //Retrieve restaurant open/closing time
-                                                            await getRestInfo(
-                                                                tableSnapshot
-                                                                        .data![
-                                                                    'restID']),
+                                                        //Retrieve restaurant open/closing time
+                                                        await getRestInfo(
+                                                            tableSnapshot
+                                                                .data![
+                                                            'restID']),
 
-                                                            showDialog<String>(
-                                                              context: context,
-                                                              builder: (BuildContext
-                                                                      context) =>
+                                                        showDialog<String>(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                          context) =>
 
-                                                                  //display restaurant open/closing time, address, phone number
-                                                                  AlertDialog(
-                                                                title: Text(tableSnapshot
-                                                                            .data![
-                                                                        'restName'] +
-                                                                    " Info"),
-                                                                content:
-                                                                    SizedBox(
-                                                                  height: 300.0,
-                                                                  child: Column(
-                                                                    children: [
-                                                                      const Text(
-                                                                          'Address',
-                                                                          style: TextStyle(
-                                                                              fontWeight: FontWeight.bold,
-                                                                              fontSize: 20,
-                                                                              color: Colors.black)),
-                                                                      Text(
-                                                                          address),
-                                                                      const Text(
-                                                                          '\nPhone Number',
-                                                                          style: TextStyle(
-                                                                              fontWeight: FontWeight.bold,
-                                                                              fontSize: 20,
-                                                                              color: Colors.black)),
-                                                                      Text(
-                                                                          phone),
-                                                                      const Text(
-                                                                          "\nWeekday Hours",
-                                                                          style: TextStyle(
-                                                                              fontWeight: FontWeight.bold,
-                                                                              fontSize: 20,
-                                                                              color: Colors.black)),
-                                                                      Text(openTimeWk +
-                                                                          ' - ' +
-                                                                          closeTimeWk),
-                                                                      const Text(
-                                                                          "\nWeekend Hours",
-                                                                          style: TextStyle(
-                                                                              fontWeight: FontWeight.bold,
-                                                                              fontSize: 20,
-                                                                              color: Colors.black)),
-                                                                      Text(openTimeWkEnd +
-                                                                          ' - ' +
-                                                                          closeTimeWkEnd),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                actions: <
-                                                                    Widget>[
-                                                                  TextButton(
-                                                                    onPressed: () =>
-                                                                        Navigator.pop(
-                                                                            context,
-                                                                            'Close'),
-                                                                    child: const Text(
-                                                                        'Close'),
-                                                                  ),
+                                                          //display restaurant open/closing time, address, phone number
+                                                          AlertDialog(
+                                                            title: Text(tableSnapshot
+                                                                .data![
+                                                            'restName'] +
+                                                                " Info",
+                                                              textAlign: TextAlign.center,
+                                                            ),
+                                                            content:
+                                                            SizedBox(
+                                                              height: 250.0,
+                                                              child: Column(
+                                                                children: [
+                                                                  const Text(
+                                                                      'Address',
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight.bold,
+                                                                          fontSize: 15,
+                                                                          color: Colors.black)),
+                                                                  Text(
+                                                                      address),
+                                                                  const Text(
+                                                                      '\nPhone Number',
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight.bold,
+                                                                          fontSize: 15,
+                                                                          color: Colors.black)),
+                                                                  Text(
+                                                                      phone),
+                                                                  const Text(
+                                                                      "\nWeekday Hours",
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight.bold,
+                                                                          fontSize: 15,
+                                                                          color: Colors.black)),
+                                                                  Text(openTimeWk +
+                                                                      ' - ' +
+                                                                      closeTimeWk),
+                                                                  const Text(
+                                                                      "\nWeekend Hours",
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight.bold,
+                                                                          fontSize: 15,
+                                                                          color: Colors.black)),
+                                                                  Text(openTimeWkEnd +
+                                                                      ' - ' +
+                                                                      closeTimeWkEnd),
                                                                 ],
                                                               ),
                                                             ),
-                                                          })
+                                                            actions: <
+                                                                Widget>[
+                                                              TextButton(
+                                                                onPressed: () =>
+                                                                    Navigator.pop(
+                                                                        context,
+                                                                        'Close'),
+                                                                child: const Text(
+                                                                    'Close'),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      })
                                                 ]),
                                                 Row(
                                                   children: [
@@ -329,7 +331,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                   ],
                                                 ),
                                                 if (tableSnapshot
-                                                        .data!['waiterName'] !=
+                                                    .data!['waiterName'] !=
                                                     '')
                                                   Row(
                                                     children: [
@@ -338,7 +340,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                         style: TextStyle(
                                                             fontSize: 20,
                                                             color:
-                                                                Colors.white),
+                                                            Colors.white),
                                                       ),
                                                       Text(
                                                         tableSnapshot
@@ -347,7 +349,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                         style: const TextStyle(
                                                             fontSize: 20,
                                                             color:
-                                                                Colors.white),
+                                                            Colors.white),
                                                       ),
                                                     ],
                                                   ),
@@ -357,329 +359,329 @@ class _CustomerHomeState extends State<CustomerHome> {
                                           ),
                                           Center(
                                               child: Column(
-                                            children: [
-                                              //Menu Button
-                                              CustomMainButton(
-                                                  text: "MENU",
-                                                  onPressed: () {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) => Order(
-                                                              tableID:
+                                                children: [
+                                                  //Menu Button
+                                                  CustomMainButton(
+                                                      text: "MENU",
+                                                      onPressed: () {
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) => Order(
+                                                                  tableID:
                                                                   tableSnapshot
                                                                       .data!.id,
-                                                              restName:
+                                                                  restName:
                                                                   tableSnapshot
-                                                                          .data![
-                                                                      'restName'],
-                                                              restID:
+                                                                      .data![
+                                                                  'restName'],
+                                                                  restID:
                                                                   tableSnapshot
-                                                                          .data![
-                                                                      'restID'],
-                                                              createOrderInfo:
+                                                                      .data![
+                                                                  'restID'],
+                                                                  createOrderInfo:
                                                                   createOrderInfo)),
-                                                    );
-                                                  }),
+                                                        );
+                                                      }),
 
-                                              //Current Order Button
-                                              CustomSubButton(
-                                                  text: "CURRENT ORDER",
-                                                  onPressed: () {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
+                                                  //Current Order Button
+                                                  CustomSubButton(
+                                                      text: "CURRENT ORDER",
+                                                      onPressed: () {
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
                                                               const PlacedOrders()),
-                                                    );
-                                                  }),
+                                                        );
+                                                      }),
 
-                                              //Table Status Button
-                                              CustomSubButton(
-                                                  text: "TABLE STATUS",
-                                                  onPressed: () {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) => TableStatus(
-                                                              tableNum: tableSnapshot
-                                                                  .data![
-                                                                      'tableNum']
-                                                                  .toString(),
-                                                              waiterName:
+                                                  //Table Status Button
+                                                  CustomSubButton(
+                                                      text: "TABLE STATUS",
+                                                      onPressed: () {
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) => TableStatus(
+                                                                  tableNum: tableSnapshot
+                                                                      .data![
+                                                                  'tableNum']
+                                                                      .toString(),
+                                                                  waiterName:
                                                                   tableSnapshot
-                                                                          .data![
-                                                                      'waiterName'])),
-                                                    );
-                                                  }),
+                                                                      .data![
+                                                                  'waiterName'])),
+                                                        );
+                                                      }),
 
-                                              //Submit Review Button
-                                              CustomSubButton(
-                                                  text: "SUBMIT REVIEW",
-                                                  onPressed: () {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
+                                                  //Submit Review Button
+                                                  CustomSubButton(
+                                                      text: "SUBMIT REVIEW",
+                                                      onPressed: () {
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
                                                               const SubmitReview()),
-                                                    );
-                                                  }),
+                                                        );
+                                                      }),
 
-                                              CustomSubButton(
-                                                  text: "REQUEST WAITER",
-                                                  onPressed: () {
-                                                    if (tableSnapshot.data![
-                                                            'waiterID'] !=
-                                                        '') {
-                                                      createOrderInfo.request(
-                                                          'Request Waiter',
-                                                          tableSnapshot
-                                                              .data!.id,
-                                                          tableSnapshot
-                                                              .data!['tableNum']
-                                                              .toString(),
-                                                          tableSnapshot.data![
+                                                  CustomSubButton(
+                                                      text: "REQUEST WAITER",
+                                                      onPressed: () {
+                                                        if (tableSnapshot.data![
+                                                        'waiterID'] !=
+                                                            '') {
+                                                          createOrderInfo.request(
+                                                              'Request Waiter',
+                                                              tableSnapshot
+                                                                  .data!.id,
+                                                              tableSnapshot
+                                                                  .data!['tableNum']
+                                                                  .toString(),
+                                                              tableSnapshot.data![
                                                               'waiterID'],
-                                                          tableSnapshot
-                                                              .data!['restID']);
+                                                              tableSnapshot
+                                                                  .data!['restID']);
 
-                                                      //Display message that waiter has been requested
-                                                      showDialog<void>(
-                                                        context: context,
-                                                        barrierDismissible:
+                                                          //Display message that waiter has been requested
+                                                          showDialog<void>(
+                                                            context: context,
+                                                            barrierDismissible:
                                                             false,
-                                                        // user must tap button!
-                                                        builder: (BuildContext
+                                                            // user must tap button!
+                                                            builder: (BuildContext
                                                             context) {
-                                                          return AlertDialog(
-                                                            title: const Text(
-                                                                'Alert!'),
-                                                            content:
+                                                              return AlertDialog(
+                                                                title: const Text(
+                                                                    'Alert!'),
+                                                                content:
                                                                 SingleChildScrollView(
-                                                              child: ListBody(
-                                                                children: const <
-                                                                    Widget>[
-                                                                  Text(
-                                                                      'Waiter has been requested!'),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            actions: <Widget>[
-                                                              TextButton(
-                                                                child:
+                                                                  child: ListBody(
+                                                                    children: const <
+                                                                        Widget>[
+                                                                      Text(
+                                                                          'Waiter has been requested!'),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                actions: <Widget>[
+                                                                  TextButton(
+                                                                    child:
                                                                     const Text(
                                                                         'OK'),
-                                                                onPressed: () {
-                                                                  Navigator.of(
+                                                                    onPressed: () {
+                                                                      Navigator.of(
                                                                           context)
-                                                                      .pop();
-                                                                },
-                                                              ),
-                                                            ],
-                                                          );
-                                                        },
-                                                      );
-                                                    }
-
-                                                    //NO WAITER AT TABLE ERROR
-                                                    else {
-                                                      showDialog<void>(
-                                                        context: context,
-                                                        barrierDismissible:
-                                                            false,
-                                                        // user must tap button!
-                                                        builder: (BuildContext
-                                                            context) {
-                                                          return AlertDialog(
-                                                            title: const Text(
-                                                                'Alert!'),
-                                                            content:
-                                                                SingleChildScrollView(
-                                                              child: ListBody(
-                                                                children: const <
-                                                                    Widget>[
-                                                                  Text(
-                                                                      'Waiter Must be assigned to your table before you can submit a request.'),
+                                                                          .pop();
+                                                                    },
+                                                                  ),
                                                                 ],
-                                                              ),
-                                                            ),
-                                                            actions: <Widget>[
-                                                              TextButton(
-                                                                child:
+                                                              );
+                                                            },
+                                                          );
+                                                        }
+
+                                                        //NO WAITER AT TABLE ERROR
+                                                        else {
+                                                          showDialog<void>(
+                                                            context: context,
+                                                            barrierDismissible:
+                                                            false,
+                                                            // user must tap button!
+                                                            builder: (BuildContext
+                                                            context) {
+                                                              return AlertDialog(
+                                                                title: const Text(
+                                                                    'Alert!'),
+                                                                content:
+                                                                SingleChildScrollView(
+                                                                  child: ListBody(
+                                                                    children: const <
+                                                                        Widget>[
+                                                                      Text(
+                                                                          'Waiter Must be assigned to your table before you can submit a request.'),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                actions: <Widget>[
+                                                                  TextButton(
+                                                                    child:
                                                                     const Text(
                                                                         'OK'),
-                                                                onPressed: () {
-                                                                  Navigator.of(
+                                                                    onPressed: () {
+                                                                      Navigator.of(
                                                                           context)
-                                                                      .pop();
-                                                                },
-                                                              ),
-                                                            ],
+                                                                          .pop();
+                                                                    },
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            },
                                                           );
-                                                        },
-                                                      );
-                                                    }
-                                                  }),
+                                                        }
+                                                      }),
 
-                                              //=====================
-                                              //BILL REQUESTED BUTTON
-                                              //======================
-                                              CustomSubButton(
-                                                  text: "REQUEST BILL",
-                                                  onPressed: () {
-                                                    if (tableSnapshot.data![
-                                                            'billRequested'] !=
-                                                        true) {
-                                                      createOrderInfo
-                                                          .billRequest(
+                                                  //=====================
+                                                  //BILL REQUESTED BUTTON
+                                                  //======================
+                                                  CustomSubButton(
+                                                      text: "REQUEST BILL",
+                                                      onPressed: () {
+                                                        if (tableSnapshot.data![
+                                                        'billRequested'] !=
+                                                            true) {
+                                                          createOrderInfo
+                                                              .billRequest(
                                                               'Request Bill',
                                                               tableSnapshot
                                                                   .data!.id,
                                                               tableSnapshot
                                                                   .data![
-                                                                      'tableNum']
+                                                              'tableNum']
                                                                   .toString(),
                                                               tableSnapshot
-                                                                      .data![
-                                                                  'waiterID'],
+                                                                  .data![
+                                                              'waiterID'],
                                                               tableSnapshot
-                                                                      .data![
-                                                                  'restID']);
+                                                                  .data![
+                                                              'restID']);
 
-                                                      //Display message that bill has been requested
-                                                      showDialog<void>(
-                                                        context: context,
-                                                        barrierDismissible:
+                                                          //Display message that bill has been requested
+                                                          showDialog<void>(
+                                                            context: context,
+                                                            barrierDismissible:
                                                             false,
-                                                        // user must tap button!
-                                                        builder: (BuildContext
+                                                            // user must tap button!
+                                                            builder: (BuildContext
                                                             context) {
-                                                          return AlertDialog(
-                                                            title: const Text(
-                                                                'Alert!'),
-                                                            content:
+                                                              return AlertDialog(
+                                                                title: const Text(
+                                                                    'Alert!'),
+                                                                content:
                                                                 SingleChildScrollView(
-                                                              child: ListBody(
-                                                                children: const <
-                                                                    Widget>[
-                                                                  Text(
-                                                                      'Bill request sent!'),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            actions: <Widget>[
-                                                              TextButton(
-                                                                child:
+                                                                  child: ListBody(
+                                                                    children: const <
+                                                                        Widget>[
+                                                                      Text(
+                                                                          'Bill request sent!'),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                actions: <Widget>[
+                                                                  TextButton(
+                                                                    child:
                                                                     const Text(
                                                                         'OK'),
-                                                                onPressed: () {
-                                                                  Navigator.of(
+                                                                    onPressed: () {
+                                                                      Navigator.of(
                                                                           context)
-                                                                      .pop();
-                                                                },
-                                                              ),
-                                                            ],
-                                                          );
-                                                        },
-                                                      );
-                                                    }
-
-                                                    //NO WAITER AT TABLE ERROR
-                                                    else if (tableSnapshot
-                                                                .data![
-                                                            'waiterID'] ==
-                                                        '') {
-                                                      showDialog<void>(
-                                                        context: context,
-                                                        barrierDismissible:
-                                                            false,
-                                                        // user must tap button!
-                                                        builder: (BuildContext
-                                                            context) {
-                                                          return AlertDialog(
-                                                            title: const Text(
-                                                                'Alert!'),
-                                                            content:
-                                                                SingleChildScrollView(
-                                                              child: ListBody(
-                                                                children: const <
-                                                                    Widget>[
-                                                                  Text(
-                                                                      'Waiter Must be assigned to your table before you can submit a request.'),
+                                                                          .pop();
+                                                                    },
+                                                                  ),
                                                                 ],
-                                                              ),
-                                                            ),
-                                                            actions: <Widget>[
-                                                              TextButton(
-                                                                child:
+                                                              );
+                                                            },
+                                                          );
+                                                        }
+
+                                                        //NO WAITER AT TABLE ERROR
+                                                        else if (tableSnapshot
+                                                            .data![
+                                                        'waiterID'] ==
+                                                            '') {
+                                                          showDialog<void>(
+                                                            context: context,
+                                                            barrierDismissible:
+                                                            false,
+                                                            // user must tap button!
+                                                            builder: (BuildContext
+                                                            context) {
+                                                              return AlertDialog(
+                                                                title: const Text(
+                                                                    'Alert!'),
+                                                                content:
+                                                                SingleChildScrollView(
+                                                                  child: ListBody(
+                                                                    children: const <
+                                                                        Widget>[
+                                                                      Text(
+                                                                          'Waiter Must be assigned to your table before you can submit a request.'),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                actions: <Widget>[
+                                                                  TextButton(
+                                                                    child:
                                                                     const Text(
                                                                         'OK'),
-                                                                onPressed: () {
-                                                                  Navigator.of(
+                                                                    onPressed: () {
+                                                                      Navigator.of(
                                                                           context)
-                                                                      .pop();
-                                                                },
-                                                              ),
-                                                            ],
-                                                          );
-                                                        },
-                                                      );
-                                                    }
-                                                    //BILL ALREADY REQUESTED ERROR
-                                                    else if (tableSnapshot
-                                                                .data![
-                                                            'billRequested'] ==
-                                                        true) {
-                                                      showDialog<void>(
-                                                        context: context,
-                                                        barrierDismissible:
-                                                            false,
-                                                        // user must tap button!
-                                                        builder: (BuildContext
-                                                            context) {
-                                                          return AlertDialog(
-                                                            title: const Text(
-                                                                'Alert!'),
-                                                            content:
-                                                                SingleChildScrollView(
-                                                              child: ListBody(
-                                                                children: const <
-                                                                    Widget>[
-                                                                  Text(
-                                                                      'Bill has already been requested.'),
+                                                                          .pop();
+                                                                    },
+                                                                  ),
                                                                 ],
-                                                              ),
-                                                            ),
-                                                            actions: <Widget>[
-                                                              TextButton(
-                                                                child:
+                                                              );
+                                                            },
+                                                          );
+                                                        }
+                                                        //BILL ALREADY REQUESTED ERROR
+                                                        else if (tableSnapshot
+                                                            .data![
+                                                        'billRequested'] ==
+                                                            true) {
+                                                          showDialog<void>(
+                                                            context: context,
+                                                            barrierDismissible:
+                                                            false,
+                                                            // user must tap button!
+                                                            builder: (BuildContext
+                                                            context) {
+                                                              return AlertDialog(
+                                                                title: const Text(
+                                                                    'Alert!'),
+                                                                content:
+                                                                SingleChildScrollView(
+                                                                  child: ListBody(
+                                                                    children: const <
+                                                                        Widget>[
+                                                                      Text(
+                                                                          'Bill has already been requested.'),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                actions: <Widget>[
+                                                                  TextButton(
+                                                                    child:
                                                                     const Text(
                                                                         'OK'),
-                                                                onPressed: () {
-                                                                  Navigator.of(
+                                                                    onPressed: () {
+                                                                      Navigator.of(
                                                                           context)
-                                                                      .pop();
-                                                                },
-                                                              ),
-                                                            ],
+                                                                          .pop();
+                                                                    },
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            },
                                                           );
-                                                        },
-                                                      );
-                                                    }
-                                                  }),
+                                                        }
+                                                      }),
 
-                                              CustomSubButton(
-                                                  text: "PAST ORDERS",
-                                                  onPressed: () {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              PastOrders()),
-                                                    );
-                                                  }),
-                                            ],
-                                          )),
+                                                  CustomSubButton(
+                                                      text: "PAST VISITS",
+                                                      onPressed: () {
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  PastVisits()),
+                                                        );
+                                                      }),
+                                                ],
+                                              )),
                                         ]);
                                       } else {
                                         return const Center(
@@ -688,7 +690,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                                       } //end of if document has data
                                     } // end of tableSnapshot builder
 
-                                    ),
+                                ),
 
                                 //================================
                                 //End of table doc stream builder
@@ -706,9 +708,9 @@ class _CustomerHomeState extends State<CustomerHome> {
 
                     //================================
                   } //End of customer User Doc Builder
-                  //===============================
+                //===============================
 
-                  ),
+              ),
               //=====================================
               // End of Customer User Document Stream Builder
               //=====================================
@@ -731,7 +733,7 @@ class _CustomerHomeState extends State<CustomerHome> {
 
       phone = element['phone'];
       address =
-          '${element['address']}\n${element['zipcode']} ${element['city']}, ${element['state']}';
+      '${element['address']}\n${element['zipcode']} ${element['city']}, ${element['state']}';
     });
   }
 }
