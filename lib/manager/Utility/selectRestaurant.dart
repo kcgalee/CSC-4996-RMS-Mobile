@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_management_system/manager/Utility/selectWaiter.dart';
 import 'package:restaurant_management_system/manager/addEmployee.dart';
 import 'package:restaurant_management_system/manager/Utility/selectCategory.dart';
 import 'package:restaurant_management_system/manager/managerHome.dart';
@@ -72,7 +73,7 @@ class _SelectRestaurant extends State<SelectRestaurant> {
                                 ),
                                 child: ListTile(
                                   title: Text(snapshot.data?.docs[index]['restName'] ?? ''),
-                                  subtitle: Text(snapshot.data?.docs[index]['address'] ?? ''),
+                                  subtitle: Text((snapshot.data?.docs[index]['address'] ?? '') + '\n' + (snapshot.data?.docs[index]['city'] ?? '') + ', ' + (snapshot.data?.docs[index]['state'] ?? '')),
                                   onTap: () {
                                     String? rID = snapshot.data?.docs[index].id;
                                     String? restName = snapshot.data?.docs[index]['restName'];
@@ -85,8 +86,11 @@ class _SelectRestaurant extends State<SelectRestaurant> {
                                     else if (text == 'menu'){
                                       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectCategory(restaurantID: rID.toString(), rName: restName.toString())));
                                     }
-                                    else if (text == 'ratings'){
-                                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SeeRatings(restaurantID: rID.toString(), restName: restName.toString())));
+                                    else if (text == 'restaurant ratings'){
+                                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SeeRatings(restaurantID: rID.toString(), restName: restName.toString(), restaurant: true, waiterID: '', waiterName: '', prefName: '',)));
+                                    }
+                                    else if (text == 'waiter ratings'){
+                                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectWaiter(restaurantID: rID.toString(), restName: restName.toString(), restaurant: false)));
                                     }
                                   },
                                 ),
