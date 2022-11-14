@@ -2,13 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:restaurant_management_system/manager/addTable.dart';
-import 'package:restaurant_management_system/widgets/customBackButton.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 import 'Utility/manageTableTile.dart';
-import 'Utility/selectRestaurant.dart';
 import 'editTable.dart';
-import 'managerHome.dart';
-
 class ManageTables extends StatefulWidget {
   final String restaurantID;
   final String restName;
@@ -46,15 +42,18 @@ class _ManageTables extends State<ManageTables> {
 
         body: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 24),
-              child: CustomBackButton(onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(
-                        builder: (context) => SelectRestaurant(text: 'table')
-                    )
-                );
-              }),
+            Align(
+              alignment: Alignment.topLeft,
+              child:
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.black87,
+                ),
+              ),
             ),
             Text(widget.restName,style: TextStyle(fontSize: 30),),
             SizedBox(height: 20,),

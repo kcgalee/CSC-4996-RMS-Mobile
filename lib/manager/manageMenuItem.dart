@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_management_system/manager/Utility/selectCategory.dart';
 import 'package:restaurant_management_system/manager/addItem.dart';
-import '../widgets/customBackButton.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 import 'Utility/menuTile.dart';
 import 'editItem.dart';
@@ -46,11 +44,18 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 24),
-            child: CustomBackButton(onPressed: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectCategory(restaurantID: widget.restaurantID, rName: widget.rName)));
-            }),
+          Align(
+            alignment: Alignment.topLeft,
+            child:
+            IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.black87,
+              ),
+            ),
           ),
           
           Padding(

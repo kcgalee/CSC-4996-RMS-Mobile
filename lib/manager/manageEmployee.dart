@@ -43,17 +43,18 @@ class _ManageEmployeeState extends State<ManageEmployee> {
 
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 24),
-            child: CustomBackButton(onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(
-                      builder: (context) => ManagerHome()
-                  )
-              );
-
-
-            }),
+          Align(
+            alignment: Alignment.topLeft,
+            child:
+            IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.black87,
+              ),
+            ),
           ),
           Expanded(
             child: StreamBuilder(

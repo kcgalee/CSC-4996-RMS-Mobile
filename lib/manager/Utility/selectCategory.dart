@@ -32,7 +32,7 @@ class _SelectCategoryState extends State<SelectCategory> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 24),
+              padding: const EdgeInsets.only(left: 0),
               child: CustomBackButton(onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(
