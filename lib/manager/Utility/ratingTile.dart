@@ -62,7 +62,7 @@ class RatingTile extends StatelessWidget {
                     itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
                     itemBuilder: (context, _) => const Icon(
                       Icons.star,
-                      color: Colors.orange,
+                      color: Colors.red,
                     ),
                     onRatingUpdate: (avg) {
                       avg;
