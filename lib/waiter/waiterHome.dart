@@ -9,6 +9,7 @@ import '../login/mainscreen.dart';
 import '../widgets/customMainButton.dart';
 import '../widgets/customSubButton.dart';
 import 'Utility/waiterNavigation.dart';
+import 'package:badges/badges.dart';
 
 class WaiterHome extends StatefulWidget {
   const WaiterHome({Key? key}) : super(key: key);
@@ -37,7 +38,7 @@ class _WaiterHomeState extends State<WaiterHome> {
       stream: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).snapshots(),
       builder: (context, snapshot){
         if (!snapshot.hasData || (snapshot.data?.exists == false)) {
-          return Center(child:CircularProgressIndicator());
+          return const Center(child:CircularProgressIndicator());
         } else {
           if (snapshot.data?['isActive'] == false){
             return AlertDialog(
@@ -77,7 +78,7 @@ class _WaiterHomeState extends State<WaiterHome> {
               .where('status', isNotEqualTo: 'delivered').snapshots(),
           builder: (context, snapshot){
             if (snapshot.data?.docs.length == null){
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else {
               //store active requests and generate text
               var activeReqNum = snapshot.data?.docs.length;
@@ -87,10 +88,10 @@ class _WaiterHomeState extends State<WaiterHome> {
                 future: getName(),
                 builder: (context, snapshot) {
                   if (snapshot.data != 1){
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   } else {
                     //greeting text constructed here
-                    greeting = 'Restaurant: ${restName}\nManager: ${managerName}\nActive Requests: ${activeReqNum}';
+                    greeting = 'Restaurant: $restName\nManager: $managerName';
                     return SingleChildScrollView(
                         child: Center(
                           child: Column(
@@ -126,7 +127,7 @@ class _WaiterHomeState extends State<WaiterHome> {
                                         const SizedBox(height: 20,),
                                         Row(
                                           children: [
-                                            Text('Hello, ${waiterName}!', style: const TextStyle(fontSize: 30,color: Colors.white),),
+                                            Text('Hello, $waiterName!', style: const TextStyle(fontSize: 30,color: Colors.white),),
                                           ],
                                         ),
                                         const SizedBox(height: 20,),
@@ -167,12 +168,18 @@ class _WaiterHomeState extends State<WaiterHome> {
                                       MaterialPageRoute(builder: (context) => const AllTables()));
                                 },
                               ),
-                              CustomSubButton(
-                                text: 'CURRENT REQUESTS' ,
-                                onPressed: () {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) => WaiterRequest(rName: restName, activity: 'active')));
-                                },
+                              Badge(
+                                badgeContent: Text('$activeReqNum',
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                  padding: const EdgeInsets.all(10),
+                                child: CustomSubButton(
+                                  text: 'CURRENT REQUESTS' ,
+                                  onPressed: () {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) => WaiterRequest(rName: restName, activity: 'active')));
+                                  },
+                                )
                               ),
                               CustomSubButton(
                                 text: 'PAST REQUESTS',
