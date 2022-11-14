@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/editRestaurant.dart';
+import 'package:restaurant_management_system/manager/managerHome.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 import 'Utility/manageRestaurantTile.dart';
 import 'addRestaurant.dart';
@@ -48,7 +49,11 @@ class _ManageRestaurant extends State<ManageRestaurant> {
               child:
               IconButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.push(context,
+                      MaterialPageRoute(
+                          builder: (context) => ManagerHome(),
+                      )
+                  );
                 },
                 icon: const Icon(
                   Icons.arrow_back,
@@ -81,8 +86,9 @@ class _ManageRestaurant extends State<ManageRestaurant> {
                                       )
                                   )
                                 },
-                                onPressedDelete: (p0) =>  {
-                                  deleteRestaurant(snapshot.data?.docs[index].reference.id)
+                                onPressedDelete: () =>  {
+                                  deleteRestaurant(snapshot.data?.docs[index].reference.id),
+                                  Navigator.pop(context),
                                 },
                               onTap: (){
                                 showModalBottomSheet(
