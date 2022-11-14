@@ -5,6 +5,7 @@ import 'package:restaurant_management_system/manager/addTable.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 import 'Utility/manageTableTile.dart';
 import 'editTable.dart';
+import 'managerHome.dart';
 class ManageTables extends StatefulWidget {
   final String restaurantID;
   final String restName;
@@ -47,7 +48,11 @@ class _ManageTables extends State<ManageTables> {
               child:
               IconButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.push(context,
+                      MaterialPageRoute(
+                        builder: (context) => ManagerHome(),
+                      )
+                  );
                 },
                 icon: const Icon(
                   Icons.arrow_back,
@@ -91,17 +96,19 @@ class _ManageTables extends State<ManageTables> {
                                     )
                                   }
                                 },
-                                onPressedDelete: (p0) =>   {
+                                onPressedDelete: () =>   {
                                   if (snapshot.data?.docs[index]['currentCapacity'] != 0){
                                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                                       content: Text('Cannot delete a table while it is in use'),
-                                    ))
+                                    )),
+                                    Navigator.pop(context),
                                   } else {
-                                    deleteTable(snapshot.data?.docs[index].id)
+                                    deleteTable(snapshot.data?.docs[index].id),
+                                    Navigator.pop(context),
                                   }
                                 },
                               onTap: (){
-                                  //******** QR code Generater here *********
+                                  //******** QR code Generater *********
                                 showModalBottomSheet(
                                     shape: const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.only(topLeft: Radius.circular(24),topRight:Radius.circular(24))
@@ -112,9 +119,8 @@ class _ManageTables extends State<ManageTables> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          SizedBox(height: 20,),
+                                          Center(child: SizedBox(height: 20,)),
                                            Text('QR code for table ${snapshot.data?.docs[index]['tableNum']}',style: TextStyle(fontSize: 20,),),
                                       QrImage(
                                         data: (snapshot.data?.docs[index].id as String),
