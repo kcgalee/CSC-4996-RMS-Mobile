@@ -72,7 +72,8 @@ class _SelectWaiter extends State<SelectWaiter> {
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Text(snapshot.data?.docs[index]['fName'] + ' ' + snapshot.data?.docs[index]['lName'],style: TextStyle(fontWeight: FontWeight.bold,),),
-                                      Text((snapshot.data?.docs[index]['email'] ?? '') + '\n' + (snapshot.data?.docs[index]['phone'] ?? ''), ),
+                                      SizedBox(width: 10,),
+                                      Expanded(child: Text((snapshot.data?.docs[index]['email'] ?? '') + '\n' + (snapshot.data?.docs[index]['phone'] ?? ''), )),
                                     ],
                                   ),
                                   onTap: () {

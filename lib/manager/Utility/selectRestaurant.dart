@@ -83,7 +83,7 @@ class _SelectRestaurant extends State<SelectRestaurant> {
                                           child: Center(child: Text(snapshot.data?.docs[index]['restName'] ?? ''))
                                       ),
                                       const SizedBox(width: 5,),
-                                      Text((snapshot.data?.docs[index]['address'] ?? '') + '\n' + (snapshot.data?.docs[index]['city'] ?? '') + ', ' + (snapshot.data?.docs[index]['state'] ?? '')),
+                                      Expanded(child: Text((snapshot.data?.docs[index]['address'] ?? '') + '\n' + (snapshot.data?.docs[index]['city'] ?? '') + ', ' + (snapshot.data?.docs[index]['state'] ?? ''))),
                                     ],
                                   ),
                                   onTap: () {
