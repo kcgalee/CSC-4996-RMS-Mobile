@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_management_system/manager/Utility/managerTile.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:restaurant_management_system/manager/Utility/selectWaiter.dart';
 import 'package:restaurant_management_system/widgets/customBackButton.dart';
 import '../login/mainscreen.dart';
 import 'Utility/MangerNavigationDrawer.dart';
+import 'Utility/ratingTile.dart';
 import 'Utility/selectRestaurant.dart';
 import 'package:intl/intl.dart';
 
@@ -92,7 +93,7 @@ class _SeeRatings extends State<SeeRatings> {
                                     );
                                   }),
                                 ),
-                                Text(widget.restName),
+                                Text(widget.restName,style:TextStyle(fontSize: 30)),
                                 Expanded(
                                   child: Center(child: Text("You currently have no reviews for ${widget.restName}."),)
                                 )
@@ -120,21 +121,34 @@ class _SeeRatings extends State<SeeRatings> {
                                 );
                               }),
                             ),
-                            Text('${widget.restName} $avg'),
+                            Text('${widget.restName}',style:TextStyle(fontSize: 30)),
+
+                            RatingBar.builder(
+                              ignoreGestures: true,
+                              initialRating: avg,
+                              minRating: 1,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemCount: 5,
+                              itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                              itemBuilder: (context, _) => const Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              onRatingUpdate: (avg) {
+                                avg;
+                              },
+                            ),
+                            SizedBox(height: 20,),
                             Expanded(
                                 child: ListView.builder(
                                     itemCount: snapshot.data?.docs.length,
                                     itemBuilder: (context, index) {
-                                      return ManagerTile(
-                                          taskName: 'Rating: ' + (snapshot.data?.docs[index]['restRating'].toString() ?? ''),
-                                          subTitle: 'Name: ' + (snapshot.data?.docs[index]['custName'] ?? '')
-                                              + '\nDate: ' + (convertTime(snapshot.data?.docs[index]['date'])
-                                              + '\nDescription: ' + (snapshot.data?.docs[index]['restDescription'] ?? 'N/A')),
-                                          onPressedEdit: (p0) => {
-                                          },
-                                          onPressedDelete: (p0) => {
-                                          },
-                                        onTap: (){},
+                                      return RatingTile(
+                                          customerName: (snapshot.data?.docs[index]['custName']?? ''),
+                                          date: convertTime(snapshot.data?.docs[index]['date']),
+                                          rating: snapshot.data?.docs[index]['restRating'] ?? 0,
+                                          description: 'Description: ' + (snapshot.data?.docs[index]['restDescription'] ?? 'N/A'),
                                       );
                                     }
                                 ))
@@ -164,7 +178,7 @@ class _SeeRatings extends State<SeeRatings> {
                       );
                     }),
                   ),
-                  Text(displayName),
+                  Text(displayName,style:TextStyle(fontSize: 30)),
                   Expanded(
                       child: Center(child: Text("You currently have no reviews for ${widget.waiterName}."),)
                   )
@@ -192,21 +206,33 @@ class _SeeRatings extends State<SeeRatings> {
                       );
                     }),
                   ),
-                  Text('$displayName $avg'),
+                  Text('$displayName',style: TextStyle(fontSize: 30)),
+                  RatingBar.builder(
+                    ignoreGestures: true,
+                    initialRating: avg,
+                    minRating: 1,
+                    direction: Axis.horizontal,
+                    allowHalfRating: true,
+                    itemCount: 5,
+                    itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    itemBuilder: (context, _) => const Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
+                    onRatingUpdate: (avg) {
+                      avg;
+                    },
+                  ),
+                  SizedBox(height: 20,),
                   Expanded(
                       child: ListView.builder(
                           itemCount: snapshot.data?.docs.length,
                           itemBuilder: (context, index) {
-                            return ManagerTile(
-                              taskName: 'Rating: ' + (snapshot.data?.docs[index]['waiterRating'].toString() ?? ''),
-                              subTitle: 'Name: ' + (snapshot.data?.docs[index]['custName'] ?? '')
-                                  + '\nDate: ' + (convertTime(snapshot.data?.docs[index]['date'])
-                                  + '\nDescription: ' + (snapshot.data?.docs[index]['waiterDescription'] ?? 'N/A')),
-                              onPressedEdit: (p0) => {
-                              },
-                              onPressedDelete: (p0) => {
-                              },
-                              onTap: (){},
+                            return RatingTile(
+                              customerName: (snapshot.data?.docs[index]['custName'] ?? ''),
+                              date: convertTime(snapshot.data?.docs[index]['date']),
+                              rating: (snapshot.data?.docs[index]['waiterRating'] ?? 0),
+                              description: (snapshot.data?.docs[index]['waiterDescription'] ?? 'N/A'),
                             );
                           }
                       ))

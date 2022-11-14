@@ -84,64 +84,71 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
 
                             if (snapshot.data?.docs[index]['isVegan'] == true){
                               if (dietaryText != ''){
-                                dietaryText += " Vegan";
+                                dietaryText += ", Vegan";
                               } else {
                                 dietaryText += "Vegan";
                               }
                             }
                             if (snapshot.data?.docs[index]['isVegetarian'] == true){
                               if (dietaryText != ''){
-                                dietaryText += " Vegetarian";
+                                dietaryText += ", Vegetarian";
                               } else {
                                 dietaryText += "Vegetarian";
                               }
                             }
                             if (snapshot.data?.docs[index]['isNuts'] == true){
                               if (dietaryText != ''){
-                                dietaryText += " Nuts";
+                                dietaryText += ", Nuts";
                               } else {
                                 dietaryText += "Nuts";
                               }
                             }
                             if (snapshot.data?.docs[index]['isKosher'] == true){
                               if (dietaryText != ''){
-                                dietaryText += " Kosher";
+                                dietaryText += ", Kosher";
                               } else {
                                 dietaryText += "Kosher";
                               }
                             }
                             if (snapshot.data?.docs[index]['isHalal'] == true){
                               if (dietaryText != ''){
-                                dietaryText += " Halal";
+                                dietaryText += ", Halal";
                               } else {
                                 dietaryText += "Halal";
                               }
                             }
                             if (snapshot.data?.docs[index]['isPescatarian'] == true){
                               if (dietaryText != ''){
-                                dietaryText += " Pescatarian";
+                                dietaryText += ", Pescatarian";
                               } else {
                                 dietaryText += "Pescatarian";
                               }
                             }
                             if (snapshot.data?.docs[index]['isLactose'] == true){
                               if (dietaryText != ''){
-                                dietaryText += " Lactose Free";
+                                dietaryText += ", Lactose Free";
                               } else {
                                 dietaryText += "Lactose Free";
                               }
                             }
                             if (snapshot.data?.docs[index]['isGlutenFree'] == true){
                               if (dietaryText != ''){
-                                dietaryText += " Gluten Free";
+                                dietaryText += ", Gluten Free";
                               } else {
                                 dietaryText += "Gluten Free";
                               }
                             }
+                            String subTitle;
+                            if(dietaryText == ''){
+                              subTitle  =  snapshot.data?.docs[index]['description'] ?? '';
+                            } else
+                              {
+                                subTitle = dietaryText + "\n\n" + snapshot.data?.docs[index]['description'] ?? '';
+                              }
 
                             return MenuTile(
                                 taskName: snapshot.data?.docs[index]['itemName'] ,
-                                subTitle: dietaryText + "\n\n" + snapshot.data?.docs[index]['description'] ?? '',
+                                subTitle: subTitle,
                                 price: ' \$' + snapshot.data?.docs[index]['price'],
                                 itemIMG:  snapshot.data?.docs[index]['imgURL'],
                                 onPressedEdit:  (p0) => {

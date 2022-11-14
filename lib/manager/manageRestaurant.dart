@@ -88,22 +88,26 @@ class _ManageRestaurant extends State<ManageRestaurant> {
                                     shape: const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.only(topLeft: Radius.circular(24),topRight:Radius.circular(24))
                                     ),
-                                    backgroundColor: Colors.white,
+                                    backgroundColor: Colors.blueGrey.shade900,
                                     context: context,
                                     builder: (context) => Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.all(20),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          SizedBox(height: 20,),
-                                          Text(snapshot.data?.docs[index]['restName'],style: TextStyle(fontSize: 20,),),
-                                          Text(snapshot.data?.docs[index]['address'],style: TextStyle(fontSize: 20,),),
-                                          Text('${snapshot.data?.docs[index]['zipcode']} ${snapshot.data?.docs[index]['city']}, ${snapshot.data?.docs[index]['state']}',style: TextStyle(fontSize: 20,),),
-                                          Text(snapshot.data?.docs[index]['phone'],style: TextStyle(fontSize: 20,),),
-                                          Text(snapshot.data?.docs[index]['email'],style: TextStyle(fontSize: 20,),),
-                                          Text('Weekday Hours: ${snapshot.data?.docs[index]['openTimeWKday']} - ${snapshot.data?.docs[index]['closeTimeWKday']}',style: TextStyle(fontSize: 20,),),
-                                          Text('Weekend Hours: ${snapshot.data?.docs[index]['openTimeWKend']} - ${snapshot.data?.docs[index]['closeTimeWKend']}',style: TextStyle(fontSize: 20,),),
+                                          const SizedBox(height: 20,),
+                                          Text('Restaurant: '+snapshot.data?.docs[index]['restName'],style: TextStyle(fontSize: 20,color: Colors.white),),
+                                          const SizedBox(height: 20,),
+                                          Text('Address: '+snapshot.data?.docs[index]['address'],style: TextStyle(fontSize: 20,color: Colors.white),),
+                                          Text('${snapshot.data?.docs[index]['zipcode']} ${snapshot.data?.docs[index]['city']}, ${snapshot.data?.docs[index]['state']}',style: TextStyle(fontSize: 20,color: Colors.white),),
+                                          const SizedBox(height: 20,),
+                                          Text('Phone: '+snapshot.data?.docs[index]['phone'],style: TextStyle(fontSize: 20,color: Colors.white),),
+                                          const SizedBox(height: 20,),
+                                          Text('Email: '+snapshot.data?.docs[index]['email'],style: TextStyle(fontSize: 20,color: Colors.white),),
+                                          const SizedBox(height: 20,),
+                                          Text('Weekday Hours: ${snapshot.data?.docs[index]['openTimeWKday']} - ${snapshot.data?.docs[index]['closeTimeWKday']}',style: TextStyle(fontSize: 20,color: Colors.white),),
+                                          Text('Weekend Hours: ${snapshot.data?.docs[index]['openTimeWKend']} - ${snapshot.data?.docs[index]['closeTimeWKend']}',style: TextStyle(fontSize: 20,color: Colors.white),),
                                         ],
                                       ),
                                     )
