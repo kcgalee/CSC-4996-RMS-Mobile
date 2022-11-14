@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/customer/Models/createOrderInfo.dart';
 import 'package:restaurant_management_system/customer/order.dart';
+import 'package:restaurant_management_system/customer/pastOrders.dart';
 import 'package:restaurant_management_system/customer/pastVisits.dart';
 import 'package:restaurant_management_system/customer/placedOrders.dart';
 import 'package:restaurant_management_system/customer/submitReview.dart';
@@ -10,6 +11,7 @@ import 'package:restaurant_management_system/customer/tableStatus.dart';
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
 import '../widgets/customSubButton.dart';
 import '../widgets/pastOrdersTile.dart';
+import '../widgets/pastVisitsTile.dart';
 import 'qrScanner.dart';
 import 'package:restaurant_management_system/customer/Utility/navigation.dart';
 
@@ -156,23 +158,22 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                 itemCount:
                                                 snapshot.data?.docs.length,
                                                 itemBuilder: (context, index) {
-                                                  return PastOrdersTile(
-                                                    taskName: 'Item: ' +
-                                                        (snapshot.data?.docs[index]
-                                                        ['itemName'] ??
-                                                            ''),
-                                                    time: snapshot.data?.docs[index]
-                                                    ['timePlaced'],
-                                                    oStatus:
-                                                    (snapshot.data?.docs[index]
-                                                    ['status'] ??
-                                                        ''),
-                                                    restID:
-                                                    (snapshot.data?.docs[index]
-                                                    ['restID'] ??
-                                                        ''),
-                                                    //restName: snapshot.data?.docs[index]['restName'],
-                                                  );
+                                                  return PastVisitsTile(
+                                                      taskName: 'Item: ' +
+                                                          (snapshot.data?.docs[index]['itemName'] ??
+                                                              ''),
+                                                      time: snapshot.data?.docs[index]['timePlaced'],
+                                                      oStatus: (snapshot.data?.docs[index]
+                                                      ['status'] ??
+                                                          ''),
+                                                      restID: snapshot.data?.docs[index]['restID'],
+                                                      onPressed: () {
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) => PastOrders()),
+                                                        );
+                                                      });
                                                 }),
                                           );
                                         }
