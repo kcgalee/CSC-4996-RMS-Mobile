@@ -83,15 +83,18 @@ class _SeeRatings extends State<SeeRatings> {
                     if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
                       return Column(
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 24),
-                                  child: CustomBackButton(onPressed: () {
-                                    Navigator.push(context,
-                                        MaterialPageRoute(
-                                            builder: (context) => SelectRestaurant(text: 'ratings')
-                                        )
-                                    );
-                                  }),
+                                Align(
+                                  alignment: Alignment.topLeft,
+                                  child:
+                                  IconButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    icon: const Icon(
+                                      Icons.arrow_back,
+                                      color: Colors.black87,
+                                    ),
+                                  ),
                                 ),
                                 Text(widget.restName,style:TextStyle(fontSize: 30)),
                                 Expanded(

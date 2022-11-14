@@ -2,11 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/editRestaurant.dart';
-import 'package:restaurant_management_system/widgets/customBackButton.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 import 'Utility/manageRestaurantTile.dart';
 import 'addRestaurant.dart';
-import 'managerHome.dart';
 
 class ManageRestaurant extends StatefulWidget {
   const ManageRestaurant({Key? key}) : super(key: key);
@@ -45,15 +43,18 @@ class _ManageRestaurant extends State<ManageRestaurant> {
 
         body: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 24),
-              child: CustomBackButton(onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(
-                        builder: (context) => ManagerHome()
-                    )
-                );
-              }),
+            Align(
+              alignment: Alignment.topLeft,
+              child:
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.black87,
+                ),
+              ),
             ),
             Expanded(
               child: StreamBuilder(

@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/manageEmployee.dart';
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
 import 'package:restaurant_management_system/widgets/customTextForm.dart';
-import '../widgets/customBackButton.dart';
 import 'Utility/MangerNavigationDrawer.dart';
-import 'Utility/selectRestaurant.dart';
 
 class AddEmployee extends StatefulWidget {
   final String text;
@@ -48,13 +46,19 @@ class _AddEmployee extends State<AddEmployee> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CustomBackButton(onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(
-                    builder: (context) => SelectRestaurant(text: 'employee')
-                )
-            );
-          }),
+          Align(
+            alignment: Alignment.topLeft,
+            child:
+            IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.black87,
+              ),
+            ),
+          ),
           Text(widget.rName,style: const TextStyle(fontSize: 20),),
           const SizedBox(height: 20,),
 
