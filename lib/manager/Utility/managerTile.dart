@@ -9,12 +9,12 @@ class ManagerTile extends StatelessWidget {
   Function(BuildContext) onPressedEdit;
   final VoidCallback? onPressedDelete;
   final VoidCallback? onTap;
-  final String taskName;
+  final String name;
    String subTitle;
 
   ManagerTile({
     super.key,
-    required this.taskName,
+    required this.name,
     required this.subTitle,
     required this.onPressedEdit,
     required this.onPressedDelete,
@@ -76,12 +76,14 @@ class ManagerTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text(taskName,
+                          Text(name,
                               style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
-                          Text(subTitle,
-                              style: const TextStyle(color: Colors.black,fontSize: 15)),
+                          SizedBox(width: 20),
+                          Expanded(
+                            child: Text(subTitle,
+                                style: const TextStyle(color: Colors.black,fontSize: 15)),
+                          ),
                         ],
                       ),
 

@@ -72,7 +72,7 @@ class _ManageEmployeeState extends State<ManageEmployee> {
                           itemCount: snapshot.data?.docs.length,
                           itemBuilder: (context, index) {
                             return ManagerTile (
-                              taskName: (snapshot.data?.docs[index]['fName'] ?? '') + ' ' + (snapshot.data?.docs[index]['lName'] ?? ''),
+                              name: (snapshot.data?.docs[index]['fName'] ?? '') + ' ' + (snapshot.data?.docs[index]['lName'] ?? ''),
                               subTitle: (snapshot.data?.docs[index]['email'] ?? '') + '\n' + (snapshot.data?.docs[index]['phone'] ?? ''),
                               onPressedDelete: () =>  {
                                 deleteWaiter(snapshot.data?.docs[index].id),
