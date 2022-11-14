@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/customer/customerHome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:restaurant_management_system/customer/submitReview.dart';
 import 'package:restaurant_management_system/login/mainscreen.dart';
 
 import '../pastVisits.dart';
@@ -40,6 +41,12 @@ class NavigationDrawer extends StatelessWidget {
         title: const Text('Past Visits'),
         onTap: () =>
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) =>  PastVisits())),
+      ),
+      ListTile(
+        leading: const Icon(Icons.star_outline),
+        title: const Text('Submit Review'),
+        onTap: () =>
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) =>  SubmitReview())),
       ),
       ListTile(
         leading: const Icon(Icons.exit_to_app_outlined),

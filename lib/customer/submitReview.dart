@@ -22,6 +22,7 @@ class _SubmitReviewState extends State<SubmitReview> {
   String currentDate = DateFormat('MM-dd-yyyy').format(DateTime.now());
   var restStarRating;
   var waiterStarRating;
+  var restName= '', waiterName = '';
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,10 @@ class _SubmitReviewState extends State<SubmitReview> {
                   .snapshots(),
               builder: (context, userSnapshot) {
                 if(userSnapshot.hasData) {
-                  return  Column(
+                  return FutureBuilder (
+                    future: getInfo(userSnapshot.data!['restID'], userSnapshot.data!['waiterID']),
+                  builder: (build, context2) {
+                  return Column(
                     children: [
                       Align(
                         alignment: Alignment.topLeft,
@@ -75,9 +79,13 @@ class _SubmitReviewState extends State<SubmitReview> {
                           ),
                         ],
                       ),
+
+                      Text('$restName\n'),
+
                       Row(
 
                         children: [
+
                           Container(
                               padding: const EdgeInsets.only(top: 20.0, right: 10, left: 20.0, bottom: 20.0),
                               alignment: Alignment.topLeft,
@@ -117,8 +125,13 @@ class _SubmitReviewState extends State<SubmitReview> {
                             icon: const Icon(Icons.reviews)
                         ),
                       ),
+
+                      Text('$waiterName\n'),
+
                       Row(
                         children: [
+
+
                           Container(
                               padding: const EdgeInsets.only(top: 20.0, right: 40.0, left: 20.0, bottom: 20.0),
                               alignment: Alignment.topLeft,
@@ -171,6 +184,7 @@ class _SubmitReviewState extends State<SubmitReview> {
                       )
                     ],
                   );
+                  });
                 }
 
                 else {
@@ -204,4 +218,20 @@ class _SubmitReviewState extends State<SubmitReview> {
 
   }
 
+  Future<void> getInfo(String restID, String waiterID) async {
+
+    //get rest name
+    await FirebaseFirestore.instance.collection('restaurants').doc(restID).get().then(
+            (element) {
+          restName = element['restName'].toString();
+        });
+
+    //get waiter name
+    await FirebaseFirestore.instance.collection('users').doc(waiterID).get().then(
+            (element) {
+          waiterName = element['prefName'].toString();
+        });
+
+
+  }
 }
