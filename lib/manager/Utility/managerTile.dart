@@ -7,7 +7,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ManagerTile extends StatelessWidget {
   Function(BuildContext) onPressedEdit;
-  Function(BuildContext) onPressedDelete;
+  final VoidCallback? onPressedDelete;
   final VoidCallback? onTap;
   final String taskName;
    String subTitle;
@@ -41,7 +41,23 @@ class ManagerTile extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     SlidableAction(
-                      onPressed: onPressedDelete,
+                      onPressed: (contaxt) => showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          title: const Text('Delete Employee'),
+                          content: const Text('Do you want to delete this employee?'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, 'No'),
+                              child: const Text('No'),
+                            ),
+                            TextButton(
+                              onPressed: onPressedDelete,
+                              child: const Text('Yes'),
+                            ),
+                          ],
+                        ),
+                      ),
                       icon: Icons.delete,
                       label: 'DELETE',
                       backgroundColor: Colors.redAccent,
@@ -59,10 +75,16 @@ class ManagerTile extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Text(taskName,
-                          style: const TextStyle(color: Colors.black,fontSize: 15, fontWeight: FontWeight.bold)),
-                      Text(subTitle,
-                          style: const TextStyle(color: Colors.black54,fontSize: 15)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(taskName,
+                              style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
+                          Text(subTitle,
+                              style: const TextStyle(color: Colors.black,fontSize: 15)),
+                        ],
+                      ),
+
                     ],
                   ),
                 ),

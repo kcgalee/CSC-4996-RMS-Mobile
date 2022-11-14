@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/Utility/managerTile.dart';
 import 'package:restaurant_management_system/manager/Utility/selectRestaurant.dart';
 import 'package:restaurant_management_system/manager/managerHome.dart';
-import '../widgets/customBackButton.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 import 'editEmployee.dart';
 
@@ -48,7 +47,11 @@ class _ManageEmployeeState extends State<ManageEmployee> {
             child:
             IconButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(
+                      builder: (context) => ManagerHome(),
+                    )
+                );
               },
               icon: const Icon(
                 Icons.arrow_back,
@@ -70,9 +73,10 @@ class _ManageEmployeeState extends State<ManageEmployee> {
                           itemBuilder: (context, index) {
                             return ManagerTile (
                               taskName: (snapshot.data?.docs[index]['fName'] ?? '') + ' ' + (snapshot.data?.docs[index]['lName'] ?? ''),
-                              subTitle: snapshot.data?.docs[index]['email'] ?? '',
-                              onPressedDelete: (p0) =>  {
-                                deleteWaiter(snapshot.data?.docs[index].id)
+                              subTitle: (snapshot.data?.docs[index]['email'] ?? '') + '\n' + (snapshot.data?.docs[index]['phone'] ?? ''),
+                              onPressedDelete: () =>  {
+                                deleteWaiter(snapshot.data?.docs[index].id),
+                                Navigator.pop(context),
                               },
                               onPressedEdit: (p0) =>  {
                                 Navigator.push(context,
