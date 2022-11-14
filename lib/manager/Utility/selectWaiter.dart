@@ -62,12 +62,19 @@ class _SelectWaiter extends State<SelectWaiter> {
                             return Padding(
                               padding: const EdgeInsets.only(left: 24,right: 24,bottom: 10),
                               child: Container(
+                                padding: const EdgeInsets.only(right: 5,bottom: 5,top: 5),
                                 decoration: BoxDecoration(color: Colors.grey[100],
-                                    border: Border.all(color: Colors.black54,width: 2)
+                                    border: Border.all(color: Colors.black54,width: 2),
+                                  borderRadius: BorderRadius.circular(5)
                                 ),
                                 child: ListTile(
-                                  title: Text(snapshot.data?.docs[index]['fName'] + ' ' + snapshot.data?.docs[index]['lName']),
-                                  subtitle: Text((snapshot.data?.docs[index]['email'] ?? '') + '\n' + (snapshot.data?.docs[index]['phone'] ?? '')),
+                                  title: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Text(snapshot.data?.docs[index]['fName'] + ' ' + snapshot.data?.docs[index]['lName'],style: TextStyle(fontWeight: FontWeight.bold,),),
+                                      Text((snapshot.data?.docs[index]['email'] ?? '') + '\n' + (snapshot.data?.docs[index]['phone'] ?? ''), ),
+                                    ],
+                                  ),
                                   onTap: () {
                                     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SeeRatings(restaurantID: widget.restaurantID, restName: widget.restName,
                                         restaurant: false, waiterID: snapshot.data?.docs[index].id ?? '',
