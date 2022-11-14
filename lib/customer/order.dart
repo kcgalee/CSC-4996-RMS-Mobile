@@ -185,6 +185,17 @@ class _Order extends State<Order> {
                                           createOrderInfo: createOrderInfo)));
                         }, iconInput: Icons.restaurant,
                       ),
+                      SizedBox(height: 20),
+                      SizedBox(
+                        height: 200,
+                        width: 220,
+                        child:
+                        FittedBox(
+                          fit: BoxFit.fill,
+                          child:
+                          Image.asset('assets/images/RMS_logo.png'),
+                        ),
+                      ),
 
 
                     ], //Children

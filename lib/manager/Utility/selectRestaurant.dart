@@ -40,7 +40,7 @@ class _SelectRestaurant extends State<SelectRestaurant> {
         body: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 24),
+              padding: const EdgeInsets.only(left: 0),
               child: CustomBackButton(onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(

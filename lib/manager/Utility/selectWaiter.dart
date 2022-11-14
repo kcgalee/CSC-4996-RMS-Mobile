@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/Utility/selectRestaurant.dart';
-import 'package:restaurant_management_system/manager/managerHome.dart';
 import '../../widgets/customBackButton.dart';
 import '../seeRatings.dart';
 import 'MangerNavigationDrawer.dart';
@@ -35,7 +34,7 @@ class _SelectWaiter extends State<SelectWaiter> {
         body: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 24),
+              padding: const EdgeInsets.only(left: 0),
               child: CustomBackButton(onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(
