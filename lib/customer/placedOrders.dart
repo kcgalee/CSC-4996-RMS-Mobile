@@ -90,8 +90,9 @@ class _PlacedOrders extends State<PlacedOrders> {
                                       return OrdersPlacedTile(
                                           taskName: '${'\nItem: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
                                               + '  x ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
-                                              + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '')}\nPrice: \$' + (snapshot.data?.docs[index]['price'] ?? '')
+                                              + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '')}'
                                         + '\nComment: ${snapshot.data?.docs[index]['orderComment']}',
+                                          price: snapshot.data?.docs[index]['price'],
                                           time:(snapshot.data?.docs[index]['timePlaced'] ?? '') ,
                                           oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
 
