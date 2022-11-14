@@ -34,57 +34,57 @@ class _WaiterHomeState extends State<WaiterHome> {
           foregroundColor: Colors.black,
           elevation: 0,
         ),
-    body: StreamBuilder(
-      stream: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).snapshots(),
-      builder: (context, snapshot){
-        if (!snapshot.hasData || (snapshot.data?.exists == false)) {
-          return const Center(child:CircularProgressIndicator());
-        } else {
-          if (snapshot.data?['isActive'] == false){
-            return AlertDialog(
-              title: const Text('Account is Deactivated'),
-              content: SingleChildScrollView(
-                child: ListBody(
-                  children: const <Widget>[
-                    Text('Your Waiter account has been deactivated by your manager.'),
-                  ],
-                ),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  child: const Text('OK'),
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(
-                            builder: (context) => const MainScreen()
-                        )
-                    );
-                  },
-                ),
-              ],
-            );
-          } else {
-            return home();
-          }
-        }
-      }
-    ));
+        body: StreamBuilder(
+            stream: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).snapshots(),
+            builder: (context, snapshot){
+              if (!snapshot.hasData || (snapshot.data?.exists == false)) {
+                return const Center(child:CircularProgressIndicator());
+              } else {
+                if (snapshot.data?['isActive'] == false){
+                  return AlertDialog(
+                    title: const Text('Account is Deactivated'),
+                    content: SingleChildScrollView(
+                      child: ListBody(
+                        children: const <Widget>[
+                          Text('Your Waiter account has been deactivated by your manager.'),
+                        ],
+                      ),
+                    ),
+                    actions: <Widget>[
+                      TextButton(
+                        child: const Text('OK'),
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) => const MainScreen()
+                              )
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                } else {
+                  return home();
+                }
+              }
+            }
+        ));
   }
 
   Widget home() {
-        return StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('orders')
-              .where('waiterID', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
-              .where('status', isNotEqualTo: 'delivered').snapshots(),
-          builder: (context, snapshot){
-            if (snapshot.data?.docs.length == null){
-              return const Center(child: CircularProgressIndicator());
-            } else {
-              //store active requests and generate text
-              var activeReqNum = snapshot.data?.docs.length;
-              //String reqText = '\nActive Requests: ${activeReqNum}';
+    return StreamBuilder(
+        stream: FirebaseFirestore.instance.collection('orders')
+            .where('waiterID', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
+            .where('status', isNotEqualTo: 'delivered').snapshots(),
+        builder: (context, snapshot){
+          if (snapshot.data?.docs.length == null){
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            //store active requests and generate text
+            var activeReqNum = snapshot.data?.docs.length;
+            //String reqText = '\nActive Requests: ${activeReqNum}';
 
-              return FutureBuilder(
+            return FutureBuilder(
                 future: getName(),
                 builder: (context, snapshot) {
                   if (snapshot.data != 1){
@@ -139,7 +139,7 @@ class _WaiterHomeState extends State<WaiterHome> {
                                       ]
                                   )
                               ),
-                                  /*
+                              /*
                               CustomSubButton(
                                 text: 'CLOCK IN',
                                 onPressed: () {  },
@@ -169,17 +169,17 @@ class _WaiterHomeState extends State<WaiterHome> {
                                 },
                               ),
                               Badge(
-                                badgeContent: Text('$activeReqNum',
-                                  style: const TextStyle(color: Colors.white),
-                                ),
+                                  badgeContent: Text('$activeReqNum',
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
                                   padding: const EdgeInsets.all(10),
-                                child: CustomSubButton(
-                                  text: 'CURRENT REQUESTS' ,
-                                  onPressed: () {
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (context) => WaiterRequest(rName: restName, activity: 'active')));
-                                  },
-                                )
+                                  child: CustomSubButton(
+                                    text: 'CURRENT REQUESTS' ,
+                                    onPressed: () {
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) => WaiterRequest(rName: restName, activity: 'active')));
+                                    },
+                                  )
                               ),
                               CustomSubButton(
                                 text: 'PAST REQUESTS',
@@ -192,7 +192,7 @@ class _WaiterHomeState extends State<WaiterHome> {
                           ),
                         ));
                   }
-            });
+                });
           }}
 
     );
