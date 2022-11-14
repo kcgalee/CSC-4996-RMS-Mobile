@@ -141,7 +141,7 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
 
                             return MenuTile(
                                 taskName: snapshot.data?.docs[index]['itemName'] ,
-                                subTitle: dietaryText + "\n\n" + snapshot.data?.docs[index]['description'] ?? '',
+                                subTitle: dietaryText + "\n\n" + (snapshot.data?.docs[index]['description'] ?? ''),
                                 price: ' \$' + snapshot.data?.docs[index]['price'],
                                 itemIMG:  snapshot.data?.docs[index]['imgURL'],
                                 onPressedEdit:  (p0) => {

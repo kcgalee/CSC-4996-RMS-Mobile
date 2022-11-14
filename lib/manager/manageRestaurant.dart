@@ -121,11 +121,31 @@ class _ManageRestaurant extends State<ManageRestaurant> {
     );
   }
 
+  checkRestaurant(var restID) async {
+    bool status = false;
+    await FirebaseFirestore.instance.collection('tables').where('restID', isEqualTo: restID).get().then(
+            (tables) {
+              tables.docs.forEach((table) {
+                if (table['currentCapacity'] > 0){
+                  status = true;
+                }
+              });
+            });
+    return status;
+  }
+  
    deleteRestaurant(var id) async {
-     var restaurant = await FirebaseFirestore.instance.collection('restaurants').doc(id).get();
-     await restaurant.reference.update({
-       'isActive': false,
-       'deletionDate': Timestamp.now(),
-     });
+    bool status = await checkRestaurant(id);
+    if (status){
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Cannot delete a restaurant that is currently in use'),
+      ));
+    } else {
+      var restaurant = await FirebaseFirestore.instance.collection('restaurants').doc(id).get();
+      await restaurant.reference.update({
+        'isActive': false,
+        'deletionDate': Timestamp.now(),
+      });
+    }
   }
 }
