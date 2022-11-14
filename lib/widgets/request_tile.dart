@@ -22,9 +22,6 @@ class RequestTile extends StatefulWidget {
   RequestTile({
     super.key,
     required this.taskName,
-    //  required this.taskCompleted,
-    //required this.onChanged,
-    // required this.deleteFunction,
     required this.time,
     required this.orderID,
     required this.oStatus,
@@ -55,11 +52,6 @@ class _RequestTileState extends State<RequestTile> {
 
   @override
   Widget build(BuildContext context) {
-    /*@override
-    void dispose() {
-
-      super.dispose();
-    }*/
 
     var isVisible = true;
 

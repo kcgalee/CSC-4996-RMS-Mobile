@@ -145,7 +145,8 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                   Text(menuSnapshot
                                                               .data?.docs[index]
                                                           ['itemName'] ??
-                                                      ''),
+                                                      '',
+                                                  ),
 
                                                   Spacer(),
                                                   
@@ -197,38 +198,62 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                                             width:
                                                                                 350,
                                                                             child:
-                                                                                Image.network(menuSnapshot.data?.docs[index]['imgURL']),
+                                                                            FittedBox(
+                                                                              fit: BoxFit.fill,
+                                                                              child:
+                                                                              Image.network(menuSnapshot.data?.docs[index]['imgURL']),
+                                                                            ),
                                                                           ),
-                                                                        SizedBox(height: 20),
-                                                                        Text(
-                                                                          menuSnapshot.data?.docs[index]['itemName'],
-                                                                          style:
-                                                                              const TextStyle(
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
-                                                                            fontSize:
-                                                                                20,
-                                                                          ),
+
+                                                                        SizedBox(height: 10),
+                                                                        Row(
+                                                                          children: [
+                                                                            Text(
+                                                                              menuSnapshot.data?.docs[index]['itemName'],
+                                                                              style:
+                                                                                  const TextStyle(
+                                                                                fontWeight:
+                                                                                    FontWeight.bold,
+                                                                                fontSize:
+                                                                                    20,
+                                                                              ),
+                                                                              textAlign: TextAlign.left,
+                                                                            ),
+                                                                          ],
                                                                         ),
-                                                                        Text(menuSnapshot.data?.docs[index]['description'] +
-                                                                            "\n\n \$" +
-                                                                            menuSnapshot.data?.docs[index]['price']),
-                                                                        SizedBox(height: 20),
-                                                                        CustomTextForm(
-                                                                            hintText:
+                                                                        SizedBox(height: 10),
+                                                                        Row(
+                                                                          children: [
+                                                                            Container(
+                                                                              width: 330,
+                                                                              child: Text(menuSnapshot.data?.docs[index]['description'] +
+                                                                                  "\n\n \$" +
+                                                                                  menuSnapshot.data?.docs[index]['price'],
+                                                                                  textAlign: TextAlign.left),
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                        SizedBox(height: 10),
+                                                                        Expanded(
+                                                                          child: Align(
+                                                                            alignment: FractionalOffset.bottomCenter,
+                                                                            child: CustomTextForm(
+                                                                                hintText:
                                                                                 'Optional Order Comments',
-                                                                            controller:
+                                                                                controller:
                                                                                 orderCommentsController,
-                                                                            validator:
+                                                                                validator:
                                                                                 null,
-                                                                            keyboardType: TextInputType
-                                                                                .text,
-                                                                            maxLines:
+                                                                                keyboardType: TextInputType
+                                                                                    .text,
+                                                                                maxLines:
                                                                                 2,
-                                                                            maxLength:
+                                                                                maxLength:
                                                                                 100,
-                                                                            icon:
+                                                                                icon:
                                                                                 const Icon(Icons.fastfood))
+                                                                          )
+                                                                        )
                                                                       ])
                                                               );
                                                             },
