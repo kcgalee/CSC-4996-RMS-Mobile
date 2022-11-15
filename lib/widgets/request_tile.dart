@@ -6,7 +6,13 @@ import 'package:intl/intl.dart';
 
 
 class RequestTile extends StatefulWidget {
-  final String taskName;
+  final String tableNum;
+  final String request;
+  final String customerName;
+  final String comment;
+  Icon orderIcon;
+
+
   var time;
 
   final String orderID;
@@ -21,8 +27,12 @@ class RequestTile extends StatefulWidget {
 
   RequestTile({
     super.key,
-    required this.taskName,
+    required this.tableNum,
+    required this.request,
+    required this.customerName,
+    required this.comment,
     required this.time,
+    required this.orderIcon,
     required this.orderID,
     required this.oStatus,
     required this.tableID,
@@ -88,9 +98,18 @@ class _RequestTileState extends State<RequestTile> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              //task name and time
-              Text(widget.taskName + '\nTime Placed: ' + newTime,
-                  style: const TextStyle(color: Colors.black54,fontSize: 15, fontWeight: FontWeight.bold)),
+              //required fields
+              Text(widget.tableNum,
+                  style: const TextStyle(color: Colors.black,fontSize: 15,)),
+              Text(widget.request,
+                  style: const TextStyle(color: Colors.black,fontSize: 15,)),
+              Text(widget.customerName,
+                  style: const TextStyle(color: Colors.black,fontSize: 15,)),
+              Text(widget.comment,
+                  style: const TextStyle(color: Colors.black,fontSize: 15,)),
+              Text('Time Placed: ' + newTime,
+                  style: TextStyle(color: timeColor,fontSize: 15,)),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -184,16 +203,16 @@ class _RequestTileState extends State<RequestTile> {
               //if order placed an hour or more ago, then change time color to red
               timeColor = Colors.red;
                 if (hours == '1'){
-                  return '\nOrdered $hours hr ago';
+                  return 'Ordered $hours hr ago';
                 } else {
-                  return '\nOrdered $hours hrs ago';
+                  return 'Ordered $hours hrs ago';
                 }
             } else {
               if (int.parse(minutes) >= 35){
                 //if order placed 35min or more ago, then change time color to yellow
                 timeColor = Colors.yellow;
               }
-              return '\nOrdered $minutes mins ago';
+              return 'Ordered $minutes mins ago';
             }
             //String seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
           }),
@@ -210,8 +229,23 @@ class _RequestTileState extends State<RequestTile> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     //task name and time
-                    Text(widget.taskName + (snapshot.data ?? '\nLoading. . .'),
-                        style: const TextStyle(color: Colors.black54,fontSize: 15, fontWeight: FontWeight.bold)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(widget.tableNum,
+                            style: const TextStyle(color: Colors.black,fontSize: 15,)),
+                        widget.orderIcon
+                      ],
+                    ),
+                    Text(widget.request,
+                        style: const TextStyle(color: Colors.black,fontSize: 15,)),
+                    Text(widget.customerName,
+                        style: const TextStyle(color: Colors.black,fontSize: 15,)),
+                    Text(widget.comment,
+                        style: const TextStyle(color: Colors.black,fontSize: 15,)),
+                    Text((snapshot.data ?? 'Loading. . .'),
+                        style: TextStyle(color: timeColor,fontSize: 15,)),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
