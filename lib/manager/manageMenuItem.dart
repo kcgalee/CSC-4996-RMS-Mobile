@@ -180,14 +180,23 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                                 taskName: snapshot.data?.docs[index]['itemName'] ,
                                 subTitle: snapshot.data?.docs[index]['description'] ?? '',
                                 price: ' \$' + snapshot.data?.docs[index]['price'],
-                                onPressedEdit:  (p0) =>{},
-                                onPressedDelete: () => {
+                                itemIMG:  snapshot.data?.docs[index]['imgURL'],
+                                onPressedEdit:  (p0) => {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>  EditItem(itemID: snapshot.data?.docs[index].id ?? '', restaurantID: widget.restaurantID, category: widget.category,
+                                              rName: widget.rName, iName: snapshot.data?.docs[index]['itemName'], iDesc: snapshot.data?.docs[index]['description'],
+                                              iPrice: snapshot.data?.docs[index]['price'], iOptions: dOptions)
+                                      )
+                                  )
+                                },
+                                onPressedDelete: () =>  {
                                   if (snapshot.data?.docs[index]['imgURL'] != ''){
-                                     deleteItem(snapshot.data?.docs[index].id, true),
-                                     Navigator.pop(context),
+                                    deleteItem(snapshot.data?.docs[index].id, true),
+                                    Navigator.pop(context),
                                   } else {
-                                     deleteItem(snapshot.data?.docs[index].id, false),
-                                     Navigator.pop(context),
+                                    deleteItem(snapshot.data?.docs[index].id, false),
+                                    Navigator.pop(context),
                                   }
                                 }
                             );
