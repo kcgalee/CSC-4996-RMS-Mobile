@@ -342,7 +342,7 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                                                 SingleChildScrollView(
                                                                               child: ListBody(
                                                                                 children: const <Widget>[
-                                                                                  Text('Bill requested, Can not place anymore orders.'),
+                                                                                  Text('Bill requested, can not place anymore orders.'),
                                                                                 ],
                                                                               ),
                                                                             ),
