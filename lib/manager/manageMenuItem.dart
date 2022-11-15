@@ -165,11 +165,13 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                                       )
                                   )
                                 },
-                                onPressedDelete: (p0) =>  {
+                                onPressedDelete: () =>  {
                                   if (snapshot.data?.docs[index]['imgURL'] != ''){
-                                     deleteItem(snapshot.data?.docs[index].id, true)
+                                     deleteItem(snapshot.data?.docs[index].id, true),
+                                     Navigator.pop(context),
                                   } else {
-                                     deleteItem(snapshot.data?.docs[index].id, false)
+                                     deleteItem(snapshot.data?.docs[index].id, false),
+                                     Navigator.pop(context),
                                   }
                                 }
                             );
@@ -179,11 +181,13 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                                 subTitle: snapshot.data?.docs[index]['description'] ?? '',
                                 price: ' \$' + snapshot.data?.docs[index]['price'],
                                 onPressedEdit:  (p0) =>{},
-                                onPressedDelete: (p0) => {
+                                onPressedDelete: () => {
                                   if (snapshot.data?.docs[index]['imgURL'] != ''){
-                                     deleteItem(snapshot.data?.docs[index].id, true)
+                                     deleteItem(snapshot.data?.docs[index].id, true),
+                                     Navigator.pop(context),
                                   } else {
-                                     deleteItem(snapshot.data?.docs[index].id, false)
+                                     deleteItem(snapshot.data?.docs[index].id, false),
+                                     Navigator.pop(context),
                                   }
                                 }
                             );

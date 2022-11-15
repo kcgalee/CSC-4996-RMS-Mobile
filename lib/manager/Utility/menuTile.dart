@@ -7,7 +7,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 class MenuTile extends StatelessWidget {
   Function(BuildContext) onPressedEdit;
-  Function(BuildContext) onPressedDelete;
+  final VoidCallback? onPressedDelete;
   final String taskName;
   String subTitle;
   final itemIMG;
@@ -42,7 +42,26 @@ class MenuTile extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   SlidableAction(
-                    onPressed: onPressedDelete,
+                    onPressed: (contaxt) => showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text('Delete Menu Item'),
+                        content: const Text('Do you want to delete this menu item?'),
+                        actions: <Widget>[
+                          TextButton(
+
+
+
+                            onPressed: () => Navigator.pop(context, 'No'),
+                            child: const Text('No'),
+                          ),
+                          TextButton(
+                            onPressed: onPressedDelete,
+                            child: const Text('Yes'),
+                          ),
+                        ],
+                      ),
+                    ),
                     icon: Icons.delete,
                     label: 'DELETE',
                     backgroundColor: Colors.redAccent,
@@ -101,7 +120,23 @@ class MenuTile extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   SlidableAction(
-                    onPressed: onPressedDelete,
+                    onPressed: (contaxt) => showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text('Delete Menu Item'),
+                        content: const Text('Do you want to delete this menu item?'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, 'No'),
+                            child: const Text('No'),
+                          ),
+                          TextButton(
+                            onPressed: onPressedDelete,
+                            child: const Text('Yes'),
+                          ),
+                        ],
+                      ),
+                    ),
                     icon: Icons.delete,
                     label: 'DELETE',
                     backgroundColor: Colors.redAccent,
