@@ -133,28 +133,31 @@ class _WaiterRequestState extends State<WaiterRequest> {
                         return ListView.builder(
                             itemCount: snapshot.data?.docs.length,
                             itemBuilder: (context, index) {
-                              String text = '';
+                              String comment = '';
+                              Icon orderIcon;
+                              String requestedItem = '';
                               if (snapshot.data?.docs[index]['itemName'] == 'Request Waiter'){
-                                text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
-                                    + '\nRequested: Waiter'
-                                    + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '');
+                                requestedItem = 'Requested: Waiter';
+                                orderIcon = Icon(Icons.person);
                               } else if (snapshot.data?.docs[index]['itemName'] == 'Request Bill'){
-                                text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
-                                    + '\nRequested: Bill'
-                                    + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '');
+                                requestedItem = 'Requested: Bill';
+                                orderIcon = Icon(Icons.sticky_note_2_rounded);
                               } else {
-                                text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
-                                    + '\nItem: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
-                                    + '  x ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
-                                    + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '');
+                                requestedItem = 'Item: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
+                                    + '  x ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '');
+                                orderIcon = Icon(Icons.circle_outlined,color: Colors.grey.shade100,);
                               }
                               if (snapshot.data?.docs[index]['orderComment'] != ''){
-                                text += '\nComments: ${snapshot.data?.docs[index]['orderComment']}';
+                                comment = 'Comments: ${snapshot.data?.docs[index]['orderComment']}';
                               } else {
-                                text += '\nComments: none';
+                                comment = 'Comments: none';
                               }
                               return RequestTile(
-                                taskName: text,
+                                orderIcon: orderIcon,
+                                tableNum: 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? ''),
+                                request: requestedItem,
+                                customerName: 'Customer: ' + (snapshot.data?.docs[index]['custName'] ?? ''),
+                                comment: comment,
                                 //for debugging
                                 // + '\nStatus: ' + (snapshot.data?.docs[index]['status'] ?? ''),
                                 time: snapshot.data?.docs[index]['timePlaced'],
@@ -190,28 +193,31 @@ class _WaiterRequestState extends State<WaiterRequest> {
                         return ListView.builder(
                             itemCount: snapshot.data?.docs.length,
                             itemBuilder: (context, index) {
-                              String text = '';
+                              String comment = '';
+                              String requestedItem = '';
+                              Icon orderIcon;
                               if (snapshot.data?.docs[index]['itemName'] == 'Request Waiter'){
-                                text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
-                                    + '\nRequested: Waiter'
-                                    + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '');
+                                requestedItem = 'Requested: Waiter';
+                                orderIcon = Icon(Icons.person);
                               } else if (snapshot.data?.docs[index]['itemName'] == 'Request Bill'){
-                                text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
-                                    + '\nRequested: Bill'
-                                    + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '');
+                                requestedItem = 'Requested: Bill';
+                                orderIcon = Icon(Icons.sticky_note_2_rounded);
                               } else {
-                                text = 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
-                                    + '\nItem: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
-                                    + '  x ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
-                                    + '\nPlaced by ' + (snapshot.data?.docs[index]['custName'] ?? '');
+                                requestedItem = 'Item: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
+                                    + '  x ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '');
+                                orderIcon = Icon(Icons.circle_outlined,color: Colors.grey.shade100,);
                               }
                               if (snapshot.data?.docs[index]['orderComment'] != ''){
-                                text += '\nComments: ${snapshot.data?.docs[index]['orderComment']}';
+                                comment = 'Comments: ${snapshot.data?.docs[index]['orderComment']}';
                               } else {
-                                text += '\nComments: none';
+                                comment = 'Comments: none';
                               }
                               return RequestTile(
-                                taskName: text,
+                                orderIcon: orderIcon,
+                                tableNum: 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? ''),
+                                request: requestedItem,
+                                customerName: 'Customer: ' + (snapshot.data?.docs[index]['custName'] ?? ''),
+                                comment: comment,
                                 //for debugging
                                 // + '\nStatus: ' + (snapshot.data?.docs[index]['status'] ?? ''),
                                 time: snapshot.data?.docs[index]['timePlaced'],
