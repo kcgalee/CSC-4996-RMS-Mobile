@@ -26,6 +26,8 @@ class ShowMenuItems extends StatefulWidget {
 }
 
 class _ShowMenuItems extends State<ShowMenuItems> {
+
+
   final orderCommentsController = TextEditingController();
 
   @override
@@ -177,6 +179,11 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                               EdgeInsets.zero,
                                                           content: Builder(
                                                             builder: (context) {
+                                                              String dietRestrictionsString = dietRestrictions(menuSnapshot.data?.docs[index]['isGlutenFree'],
+                                                                  menuSnapshot.data?.docs[index]['isHalal'], menuSnapshot.data?.docs[index]['isKosher'],
+                                                                  menuSnapshot.data?.docs[index]['isLactose'], menuSnapshot.data?.docs[index]['isNuts'],
+                                                                menuSnapshot.data?.docs[index]['isPescatarian'], menuSnapshot.data?.docs[index]['isVegan'],
+                                                                  menuSnapshot.data?.docs[index]['isVegetarian']);
                                                               var price = 'Free';
                                                               if(menuSnapshot.data?.docs[index]['price'] != '0.00') {
                                                                 price = '\$' + menuSnapshot.data?.docs[index]['price'];
@@ -241,6 +248,20 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                                             )
                                                                           ],
                                                                         ),
+
+                                                                        //Display dietaryRestrictions
+                                                                        if(dietRestrictionsString != '')
+                                                                          SizedBox(height: 10),
+                                                                        Row(
+                                                                          children: [
+                                                                            Container(
+                                                                              width: 330,
+                                                                              child: Text(dietRestrictionsString,
+                                                                                  textAlign: TextAlign.left),
+                                                                            )
+                                                                          ],
+                                                                        ),
+
                                                                         SizedBox(height: 10),
                                                                         Expanded(
                                                                           child: Align(
@@ -422,5 +443,43 @@ class _ShowMenuItems extends State<ShowMenuItems> {
       // End of Customer User Document Stream Builder
       //=====================================
     );
+  }
+
+  String dietRestrictions( bool isGlutenFree, bool isHalal, bool isKosher, bool isLactose, bool isNuts,
+      bool isPescatarian, bool isVegan, bool isVegetarian){
+  String text = '';
+
+  if(isGlutenFree) {
+    text = 'Gluten Free, ';
+  }
+  if(isHalal) {
+    text = text + 'Halal, ';
+  }
+  if(isKosher) {
+    text = text + 'Kosher, ';
+  }
+  if(isLactose) {
+    text = text + 'Lactose Free, ';
+  }
+  if(isNuts) {
+    text = text + 'Conatains Nuts, ';
+  }
+  if(isPescatarian) {
+    text = text + 'Pescatarian, ';
+  }
+  if(isVegan) {
+    text = text + 'Vegan, ';
+  }
+  if(isVegetarian) {
+    text = text + 'Vegetarian, ';
+  }
+  if(text != '') {
+    text = 'Dietary Restrictions:\n' + text;
+  }
+
+  if (text != '') {
+    text = text.substring(0, text.length - 2);
+  }
+    return text;
   }
 }
