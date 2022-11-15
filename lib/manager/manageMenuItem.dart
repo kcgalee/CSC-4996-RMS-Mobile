@@ -148,7 +148,7 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                               subTitle  =  snapshot.data?.docs[index]['description'] ?? '';
                             } else
                               {
-                                subTitle = dietaryText + "\n\n" + snapshot.data?.docs[index]['description'] ?? '';
+                                subTitle = dietaryText + "\n\n" + (snapshot.data?.docs[index]['description'] ?? '');
                               }
 
                             return MenuTile(

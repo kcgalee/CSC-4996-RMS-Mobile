@@ -98,7 +98,7 @@ class _SeeRatings extends State<SeeRatings> {
                                 ),
                                 Text(widget.restName,style:TextStyle(fontSize: 30)),
                                 Expanded(
-                                  child: Center(child: Text("You currently have no reviews for ${widget.restName}."),)
+                                  child: Center(child: Text("There currently are no reviews for ${widget.restName}."),)
                                 )
                               ]);
                     } else {
@@ -183,7 +183,7 @@ class _SeeRatings extends State<SeeRatings> {
                   ),
                   Text(displayName,style:TextStyle(fontSize: 30)),
                   Expanded(
-                      child: Center(child: Text("You currently have no reviews for ${widget.waiterName}."),)
+                      child: Center(child: Text("There currently are no reviews for ${widget.waiterName}."),)
                   )
                 ]);
           } else {

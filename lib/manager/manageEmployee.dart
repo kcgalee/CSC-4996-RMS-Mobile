@@ -62,7 +62,7 @@ class _ManageEmployeeState extends State<ManageEmployee> {
           Expanded(
             child: StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('users')
-                      .where('managerID', isEqualTo: FirebaseAuth.instance.currentUser?.uid.trim())
+                      .where('managerID', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
                       .where('isActive', isEqualTo: true).snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
@@ -148,7 +148,7 @@ class _ManageEmployeeState extends State<ManageEmployee> {
               }
             });
     //mark the waiter account as inactive. Can't use delete() function to
-    //remove from firebase authentication because it only removes the acct of the
+    //remove acct from firebase authentication because it only removes the acct of the
     //user that is currently signed in (which would be the manager since they are
     //the one that is deleting the waiter account(s)). To use the delete() function
     //on an account that is not your own, you must pay $ to upgrade your firebase plan
