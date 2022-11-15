@@ -297,10 +297,7 @@ class _EditItem extends State<EditItem> {
                           ));
                         } else {
                           await editItem(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => ManageMenuItem(restaurantID: widget.restaurantID, category: widget.category, rName: widget.rName)
-                              )
-                          );
+                          Navigator.pop(context);
                         }
                       }
                   )
@@ -412,10 +409,7 @@ class _EditItem extends State<EditItem> {
                           ));
                         } else {
                           await editItem(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => ManageMenuItem(restaurantID: widget.restaurantID, category: widget.category, rName: widget.rName)
-                              )
-                          );
+                          Navigator.pop(context);
                         }
                       }
                   )
