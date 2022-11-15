@@ -485,7 +485,7 @@ class _ShowMenuItems extends State<ShowMenuItems> {
     text = text + 'Vegetarian, ';
   }
   if(text != '') {
-    text = 'Dietary Restrictions\n' + text;
+    text = 'Dietary Labels\n' + text;
   }
 
   if (text != '') {
