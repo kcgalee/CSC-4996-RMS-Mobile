@@ -168,11 +168,15 @@ class CreateOrderInfo{
 
 
   }
+  
  void orderClear() {
     itemID.clear();
     itemName.clear();
     price.clear();
     count.clear();
+    orderComments.clear();
+    imgURL.clear();
+    priority.clear();
     itemCount = 0;
  }
 
