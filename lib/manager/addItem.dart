@@ -378,7 +378,7 @@ class _AddItemState extends State<AddItem> {
                           Divider(color: Colors.white,thickness: 1,indent: 10,endIndent: 10,),
                           ListTile(
                             leading: const Icon(Icons.camera_alt,color: Colors.white,),
-                            title: const Text('Camara',style: TextStyle(color: Colors.white)),
+                            title: const Text('Camera',style: TextStyle(color: Colors.white)),
                             onTap: () => pickImage(ImageSource.camera),
                           ),
                         ],
@@ -418,10 +418,7 @@ class _AddItemState extends State<AddItem> {
                       ));
                     } else {
                       await addItem(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => ManageMenuItem(restaurantID: widget.restaurantID, category: widget.category, rName: widget.rName)
-                          )
-                      );
+                      Navigator.pop(context);
                     }
                   }
               )
