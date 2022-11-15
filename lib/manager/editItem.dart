@@ -80,234 +80,351 @@ class _EditItem extends State<EditItem> {
   }
 
   @override
-  Widget build(BuildContext context)=> Scaffold (
+  Widget build(BuildContext context) {
+    if (widget.category != 'utensil') {
+      return Scaffold (
+          drawer: const ManagerNavigationDrawer(),
+          appBar: AppBar(
+            title: Text("Edit Item"),
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+            elevation: 1,
+          ),
 
-      drawer: const ManagerNavigationDrawer(),
-      appBar: AppBar(
-        title: Text("Edit Item"),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 1,
-      ),
-
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
-        child: Column(
-            children: [
-              CustomBackButton(onPressed: () {
-                Navigator.pop(context);
-              }),
-
-              Padding(
-                padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
-                child: Text(title,style: TextStyle(fontSize: 30),textAlign: TextAlign.center,),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.only(bottom: 15),
-                child: CustomTextForm(
-                    hintText: "Item Name",
-                    controller: itemNameController,
-                    keyboardType: TextInputType.text,
-                    validator: (name) =>
-                    name != null && name.trim().length > 50
-                        ? 'Name must be between 1 to 50 characters' : null,
-                    maxLines: 1,
-                    maxLength: 50,
-                    icon: const Icon(Icons.fastfood, color: Colors.black)
-                ),),
-
-              Padding(
-                padding: const EdgeInsets.only(bottom: 15),
-                child: CustomTextForm(
-                    hintText: "Price (ex: 5 or 10.99)",
-                    controller: priceController,
-                    keyboardType: TextInputType.number,
-                    validator: (price) =>
-                    price != null && !pricePattern.hasMatch(price)
-                        ? 'Enter valid price (ex: 1,000 or 25.50)' : null,
-                    maxLines: 1,
-                    maxLength: 10,
-                    icon: const Icon(Icons.attach_money, color: Colors.black)
-                ),),
-
-              Padding(
-                padding: const EdgeInsets.only(bottom: 15),
-                child: CustomTextForm(
-                    hintText: "Item Description",
-                    controller: itemDescController,
-                    keyboardType: TextInputType.text,
-                    validator: (desc) =>
-                    desc != null && desc.trim().length > 150
-                        ? 'Description cannot exceed 150 characters' : null,
-                    maxLines: 4,
-                    maxLength: 150,
-                    icon: const Icon(Icons.description, color: Colors.black)
-                ),),
-
-              Row(
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
+            child: Column(
                 children: [
-                  CustomCheckBox(
-                    title: 'Vegan',
-                    value: isVegan,
-                    onChanged: (value){
-                      setState(() {
-                        isVegan = value!;
-                      });
-                    },
-                  ),
-                  CustomCheckBox(
-                    title: 'Vegetarian',
-                    value: isVegetarian,
-                    onChanged: (value){
-                      setState(() {
-                        isVegetarian = value!;
-                      });
-                    },
-                  ),
-                ],
-              ),
+                  CustomBackButton(onPressed: () {
+                    Navigator.pop(context);
+                  }),
 
-              Row(
-                children: [
-                  CustomCheckBox(
-                    title: 'Gluten Free',
-                    value: isGlutenFree,
-                    onChanged: (value){
-                      setState(() {
-                        isGlutenFree = value!;
-                      });
-                    },
+                  Padding(
+                    padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
+                    child: Text(title,style: TextStyle(fontSize: 30),textAlign: TextAlign.center,),
                   ),
-                  CustomCheckBox(
-                    title: 'Nuts',
-                    value: isNuts,
-                    onChanged: (value){
-                      setState(() {
-                        isNuts = value!;
-                      });
-                    },
-                  ),
-                ],
-              ),
 
-              Row(
-                children: [
-                  CustomCheckBox(
-                    title: 'Halal',
-                    value: isHalal,
-                    onChanged: (value){
-                      setState(() {
-                        isHalal = value!;
-                      });
-                    },
-                  ),
-                  CustomCheckBox(
-                    title: 'Kosher',
-                    value: isKosher,
-                    onChanged: (value){
-                      setState(() {
-                        isKosher = value!;
-                      });
-                    },
-                  )
-                ],
-              ),
-              Row(
-                children: [
-                  CustomCheckBox(
-                    title: 'Lactose Free',
-                    value: isLactoseFree,
-                    onChanged: (value){
-                      setState(() {
-                        isLactoseFree = value!;
-                      });
-                    },
-                  ),
-                  CustomCheckBox(
-                    title: 'Pescatarian',
-                    value: isPescatarian,
-                    onChanged: (value){
-                      setState(() {
-                        isPescatarian   = value!;
-                      });
-                    },
-                  )
-                ],
-              ),
-              SizedBox(height: 20,),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: image != null ? Image.file(
-                  image!,
-                  height: 160,width: 160,
-                  fit: BoxFit.cover,
-                ) : Icon(Icons.image,size: 160,),
-              ),
-              SizedBox(height: 20,),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 15),
+                    child: CustomTextForm(
+                        hintText: "Item Name",
+                        controller: itemNameController,
+                        keyboardType: TextInputType.text,
+                        validator: (name) =>
+                        name != null && name.trim().length > 50
+                            ? 'Name must be between 1 to 50 characters' : null,
+                        maxLines: 1,
+                        maxLength: 50,
+                        icon: const Icon(Icons.fastfood, color: Colors.black)
+                    ),),
 
-              CustomMainButton(text: 'SELECT IMAGE', onPressed: () {
-                showModalBottomSheet(
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(topLeft: Radius.circular(24),topRight:Radius.circular(24))
-                    ),
-                    backgroundColor: Colors.black,
-                    context: context,
-                    builder: (context) => Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ListTile(
-                          leading: const Icon(Icons.image,color: Colors.white,),
-                          title: const Text('Gallery',style: TextStyle(color: Colors.white),),
-                          onTap: () => pickImage(ImageSource.gallery),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 15),
+                    child: CustomTextForm(
+                        hintText: "Price (ex: 5 or 10.99)",
+                        controller: priceController,
+                        keyboardType: TextInputType.number,
+                        validator: (price) =>
+                        price != null && !pricePattern.hasMatch(price)
+                            ? 'Enter valid price (ex: 1,000 or 25.50)' : null,
+                        maxLines: 1,
+                        maxLength: 10,
+                        icon: const Icon(Icons.attach_money, color: Colors.black)
+                    ),),
+
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 15),
+                    child: CustomTextForm(
+                        hintText: "Item Description",
+                        controller: itemDescController,
+                        keyboardType: TextInputType.text,
+                        validator: (desc) =>
+                        desc != null && desc.trim().length > 150
+                            ? 'Description cannot exceed 150 characters' : null,
+                        maxLines: 4,
+                        maxLength: 150,
+                        icon: const Icon(Icons.description, color: Colors.black)
+                    ),),
+
+                  Row(
+                    children: [
+                      CustomCheckBox(
+                        title: 'Vegan',
+                        value: isVegan,
+                        onChanged: (value){
+                          setState(() {
+                            isVegan = value!;
+                          });
+                        },
+                      ),
+                      CustomCheckBox(
+                        title: 'Vegetarian',
+                        value: isVegetarian,
+                        onChanged: (value){
+                          setState(() {
+                            isVegetarian = value!;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+
+                  Row(
+                    children: [
+                      CustomCheckBox(
+                        title: 'Gluten Free',
+                        value: isGlutenFree,
+                        onChanged: (value){
+                          setState(() {
+                            isGlutenFree = value!;
+                          });
+                        },
+                      ),
+                      CustomCheckBox(
+                        title: 'Nuts',
+                        value: isNuts,
+                        onChanged: (value){
+                          setState(() {
+                            isNuts = value!;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+
+                  Row(
+                    children: [
+                      CustomCheckBox(
+                        title: 'Halal',
+                        value: isHalal,
+                        onChanged: (value){
+                          setState(() {
+                            isHalal = value!;
+                          });
+                        },
+                      ),
+                      CustomCheckBox(
+                        title: 'Kosher',
+                        value: isKosher,
+                        onChanged: (value){
+                          setState(() {
+                            isKosher = value!;
+                          });
+                        },
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      CustomCheckBox(
+                        title: 'Lactose Free',
+                        value: isLactoseFree,
+                        onChanged: (value){
+                          setState(() {
+                            isLactoseFree = value!;
+                          });
+                        },
+                      ),
+                      CustomCheckBox(
+                        title: 'Pescatarian',
+                        value: isPescatarian,
+                        onChanged: (value){
+                          setState(() {
+                            isPescatarian   = value!;
+                          });
+                        },
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 20,),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: image != null ? Image.file(
+                      image!,
+                      height: 160,width: 160,
+                      fit: BoxFit.cover,
+                    ) : Icon(Icons.image,size: 160,),
+                  ),
+                  SizedBox(height: 20,),
+
+                  CustomMainButton(text: 'SELECT IMAGE', onPressed: () {
+                    showModalBottomSheet(
+                        shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(topLeft: Radius.circular(24),topRight:Radius.circular(24))
                         ),
-                        Divider(color: Colors.white,thickness: 1,indent: 10,endIndent: 10,),
-                        ListTile(
-                          leading: const Icon(Icons.camera_alt,color: Colors.white,),
-                          title: const Text('Camara',style: TextStyle(color: Colors.white)),
-                          onTap: () => pickImage(ImageSource.camera),
+                        backgroundColor: Colors.black,
+                        context: context,
+                        builder: (context) => Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ListTile(
+                              leading: const Icon(Icons.image,color: Colors.white,),
+                              title: const Text('Gallery',style: TextStyle(color: Colors.white),),
+                              onTap: () => pickImage(ImageSource.gallery),
+                            ),
+                            Divider(color: Colors.white,thickness: 1,indent: 10,endIndent: 10,),
+                            ListTile(
+                              leading: const Icon(Icons.camera_alt,color: Colors.white,),
+                              title: const Text('Camara',style: TextStyle(color: Colors.white)),
+                              onTap: () => pickImage(ImageSource.camera),
+                            ),
+                          ],
+                        )
+                    );
+                  }),
+
+                  CustomMainButton(
+                      text: 'SAVE CHANGES',
+                      onPressed: () async {
+                        bool status = await validate(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
+                        if (status == true && flag == true){
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text('An item already exists with that name'),
+                          ));
+                        } else if (status == true && flag == false){
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text('Could not save changes, please review item information'),
+                          ));
+                        } else if (itemNameController.text.trim() == widget.iName
+                            && priceController.text.trim() == widget.iPrice
+                            && itemDescController.text.trim() == widget.iDesc && image == null
+                            && isVegan == widget.iOptions['isVegan'] && isVegetarian == widget.iOptions['isVegetarian']
+                            && isGlutenFree == widget.iOptions['isGlutenFree'] && isNuts == widget.iOptions['isNuts']
+                            && isKosher == widget.iOptions['isKosher'] && isHalal == widget.iOptions['isHalal']
+                            && isPescatarian == widget.iOptions['isPescatarian'] && isLactoseFree == widget.iOptions['isLactose']) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text('There is no information to update'),
+                          ));
+                        } else {
+                          await editItem(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => ManageMenuItem(restaurantID: widget.restaurantID, category: widget.category, rName: widget.rName)
+                              )
+                          );
+                        }
+                      }
+                  )
+                ]),
+          )
+      );
+    } else {
+      return Scaffold (
+          drawer: const ManagerNavigationDrawer(),
+          appBar: AppBar(
+            title: Text("Edit Item"),
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+            elevation: 1,
+          ),
+
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
+            child: Column(
+                children: [
+                  CustomBackButton(onPressed: () {
+                    Navigator.pop(context);
+                  }),
+
+                  Padding(
+                    padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
+                    child: Text(title,style: TextStyle(fontSize: 30),textAlign: TextAlign.center,),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 15),
+                    child: CustomTextForm(
+                        hintText: "Item Name",
+                        controller: itemNameController,
+                        keyboardType: TextInputType.text,
+                        validator: (name) =>
+                        name != null && name.trim().length > 50
+                            ? 'Name must be between 1 to 50 characters' : null,
+                        maxLines: 1,
+                        maxLength: 50,
+                        icon: const Icon(Icons.fastfood, color: Colors.black)
+                    ),),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 15),
+                    child: CustomTextForm(
+                        hintText: "Item Description",
+                        controller: itemDescController,
+                        keyboardType: TextInputType.text,
+                        validator: (desc) =>
+                        desc != null && desc.trim().length > 150
+                            ? 'Description cannot exceed 150 characters' : null,
+                        maxLines: 4,
+                        maxLength: 150,
+                        icon: const Icon(Icons.description, color: Colors.black)
+                    ),),
+                  SizedBox(height: 20,),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: image != null ? Image.file(
+                      image!,
+                      height: 160,width: 160,
+                      fit: BoxFit.cover,
+                    ) : Icon(Icons.image,size: 160,),
+                  ),
+
+                  CustomMainButton(text: 'SELECT IMAGE', onPressed: () {
+                    showModalBottomSheet(
+                        shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(topLeft: Radius.circular(24),topRight:Radius.circular(24))
                         ),
-                      ],
-                    )
-                );
-              }),
+                        backgroundColor: Colors.black,
+                        context: context,
+                        builder: (context) => Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ListTile(
+                              leading: const Icon(Icons.image,color: Colors.white,),
+                              title: const Text('Gallery',style: TextStyle(color: Colors.white),),
+                              onTap: () => pickImage(ImageSource.gallery),
+                            ),
+                            Divider(color: Colors.white,thickness: 1,indent: 10,endIndent: 10,),
+                            ListTile(
+                              leading: const Icon(Icons.camera_alt,color: Colors.white,),
+                              title: const Text('Camara',style: TextStyle(color: Colors.white)),
+                              onTap: () => pickImage(ImageSource.camera),
+                            ),
+                          ],
+                        )
+                    );
+                  }),
 
-              CustomMainButton(
-                  text: 'SAVE CHANGES',
-                  onPressed: () async {
-                    bool status = await validate(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
-                    if (status == true && flag == true){
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('An item already exists with that name'),
-                      ));
-                    } else if (status == true && flag == false){
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('Could not save changes, please review item information'),
-                      ));
-                    } else if (itemNameController.text.trim() == widget.iName
-                        && priceController.text.trim() == widget.iPrice
-                        && itemDescController.text.trim() == widget.iDesc && image == null
-                        && isVegan == widget.iOptions['isVegan'] && isVegetarian == widget.iOptions['isVegetarian']
-                        && isGlutenFree == widget.iOptions['isGlutenFree'] && isNuts == widget.iOptions['isNuts']
-                        && isKosher == widget.iOptions['isKosher'] && isHalal == widget.iOptions['isHalal']
-                        && isPescatarian == widget.iOptions['isPescatarian'] && isLactoseFree == widget.iOptions['isLactose']) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('There is no information to update'),
-                      ));
-                    } else {
-                      await editItem(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => ManageMenuItem(restaurantID: widget.restaurantID, category: widget.category, rName: widget.rName)
-                          )
-                      );
-                    }
-                  }
-              )
-            ]),
-      )
+                  CustomMainButton(
+                      text: 'SAVE CHANGES',
+                      onPressed: () async {
+                        bool status = await validate(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
+                        if (status == true && flag == true){
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text('An item already exists with that name'),
+                          ));
+                        } else if (status == true && flag == false){
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text('Could not save changes, please review item information'),
+                          ));
+                        } else if (itemNameController.text.trim() == widget.iName
+                            && priceController.text.trim() == widget.iPrice
+                            && itemDescController.text.trim() == widget.iDesc && image == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text('There is no information to update'),
+                          ));
+                        } else {
+                          await editItem(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => ManageMenuItem(restaurantID: widget.restaurantID, category: widget.category, rName: widget.rName)
+                              )
+                          );
+                        }
+                      }
+                  )
+                ]),
+          )
+      );
+    }
+  }
 
-
-  );
 
   editItem(String itemName, String price, String itemDesc) async {
     if (!price.contains('.')){
