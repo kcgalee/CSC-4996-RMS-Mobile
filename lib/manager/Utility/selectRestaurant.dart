@@ -60,7 +60,7 @@ class _SelectRestaurant extends State<SelectRestaurant> {
 
                   builder: (context, snapshot) {
                     if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
-                      return Center(child: Text(uID!),);
+                      return Center(child: CircularProgressIndicator(),);
                     } else {
                       return ListView.builder(
                           itemCount: snapshot.data?.docs.length,
