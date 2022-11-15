@@ -14,11 +14,14 @@ class OrderTile extends StatelessWidget {
   Color dColor = const Color(0xffe8f5e9);
 
   var imgURL;
+  var price;
+  late var newPrice;
 
   OrderTile({
     super.key,
     required this.imgURL,
     required this.taskName,
+    required this.price,
     required this.createOrderInfo,
     required this.onPressedEdit,
     required this.onPressedDelete,
@@ -56,37 +59,52 @@ class OrderTile extends StatelessWidget {
               color: Colors.grey[100],
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.black54)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              //task name and time
-              Row(
+          child: FutureBuilder (
+            future: getPrice(price),
+            builder: (build, context2) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: 50,
-                    width: 50,
-                    child:
-                    FittedBox(
-                      fit: BoxFit.fill,
-                      child:
-                      Image.network(imgURL),
-                    ),
+                  //task name and time
+                  Row(
+                    children: [
+                      SizedBox(
+                        height: 50,
+                        width: 50,
+                        child:
+                        FittedBox(
+                          fit: BoxFit.fill,
+                          child:
+                          Image.network(imgURL),
+                        ),
+                      ),
+                      const SizedBox (width: 15),
+                      Flexible(
+                        child: Text('${taskName}\n$newPrice',
+                            style: const TextStyle(
+                                color: Colors.black54,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold)
+                        ),
+                      )
+                    ],
                   ),
-                  const SizedBox (width: 15),
-                  Flexible(
-                    child: Text(taskName,
-                        style: const TextStyle(
-                            color: Colors.black54,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold)
-                    ),
-                  )
                 ],
-              ),
-            ],
-          ),
+              );
+            },
+          )
+
         ),
       )
     );
   }
+
+  Future<void> getPrice(String price) async {
+    if(price == '0.00') {
+      newPrice = 'Free';
+    } else {
+      newPrice = '\$$price';
+    }
+  }
+
 }
