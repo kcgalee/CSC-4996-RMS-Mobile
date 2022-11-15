@@ -68,12 +68,24 @@ class _SelectRestaurant extends State<SelectRestaurant> {
                             return Padding(
                               padding: const EdgeInsets.only(left: 24,right: 24,bottom: 10),
                               child: Container(
+                                padding: const EdgeInsets.only(right: 5,bottom: 5,top: 5),
                                 decoration: BoxDecoration(color: Colors.grey[100],
-                                    border: Border.all(color: Colors.black54,width: 2)
+                                    border: Border.all(color: Colors.black54,width: 2),
+                                    borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: ListTile(
-                                  title: Text(snapshot.data?.docs[index]['restName'] ?? ''),
-                                  subtitle: Text((snapshot.data?.docs[index]['address'] ?? '') + '\n' + (snapshot.data?.docs[index]['city'] ?? '') + ', ' + (snapshot.data?.docs[index]['state'] ?? '')),
+                                  title: Row(
+                                    children: [
+                                      Container(
+                                          constraints:BoxConstraints(minHeight: 50),
+                                          width: 180,
+                                          decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(10)),
+                                          child: Center(child: Text(snapshot.data?.docs[index]['restName'] ?? ''))
+                                      ),
+                                      const SizedBox(width: 5,),
+                                      Expanded(child: Text((snapshot.data?.docs[index]['address'] ?? '') + '\n' + (snapshot.data?.docs[index]['city'] ?? '') + ', ' + (snapshot.data?.docs[index]['state'] ?? ''))),
+                                    ],
+                                  ),
                                   onTap: () {
                                     String? rID = snapshot.data?.docs[index].id;
                                     String? restName = snapshot.data?.docs[index]['restName'];

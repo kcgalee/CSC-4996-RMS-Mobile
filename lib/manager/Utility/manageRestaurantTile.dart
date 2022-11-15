@@ -7,7 +7,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ManageRestaurantTile extends StatelessWidget {
   Function(BuildContext) onPressedEdit;
-  Function(BuildContext) onPressedDelete;
+  final VoidCallback? onPressedDelete;
   final VoidCallback? onTap;
   final String restaurantName;
   final String address;
@@ -41,7 +41,23 @@ class ManageRestaurantTile extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   SlidableAction(
-                    onPressed: onPressedDelete,
+                    onPressed: (contaxt) => showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text('Delete Restaurant'),
+                        content: const Text('Do you want to delete this restaurant?'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, 'No'),
+                            child: const Text('No'),
+                          ),
+                          TextButton(
+                            onPressed: onPressedDelete,
+                            child: const Text('Yes'),
+                          ),
+                        ],
+                      ),
+                    ),
                     icon: Icons.delete,
                     label: 'DELETE',
                     backgroundColor: Colors.redAccent,
@@ -68,9 +84,11 @@ class ManageRestaurantTile extends StatelessWidget {
                             style: const TextStyle(color: Colors.black,fontSize: 20,)),
                       ),
                     ),
-                    SizedBox(width: 20,),
-                    Text(address,
-                        style: const TextStyle(color: Colors.black,fontSize: 15)),
+                    SizedBox(width: 10,),
+                    Expanded(
+                      child: Text(address,
+                          style: const TextStyle(color: Colors.black,fontSize: 15)),
+                    ),
                   ],
                 ),
               ),
