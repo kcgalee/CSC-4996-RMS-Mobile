@@ -84,6 +84,7 @@ class _ViewOrder extends State<ViewOrder> {
                              .doc(userSnapshot.data!['tableID'])
                              .snapshots(),
                          builder: (context, tableSnapshot) {
+
                            return Column(
                              children: [
 
@@ -101,10 +102,10 @@ class _ViewOrder extends State<ViewOrder> {
                                                    .itemName[index]}"
                                                    " x ${widget.createOrderInfo
                                                    .count[index]}"
-                                                   "\n\$${widget.createOrderInfo
-                                                   .price[index]}"
                                                     '\nComment: ${widget.createOrderInfo
                                                        .orderComments[index]}',
+                                               price: widget.createOrderInfo
+                                                 .price[index],
                                                createOrderInfo: widget
                                                    .createOrderInfo,
 

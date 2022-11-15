@@ -22,6 +22,8 @@ class OrdersPlacedTile extends StatelessWidget {
   Color ipTextColor = Colors.black;
   Color dTextColor = Colors.black;
 
+  var price;
+  late var newPrice;
 
   OrdersPlacedTile({
     super.key,
@@ -30,7 +32,8 @@ class OrdersPlacedTile extends StatelessWidget {
     required this.oStatus,
     required this.onPressedEdit,
     required this.onPressedDelete,
-    required this.onTap
+    required this.onTap,
+    required this.price
   });
 
   @override
@@ -95,7 +98,7 @@ class OrdersPlacedTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       //task name and time
-                      Text(taskName + '\n' + 'Time Placed $newTime',
+                      Text(taskName + '\n$newPrice' + '\nTime Placed $newTime',
                           style: const TextStyle(color: Colors.black54,
                               fontSize: 15,
                               fontWeight: FontWeight.bold)),
@@ -186,9 +189,16 @@ class OrdersPlacedTile extends StatelessWidget {
 
 
 convertTime(time) {
+
    DateFormat formatter = DateFormat('h:mm:ss a');
    //var ndate = new DateTime.fromMillisecondsSinceEpoch(time.toDate() * 1000);
    newTime = formatter.format(time.toDate());
+   if(price == '0.00'){
+     newPrice = 'Free';
+   }
+   else{
+     newPrice = '\$$price';
+   }
  }
 
 

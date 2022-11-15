@@ -88,10 +88,9 @@ class _PlacedOrders extends State<PlacedOrders> {
                                     itemCount: snapshot.data?.docs.length,
                                     itemBuilder: (context, index){
                                       return OrdersPlacedTile(
-                                          taskName: '${'\nItem: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
-                                              + '  x ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '')
-                                              + '\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '')}\nPrice: \$' + (snapshot.data?.docs[index]['price'] ?? '')
+                                          taskName: '${'${'\nItem: ' + (snapshot.data?.docs[index]['itemName'] ?? '')}  x ${snapshot.data?.docs[index]['quantity'].toString() ?? ''}\nCustomer: ' + (snapshot.data?.docs[index]['custName'] ?? '')}'
                                         + '\nComment: ${snapshot.data?.docs[index]['orderComment']}',
+                                          price: snapshot.data?.docs[index]['price'],
                                           time:(snapshot.data?.docs[index]['timePlaced'] ?? '') ,
                                           oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
 
@@ -369,25 +368,42 @@ class _PlacedOrders extends State<PlacedOrders> {
                                           context: context,
                                           barrierDismissible: false, // user must tap button!
                                           builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title: const Text('AlertDialog Title'),
-                                              content: SingleChildScrollView(
-                                                child: ListBody(
-                                                  children: const <Widget>[
-                                                    Text('This is a demo alert dialog.'),
-                                                    Text('Would you like to approve of this message?'),
-                                                  ],
-                                                ),
-                                              ),
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  child: const Text('Approve'),
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                ),
-                                              ],
-                                            );
+                                            return StreamBuilder(
+                                                stream: FirebaseFirestore.instance
+                                                    .collection('restaurants/${userSnapshot.data!['restID']}/menu')
+                                                    .doc(snapshot.data?.docs[index]['itemID'])
+                                                    .snapshots(),
+                                                builder: (build, itemSnapshot) {
+                                                  if(itemSnapshot.hasData) {
+                                                    var price = 'Free';
+                                                    if (itemSnapshot.data!['price'] != '0.00'){
+                                                      price = '\$' + itemSnapshot.data!['price'];
+                                                    }
+                                                    return AlertDialog(
+                                                    title:  Text(itemSnapshot.data!['itemName'].toString()),
+                                                    content: SingleChildScrollView(
+                                                      child: ListBody(
+                                                        children:  <Widget>[
+                                                          Text(itemSnapshot.data!['description']),
+                                                          Text(price),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    actions: <Widget>[
+                                                      TextButton(
+                                                        child: const Text('Approve'),
+                                                        onPressed: () {
+                                                          Navigator.of(context).pop();
+                                                        },
+                                                      ),
+                                                    ],
+                                                  );
+                                                  }
+                                                  else {
+                                                    return Text('no data to show');
+                                                  }
+                                                });
+
                                           },
                                         );
                                       },

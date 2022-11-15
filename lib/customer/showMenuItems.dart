@@ -150,6 +150,10 @@ class _ShowMenuItems extends State<ShowMenuItems> {
 
                                                   Spacer(),
                                                   
+                                                  if(menuSnapshot.data?.docs[index]['price'] == '0.00')
+                                                    Text('Free\n'),
+
+                                                  if(menuSnapshot.data?.docs[index]['price'] != '0.00')
                                                   Text(menuSnapshot
                                                               .data?.docs[index]
                                                           ['price'] ??
@@ -173,6 +177,10 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                               EdgeInsets.zero,
                                                           content: Builder(
                                                             builder: (context) {
+                                                              var price = 'Free';
+                                                              if(menuSnapshot.data?.docs[index]['price'] != '0.00') {
+                                                                price = '\$' + menuSnapshot.data?.docs[index]['price'];
+                                                              }
                                                               // Get available height and width of the build area of this widget. Make a choice depending on the size.
                                                               var height =
                                                                   MediaQuery.of(
@@ -227,8 +235,8 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                                             Container(
                                                                               width: 330,
                                                                               child: Text(menuSnapshot.data?.docs[index]['description'] +
-                                                                                  "\n\n \$" +
-                                                                                  menuSnapshot.data?.docs[index]['price'],
+                                                                                  "\n\n" +
+                                                                                  price,
                                                                                   textAlign: TextAlign.left),
                                                                             )
                                                                           ],
