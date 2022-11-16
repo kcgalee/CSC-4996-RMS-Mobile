@@ -305,7 +305,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                                           fontWeight: FontWeight.bold,
                                                                           fontSize: 15,
                                                                           color: Colors.black)),
-                                                                  Text(restRating.toString() + " Starts"),
+                                                                  Text(restRating.toString() + " Stars"),
                                                                 ],
                                                               ),
                                                             ),
