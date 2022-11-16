@@ -436,7 +436,7 @@ class _PlacedOrders extends State<PlacedOrders> {
   void updateOrder(String orderID, int count, String price, String comment, String collectionRef){
 
     //update orders document
-    FirebaseFirestore.instance.collection('order').doc(orderID).update({
+    FirebaseFirestore.instance.collection('orders').doc(orderID).update({
       'quantity' : count,
       'orderComment' : comment,
       'price' : price,
