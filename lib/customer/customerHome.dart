@@ -29,6 +29,8 @@ class _CustomerHomeState extends State<CustomerHome> {
       closeTimeWkEnd,
       address,
       phone;
+  late double restRating;
+
   CreateOrderInfo createOrderInfo =
   CreateOrderInfo(FirebaseAuth.instance.currentUser?.uid);
 
@@ -258,7 +260,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                             ),
                                                             content:
                                                             SizedBox(
-                                                              height: 250.0,
+                                                              height: 300.0,
                                                               child: Column(
                                                                 children: [
                                                                   const Text(
@@ -295,6 +297,15 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                                   Text(openTimeWkEnd +
                                                                       ' - ' +
                                                                       closeTimeWkEnd),
+
+                                                                  //Restaurant rating
+                                                                  const Text(
+                                                                      "\nRestaurant Average Rating",
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight.bold,
+                                                                          fontSize: 15,
+                                                                          color: Colors.black)),
+                                                                  Text(restRating.toString() + " Starts"),
                                                                 ],
                                                               ),
                                                             ),
@@ -736,5 +747,21 @@ class _CustomerHomeState extends State<CustomerHome> {
       address =
       '${element['address']}\n${element['zipcode']} ${element['city']}, ${element['state']}';
     });
+
+    restRating = 0;
+    await FirebaseFirestore.instance.collection('reviews').where('restID', isEqualTo: restID).get()
+        .then((element){
+          double count = 0;
+          for(int i = 0; i < element.docs.length; i++) {
+            if(element.docs[i]['restRating'] != null) {
+              restRating = element.docs[i]['restRating'];
+              count++;
+            }
+          }
+          restRating = restRating/count;
+    });
+
+
+
   }
 }
