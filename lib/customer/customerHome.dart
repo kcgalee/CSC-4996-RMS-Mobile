@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:restaurant_management_system/customer/Models/createOrderInfo.dart';
 import 'package:restaurant_management_system/customer/order.dart';
 import 'package:restaurant_management_system/customer/pastOrders.dart';
@@ -260,22 +261,43 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                             ),
                                                             content:
                                                             SizedBox(
-                                                              height: 300.0,
+                                                              height: 350.0,
                                                               child: Column(
                                                                 children: [
+                                                                  //Restaurant rating
+                                                                  RatingBar.builder(
+                                                                    itemSize: 40.0,
+                                                                    ignoreGestures: true,
+                                                                    initialRating: restRating,
+                                                                    minRating: 1,
+                                                                    direction: Axis.horizontal,
+                                                                    allowHalfRating: true,
+                                                                    itemCount: 5,
+                                                                    itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                                                    itemBuilder: (context, _) => const Icon(
+                                                                      Icons.star,
+                                                                      color: Colors.amber,
+                                                                    ),
+                                                                    onRatingUpdate: (restRating) {
+                                                                      restRating;
+                                                                    },
+                                                                  ),
+
+                                                                  Text('(${restRating.toString()})'),
+
                                                                   const Text(
-                                                                      'Address',
+                                                                      '\nAddress',
                                                                       style: TextStyle(
                                                                           fontWeight: FontWeight.bold,
-                                                                          fontSize: 15,
+                                                                          fontSize: 20,
                                                                           color: Colors.black)),
-                                                                  Text(
-                                                                      address),
+                                                                  Text(address,
+                                                                  ),
                                                                   const Text(
                                                                       '\nPhone Number',
                                                                       style: TextStyle(
                                                                           fontWeight: FontWeight.bold,
-                                                                          fontSize: 15,
+                                                                          fontSize: 20,
                                                                           color: Colors.black)),
                                                                   Text(
                                                                       phone),
@@ -283,7 +305,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                                       "\nWeekday Hours",
                                                                       style: TextStyle(
                                                                           fontWeight: FontWeight.bold,
-                                                                          fontSize: 15,
+                                                                          fontSize: 20,
                                                                           color: Colors.black)),
                                                                   Text(openTimeWk +
                                                                       ' - ' +
@@ -292,20 +314,13 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                                       "\nWeekend Hours",
                                                                       style: TextStyle(
                                                                           fontWeight: FontWeight.bold,
-                                                                          fontSize: 15,
+                                                                          fontSize: 20,
                                                                           color: Colors.black)),
                                                                   Text(openTimeWkEnd +
                                                                       ' - ' +
                                                                       closeTimeWkEnd),
 
-                                                                  //Restaurant rating
-                                                                  const Text(
-                                                                      "\nRestaurant Average Rating",
-                                                                      style: TextStyle(
-                                                                          fontWeight: FontWeight.bold,
-                                                                          fontSize: 15,
-                                                                          color: Colors.black)),
-                                                                  Text(restRating.toString() + " Stars"),
+
                                                                 ],
                                                               ),
                                                             ),
