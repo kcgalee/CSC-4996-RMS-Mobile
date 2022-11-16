@@ -156,10 +156,10 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                     Text('\nFree\n'),
 
                                                   if(menuSnapshot.data?.docs[index]['price'] != '0.00')
-                                                  Text('\$' + menuSnapshot
+                                                  Text('\$' + (menuSnapshot
                                                               .data?.docs[index]
                                                           ['price'] ??
-                                                      '\n'),
+                                                      '\n')),
                                                 ],
                                               ),
                                               onTap: () {
