@@ -80,7 +80,12 @@ class _SubmitReviewState extends State<SubmitReview> {
                         ],
                       ),
 
-                      Text('$restName\n'),
+                      Text('$restName\n',
+                          style: TextStyle(
+                          fontWeight:
+                          FontWeight.bold,
+                          fontSize: 20,)
+                      ),
 
                       Row(
 
@@ -126,7 +131,12 @@ class _SubmitReviewState extends State<SubmitReview> {
                         ),
                       ),
 
-                      Text('$waiterName\n'),
+                      Text('$waiterName\n',
+                        style: TextStyle(
+                        fontWeight:
+                        FontWeight.bold,
+                        fontSize: 20,)
+                      ),
 
                       Row(
                         children: [
