@@ -169,6 +169,7 @@ class _WaiterHomeState extends State<WaiterHome> {
                                 },
                               ),
                               Badge(
+                                  showBadge: (activeReqNum != 0),
                                   badgeContent: Text('$activeReqNum',
                                     style: const TextStyle(color: Colors.white),
                                   ),

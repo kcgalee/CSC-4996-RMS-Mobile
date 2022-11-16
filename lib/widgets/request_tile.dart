@@ -57,8 +57,7 @@ class _RequestTileState extends State<RequestTile> {
   Color ipTextColor = Colors.black;
   Color dTextColor = Colors.black;
 
-  //color for time
-  Color timeColor = Colors.black;
+
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +86,8 @@ class _RequestTileState extends State<RequestTile> {
     convertTime(widget.time);
 
     if (widget.inactive){
+      //color for time
+      Color timeColor = Colors.black;
       return Padding(
         padding: const EdgeInsets.only(left: 15, right: 15,top: 25),
         child: Container(
@@ -193,6 +194,8 @@ class _RequestTileState extends State<RequestTile> {
         ),
       );
     } else {
+      //color for time
+      Color timeColor = Colors.black;
       return StreamBuilder(
           stream: Stream.periodic(const Duration(seconds: 1), (time) {
             Duration duration = widget.time.toDate().difference(DateTime.now());
@@ -210,7 +213,7 @@ class _RequestTileState extends State<RequestTile> {
             } else {
               if (int.parse(minutes) >= 35){
                 //if order placed 35min or more ago, then change time color to yellow
-                timeColor = Colors.yellow;
+                timeColor = Colors.yellow.shade900;
               }
               return 'Ordered $minutes mins ago';
             }
@@ -268,7 +271,9 @@ class _RequestTileState extends State<RequestTile> {
                                     borderRadius: BorderRadius.circular(5)),
                               ),
 
-                              onPressed: () => updatePlaced(),
+                              onPressed: () async {
+                                await updatePlaced();
+                              },
                               child: Text('Placed')),
                         ),
 
@@ -291,7 +296,9 @@ class _RequestTileState extends State<RequestTile> {
                                     borderRadius: BorderRadius.circular(5)),
                               ),
 
-                              onPressed: () => updateInProgress(),
+                              onPressed: () async {
+                                await updateInProgress();
+                              },
                               child: Text('In Progress')),
                         ),
 
@@ -314,16 +321,14 @@ class _RequestTileState extends State<RequestTile> {
                                     borderRadius: BorderRadius.circular(5)),
                               ),
 
-                              onPressed: () {
-                                updateDelivered();
+                              onPressed: () async {
+                                await updateDelivered();
                               },
                               child: const Text('Delivered')
                           ),
                         )
-
                       ],
                     ),
-
                   ],
                 ),
               ),

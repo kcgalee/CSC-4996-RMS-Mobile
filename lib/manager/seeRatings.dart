@@ -151,7 +151,7 @@ class _SeeRatings extends State<SeeRatings> {
                                           customerName: (snapshot.data?.docs[index]['custName']?? ''),
                                           date: convertTime(snapshot.data?.docs[index]['date']),
                                           rating: snapshot.data?.docs[index]['restRating'] ?? 0,
-                                          description: 'Description: ' + (snapshot.data?.docs[index]['restDescription'] ?? 'N/A'),
+                                          description: (snapshot.data?.docs[index]['restDescription'] ?? 'N/A'),
                                       );
                                     }
                                 ))

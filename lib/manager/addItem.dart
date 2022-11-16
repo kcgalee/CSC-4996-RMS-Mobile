@@ -187,10 +187,7 @@ class _AddItemState extends State<AddItem> {
                       ));
                     } else {
                       await addItem(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => ManageMenuItem(restaurantID: widget.restaurantID, category: widget.category, rName: widget.rName)
-                          )
-                      );
+                      Navigator.pop(context);
                     }
                   }
               )
@@ -418,10 +415,7 @@ class _AddItemState extends State<AddItem> {
                       ));
                     } else {
                       await addItem(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => ManageMenuItem(restaurantID: widget.restaurantID, category: widget.category, rName: widget.rName)
-                          )
-                      );
+                      Navigator.pop(context);
                     }
                   }
               )

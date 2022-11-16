@@ -83,7 +83,7 @@ class _ManageTables extends State<ManageTables> {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
                                           content: Text(
-                                              'Cannot edit a table while it is in use'),
+                                              'Table could not be edited'),
                                         ))
                                   } else {
                                     Navigator.push(context,
@@ -99,7 +99,7 @@ class _ManageTables extends State<ManageTables> {
                                 onPressedDelete: () =>   {
                                   if (snapshot.data?.docs[index]['currentCapacity'] != 0){
                                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                      content: Text('Cannot delete a table while it is in use'),
+                                      content: Text('Table could not be deleted'),
                                     )),
                                     Navigator.pop(context),
                                   } else {

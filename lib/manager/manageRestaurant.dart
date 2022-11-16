@@ -149,7 +149,7 @@ class _ManageRestaurant extends State<ManageRestaurant> {
     bool status = await checkRestaurant(id);
     if (status){
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Cannot delete a restaurant that is currently in use'),
+        content: Text('This restaurant could not be deleted'),
       ));
     } else {
       var restaurant = await FirebaseFirestore.instance.collection('restaurants').doc(id).get();
