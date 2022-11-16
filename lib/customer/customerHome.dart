@@ -283,7 +283,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                                     },
                                                                   ),
 
-                                                                  Text('(${restRating.toString()})'),
+                                                                  Text('(${restRating.toString()} Stars)'),
 
                                                                   const Text(
                                                                       '\nAddress',
@@ -775,8 +775,6 @@ class _CustomerHomeState extends State<CustomerHome> {
           }
           restRating = restRating/count;
     });
-
-
-
   }
+
 }
