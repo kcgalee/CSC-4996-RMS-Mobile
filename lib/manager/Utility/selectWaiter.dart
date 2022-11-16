@@ -60,7 +60,7 @@ class _SelectWaiter extends State<SelectWaiter> {
                           itemCount: snapshot.data?.docs.length,
                           itemBuilder: (context, index) {
                             return Padding(
-                              padding: const EdgeInsets.only(left: 24,right: 24,bottom: 10),
+                              padding: const EdgeInsets.only(left: 15,right: 15,bottom: 10),
                               child: Container(
                                 padding: const EdgeInsets.only(right: 5,bottom: 5,top: 5),
                                 decoration: BoxDecoration(color: Colors.grey[100],
@@ -69,11 +69,16 @@ class _SelectWaiter extends State<SelectWaiter> {
                                 ),
                                 child: ListTile(
                                   title: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(snapshot.data?.docs[index]['fName'] + ' ' + snapshot.data?.docs[index]['lName'],style: TextStyle(fontWeight: FontWeight.bold,),),
+                                      Container(
+                                          constraints: BoxConstraints(minHeight: 50),
+                                          width: 150,
+                                          decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(10)),
+                                          child: Center(child: Text(snapshot.data?.docs[index]['fName'] + ' ' + snapshot.data?.docs[index]['lName'],style: TextStyle(fontSize: 20,),))
+                                      ),
                                       SizedBox(width: 10,),
-                                      Expanded(child: Text((snapshot.data?.docs[index]['email'] ?? '') + '\n' + (snapshot.data?.docs[index]['phone'] ?? ''), )),
+                                      Expanded(child: Text((snapshot.data?.docs[index]['email'] ?? '') + '\n' + (snapshot.data?.docs[index]['phone'] ?? ''),style: TextStyle(fontSize: 15, ))),
                                     ],
                                   ),
                                   onTap: () {
