@@ -264,7 +264,7 @@ class _EditItem extends State<EditItem> {
                         Divider(color: Colors.white,thickness: 1,indent: 10,endIndent: 10,),
                         ListTile(
                           leading: const Icon(Icons.camera_alt,color: Colors.white,),
-                          title: const Text('Camara',style: TextStyle(color: Colors.white)),
+                          title: const Text('camera',style: TextStyle(color: Colors.white)),
                           onTap: () => pickImage(ImageSource.camera),
                         ),
                       ],
