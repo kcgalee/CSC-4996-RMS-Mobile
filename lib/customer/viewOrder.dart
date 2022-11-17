@@ -127,7 +127,7 @@ class _ViewOrder extends State<ViewOrder> {
                                                        builder:
                                                            (context)
                                                        {
-                                                         return Expanded(
+                                                         return SingleChildScrollView(
                                                              child: Column(
                                                                mainAxisAlignment:
                                                                MainAxisAlignment.end,
