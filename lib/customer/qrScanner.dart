@@ -95,7 +95,7 @@ class _QRScannerState extends State<QRScanner> {
                children: const <
                    Widget>[
                  Text(
-                     'No table please try again'),
+                     'Incorrect QR code scanned, please scan QR code provided by restaurant.'),
                ],
              ),
            ),
