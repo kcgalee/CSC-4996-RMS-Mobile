@@ -116,7 +116,8 @@ class _PlacedOrders extends State<PlacedOrders> {
                                           builder:
                                             (context)
                                             {
-                                              return Expanded(
+                                              return SingleChildScrollView(
+
                                                   child: Column(
                                                     mainAxisAlignment:
                                                     MainAxisAlignment.end,
@@ -268,7 +269,9 @@ class _PlacedOrders extends State<PlacedOrders> {
                                                         ],
                                                       ),
                                                     ],
-                                                  ));
+                                                  )
+
+                                              );
                                             });
                                           }
 
