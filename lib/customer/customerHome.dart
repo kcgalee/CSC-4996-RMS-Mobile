@@ -729,8 +729,15 @@ class _CustomerHomeState extends State<CustomerHome> {
                       }
                     }
 
-                    return const Center(
-                      child: Text("ERROR, NO TABLE"),
+                    return Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: const <Widget>[
+                          CircularProgressIndicator(
+                          ),
+                        ],
+                      ),
                     );
 
                     //================================
