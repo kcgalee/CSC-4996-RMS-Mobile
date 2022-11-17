@@ -769,7 +769,7 @@ class _CustomerHomeState extends State<CustomerHome> {
           double count = 0;
           for(int i = 0; i < element.docs.length; i++) {
             if(element.docs[i]['restRating'] != null) {
-              restRating = element.docs[i]['restRating'];
+              restRating = element.docs[i]['restRating'] + restRating;
               count++;
             }
           }
