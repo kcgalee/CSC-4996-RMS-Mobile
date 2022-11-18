@@ -214,7 +214,9 @@ class RegistrationBodyState extends State<RegistrationBody> {
                               lastNameController.text.trim());
                         }
                         else {
-                          print("That's incorrect");
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text('Account could not be created. Passwords must match.'),
+                          ));
                         }
                       },
                     )
