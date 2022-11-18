@@ -206,17 +206,29 @@ class RegistrationBodyState extends State<RegistrationBody> {
                           ),
                           child: const Text("Register"),
                           onPressed: () async {
-                            if (pwController.text.trim() ==
-                                confirmPwController.text.trim()) {
-                              await registrationChecker(emailController.text.trim(),
-                                  pwController.text.trim(),
-                                  firstNameController.text.trim(),
-                                  lastNameController.text.trim());
+                            if (firstNameController.text.trim() == '' || lastNameController.text.trim() == '') {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        'All fields must be completed.'),
+                                  ));
                             }
                             else {
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text('Account could not be created. Passwords must match.'),
-                              ));
+                              if (pwController.text.trim() ==
+                                  confirmPwController.text.trim()) {
+                                await registrationChecker(emailController.text
+                                    .trim(),
+                                    pwController.text.trim(),
+                                    firstNameController.text.trim(),
+                                    lastNameController.text.trim());
+                              }
+                              else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          'Account could not be created. Passwords must match.'),
+                                    ));
+                              }
                             }
                           },
                         )
@@ -383,7 +395,27 @@ class RegistrationBodyState extends State<RegistrationBody> {
                             borderRadius: BorderRadius.circular(10)),
                       ),
                       child: const Text("Register"),
-                      onPressed: () => showDialog<String>(
+                      onPressed: () {
+                        //Checks to see if all fields are completed
+                        if (firstNameController.text.trim() == '' || lastNameController.text.trim() == ''
+                        || restPhoneController.text.trim() == '' || managerPhoneController.text.trim() == ''
+                        || addressController.text.trim() == '' || zipController.text.trim() == ''
+                        || resNameController.text.trim() == '' || stateController.text.trim() == '' ||
+                        cityController.text.trim() == '') {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            content: Text('All fields must be completed'),
+                          ));
+                        }
+                        //checks to see password matches
+                        else if (pwController.text.trim() !=
+                            confirmPwController.text.trim()){
+                          Navigator.pop(context, 'Confirm');
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text('Account could not be created. Passwords must match.'),
+                          ));
+                        }
+                        else {
+                          showDialog<String>(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
                           title: const Text('You are registering a manager account. Do you confirm?'),
@@ -415,13 +447,7 @@ class RegistrationBodyState extends State<RegistrationBody> {
                                         context, MaterialPageRoute(builder: (context) => Login()));
                                   }
                                 }
-                                else if (pwController.text.trim() !=
-                                    confirmPwController.text.trim()){
-                                  Navigator.pop(context, 'Confirm');
-                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                    content: Text('Account could not be created. Passwords must match.'),
-                                  ));
-                                } else {
+                                else {
                                   Navigator.pop(context, 'Confirm');
                                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                     content: Text('Account could not be created.'),
@@ -432,7 +458,10 @@ class RegistrationBodyState extends State<RegistrationBody> {
                             ),
                           ],
                         ),
-                      ),
+                      );
+                        }
+
+    }
                     )
                 )
               ],
