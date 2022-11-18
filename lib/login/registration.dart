@@ -485,6 +485,8 @@ class RegistrationBodyState extends State<RegistrationBody> {
           'type': 'customer',
           'date': Timestamp.fromDate(now),
           'tableID' : '',
+          'waiterID' : '',
+          'restID' : ''
         }
 
     );
