@@ -80,7 +80,12 @@ class _SubmitReviewState extends State<SubmitReview> {
                         ],
                       ),
 
-                      Text('$restName\n'),
+                      Text('$restName\n',
+                          style: TextStyle(
+                          fontWeight:
+                          FontWeight.bold,
+                          fontSize: 20,)
+                      ),
 
                       Row(
 
@@ -115,7 +120,9 @@ class _SubmitReviewState extends State<SubmitReview> {
                       ),
                       Container(
                         padding: const EdgeInsets.all(20.0),
-                        child: CustomTextForm(
+                        child: Column (
+                          children: [
+                        CustomTextForm(
                             hintText: 'Share your experience',
                             controller: restReviewController,
                             validator: null,
@@ -124,9 +131,18 @@ class _SubmitReviewState extends State<SubmitReview> {
                             maxLength: 100,
                             icon: const Icon(Icons.reviews)
                         ),
+
+                            const Text('Max length 250 characters'),
+                    ]
+                        ),
                       ),
 
-                      Text('$waiterName\n'),
+                      Text('$waiterName\n',
+                        style: TextStyle(
+                        fontWeight:
+                        FontWeight.bold,
+                        fontSize: 20,)
+                      ),
 
                       Row(
                         children: [
@@ -161,16 +177,22 @@ class _SubmitReviewState extends State<SubmitReview> {
                       ),
                       Container(
                         padding: const EdgeInsets.all(20.0),
-                        child: CustomTextForm(
+                        child: Column(
+                        children: [
+                        CustomTextForm(
                             hintText: 'Share your experience',
                             controller: waiterReviewController,
                             validator: null,
                             keyboardType: TextInputType.text,
                             maxLines: 5,
-                            maxLength: 100,
+                            maxLength: 250,
                             icon: const Icon(Icons.reviews)
                         ),
+                          const Text('Max length 250 characters'),
+                        ]
+                    ),
                       ),
+
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: CustomMainButton(

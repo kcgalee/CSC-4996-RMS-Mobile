@@ -66,7 +66,7 @@ class _SelectRestaurant extends State<SelectRestaurant> {
                           itemCount: snapshot.data?.docs.length,
                           itemBuilder: (context, index) {
                             return Padding(
-                              padding: const EdgeInsets.only(left: 24,right: 24,bottom: 10),
+                              padding: const EdgeInsets.only(left: 15,right: 15,bottom: 10),
                               child: Container(
                                 padding: const EdgeInsets.only(right: 5,bottom: 5,top: 5),
                                 decoration: BoxDecoration(color: Colors.grey[100],

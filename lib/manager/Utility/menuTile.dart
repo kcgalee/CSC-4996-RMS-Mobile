@@ -80,8 +80,16 @@ class MenuTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.network(itemIMG,height: 150,width: 150,fit: BoxFit.contain,)),
+                      borderRadius: BorderRadius.circular(15),
+                      child: SizedBox(
+                        height: 300,
+                        width: 300,
+                        child: FittedBox(
+                          fit: BoxFit.fill,
+                          child: Image.network(itemIMG,),
+                        ),
+                      ),
+                    ),
                     SizedBox(height: 10,),
                     Divider(color: Colors.black, thickness: 1),
                     Row(

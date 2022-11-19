@@ -153,13 +153,13 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                   Spacer(),
 
                                                   if(menuSnapshot.data?.docs[index]['price'] == '0.00')
-                                                    Text('Free\n'),
+                                                    Text('\nFree\n'),
 
                                                   if(menuSnapshot.data?.docs[index]['price'] != '0.00')
-                                                  Text(menuSnapshot
+                                                  Text('\$' + (menuSnapshot
                                                               .data?.docs[index]
                                                           ['price'] ??
-                                                      '\n'),
+                                                      '\n')),
                                                 ],
                                               ),
                                               onTap: () {
@@ -203,9 +203,9 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                                                             '')
                                                                                           SizedBox(
                                                                                             height:
-                                                                                            250,
+                                                                                            300,
                                                                                             width:
-                                                                                            350,
+                                                                                            300,
                                                                                             child:
                                                                                             FittedBox(
                                                                                               fit: BoxFit.fill,

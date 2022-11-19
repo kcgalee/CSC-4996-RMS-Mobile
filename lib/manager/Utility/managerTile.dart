@@ -77,9 +77,16 @@ class ManagerTile extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Text(name,
-                              style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
-                          SizedBox(width: 20),
+                          Container(
+                            constraints: BoxConstraints(minHeight: 50),
+                            width: 150,
+                            decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(10)),
+                            child: Center(
+                              child: Text(name,
+                                  style: const TextStyle(color: Colors.black,fontSize: 20,)),
+                            ),
+                          ),
+                          SizedBox(width: 10),
                           Expanded(
                             child: Text(subTitle,
                                 style: const TextStyle(color: Colors.black,fontSize: 15)),

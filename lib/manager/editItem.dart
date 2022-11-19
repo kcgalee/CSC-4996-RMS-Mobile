@@ -265,7 +265,7 @@ class _EditItem extends State<EditItem> {
                             Divider(color: Colors.white,thickness: 1,indent: 10,endIndent: 10,),
                             ListTile(
                               leading: const Icon(Icons.camera_alt,color: Colors.white,),
-                              title: const Text('Camara',style: TextStyle(color: Colors.white)),
+                              title: const Text('Camera',style: TextStyle(color: Colors.white)),
                               onTap: () => pickImage(ImageSource.camera),
                             ),
                           ],
@@ -449,7 +449,6 @@ class _EditItem extends State<EditItem> {
               if (image != null) {
                 final storageRef = FirebaseStorage.instance.ref().child(
                     "${widget.restaurantID}/${doc.id}.jpg");
-
                 try {
                   await storageRef.putFile(image!);
                   String downloadURL = await storageRef.getDownloadURL();
@@ -548,4 +547,3 @@ class _EditItem extends State<EditItem> {
 
 
 }
-

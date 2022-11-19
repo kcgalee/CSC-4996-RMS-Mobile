@@ -60,24 +60,82 @@ class _QRScannerState extends State<QRScanner> {
     controller.scannedDataStream.listen((Barcode scanData) async {
       if (scanData.format == BarcodeFormat.qrcode && scanData.code != null) {
         controller.pauseCamera();
-        setTable(scanData.code!);
+        checkTable(scanData.code!);
       }
     });
   }
 
-  void setTable (String tableID) async {
+  //check if table id exists in tables collection
+  Future<void> checkTable(String tableID) async {
+   if(tableID != '' && tableID.contains('/') == false) {
+     await FirebaseFirestore.instance.collection('tables').doc(tableID).get()
+        .then((element){
+      //call setTable function if tableID is found in table collection
+      if(element.exists) {
+        setTable(tableID);
+      }
 
+        });
+   }
+
+    //return message that table doesn't exist
+     showDialog<void>(
+       context: context,
+       barrierDismissible:
+       false,
+       // user must tap button!
+       builder: (BuildContext
+       context) {
+         return AlertDialog(
+           title: const Text(
+               'Alert!'),
+           content:
+           SingleChildScrollView(
+             child: ListBody(
+               children: const <
+                   Widget>[
+                 Text(
+                     'Incorrect QR code scanned, please scan QR code provided by restaurant.'),
+               ],
+             ),
+           ),
+           actions: <Widget>[
+             TextButton(
+               child:
+               const Text(
+                   'OK'),
+               onPressed: () {
+
+                 Navigator.of(
+                     context)
+                     .pop();
+                 Navigator.push(context, MaterialPageRoute(builder: (context)=> new QRScanner()));
+
+               },
+             ),
+           ],
+         );
+       },
+     );
+
+  }
+
+
+  //checkTable() finds a table with tableID
+  void setTable (String tableID) async {
     String name = "";
     var currentCapacity = 0;
     var maxCapacity = 0;
     var waiterID = '';
-
     var uId = FirebaseAuth.instance.currentUser?.uid.toString();
+
+    //get customer user's first name
     await FirebaseFirestore.instance.collection('users').doc(uId).get().then(
             (element) {
           name = element['fName'];
         });
 
+    //get capacity and waiter ID from tables document
     await FirebaseFirestore.instance.collection('tables').doc(tableID).get().then(
 
             (element) {
@@ -87,7 +145,7 @@ class _QRScannerState extends State<QRScanner> {
         });
 
 
-
+    //
     FirebaseFirestore.instance.collection('users').doc(uId).update({
       'tableID' : tableID,
       'waiterID' : waiterID
@@ -108,7 +166,7 @@ class _QRScannerState extends State<QRScanner> {
 
     }
 
-
+    Navigator.pop;
     Navigator.push(context, MaterialPageRoute(builder: (context)=> new CustomerHome()));
   }
 
