@@ -70,9 +70,12 @@ class _AllTables extends State<AllTables> {
               return StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('tables').where('restID', isEqualTo: waiterRID).orderBy('currentCapacity').snapshots(),
                   builder: (context, snapshot) {
-                    if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
+                    if (!snapshot.hasData) {
+                      return Center(child: CircularProgressIndicator());
+                    } else if (snapshot.data?.docs.length == 0){
                       return Center(child: Text('There are currently no tables at this restaurant'));
-                    } else {
+                    }
+                    else {
                       return GridView.builder(
                           itemCount: snapshot.data?.docs.length,
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
