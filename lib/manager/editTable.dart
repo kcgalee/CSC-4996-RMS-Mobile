@@ -115,23 +115,33 @@ class _EditTable extends State<EditTable> {
                   child: CustomMainButton(
                       text: "SAVE CHANGES",
                       onPressed: () async {
-                        bool status = await checkTableNumber(int.parse(tableNumberController.text.trim()));
-                        if(tableNumberController.text == widget.tableNumber.toString() &&
-                            tableCapacityController.text == widget.tableMaxCap.toString() &&
-                            tableLocationController.text == widget.tableLoc &&
-                            tableTypeController.text == widget.tableType){
+                        if (tableNumberController.text.trim() == '' ||
+                            tableNumberController.text.trim().contains(RegExp(r'[A-Z|a-z]')) ||
+                            tableNumberController.text.trim() == '0' ||
+                            tableCapacityController.text.trim() == '' ||
+                            tableCapacityController.text.trim() == '0' || tableCapacityController.text.trim().contains(RegExp(r'[A-Z|a-z]'))){
                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                            content: Text('Could not save changes, there is no information to update.'),
-                          ));
-                        } else if (tableNumberController.text != widget.tableNumber.toString() && status){
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                            content: Text('A table already exists with that number.'),
+                            content: Text('Table could not be edited.'),
                           ));
                         } else {
-                          newTableData(int.parse(tableNumberController.text.trim()),
-                              int.parse(tableCapacityController.text.trim()),
-                              tableTypeController.text.trim(),
-                              tableLocationController.text.trim());
+                          bool status = await checkTableNumber(int.parse(tableNumberController.text.trim()));
+                          if(tableNumberController.text == widget.tableNumber.toString() &&
+                              tableCapacityController.text == widget.tableMaxCap.toString() &&
+                              tableLocationController.text == widget.tableLoc &&
+                              tableTypeController.text == widget.tableType){
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                              content: Text('There is no information to update.'),
+                            ));
+                          } else if (tableNumberController.text != widget.tableNumber.toString() && status){
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                              content: Text('A table already exists with that number.'),
+                            ));
+                          } else {
+                            newTableData(int.parse(tableNumberController.text.trim()),
+                                int.parse(tableCapacityController.text.trim()),
+                                tableTypeController.text.trim(),
+                                tableLocationController.text.trim());
+                          }
                         }
                       }
                   ),),
