@@ -71,20 +71,48 @@ class _QRScannerState extends State<QRScannerWaiter> {
   void setTable (String tableID) async {
     String name = "";
     var uId = FirebaseAuth.instance.currentUser?.uid.toString();
-    final docRef = FirebaseFirestore.instance.collection('users').doc(uId);
-    await docRef.get().then(
-            (DocumentSnapshot doc){
-          final data = doc.data() as Map<String, dynamic>;
-          name = data['prefName'];
-        });
 
+    await FirebaseFirestore.instance.collection('users').doc(uId).get().then(
+            (data) {
+          if (data['prefName'] == ''){
+            name = data['fName'];
+          } else {
+            name = data['prefName'];
+          }
+        }
+    );
 
     FirebaseFirestore.instance.collection('tables').doc(tableID).update({
       'waiterID': uId,
       'waiterName' : name
     } );
+
+    await FirebaseFirestore.instance.collection('orders').where('tableID', isEqualTo: tableID).where('waiterID', isEqualTo: 'unhandled').get().then(
+            (orders) {
+          if (orders.size != 0){
+            orders.docs.forEach((element) {
+              element.reference.update({
+                'waiterID': uId,
+              });
+            });
+          }
+        });
+
+    //ADD waiterID to customer's user document
+    await FirebaseFirestore.instance.collection('tables/$tableID/tableMembers').get().then((value){
+      for(int i = 0; i < value.docs.length; i++) {
+        addWaiterID(value.docs[i].data()['userID']);
+      }
+    });
+
     Navigator.pop(context);
     Navigator.push(context, MaterialPageRoute(builder: (context)=> new WaiterTables()));
+  }
+
+  addWaiterID(String userID) {
+    FirebaseFirestore.instance.collection('users').doc(userID).update({
+      'waiterID': FirebaseAuth.instance.currentUser?.uid.toString(),
+    } );
   }
 
 }

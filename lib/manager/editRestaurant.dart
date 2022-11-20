@@ -393,49 +393,50 @@ class _EditRestaurant extends State<EditRestaurant> {
                         ));
                       } else if (res[0] == true && res[1] == false){
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text('Could not save changes, make sure all fields are entered correctly'),
+                            content: Text('Could not save changes'),
                           ));
                       } else if (res[0] == false && res[1] == true){
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text('There is no information to update'),
                           ));
-                      } else {
+                      }
+                      else {
                         if (restaurantNameController.text.trim() != "") {
-                          updateName(restaurantNameController.text.trim());
+                          await updateName(restaurantNameController.text.trim());
                         }
                         if (addressController.text.trim() != "") {
-                          updateAddress(addressController.text.trim());
+                          await updateAddress(addressController.text.trim());
                         }
                         if (cityController.text.trim() != "") {
-                          updateCity(cityController.text.trim());
+                          await updateCity(cityController.text.trim());
                         }
                         if (stateController.text.trim() != "") {
-                          updateState(stateController.text.trim());
+                          await updateState(stateController.text.trim());
                         }
                         if (zipController.text.trim() != "") {
-                          updateZip(zipController.text.trim());
+                          await updateZip(zipController.text.trim());
                         }
                         if (emailController.text.trim() != "") {
-                          updateEmail(emailController.text.trim());
+                          await updateEmail(emailController.text.trim());
                         }
                         if (phoneNumberController.text.trim() != "") {
-                          updatePhone(phoneNumberController.text.trim());
+                          await updatePhone(phoneNumberController.text.trim());
                         }
 
                         if (openTimeChanged != false) {
-                          updateOpenTimeWKday(openTime);
+                          await updateOpenTimeWKday(openTime);
                         }
 
                         if (closeTimeChanged != false) {
-                          updateCloseTimeWKday(closeTime);
+                          await updateCloseTimeWKday(closeTime);
                         }
 
                         if (openTimeChanged2 != false) {
-                          updateOpenTimeWKend(openTime2);
+                          await updateOpenTimeWKend(openTime2);
                         }
 
                         if (closeTimeChanged2 != false) {
-                          updateCloseTimeWKend(closeTime2);
+                          await updateCloseTimeWKend(closeTime2);
                         }
                         Navigator.pop(context,
                             MaterialPageRoute(builder: (context) => ManageRestaurant()
@@ -567,9 +568,11 @@ class _EditRestaurant extends State<EditRestaurant> {
     bool unchanged = false;
     if (rName.length > 40 || rName == "") {
       error = true;
-    } else if (rAddress.length > 100 || rAddress == "") {
+    }
+    if (rAddress.length > 100 || rAddress == "") {
       error = true;
-    } else if (rAddress != "" && (rAddress != widget.rAddress)) {
+    }
+    if (rAddress != "" && (rAddress != widget.rAddress)) {
       await FirebaseFirestore.instance.collection('restaurants').get().then(
               (data) => {
             data.docs.forEach((element) {
@@ -579,17 +582,23 @@ class _EditRestaurant extends State<EditRestaurant> {
               }
             })
           });
-    } else if (rCity.length > 40 || rCity == "") {
+    }
+    if (rCity.length > 40 || rCity == "") {
       error = true;
-    } else if ((rState != "" && !statePattern.hasMatch(rState)) || rState == "") {
+    }
+    if ((rState != "" && !statePattern.hasMatch(rState)) || rState == "") {
       error = true;
-    } else if (rZip != "" && !zipPattern.hasMatch(rZip)) {
+    }
+    if (rZip != "" && !zipPattern.hasMatch(rZip)) {
       error = true;
-    } else if (rEmail != "" && !EmailValidator.validate(rEmail)) {
+    }
+    if (rEmail == '' || (rEmail != "" && !EmailValidator.validate(rEmail))) {
       error = true;
-    } else if (rPhone != "" && !phonePattern.hasMatch(rPhone)) {
+    }
+    if (rPhone == '' || (rPhone != "" && !phonePattern.hasMatch(rPhone))) {
       error = true;
-    } else if (rName == widget.rName && rAddress == widget.rAddress
+    }
+    if (rName == widget.rName && rAddress == widget.rAddress
         && rCity == widget.rCity && rState == widget.rState
         && rZip == widget.rZip && rEmail == widget.rEmail
         && rPhone == widget.rPhone && oChanged == false && cChanged == false
