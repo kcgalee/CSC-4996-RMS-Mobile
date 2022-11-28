@@ -366,6 +366,10 @@ class _PlacedOrders extends State<PlacedOrders> {
                                             }
 
                                       },
+
+                                        //=============================
+                                        //Tapping order shows item info
+                                        //=============================
                                         onTap: () {
                                         showDialog<void>(
                                           context: context,
