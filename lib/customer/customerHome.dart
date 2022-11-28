@@ -234,7 +234,9 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                         color: Colors.white),
                                                   ),
 
+                                                  //=======================
                                                   //Restaurant Info Button
+                                                  //=======================
                                                   IconButton(
                                                       icon: const Icon(
                                                           Icons.info),
@@ -265,6 +267,8 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                               child: Column(
                                                                 children: [
                                                                   //Restaurant rating
+
+                                                                  if(restRating != -1)
                                                                   RatingBar.builder(
                                                                     itemSize: 40.0,
                                                                     ignoreGestures: true,
@@ -283,6 +287,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                                     },
                                                                   ),
 
+                                                                  if(restRating != -1)
                                                                   Text('(${restRating.toString()} Stars)'),
 
                                                                   const Text(
@@ -771,16 +776,24 @@ class _CustomerHomeState extends State<CustomerHome> {
     });
 
     restRating = 0;
+
     await FirebaseFirestore.instance.collection('reviews').where('restID', isEqualTo: restID).get()
-        .then((element){
-          double count = 0;
-          for(int i = 0; i < element.docs.length; i++) {
-            if(element.docs[i]['restRating'] != null) {
-              restRating = element.docs[i]['restRating'] + restRating;
-              count++;
-            }
+        .then((element) {
+      double count = 0;
+        for (int i = 0; i < element.docs.length; i++) {
+          if (element.docs[i]['restRating'] != null) {
+            restRating = element.docs[i]['restRating'] + restRating;
+            count++;
           }
-          restRating = restRating/count;
+        }
+
+          if (count != 0) {
+            restRating = restRating/count;
+          }
+
+          else {
+            restRating = -1;
+          }
     });
   }
 
