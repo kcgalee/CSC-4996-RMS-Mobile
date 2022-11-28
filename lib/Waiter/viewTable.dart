@@ -280,6 +280,7 @@ class _ViewTableState extends State<ViewTable> {
       'date': Timestamp.now(),
       'members': memCount,
       'restID': rID,
+      'waiterID': FirebaseAuth.instance.currentUser?.uid,
     });
   }
 

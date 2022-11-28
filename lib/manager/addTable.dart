@@ -106,16 +106,26 @@ class _AddTable extends State<AddTable> {
           child: CustomMainButton(
             text: "Add Table",
             onPressed: () async {
-              bool status = await checkTableNumber(int.parse(tableNumberController.text.trim()));
-              if(!status){
-                newTableData(int.parse(tableNumberController.text.trim()),
-                    int.parse(tableCapacityController.text.trim()),
-                    tableTypeController.text.trim(),
-                    tableLocationController.text.trim());
-              } else {
+              if (tableNumberController.text.trim() == '' ||
+                  tableNumberController.text.trim().contains(RegExp(r'[A-Z|a-z]')) ||
+                  tableNumberController.text.trim() == '0' ||
+                  tableCapacityController.text.trim() == '' ||
+                  tableCapacityController.text.trim() == '0' || tableCapacityController.text.trim().contains(RegExp(r'[A-Z|a-z]'))){
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text('A table already exists with that number.'),
+                  content: Text('Table could not be created.'),
                 ));
+              } else {
+                bool status = await checkTableNumber(int.parse(tableNumberController.text.trim()));
+                if(!status){
+                  newTableData(int.parse(tableNumberController.text.trim()),
+                      int.parse(tableCapacityController.text.trim()),
+                      tableTypeController.text.trim(),
+                      tableLocationController.text.trim());
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('A table already exists with that number.'),
+                  ));
+                }
               }
             }
             ),),

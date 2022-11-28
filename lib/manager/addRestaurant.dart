@@ -315,14 +315,15 @@ class _AddRestaurant extends State<AddRestaurant> {
                         ),
                         child: const Text("Add"),
                         onPressed: () async {
-                          if (await validate(
+                          bool validation = await validate(
                               restaurantNameController.text.trim(),
                               addressController.text.trim(),
                               cityController.text.trim(),
                               stateController.text.trim(),
                               zipController.text.trim(),
                               emailController.text.trim(),
-                              phoneNumberController.text.trim()) == true) {
+                              phoneNumberController.text.trim());
+                          if (validation) {
                             if (flag == true){
                               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                                 content: Text(
@@ -379,9 +380,11 @@ class _AddRestaurant extends State<AddRestaurant> {
     bool error = false;
     if (rName == "" || rName.length > 40) {
       error = true;
-    } else if (rAddress == "" || rAddress.length > 100) {
+    }
+    if (rAddress == "" || rAddress.length > 100) {
       error = true;
-    } else if (rAddress != "") {
+    }
+    if (rAddress != "") {
       await FirebaseFirestore.instance.collection('restaurants').get().then(
               (data) => {
             data.docs.forEach((element) {
@@ -391,17 +394,25 @@ class _AddRestaurant extends State<AddRestaurant> {
               }
             })
           });
-    } else if (rCity == "" || rCity.length > 40) {
+    }
+    if (rCity == "" || rCity.length > 40) {
       error = true;
-    } else if (rState == "" || (rState != "" && !statePattern.hasMatch(rState))) {
+    }
+    if (rState == "" || (rState != "" && !statePattern.hasMatch(rState))) {
       error = true;
-    } else if (rZip == "" || (rZip != "" && !zipPattern.hasMatch(rZip))) {
+    }
+    if (rZip == "" || (rZip != "" && !zipPattern.hasMatch(rZip))) {
       error = true;
-    } else if (rEmail == "" || (rEmail != "" && !EmailValidator.validate(rEmail))) {
+    }
+    if (rEmail == "" || (rEmail != "" && !EmailValidator.validate(rEmail))) {
       error = true;
-    } else if (rPhone == "" || (rPhone != "" && !phonePattern.hasMatch(rPhone))) {
+    }
+
+    if (rPhone == '' || (rPhone != "" && !phonePattern.hasMatch(rPhone))) {
       error = true;
-    } else if (rName == "" && rAddress == "" && rCity == ""
+    }
+
+    if (rName == "" && rAddress == "" && rCity == ""
         && rState == "" && rZip == "" && rEmail == ""
         && rPhone == "") {
       error = true;
