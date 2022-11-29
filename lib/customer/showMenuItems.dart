@@ -129,10 +129,6 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                             height: 70.0,
                                             decoration: BoxDecoration(
                                                 color: Colors.white,
-                                                border: Border.all(
-                                                  color: Colors.black38,
-                                                  width: 2.0,
-                                                ),
                                                 borderRadius:
                                                     BorderRadius.circular(10.0),
                                                 boxShadow: const [
@@ -150,10 +146,10 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                       '',
                                                   ),
 
-                                                  Spacer(),
+                                                  const Spacer(),
 
                                                   if(menuSnapshot.data?.docs[index]['price'] == '0.00')
-                                                    Text('\nFree\n'),
+                                                    const Text('\nFree\n'),
 
                                                   if(menuSnapshot.data?.docs[index]['price'] != '0.00')
                                                   Text('\$' + (menuSnapshot
@@ -228,7 +224,7 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                                                               ),
                                                                                               textAlign: TextAlign.left,
                                                                                             ),
-                                                                                            Spacer(),
+                                                                                            const Spacer(),
                                                                                             Text(
                                                                                               price,
                                                                                               style:

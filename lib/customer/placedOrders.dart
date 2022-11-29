@@ -63,7 +63,7 @@ class _PlacedOrders extends State<PlacedOrders> {
                               Navigator.push(context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          CustomerHome()));
+                                          const CustomerHome()));
                             },
                           ),
 
@@ -127,20 +127,6 @@ class _PlacedOrders extends State<PlacedOrders> {
                                                         EdgeInsets.zero,
                                                         content: Builder(
                                                           builder: (context) {
-                                                            // Get available height and width of the build area of this widget. Make a choice depending on the size.
-                                                            var height =
-                                                                MediaQuery
-                                                                    .of(
-                                                                    context)
-                                                                    .size
-                                                                    .height;
-                                                            var width =
-                                                                MediaQuery
-                                                                    .of(
-                                                                    context)
-                                                                    .size
-                                                                    .width;
-
                                                             return SizedBox(
                                                                 height: 500,
                                                                 width: 500,
@@ -425,7 +411,7 @@ class _PlacedOrders extends State<PlacedOrders> {
                                                   );
                                                   }
                                                   else {
-                                                    return Text('no data to show');
+                                                    return const Text('No data to show');
                                                   }
                                                 });
 
