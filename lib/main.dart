@@ -45,6 +45,7 @@ class MyApp extends StatelessWidget {
       title: 'Restaurant Management System',
       theme: ThemeData(
         //fontFamily: 'Urbanist',
+        scaffoldBackgroundColor: const Color(0xFFEBEBEB),
         primaryColor: Colors.white,
         textTheme: Theme.of(context).textTheme.apply(
           fontSizeFactor: 1.0,
