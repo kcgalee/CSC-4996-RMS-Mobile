@@ -52,7 +52,7 @@ class _PastVisitsState extends State<PastVisits> {
                   ]).snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData || (snapshot.data?.size == 0)) {
-                      return Center(child: Text('You have no orders'));
+                      return Center(child: Text('Oh no! Looks like you have yet to visit a restaurant! Dine out and fill up your stomach and history list!'));
                     } else {
                       return ListView.builder(
                           itemCount: snapshot.data?.docs.length,
