@@ -149,9 +149,28 @@ class _AddEmployee extends State<AddEmployee> {
           CustomMainButton(
               text: "Add",
               onPressed: () async {
-                await registrationChecker(emailController.text.trim(), pwController.text.trim(),
+                //check for empty fields
+                if(emailController.text.toString() == '' || firstNameController.text.toString() == '' ||
+                lastNameController.text.toString() == '' || preferredNameController.text.toString() == '' ||
+                phoneController.text.toString() == '' || pwController.text.toString() == '' ||
+                confirmPwController.text.toString() == '') {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('All fields must be completed'),
+                  ));
+                }
+
+                else if(pwController.text.toString() != confirmPwController.text.toString()) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Passwords must match'),
+                  ));
+                }
+
+                //if all fields are correct add the employee
+                else {
+                  await registrationChecker(emailController.text.trim(), pwController.text.trim(),
                     firstNameController.text.trim(), lastNameController.text.trim(),
                     preferredNameController.text.trim(), managerID, phoneController.text.trim());
+                }
 
               }
           )
