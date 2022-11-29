@@ -84,7 +84,7 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                             'isPescatarian': snapshot.data?.docs[index]['isPescatarian'],
                             'isLactose': snapshot.data?.docs[index]['isLactose'],
                           });
-                          if (widget.category != "utensil"){
+                          if ((widget.category != "utensil") && (widget.category != "other")){
                             var dietaryText = "";
 
                             if (snapshot.data?.docs[index]['isVegan'] == true){

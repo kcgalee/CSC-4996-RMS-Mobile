@@ -1,12 +1,10 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:restaurant_management_system/manager/manageMenuItem.dart';
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
 import 'package:restaurant_management_system/widgets/customTextForm.dart';
 import '../widgets/customBackButton.dart';
@@ -81,7 +79,7 @@ class _EditItem extends State<EditItem> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.category != 'utensil') {
+    if (widget.category != 'utensil' && widget.category != 'other') {
       return Scaffold (
           drawer: const ManagerNavigationDrawer(),
           appBar: AppBar(
@@ -381,7 +379,7 @@ class _EditItem extends State<EditItem> {
                             Divider(color: Colors.white,thickness: 1,indent: 10,endIndent: 10,),
                             ListTile(
                               leading: const Icon(Icons.camera_alt,color: Colors.white,),
-                              title: const Text('Camara',style: TextStyle(color: Colors.white)),
+                              title: const Text('Camera',style: TextStyle(color: Colors.white)),
                               onTap: () => pickImage(ImageSource.camera),
                             ),
                           ],
@@ -425,74 +423,34 @@ class _EditItem extends State<EditItem> {
       price += '.00';
     }
 
-    if (isAllRestaurants) {
-      /*await FirebaseFirestore.instance.collection('restaurants').where(
-          'managerID', isEqualTo: FirebaseAuth.instance.currentUser?.uid).get()
-          .then(
-              (value) => {
-            value.docs.forEach((element) async {
-              var doc = FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').doc(widget.itemID);
-              await doc.update({
-                'itemName': itemName,
-                'price': price,
-                'category': widget.category,
-                'description': itemDesc,
-                'isVegan': isVegan,
-                'isVegetarian': isVegetarian,
-                'isGlutenFree': isGlutenFree,
-                'isNuts': isNuts,
-                'isKosher': isKosher,
-                'isHalal': isHalal,
-                'isPescatarian': isPescatarian,
-                'isLactose': isLactoseFree,
-              });
-              if (image != null) {
-                final storageRef = FirebaseStorage.instance.ref().child(
-                    "${widget.restaurantID}/${doc.id}.jpg");
-                try {
-                  await storageRef.putFile(image!);
-                  String downloadURL = await storageRef.getDownloadURL();
-                  await FirebaseFirestore.instance.collection(
-                      'restaurants/${widget.restaurantID}/menu').doc(doc.id).update({
-                    'imgURL': downloadURL,
-                  });
-                } on FirebaseException catch (e) {
-                  // ...
-                  print(e);
-                }
-              }
-            })
-          });*/
-    } else {
-      var doc = FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').doc(widget.itemID);
-      await doc.update({
-        'itemName': itemName,
-        'price': price,
-        'category': widget.category,
-        'description': itemDesc,
-        'isVegan': isVegan,
-        'isVegetarian': isVegetarian,
-        'isGlutenFree': isGlutenFree,
-        'isNuts': isNuts,
-        'isKosher': isKosher,
-        'isHalal': isHalal,
-        'isPescatarian': isPescatarian,
-        'isLactose': isLactoseFree,
-      });
-      if (image != null) {
-        final storageRef = FirebaseStorage.instance.ref().child(
-            "${widget.restaurantID}/${doc.id}.jpg");
-        try {
-          await storageRef.putFile(image!);
-          String downloadURL = await storageRef.getDownloadURL();
-          await FirebaseFirestore.instance.collection(
-              'restaurants/${widget.restaurantID}/menu').doc(doc.id).update({
-            'imgURL': downloadURL,
-          });
-        } on FirebaseException catch (e) {
-          // ...
-          print(e);
-        }
+    var doc = FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').doc(widget.itemID);
+    await doc.update({
+      'itemName': itemName,
+      'price': price,
+      'category': widget.category,
+      'description': itemDesc,
+      'isVegan': isVegan,
+      'isVegetarian': isVegetarian,
+      'isGlutenFree': isGlutenFree,
+      'isNuts': isNuts,
+      'isKosher': isKosher,
+      'isHalal': isHalal,
+      'isPescatarian': isPescatarian,
+      'isLactose': isLactoseFree,
+    });
+    if (image != null) {
+      final storageRef = FirebaseStorage.instance.ref().child(
+          "${widget.restaurantID}/${doc.id}.jpg");
+      try {
+        await storageRef.putFile(image!);
+        String downloadURL = await storageRef.getDownloadURL();
+        await FirebaseFirestore.instance.collection(
+            'restaurants/${widget.restaurantID}/menu').doc(doc.id).update({
+          'imgURL': downloadURL,
+        });
+      } on FirebaseException catch (e) {
+        // ...
+        print(e);
       }
     }
   }
@@ -510,26 +468,6 @@ class _EditItem extends State<EditItem> {
                 }
               })
             }
-          });
-    }
-
-
-    if (isAllRestaurants){
-      await FirebaseFirestore.instance.collection('restaurants').where('managerID', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
-          .where('isActive', isEqualTo: true).get().then(
-              (value) => {
-            if (value.docs.isNotEmpty) {
-              value.docs.forEach((element) async{
-                await FirebaseFirestore.instance.collection('restaurants/${element.id}/menu').get().then(
-                        (element) => {
-                      element.docs.forEach((item) {
-                        if (item['itemName'].toUpperCase() == itemName.toUpperCase()){
-                          error = true;
-                          flag = true;
-                        }
-                      })
-                    });
-              })}
           });
     }
 

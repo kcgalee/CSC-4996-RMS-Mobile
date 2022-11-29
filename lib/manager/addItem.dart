@@ -65,7 +65,7 @@ class _AddItemState extends State<AddItem> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.category == 'utensil'){
+    if (widget.category == 'utensil' || widget.category == 'other'){
       return utensil();
     } else {
       return others();
