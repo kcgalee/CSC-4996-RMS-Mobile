@@ -17,6 +17,8 @@ class WaiterRequest extends StatefulWidget {
 class _WaiterRequestState extends State<WaiterRequest> {
   // text controller
   final _controller = TextEditingController();
+  String orderBy = 'timePlaced';
+  bool desc = false;
 
   @override
   Widget build(BuildContext context) {

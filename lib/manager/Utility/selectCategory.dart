@@ -75,6 +75,11 @@ class _SelectCategoryState extends State<SelectCategory> {
                 Navigator.push(context, MaterialPageRoute(builder:  (context) =>  ManageMenuItem(restaurantID: widget.restaurantID, category: 'utensil', rName: widget.rName)));
               }
           ),
+          CustomSubButton(text: "OTHERS",
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder:  (context) =>  ManageMenuItem(restaurantID: widget.restaurantID, category: 'other', rName: widget.rName)));
+              }
+          ),
         ], //Children
       )),
     ));

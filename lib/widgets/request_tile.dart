@@ -199,7 +199,6 @@ class _RequestTileState extends State<RequestTile> {
       return StreamBuilder(
           stream: Stream.periodic(const Duration(seconds: 1), (time) {
             Duration duration = widget.time.toDate().difference(DateTime.now());
-            //String days = duration.inDays.toString();
             String hours = duration.inHours.toString().padLeft(0, '2').replaceAll('-', '');
             String minutes = duration.inMinutes.remainder(60).toString().padLeft(1, '0').replaceAll('-', '');
             if (hours != '0'){
@@ -361,13 +360,15 @@ class _RequestTileState extends State<RequestTile> {
     var status = await FirebaseFirestore.instance.collection('orders').doc(widget.orderID).get();
     if (status['status'] != 'in progress'){
       await status.reference.update({
-        'status': 'in progress'
+        'status': 'in progress',
+        'timeInProgress': Timestamp.now()
       });
       await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(widget.orderDoc).get().then(
               (value) async {
             if (value.exists){
               await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(widget.orderDoc).update({
-                'status': 'in progress'
+                'status': 'in progress',
+                'timeInProgress': Timestamp.now()
               });
             }
           });
