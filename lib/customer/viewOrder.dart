@@ -187,7 +187,7 @@ class _ViewOrder extends State<ViewOrder> {
                                                                                      height: 20),
                                                                                  CustomTextForm(
                                                                                      hintText:
-                                                                                     'Optional Order Comments',
+                                                                                     widget.createOrderInfo.orderComments[index],
                                                                                      controller:
                                                                                      orderCommentsController,
                                                                                      validator:
@@ -256,8 +256,14 @@ class _ViewOrder extends State<ViewOrder> {
                                                                                  price *
                                                                                      count!;
 
+
+                                                                             if(orderCommentsController.text.toString() == ''){
+                                                                               widget.createOrderInfo.updateOrder(index, count!, price.toStringAsFixed(2), widget.createOrderInfo.orderComments[index]);
+                                                                             }
                                                                              //Send new data to database
-                                                                             widget.createOrderInfo.updateOrder(index, count!, price.toStringAsFixed(2), orderCommentsController.text.toString());
+                                                                             else {
+                                                                               widget.createOrderInfo.updateOrder(index, count!, price.toStringAsFixed(2), orderCommentsController.text.toString());
+                                                                             }
 
                                                                              Navigator.of(
                                                                                  context)

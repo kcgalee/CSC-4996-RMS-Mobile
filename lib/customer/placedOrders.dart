@@ -184,7 +184,7 @@ class _PlacedOrders extends State<PlacedOrders> {
                                                                           height: 20),
                                                                       CustomTextForm(
                                                                           hintText:
-                                                                          'Optional Order Comments',
+                                                                          snapshot.data?.docs[index]['orderComment'] as String,
                                                                           controller:
                                                                           orderCommentsController,
                                                                           validator:
@@ -255,9 +255,27 @@ class _PlacedOrders extends State<PlacedOrders> {
                                                                       price *
                                                                           count!;
 
-                                                                  //Send new data to database
+                                                                  //check to see if comment was changed
+                                                                  if(orderCommentsController.text.toString() == ''){
                                                                     updateOrder(snapshot.data?.docs[index].id as String,
-                                                                        count!, price.toStringAsFixed(2), orderCommentsController.text.toString(), collectionRef);
+                                                                        count!, price.toStringAsFixed(2), snapshot.data?.docs[index]['orderComment'], collectionRef);
+                                                                  }
+                                                                  //Send new data to database
+                                                                   else {
+                                                                    updateOrder(
+                                                                        snapshot
+                                                                            .data
+                                                                            ?.docs[index]
+                                                                            .id as String,
+                                                                        count!,
+                                                                        price
+                                                                            .toStringAsFixed(
+                                                                            2),
+                                                                        orderCommentsController
+                                                                            .text
+                                                                            .toString(),
+                                                                        collectionRef);
+                                                                  }
 
                                                                   Navigator.of(
                                                                       context)
@@ -366,6 +384,10 @@ class _PlacedOrders extends State<PlacedOrders> {
                                             }
 
                                       },
+
+                                        //=============================
+                                        //Tapping order shows item info
+                                        //=============================
                                         onTap: () {
                                         showDialog<void>(
                                           context: context,

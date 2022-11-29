@@ -12,6 +12,7 @@ class CreateOrderInfo{
   late int itemCount;
   late var custName;
   late var custID;
+  late List<String> category = [];
   late List<int> priority = [];
 
   CreateOrderInfo(this.custID){
@@ -19,14 +20,16 @@ class CreateOrderInfo{
   }
 
   orderSetter(String itemID, int count, String itemName, String price,
-      String comments, int priority, String imgURL) async {
+      String comments, int priority, String imgURL, String category) async {
     this.count.add(count);
     this.itemID.add(itemID);
     this.imgURL.add(imgURL);
     this.itemName.add(itemName);
     this.price.add(price);
     orderComments.add(comments);
+    this.category.add(category);
     this.priority.add(priority);
+
     itemCount++;
 
     await FirebaseFirestore.instance.collection('users').doc(custID).get().then(
@@ -39,14 +42,14 @@ class CreateOrderInfo{
     for(int i = 0; i < itemCount; i++) {
       placeOrderHelper(itemID[i], itemName[i], count[i], price[i],
           orderComments[i], priority[i], tableID,
-          tableNum, waiterID, restID, imgURL[i]);
+          tableNum, waiterID, restID, imgURL[i], category[i]);
     }
     orderClear();
   }//place order
 
   void placeOrderHelper(String itemID, String itemName, int count, String price,
       String comments, int priority, String tableID, String tableNum,
-      String waiterID, String restID, String imgURL)
+      String waiterID, String restID, String imgURL, String category)
   {
 
     var uID = FirebaseAuth.instance.currentUser?.uid.toString();
@@ -61,6 +64,7 @@ class CreateOrderInfo{
 
     users.doc(orderID).set(
     {
+      'itemCategory' : category,
       'priority' : priority,
         'orderComment' : comments,
         'price' : price,
@@ -178,6 +182,7 @@ class CreateOrderInfo{
     imgURL.clear();
     priority.clear();
     itemCount = 0;
+    category.clear();
  }
 
  //deletes item from current order
@@ -190,6 +195,7 @@ void deleteItem(int index) {
     price.removeAt(index);
     orderComments.removeAt(index);
     priority.removeAt(index);
+    category.removeAt(index);
 }
 
   updateOrder(int index, int count, String price, String comment) {

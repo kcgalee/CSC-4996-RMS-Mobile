@@ -77,25 +77,41 @@ class _ViewMemberOrder extends State<ViewMemberOrder> {
                                           context: context,
                                           barrierDismissible: false, // user must tap button!
                                           builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title: Text('AlertDialog Title'),
-                                              content: SingleChildScrollView(
-                                                child: ListBody(
-                                                  children: <Widget>[
-                                                    Text('This is a demo alert dialog.'),
-                                                    Text('Would you like to approve of this message?'),
-                                                  ],
-                                                ),
-                                              ),
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  child: const Text('Close'),
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                ),
-                                              ],
-                                            );
+                                            return StreamBuilder(
+                                                stream: FirebaseFirestore.instance
+                                                    .collection('restaurants/${userSnapshot.data!['restID']}/menu')
+                                                    .doc(snapshot.data?.docs[index]['itemID'])
+                                                    .snapshots(),
+                                                builder: (build, itemSnapshot) {
+                                                  if(itemSnapshot.hasData) {
+                                                    var price = 'Free';
+                                                    if (itemSnapshot.data!['price'] != '0.00'){
+                                                      price = '\$' + itemSnapshot.data!['price'];
+                                                    }
+                                                    return AlertDialog(
+                                                      title:  Text(itemSnapshot.data!['itemName'].toString()),
+                                                      content: SingleChildScrollView(
+                                                        child: ListBody(
+                                                          children:  <Widget>[
+                                                            Text(itemSnapshot.data!['description']),
+                                                            Text(price),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      actions: <Widget>[
+                                                        TextButton(
+                                                          child: const Text('Approve'),
+                                                          onPressed: () {
+                                                            Navigator.of(context).pop();
+                                                          },
+                                                        ),
+                                                      ],
+                                                    );
+                                                  }
+                                                  else {
+                                                    return Text('no data to show');
+                                                  }
+                                                });
                                           },
                                         );
                                       },
