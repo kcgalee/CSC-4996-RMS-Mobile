@@ -590,6 +590,7 @@ class RegistrationBodyState extends State<RegistrationBody> {
       'phone' : restPhone,
       'restName': restName,
       'managerID' : UID,
+      'email' : email,
       'address': address,
       'city': city,
       'state': state,

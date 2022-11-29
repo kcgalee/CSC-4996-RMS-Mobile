@@ -396,7 +396,9 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                                                               .priority,
                                                                                           menuSnapshot
                                                                                               .data
-                                                                                              ?.docs[index]['imgURL'] as String);
+                                                                                              ?.docs[index]['imgURL'] as String,
+                                                                                      menuSnapshot.data?.docs[index]['category']
+                                                                                      );
 
                                                                                       Navigator.of(
                                                                                           context)
