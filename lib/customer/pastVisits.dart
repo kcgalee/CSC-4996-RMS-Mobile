@@ -6,7 +6,7 @@ import '../widgets/pastVisitsTile.dart';
 import 'Utility/navigation.dart';
 
 class PastVisits extends StatefulWidget {
-  PastVisits({Key? key}) : super(key: key);
+  const PastVisits({Key? key}) : super(key: key);
 
   @override
   State<PastVisits> createState() => _PastVisitsState();
@@ -52,7 +52,13 @@ class _PastVisitsState extends State<PastVisits> {
                   ]).snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData || (snapshot.data?.size == 0)) {
-                      return Center(child: Text('You have no orders'));
+                      return const Center(
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 20, right: 20,),
+                            child:
+                            Text('Oh no! Looks like you have yet to visit a restaurant! Dine out and fill up your stomach and history list!')
+                          )
+                      );
                     } else {
                       return ListView.builder(
                           itemCount: snapshot.data?.docs.length,

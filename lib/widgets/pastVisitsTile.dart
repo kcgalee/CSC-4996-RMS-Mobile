@@ -16,6 +16,7 @@ class PastVisitsTile extends StatelessWidget {
 
   var restID;
   var restName;
+  var imgURL;
   final VoidCallback? onPressed;
 
   PastVisitsTile({
@@ -36,55 +37,56 @@ class PastVisitsTile extends StatelessWidget {
             future: getRestName(),
             builder: (context, snapshot) {
               return Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15, top: 25),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.only(left: 20, right: 20,),
+                child: TextButton(
+                  style: TextButton.styleFrom(
                     fixedSize: const Size(330, 100),
                     textStyle: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 15,
+                      fontSize: 10,
                     ),
                     backgroundColor: Colors.white,
                     foregroundColor: Colors.black,
-                    side: const BorderSide(color: Colors.black38, width: 2),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                   ),
                   onPressed: onPressed,
                   child: Column(children: [
                     Padding(
-                      padding: EdgeInsets.only(top: 15),
+                      padding: EdgeInsets.only(top: 20),
                       child: Row(
                         children: [
-                          Container(
-                            height: 70.0,
-                            width: 70.0,
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(12.0),
-                                  bottomLeft: Radius.circular(12.0)),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20), // Image border
+                            child: SizedBox.fromSize(
+                              size: Size.fromRadius(30), // Image radius
+                              child: Image.network('https://picsum.photos/250?image=9', fit: BoxFit.cover),
                             ),
-                            child: Image.asset('assets/images/pizza.jpg'),
                           ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 10),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("$restName",
-                                  style: const TextStyle(
-                                      color: Colors.black54,
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold)),
-                              Text("\n$newTime",
-                                  style: const TextStyle(
-                                    color: Colors.black38,
-                                    fontSize: 15,
-                                  )),
-                            ],
+                          Padding(
+                            padding: EdgeInsets.only(left: 20),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("$restName",
+                                      style: const TextStyle(
+                                          color: Colors.black54,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold)),
+                                  Text("\n$newTime",
+                                      style: const TextStyle(
+                                        color: Colors.black38,
+                                        fontSize: 15,
+                                      )),
+                                ],
+                              ),
                           ),
-                      ),
+                          Spacer(),
+                          const Icon(
+                            Icons.chevron_right,
+                            color: Colors.grey,
+                          ),
                         ],
                       ),
                     )

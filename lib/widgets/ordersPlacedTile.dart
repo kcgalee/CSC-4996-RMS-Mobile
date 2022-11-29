@@ -90,9 +90,9 @@ class OrdersPlacedTile extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.only(
                       right: 15, left: 10, bottom: 10, top: 10),
-                  decoration: BoxDecoration(color: Colors.grey[100],
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.black54)
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
