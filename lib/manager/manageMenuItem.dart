@@ -84,6 +84,10 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                             'isPescatarian': snapshot.data?.docs[index]['isPescatarian'],
                             'isLactose': snapshot.data?.docs[index]['isLactose'],
                           });
+                          String price = snapshot.data?.docs[index]['price'];
+                          if (price == '0.00'){
+                            price = 'Free';
+                          }
                           if ((widget.category != "utensil") && (widget.category != "other")){
                             var dietaryText = "";
 
@@ -146,15 +150,14 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                             String subTitle;
                             if(dietaryText == ''){
                               subTitle  =  snapshot.data?.docs[index]['description'] ?? '';
-                            } else
-                              {
+                            } else {
                                 subTitle = dietaryText + "\n\n" + (snapshot.data?.docs[index]['description'] ?? '');
-                              }
+                            }
 
                             return MenuTile(
                                 taskName: snapshot.data?.docs[index]['itemName'] ,
                                 subTitle: subTitle,
-                                price: ' \$' + snapshot.data?.docs[index]['price'],
+                                price: price,
                                 itemIMG:  snapshot.data?.docs[index]['imgURL'],
                                 onPressedEdit:  (p0) => {
                                   Navigator.push(context,
@@ -179,7 +182,7 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                             return MenuTile(
                                 taskName: snapshot.data?.docs[index]['itemName'] ,
                                 subTitle: snapshot.data?.docs[index]['description'] ?? '',
-                                price: ' \$' + snapshot.data?.docs[index]['price'],
+                                price: price,
                                 itemIMG:  snapshot.data?.docs[index]['imgURL'],
                                 onPressedEdit:  (p0) => {
                                   Navigator.push(context,
