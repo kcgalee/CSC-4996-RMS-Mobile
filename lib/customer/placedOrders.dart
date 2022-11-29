@@ -402,7 +402,7 @@ class _PlacedOrders extends State<PlacedOrders> {
                                                     ),
                                                     actions: <Widget>[
                                                       TextButton(
-                                                        child: const Text('Approve'),
+                                                        child: const Text('OK'),
                                                         onPressed: () {
                                                           Navigator.of(context).pop();
                                                         },

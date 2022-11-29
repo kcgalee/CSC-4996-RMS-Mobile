@@ -1,3 +1,8 @@
+/*
+showMenuItems.dart is a customer side page that shows the menu options of the chosen menu category from the Menu page
+menu options open up to show menu details and is able to be added to order
+ */
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -138,25 +143,39 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                       offset: Offset(2.0, 2.0))
                                                 ]),
                                             child: ListTile(
-                                              title: Row(
-                                                children: [
-                                                  Text(menuSnapshot
-                                                              .data?.docs[index]
-                                                          ['itemName'] ??
-                                                      '',
-                                                  ),
+                                              title: Padding(
+                                                padding: EdgeInsets.only(top: 5),
+                                                child: Row(
+                                                  children: [
+                                                    if (menuSnapshot.data?.docs[index]['imgURL'] !=
+                                                        '')
+                                                      ClipRRect(
+                                                        borderRadius: BorderRadius.circular(20), // Image border
+                                                        child: SizedBox.fromSize(
+                                                          size: Size.fromRadius(25), // Image radius
+                                                          child:  Image.network(menuSnapshot.data?.docs[index]['imgURL'], fit: BoxFit.cover),
+                                                        ),
+                                                      ),
 
-                                                  const Spacer(),
+                                                    SizedBox(width: 10),
+                                                    Text(menuSnapshot
+                                                        .data?.docs[index]
+                                                    ['itemName'] ??
+                                                        '',
+                                                    ),
 
-                                                  if(menuSnapshot.data?.docs[index]['price'] == '0.00')
-                                                    const Text('\nFree\n'),
+                                                    const Spacer(),
 
-                                                  if(menuSnapshot.data?.docs[index]['price'] != '0.00')
-                                                  Text('\$' + (menuSnapshot
-                                                              .data?.docs[index]
-                                                          ['price'] ??
-                                                      '\n')),
-                                                ],
+                                                    if(menuSnapshot.data?.docs[index]['price'] == '0.00')
+                                                      const Text('\nFree\n'),
+
+                                                    if(menuSnapshot.data?.docs[index]['price'] != '0.00')
+                                                      Text('\$' + (menuSnapshot
+                                                          .data?.docs[index]
+                                                      ['price'] ??
+                                                          '\n')),
+                                                  ],
+                                                ),
                                               ),
                                               onTap: () {
                                                 orderCommentsController.clear();
