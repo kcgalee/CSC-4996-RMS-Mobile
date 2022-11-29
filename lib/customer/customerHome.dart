@@ -11,7 +11,6 @@ import 'package:restaurant_management_system/customer/submitReview.dart';
 import 'package:restaurant_management_system/customer/tableStatus.dart';
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
 import '../widgets/customSubButton.dart';
-import '../widgets/pastOrdersTile.dart';
 import '../widgets/pastVisitsTile.dart';
 import 'qrScanner.dart';
 import 'package:restaurant_management_system/customer/Utility/navigation.dart';
@@ -45,7 +44,9 @@ class _CustomerHomeState extends State<CustomerHome> {
           foregroundColor: Colors.black,
           elevation: 0,
         ),
-        body: SingleChildScrollView(
+        body: Container(
+          color: const Color(0xffEBEBEB),
+        child: SingleChildScrollView(
           child: Center(
             child: Column(children: [
               //=====================================
@@ -61,129 +62,151 @@ class _CustomerHomeState extends State<CustomerHome> {
                     //User not assigned to a table
                     if (userSnapshot.hasData) {
                       if (userSnapshot.data!['tableID'] == '') {
-                        return Column(children: [
-                          Container(
-                              padding: const EdgeInsets.all(40),
-                              decoration: const BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(20),
-                                  bottomRight: Radius.circular(20),
-                                ),
-                                color: Color(0xff76bcff),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey,
-                                    offset: Offset(5.0, 5.0),
-                                    blurRadius: 10.0,
-                                    spreadRadius: 1.0,
-                                  )
-                                ],
-                              ),
-                              child: Column(children: [
-                                CustomMainButton(
-                                    text: "QR SCAN",
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                            const QRScanner()),
-                                      );
-                                    }),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                Row(children: const [
-                                  Text(
-                                    "Welcome!",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 40,
-                                        color: Colors.white),
-                                  ),
-                                ]),
-                                Row(
-                                  children: const [
-                                    Text(
-                                      "Please scan the QR code at your table once seated.",
-                                      style: TextStyle(
-                                          fontSize: 13, color: Colors.white),
+                        return Column(
+                            children: [
+                              Container(
+                                  padding: const EdgeInsets.all(40),
+                                  decoration: const BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(20),
+                                      bottomRight: Radius.circular(20),
                                     ),
-                                  ],
-                                ),
-                              ])),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          Center(
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: const [
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 20),
-                                        child: Text(
-                                          "PAST VISITS",
-                                          style: TextStyle(
-                                            fontSize: 22,
-                                            color: Colors.black54,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
+                                    color: Color(0xff76bcff),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        offset: Offset(5.0, 5.0),
+                                        blurRadius: 10.0,
+                                        spreadRadius: 1.0,
                                       )
                                     ],
                                   ),
-                                  StreamBuilder(
-                                      stream: FirebaseFirestore.instance
-                                          .collection('orders')
-                                          .where('custID',
-                                          isEqualTo: FirebaseAuth
-                                              .instance.currentUser?.uid)
-                                          .where('itemName', whereNotIn: [
-                                        'Request Bill',
-                                        'Request Waiter',
-                                        'condiment',
-                                        'utensil'
-                                      ])
-                                          .orderBy('itemName')
-                                          .orderBy('timePlaced', descending: false)
-                                          .snapshots(),
-                                      builder: (context, snapshot) {
-                                        if (!snapshot.hasData ||
-                                            (snapshot.data?.size == 0)) {
-                                          return const Center(
-                                              child:
-                                              Text('You have no past orders'));
-                                        } else {
-                                          return SizedBox(
-                                            height: 400.0,
-                                            child: ListView.builder(
-                                                itemCount:
-                                                snapshot.data?.docs.length,
-                                                itemBuilder: (context, index) {
-                                                  return PastVisitsTile(
-                                                      taskName: 'Item: ' +
-                                                          (snapshot.data?.docs[index]['itemName'] ??
-                                                              ''),
-                                                      time: snapshot.data?.docs[index]['timePlaced'],
-                                                      oStatus: (snapshot.data?.docs[index]
-                                                      ['status'] ??
-                                                          ''),
-                                                      restID: snapshot.data?.docs[index]['restID'],
-                                                      onPressed: () {
-                                                        Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) => PastOrders()),
-                                                        );
-                                                      });
-                                                }),
+                                  child: Column(children: [
+                                    CustomMainButton(
+                                        text: "QR SCAN",
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                const QRScanner()),
                                           );
-                                        }
-                                      }),
-                                ],
-                              )),
-                        ]);
+                                        }),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Row(children: const [
+                                      Text(
+                                        "Welcome!",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 40,
+                                            color: Colors.white),
+                                      ),
+                                    ]),
+                                    Row(
+                                      children: const [
+                                        Text(
+                                          "Please scan the QR code at your table once seated.",
+                                          style: TextStyle(
+                                              fontSize: 13, color: Colors.white),
+                                        ),
+                                      ],
+                                    ),
+                                  ])),
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                                    child: Container(
+                                        decoration: const BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: const [
+                                                Padding(
+                                                  padding: EdgeInsets.only(top: 20, left: 20),
+                                                  child: Text(
+                                                    "PAST VISITS",
+                                                    style: TextStyle(
+                                                      fontSize: 22,
+                                                      color: Colors.black54,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            StreamBuilder(
+                                                stream: FirebaseFirestore.instance
+                                                    .collection('orders')
+                                                    .where('custID',
+                                                    isEqualTo: FirebaseAuth
+                                                        .instance.currentUser?.uid)
+                                                    .where('itemName', whereNotIn: [
+                                                  'Request Bill',
+                                                  'Request Waiter',
+                                                  'condiment',
+                                                  'utensil'
+                                                ])
+                                                    .orderBy('itemName')
+                                                    .orderBy('timePlaced', descending: false)
+                                                    .snapshots(),
+                                                builder: (context, snapshot) {
+                                                  if (!snapshot.hasData ||
+                                                      (snapshot.data?.size == 0)) {
+                                                    return Center(
+                                                        child:
+                                                        Column(
+                                                          children: const [
+                                                            SizedBox(
+                                                              height: 30,
+                                                            ),
+                                                            Text('You have no past orders.'),
+                                                            SizedBox(
+                                                              height: 30,
+                                                            ),
+                                                          ],
+                                                        ));
+                                                  } else {
+                                                    return SizedBox(
+                                                      height: 420.0,
+                                                      child: ListView.builder(
+                                                          itemCount:
+                                                          snapshot.data?.docs.length,
+                                                          itemBuilder: (context, index) {
+                                                            return PastVisitsTile(
+                                                                taskName: 'Item: ' +
+                                                                    (snapshot.data?.docs[index]['itemName'] ??
+                                                                        ''),
+                                                                time: snapshot.data?.docs[index]['timePlaced'],
+                                                                oStatus: (snapshot.data?.docs[index]
+                                                                ['status'] ??
+                                                                    ''),
+                                                                restID: snapshot.data?.docs[index]['restID'],
+                                                                onPressed: () {
+                                                                  Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder: (context) => PastOrders()),
+                                                                  );
+                                                                });
+                                                          }),
+                                                    );
+                                                  }
+                                                }),
+                                          ],
+                                        )
+                                    )
+                                  )
+                              ),
+                            ]
+                        );
                       } else {
                         if (userSnapshot.data!['tableID'] != '') {
                           return SingleChildScrollView(
@@ -269,26 +292,26 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                                   //Restaurant rating
 
                                                                   if(restRating != -1)
-                                                                  RatingBar.builder(
-                                                                    itemSize: 40.0,
-                                                                    ignoreGestures: true,
-                                                                    initialRating: restRating,
-                                                                    minRating: 1,
-                                                                    direction: Axis.horizontal,
-                                                                    allowHalfRating: true,
-                                                                    itemCount: 5,
-                                                                    itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                                                                    itemBuilder: (context, _) => const Icon(
-                                                                      Icons.star,
-                                                                      color: Colors.amber,
+                                                                    RatingBar.builder(
+                                                                      itemSize: 40.0,
+                                                                      ignoreGestures: true,
+                                                                      initialRating: restRating,
+                                                                      minRating: 1,
+                                                                      direction: Axis.horizontal,
+                                                                      allowHalfRating: true,
+                                                                      itemCount: 5,
+                                                                      itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                                                      itemBuilder: (context, _) => const Icon(
+                                                                        Icons.star,
+                                                                        color: Colors.amber,
+                                                                      ),
+                                                                      onRatingUpdate: (restRating) {
+                                                                        restRating;
+                                                                      },
                                                                     ),
-                                                                    onRatingUpdate: (restRating) {
-                                                                      restRating;
-                                                                    },
-                                                                  ),
 
                                                                   if(restRating != -1)
-                                                                  Text('(${restRating.toString()} Stars)'),
+                                                                    Text('(${restRating.toString()} Stars)'),
 
                                                                   const Text(
                                                                       '\nAddress',
@@ -755,7 +778,8 @@ class _CustomerHomeState extends State<CustomerHome> {
               //=====================================
             ]),
           ),
-        ));
+        )
+    ));
   }
 
   getRestInfo(String restID) async {
