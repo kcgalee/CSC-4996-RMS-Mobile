@@ -22,10 +22,6 @@ class CustomSubButton extends StatelessWidget {
               ),
               backgroundColor: Colors.white,
               foregroundColor: Colors.black,
-              side: const BorderSide(
-                color: Colors.black38,
-                width: 2
-              ),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
             ),

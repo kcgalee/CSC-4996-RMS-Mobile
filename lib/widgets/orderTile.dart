@@ -58,7 +58,7 @@ class OrderTile extends StatelessWidget {
           decoration: BoxDecoration(
               color: Colors.grey[100],
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.black54)),
+             ),
           child: FutureBuilder (
             future: getPrice(price),
             builder: (build, context2) {
