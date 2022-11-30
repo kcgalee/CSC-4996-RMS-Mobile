@@ -118,7 +118,15 @@ class CreateOrderInfo{
          custName = element['fName'];
        });
 
-   FirebaseFirestore.instance.collection('orders').add(
+   CollectionReference users = FirebaseFirestore.instance.collection('orders');
+
+   String orderID = users
+       .doc()
+       .id
+       .toString()
+       .trim();
+
+   users.doc(orderID).set(
    {
         'orderComment' : '',
         'custName' : custName,
@@ -136,7 +144,7 @@ class CreateOrderInfo{
        }
    );
 
-   FirebaseFirestore.instance.collection('tables/$tableID/tableOrders').add(
+   FirebaseFirestore.instance.collection('tables/$tableID/tableOrders').doc(orderID).set(
        {
          'orderComment' : '',
          'custName' : custName,
@@ -171,7 +179,16 @@ class CreateOrderInfo{
           custName = element['fName'];
         });
 
-    FirebaseFirestore.instance.collection('orders').add(
+    CollectionReference users = FirebaseFirestore.instance.collection('orders');
+
+    String orderID = users
+        .doc()
+        .id
+        .toString()
+        .trim();
+
+
+    users.doc(orderID).set(
         {
           'orderComment': '',
           'priority' : 1,
@@ -189,7 +206,7 @@ class CreateOrderInfo{
         }
     );
 
-    FirebaseFirestore.instance.collection('tables/$tableID/tableOrders').add(
+    FirebaseFirestore.instance.collection('tables/$tableID/tableOrders').doc(orderID).set(
         {
           'orderComment': '',
           'priority' : 1,

@@ -492,24 +492,25 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                           if (tableSnapshot.data![
                                                           'waiterID'] !=
                                                               '') {
-                                                            createOrderInfo
-                                                                .request(
-                                                                'Request Waiter',
-                                                                tableSnapshot
-                                                                    .data!.id,
-                                                                tableSnapshot
-                                                                    .data!['tableNum']
-                                                                    .toString(),
-                                                                tableSnapshot
-                                                                    .data![
-                                                                'waiterID'],
-                                                                tableSnapshot
-                                                                    .data!['restID']);
+
 
                                                             //Display message that waiter has been requested
                                                             if (tableSnapshot
                                                                 .data!['waiterRequested'] ==
                                                                 false) {
+                                                              createOrderInfo
+                                                                  .request(
+                                                                  'Request Waiter',
+                                                                  tableSnapshot
+                                                                      .data!.id,
+                                                                  tableSnapshot
+                                                                      .data!['tableNum']
+                                                                      .toString(),
+                                                                  tableSnapshot
+                                                                      .data![
+                                                                  'waiterID'],
+                                                                  tableSnapshot
+                                                                      .data!['restID']);
                                                               showDialog<void>(
                                                                 context: context,
                                                                 barrierDismissible:

@@ -480,28 +480,30 @@ class _PlacedOrders extends State<PlacedOrders> {
         ));
   }
 
-  void deleteOrder(String orderID, String colectionRef, String itemName, String tableID){
+  Future<void> deleteOrder(String orderID, String colectionRef, String itemName, String tableID) async {
+
 
     //updated table's document to show that the waiter has not been requested
   if(itemName == "Request Bill") {
-    FirebaseFirestore.instance.collection('tables').doc(tableID).update({
+    await FirebaseFirestore.instance.collection('tables').doc(tableID).update({
       'billRequested' : false,
     });
   }
 
   //updated table's document to show that the waiter has not been requested
-  else if(itemName == 'Request Waiter') {
-    FirebaseFirestore.instance.collection('tables').doc(tableID).update({
+  if(itemName == 'Request Waiter') {
+    await FirebaseFirestore.instance.collection('tables').doc(tableID).update({
       'waiterRequested' : false,
   });
   }
 
 
+    print(orderID);
     //deletes document from orders collection
-    FirebaseFirestore.instance.collection('orders').doc(orderID).delete();
+    await FirebaseFirestore.instance.collection('orders').doc(orderID).delete();
 
     //deletes document from tableOrders collection
-    FirebaseFirestore.instance.collection(colectionRef).doc(orderID).delete();
+    await FirebaseFirestore.instance.collection(colectionRef).doc(orderID).delete();
 
 
   }
