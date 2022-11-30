@@ -16,6 +16,7 @@ class MainScreen extends StatefulWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xffe8f3fc),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
