@@ -241,7 +241,7 @@ class _ViewTableState extends State<ViewTable> {
 
     await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableMembers').get().then((value){
       for(int i = 0; i < value.docs.length; i++) {
-        clearTable(value.docs[i].data()['userID']);
+        clearTable(value.docs[i].data()['userID'], widget.tableID);
       }
     });
 
@@ -285,11 +285,64 @@ class _ViewTableState extends State<ViewTable> {
     });
   }
 
-  void clearTable(String userID) {
+  //Customer
+  Future<void> clearTable(String userID, String tableID) async {
+
+    var restName = '';
+    var waiterName = '';
+
+    //get restName, waiterName
+    await FirebaseFirestore.instance.collection('tables').doc(tableID).get().then(
+            (element) {
+
+          waiterName = element['waiterName'];
+          restName = element['restName'];
+        });
+
+
     FirebaseFirestore.instance.collection('users').doc(userID).update({
       'tableID': '',
     } );
+
+
+    //Set customers past visit document
+    CollectionReference pastVisitCollRef = FirebaseFirestore.instance.collection('users/$userID/pastVisits');
+
+    String visitID = pastVisitCollRef
+        .doc()
+        .id
+        .toString()
+        .trim();
+
+    pastVisitCollRef.doc(visitID).set({
+      'waiterName': waiterName,
+      'date' : Timestamp.now(),
+      'restName' : restName,
+    });
+
+    //update orders for past visit
+    FirebaseFirestore.instance.collection('tables/$tableID/tableOrders').get().then((value) {
+      for (int i = 0; i < value.size; i++) {
+
+        if(value.docs[i].data()['itemName'] != 'Request Waiter' ||
+            value.docs[i].data()['itemName'] != "Request Bill") {
+          FirebaseFirestore.instance.collection('users/$userID/pastVisits/$visitID/tableOrders').doc().set(
+            {
+              'itemName' : value.docs[i].data()['itemName'],
+              'price' : value.docs[i].data()['price'],
+              'quantity' : value.docs[i].data()['quantity'],
+              'orderComment' : value.docs[i].data()['orderComment'],
+              'custName' : value.docs[i].data()['custName'],
+              'imgURL' : value.docs[i].data()['imgURL'],
+            });
+        }
+      }
+
+    });
+
+
   }
+  //End of clearTable
 
   void addWaiterID(String userID) {
     FirebaseFirestore.instance.collection('users').doc(userID).update({
