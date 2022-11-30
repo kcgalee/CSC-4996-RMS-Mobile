@@ -33,6 +33,7 @@ class _PastVisitsState extends State<PastVisits> {
               child: IconButton(
                 onPressed: () {
                   Navigator.pop(context);
+
                 },
                 icon: const Icon(
                   Icons.arrow_back,
@@ -44,6 +45,7 @@ class _PastVisitsState extends State<PastVisits> {
               child: StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection('users/${FirebaseAuth.instance.currentUser?.uid}/pastVisits')
+                      .orderBy('date', descending: true)
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData || (snapshot.data?.size == 0)) {
@@ -59,7 +61,7 @@ class _PastVisitsState extends State<PastVisits> {
                           itemCount: snapshot.data?.docs.length,
                           itemBuilder: (context, index) {
                             return PastVisitsTile(
-                                time: snapshot.data?.docs[index]['timePlaced'],
+                                time: snapshot.data?.docs[index]['date'],
                                 waiterName: snapshot.data?.docs[index]['waiterName'],
                                 restName: snapshot.data?.docs[index]['restName'],
                                 onPressed: () {
