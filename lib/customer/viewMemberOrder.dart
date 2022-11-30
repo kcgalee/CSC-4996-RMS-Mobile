@@ -18,7 +18,6 @@ class _ViewMemberOrder extends State<ViewMemberOrder> {
   Widget build(BuildContext context) {
     return Scaffold(
         drawer: const NavigationDrawer(),
-        backgroundColor: Colors.white,
         appBar: AppBar(
           title:  Text('Orders by ${widget.custName}'),
           backgroundColor: Colors.white,

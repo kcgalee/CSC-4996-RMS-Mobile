@@ -21,7 +21,6 @@ class _TableStatusState extends State<TableStatus> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
         drawer: const NavigationDrawer(),
         appBar: AppBar(
           title: Text('Table ${widget.tableNum}, Waiter ${widget.waiterName}'),
@@ -96,10 +95,11 @@ class _TableStatusState extends State<TableStatus> {
                                   itemCount: tableSnapshot.data?.docs.length,
                                   itemBuilder: (context, index){
                                     return Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.only(top: 5, left: 15, right: 15),
                                       child: Container(
-                                        decoration: BoxDecoration(color: Colors.grey[100],
-                                            border: Border.all(color: Colors.black54,width: 2)
+                                        decoration: const BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(Radius.circular(20)),
                                         ),
                                         child: ListTile(
                                           title: Text(tableSnapshot.data?.docs[index]['fName'] ?? ''),
@@ -116,13 +116,13 @@ class _TableStatusState extends State<TableStatus> {
                                   });
                             }
                             else {
-                              return const Text('no items to display');
+                              return const Text('No items to display');
                             }
                           }),
                     );
                   }
                   else{
-                    return const Text("no data found");
+                    return const Text("No data found");
                   }
                 })
           ],
