@@ -247,14 +247,19 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                   height: 20,
                                                 ),
                                                 Row(children: [
-                                                  Text(
-                                                    tableSnapshot
-                                                        .data!['restName'],
-                                                    style: const TextStyle(
-                                                        fontWeight:
-                                                        FontWeight.bold,
-                                                        fontSize: 40,
-                                                        color: Colors.white),
+                                                  SizedBox(
+                                                    width: MediaQuery.of(context).size.width * 0.50,
+                                                    child: FittedBox(
+                                                      fit: BoxFit.fitWidth,
+                                                      child: Text(
+                                                        tableSnapshot
+                                                            .data!['restName'],
+                                                        style: const TextStyle(
+                                                            fontWeight:
+                                                            FontWeight.bold,
+                                                            color: Colors.white),
+                                                      ),
+                                                    ),
                                                   ),
 
                                                   //=======================
