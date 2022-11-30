@@ -20,7 +20,7 @@ class _WaiterTablesState extends State<WaiterTables> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xffEBEBEB),
         appBar: AppBar(
           title: Text('Assigned Tables'),
           backgroundColor: Colors.white,
@@ -86,9 +86,8 @@ class _WaiterTablesState extends State<WaiterTables> {
                                 margin: EdgeInsets.all(8.0),
                                 padding: EdgeInsets.all(10),
                                 decoration: BoxDecoration(
-                                    color: Colors.grey[100],
+                                    color: Colors.white,
                                     borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(color: Colors.black54,width: 2)
                                 ),
                                 child: Center(
                                   child: Text(

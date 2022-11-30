@@ -27,6 +27,7 @@ class _WaiterHomeState extends State<WaiterHome> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
+        backgroundColor: const Color(0xffEBEBEB),
         drawer: const WaiterNavigationDrawer(),
         appBar: AppBar(
           title: const Text("Waiter Home"),
