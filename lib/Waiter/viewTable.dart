@@ -324,7 +324,7 @@ class _ViewTableState extends State<ViewTable> {
     FirebaseFirestore.instance.collection('tables/$tableID/tableOrders').get().then((value) {
       for (int i = 0; i < value.size; i++) {
 
-        if(value.docs[i].data()['itemName'] != 'Request Waiter' ||
+        if(value.docs[i].data()['itemName'] != 'Request Waiter' &&
             value.docs[i].data()['itemName'] != "Request Bill") {
           FirebaseFirestore.instance.collection('users/$userID/pastVisits/$visitID/tableOrders').doc().set(
             {
