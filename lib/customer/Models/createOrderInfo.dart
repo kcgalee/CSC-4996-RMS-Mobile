@@ -136,6 +136,30 @@ class CreateOrderInfo{
        }
    );
 
+   FirebaseFirestore.instance.collection('tables/$tableID/tableOrders').add(
+       {
+         'orderComment' : '',
+         'custName' : custName,
+         'custID' : uID.toString(),
+         'itemName' : request,
+         'restID' : restID,
+         'tableID' : tableID,
+         'tableNum' : tableNum,
+         'waiterID': waiterID,
+         'status' : 'placed',
+         'timePlaced': Timestamp.fromDate(now),
+         'price' : '0.00',
+         'quantity' : 1,
+         'priority' : 1
+       }
+   );
+
+   FirebaseFirestore.instance.collection('tables').doc(tableID).update(
+     {
+     'waiterRequested' : true
+     }
+   );
+
  }
   Future<void> billRequest(String request, String tableID, String tableNum, String waiterID, String restID) async {
 
@@ -148,6 +172,24 @@ class CreateOrderInfo{
         });
 
     FirebaseFirestore.instance.collection('orders').add(
+        {
+          'orderComment': '',
+          'priority' : 1,
+          'custName' : custName,
+          'custID' : uID.toString(),
+          'itemName' : request,
+          'restID' : restID,
+          'tableID' : tableID,
+          'tableNum' : tableNum,
+          'waiterID': waiterID,
+          'status' : 'placed',
+          'timePlaced': Timestamp.fromDate(now),
+          'price' : '0.00',
+          'quantity' : 1
+        }
+    );
+
+    FirebaseFirestore.instance.collection('tables/$tableID/tableOrders').add(
         {
           'orderComment': '',
           'priority' : 1,

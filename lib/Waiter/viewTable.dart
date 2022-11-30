@@ -273,6 +273,7 @@ class _ViewTableState extends State<ViewTable> {
       'waiterName': '',
       'currentCapacity': 0,
       'billRequested': false,
+      'waiterRequested' : false
     });
     
     var rID = table['restID'];

@@ -492,56 +492,116 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                           if (tableSnapshot.data![
                                                           'waiterID'] !=
                                                               '') {
-                                                            createOrderInfo.request(
+                                                            createOrderInfo
+                                                                .request(
                                                                 'Request Waiter',
                                                                 tableSnapshot
                                                                     .data!.id,
                                                                 tableSnapshot
                                                                     .data!['tableNum']
                                                                     .toString(),
-                                                                tableSnapshot.data![
+                                                                tableSnapshot
+                                                                    .data![
                                                                 'waiterID'],
                                                                 tableSnapshot
                                                                     .data!['restID']);
 
                                                             //Display message that waiter has been requested
-                                                            showDialog<void>(
-                                                              context: context,
-                                                              barrierDismissible:
-                                                              false,
-                                                              // user must tap button!
-                                                              builder: (BuildContext
-                                                              context) {
-                                                                return AlertDialog(
-                                                                  title: const Text(
-                                                                      'Alert!'),
-                                                                  content:
-                                                                  SingleChildScrollView(
-                                                                    child: ListBody(
-                                                                      children: const <
-                                                                          Widget>[
-                                                                        Text(
-                                                                            'Waiter has been requested!'),
-                                                                      ],
+                                                            if (tableSnapshot
+                                                                .data!['waiterRequested'] ==
+                                                                false) {
+                                                              showDialog<void>(
+                                                                context: context,
+                                                                barrierDismissible:
+                                                                false,
+                                                                // user must tap button!
+                                                                builder: (
+                                                                    BuildContext
+                                                                    context) {
+                                                                  return AlertDialog(
+                                                                    title: const Text(
+                                                                        'Alert!'),
+                                                                    content:
+                                                                    SingleChildScrollView(
+                                                                      child: ListBody(
+                                                                        children: const <
+                                                                            Widget>[
+                                                                          Text(
+                                                                              'Waiter has been requested!'),
+                                                                        ],
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                  actions: <Widget>[
-                                                                    TextButton(
-                                                                      child:
-                                                                      const Text(
-                                                                          'OK'),
-                                                                      onPressed: () {
-                                                                        Navigator.of(
-                                                                            context)
-                                                                            .pop();
-                                                                      },
-                                                                    ),
-                                                                  ],
-                                                                );
-                                                              },
-                                                            );
-                                                          }
+                                                                    actions: <
+                                                                        Widget>[
+                                                                      TextButton(
+                                                                        child:
+                                                                        const Text(
+                                                                            'OK'),
+                                                                        onPressed: () {
+                                                                          Navigator
+                                                                              .of(
+                                                                              context)
+                                                                              .pop();
+                                                                          Navigator
+                                                                              .push(
+                                                                            context,
+                                                                            MaterialPageRoute(
+                                                                                builder: (
+                                                                                    context) => const PlacedOrders()),
+                                                                          );
+                                                                        },
+                                                                      ),
+                                                                    ],
+                                                                  );
+                                                                },
+                                                              );
+                                                            }
 
+                                                            //Waiter has been requested
+                                                            else
+                                                            if (tableSnapshot
+                                                                .data!['waiterRequested'] ==
+                                                                true) {
+                                                              showDialog<void>(
+                                                                context: context,
+                                                                barrierDismissible:
+                                                                false,
+                                                                // user must tap button!
+                                                                builder: (
+                                                                    BuildContext
+                                                                    context) {
+                                                                  return AlertDialog(
+                                                                    title: const Text(
+                                                                        'Alert!'),
+                                                                    content:
+                                                                    SingleChildScrollView(
+                                                                      child: ListBody(
+                                                                        children: const <
+                                                                            Widget>[
+                                                                          Text(
+                                                                              'Waiter has already been requested.'),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    actions: <
+                                                                        Widget>[
+                                                                      TextButton(
+                                                                        child:
+                                                                        const Text(
+                                                                            'OK'),
+                                                                        onPressed: () {
+                                                                          Navigator
+                                                                              .of(
+                                                                              context)
+                                                                              .pop();
+                                                                        },
+                                                                      ),
+                                                                    ],
+                                                                  );
+                                                                },
+                                                              );
+                                                            }
+                                                          }
                                                           //NO WAITER AT TABLE ERROR
                                                           else {
                                                             showDialog<void>(
@@ -637,6 +697,11 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                                         Navigator.of(
                                                                             context)
                                                                             .pop();
+                                                                        Navigator.push(
+                                                                          context,
+                                                                          MaterialPageRoute(
+                                                                              builder: (context) => const PlacedOrders()),
+                                                                        );
                                                                       },
                                                                     ),
                                                                   ],
@@ -644,6 +709,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                               },
                                                             );
                                                           }
+
 
                                                           //NO WAITER AT TABLE ERROR
                                                           else if (tableSnapshot
