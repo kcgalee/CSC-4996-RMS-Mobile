@@ -19,7 +19,7 @@ class _AllTables extends State<AllTables> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xffEBEBEB),
         appBar: AppBar(
           title: Text("All Tables"),
           backgroundColor: Colors.white,
@@ -108,7 +108,7 @@ class _AllTables extends State<AllTables> {
                                 margin: EdgeInsets.all(8.0),
                                 padding: EdgeInsets.all(10),
                                 decoration: BoxDecoration(
-                                    color: Colors.grey[100],
+                                    color: Colors.white,
                                     borderRadius: BorderRadius.circular(12),
                                     border: Border.all(color: boxColor,width: 2)
                                 ),
