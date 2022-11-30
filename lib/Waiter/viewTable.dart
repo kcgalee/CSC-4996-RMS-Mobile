@@ -27,7 +27,7 @@ class _ViewTableState extends State<ViewTable> {
   @override
   Widget build(BuildContext context) {
       return Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor:const Color(0xffEBEBEB),
             appBar: AppBar(
               title: Text("Table Orders"),
               backgroundColor: Colors.white,
@@ -80,6 +80,7 @@ class _ViewTableState extends State<ViewTable> {
                   padding: const EdgeInsets.only(top: 20),
                   child: Text('Table: '+ widget.tableNum,style: TextStyle(fontSize: 25,),),
                 ),
+                SizedBox(height: 20,),
                 Expanded(
                   child: StreamBuilder(
                       stream: FirebaseFirestore.instance.collection('tables/' + widget.tableID + '/tableOrders').orderBy('custName').orderBy('timePlaced', descending: true).snapshots(),
@@ -160,7 +161,7 @@ class _ViewTableState extends State<ViewTable> {
       return Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 20),
+                padding: const EdgeInsets.only(top: 20,bottom: 20),
                 child: Text('Table: '+ widget.tableNum,style: TextStyle(fontSize: 25,),),
               ),
               Expanded(
@@ -180,6 +181,7 @@ class _ViewTableState extends State<ViewTable> {
                                   ));
                             }
                         );
+
                       }
                     }),
               ),
