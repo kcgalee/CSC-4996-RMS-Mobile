@@ -79,6 +79,7 @@ class _QRScannerState extends State<QRScanner> {
    }
 
     //return message that table doesn't exist
+   else {
      showDialog<void>(
        context: context,
        barrierDismissible:
@@ -109,7 +110,7 @@ class _QRScannerState extends State<QRScanner> {
                  Navigator.of(
                      context)
                      .pop();
-                 Navigator.push(context, MaterialPageRoute(builder: (context)=> new QRScanner()));
+                 Navigator.push(context, MaterialPageRoute(builder: (context)=> const QRScanner()));
 
                },
              ),
@@ -117,6 +118,7 @@ class _QRScannerState extends State<QRScanner> {
          );
        },
      );
+   }
 
   }
 
