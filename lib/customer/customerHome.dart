@@ -144,22 +144,12 @@ class _CustomerHomeState extends State<CustomerHome> {
                                             ),
                                             StreamBuilder(
                                                 stream: FirebaseFirestore.instance
-                                                    .collection('orders')
-                                                    .where('custID',
-                                                    isEqualTo: FirebaseAuth
-                                                        .instance.currentUser?.uid)
-                                                    .where('itemName', whereNotIn: [
-                                                  'Request Bill',
-                                                  'Request Waiter',
-                                                  'condiment',
-                                                  'utensil'
-                                                ])
-                                                    .orderBy('itemName')
-                                                    .orderBy('timePlaced', descending: false)
+                                                    .collection('users/${userSnapshot.data?.id}/pastVisits')
+                                                    .orderBy('date', descending: true)
                                                     .snapshots(),
-                                                builder: (context, snapshot) {
-                                                  if (!snapshot.hasData ||
-                                                      (snapshot.data?.size == 0)) {
+                                                builder: (context, pastVisitSnapshot) {
+                                                  if (!pastVisitSnapshot.hasData ||
+                                                      (pastVisitSnapshot.data?.size == 0)) {
                                                     return Center(
                                                         child:
                                                         Column(
@@ -178,22 +168,17 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                       height: 420.0,
                                                       child: ListView.builder(
                                                           itemCount:
-                                                          snapshot.data?.docs.length,
+                                                          pastVisitSnapshot.data?.docs.length,
                                                           itemBuilder: (context, index) {
                                                             return PastVisitsTile(
-                                                                taskName: 'Item: ' +
-                                                                    (snapshot.data?.docs[index]['itemName'] ??
-                                                                        ''),
-                                                                time: snapshot.data?.docs[index]['timePlaced'],
-                                                                oStatus: (snapshot.data?.docs[index]
-                                                                ['status'] ??
-                                                                    ''),
-                                                                restID: snapshot.data?.docs[index]['restID'],
+                                                                time: pastVisitSnapshot.data?.docs[index]['date'],
+                                                                waiterName: pastVisitSnapshot.data?.docs[index]['waiterName'],
+                                                                restName: pastVisitSnapshot.data?.docs[index]['restName'],
                                                                 onPressed: () {
                                                                   Navigator.push(
                                                                     context,
                                                                     MaterialPageRoute(
-                                                                        builder: (context) => PastOrders()),
+                                                                        builder: (context) => PastOrders(visitID: pastVisitSnapshot.data?.docs[index].id as String)),
                                                                   );
                                                                 });
                                                           }),

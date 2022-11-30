@@ -43,13 +43,8 @@ class _PastVisitsState extends State<PastVisits> {
             Expanded(
               child: StreamBuilder(
                   stream: FirebaseFirestore.instance
-                      .collection('orders')
-                      .where('custID',
-                          isEqualTo: FirebaseAuth.instance.currentUser?.uid)
-                      .where('itemName', whereNotIn: [
-                    'Request Bill',
-                    'Request Waiter'
-                  ]).snapshots(),
+                      .collection('users/${FirebaseAuth.instance.currentUser?.uid}/pastVisits')
+                      .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData || (snapshot.data?.size == 0)) {
                       return const Center(
@@ -64,19 +59,14 @@ class _PastVisitsState extends State<PastVisits> {
                           itemCount: snapshot.data?.docs.length,
                           itemBuilder: (context, index) {
                             return PastVisitsTile(
-                                taskName: 'Item: ' +
-                                    (snapshot.data?.docs[index]['itemName'] ??
-                                        ''),
                                 time: snapshot.data?.docs[index]['timePlaced'],
-                                oStatus: (snapshot.data?.docs[index]
-                                        ['status'] ??
-                                    ''),
-                                restID: snapshot.data?.docs[index]['restID'],
+                                waiterName: snapshot.data?.docs[index]['waiterName'],
+                                restName: snapshot.data?.docs[index]['restName'],
                                 onPressed: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => PastOrders()),
+                                        builder: (context) => PastOrders(visitID: snapshot.data?.docs[index].id as String)),
                                   );
                                 });
                           });
