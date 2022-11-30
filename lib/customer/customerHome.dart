@@ -284,86 +284,83 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                                 " Info",
                                                               textAlign: TextAlign.center,
                                                             ),
-                                                            content:
-                                                            SizedBox(
-                                                              height: 350.0,
-                                                              child: Column(
-                                                                children: [
-                                                                  //Restaurant rating
+                                                            content: SingleChildScrollView(
+                                                              child: ListBody(
+                                                                children: <Widget>[
+                                                                  Column(
+                                                                    children: [
+                                                                      //Restaurant rating
 
-                                                                  if(restRating != -1)
-                                                                    RatingBar.builder(
-                                                                      itemSize: 40.0,
-                                                                      ignoreGestures: true,
-                                                                      initialRating: restRating,
-                                                                      minRating: 1,
-                                                                      direction: Axis.horizontal,
-                                                                      allowHalfRating: true,
-                                                                      itemCount: 5,
-                                                                      itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                                                                      itemBuilder: (context, _) => const Icon(
-                                                                        Icons.star,
-                                                                        color: Colors.amber,
+                                                                      if(restRating != -1)
+                                                                        RatingBar.builder(
+                                                                          itemSize: 40.0,
+                                                                          ignoreGestures: true,
+                                                                          initialRating: restRating,
+                                                                          minRating: 1,
+                                                                          direction: Axis.horizontal,
+                                                                          allowHalfRating: true,
+                                                                          itemCount: 5,
+                                                                          itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                                                          itemBuilder: (context, _) => const Icon(
+                                                                            Icons.star,
+                                                                            color: Colors.amber,
+                                                                          ),
+                                                                          onRatingUpdate: (restRating) {
+                                                                            restRating;
+                                                                          },
+                                                                        ),
+
+                                                                      if(restRating != -1)
+                                                                        Text('(${restRating.toString()} Stars)'),
+
+                                                                      const Text(
+                                                                          '\nAddress',
+                                                                          style: TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 20,
+                                                                              color: Colors.black)),
+                                                                      Text(address,
                                                                       ),
-                                                                      onRatingUpdate: (restRating) {
-                                                                        restRating;
-                                                                      },
-                                                                    ),
-
-                                                                  if(restRating != -1)
-                                                                    Text('(${restRating.toString()} Stars)'),
-
-                                                                  const Text(
-                                                                      '\nAddress',
-                                                                      style: TextStyle(
-                                                                          fontWeight: FontWeight.bold,
-                                                                          fontSize: 20,
-                                                                          color: Colors.black)),
-                                                                  Text(address,
+                                                                      const Text(
+                                                                          '\nPhone Number',
+                                                                          style: TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 20,
+                                                                              color: Colors.black)),
+                                                                      Text(
+                                                                          phone),
+                                                                      const Text(
+                                                                          "\nWeekday Hours",
+                                                                          style: TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 20,
+                                                                              color: Colors.black)),
+                                                                      Text(openTimeWk +
+                                                                          ' - ' +
+                                                                          closeTimeWk),
+                                                                      const Text(
+                                                                          "\nWeekend Hours",
+                                                                          style: TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 20,
+                                                                              color: Colors.black)),
+                                                                      Text(openTimeWkEnd +
+                                                                          ' - ' +
+                                                                          closeTimeWkEnd),
+                                                                    ],
                                                                   ),
-                                                                  const Text(
-                                                                      '\nPhone Number',
-                                                                      style: TextStyle(
-                                                                          fontWeight: FontWeight.bold,
-                                                                          fontSize: 20,
-                                                                          color: Colors.black)),
-                                                                  Text(
-                                                                      phone),
-                                                                  const Text(
-                                                                      "\nWeekday Hours",
-                                                                      style: TextStyle(
-                                                                          fontWeight: FontWeight.bold,
-                                                                          fontSize: 20,
-                                                                          color: Colors.black)),
-                                                                  Text(openTimeWk +
-                                                                      ' - ' +
-                                                                      closeTimeWk),
-                                                                  const Text(
-                                                                      "\nWeekend Hours",
-                                                                      style: TextStyle(
-                                                                          fontWeight: FontWeight.bold,
-                                                                          fontSize: 20,
-                                                                          color: Colors.black)),
-                                                                  Text(openTimeWkEnd +
-                                                                      ' - ' +
-                                                                      closeTimeWkEnd),
-
-
                                                                 ],
                                                               ),
                                                             ),
-                                                            actions: <
-                                                                Widget>[
+                                                            actions: <Widget>[
                                                               TextButton(
-                                                                onPressed: () =>
-                                                                    Navigator.pop(
-                                                                        context,
-                                                                        'Close'),
-                                                                child: const Text(
-                                                                    'Close'),
+                                                                child: const Text('OK'),
+                                                                onPressed: () {
+                                                                  Navigator.of(context).pop();
+                                                                },
                                                               ),
                                                             ],
-                                                          ),
+                                                          )
                                                         ),
                                                       })
                                                 ]),
