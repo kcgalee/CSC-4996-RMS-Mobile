@@ -18,6 +18,7 @@ class AddRestaurant extends StatefulWidget {
 
 
 class _AddRestaurant extends State<AddRestaurant> {
+  final holidayHours = TextEditingController();
   final restaurantNameController = TextEditingController();
   final addressController = TextEditingController();
   final cityController = TextEditingController();
@@ -45,6 +46,7 @@ class _AddRestaurant extends State<AddRestaurant> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: const Color(0xffEBEBEB),
         drawer: const ManagerNavigationDrawer(),
         appBar: AppBar(
           title: const Text("Add Restaurant"),
@@ -152,9 +154,9 @@ class _AddRestaurant extends State<AddRestaurant> {
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           fixedSize: const Size(120, 56),
-                          backgroundColor: Colors.white,
+                          backgroundColor: Color(0xffEBEBEB),
                           foregroundColor: Colors.black54,
-                          side: const BorderSide(color: Colors.black, width: 2),
+                          elevation: 5,
                         ),
                         onPressed: () async {
                           TimeOfDay? newTime = await showTimePicker(
@@ -191,9 +193,9 @@ class _AddRestaurant extends State<AddRestaurant> {
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           fixedSize: const Size(120, 56),
-                          backgroundColor: Colors.white,
+                          backgroundColor: const Color(0xffEBEBEB),
                           foregroundColor: Colors.black54,
-                          side: const BorderSide(color: Colors.black, width: 2),
+                          elevation: 5,
                         ),
                         onPressed: () async {
                           TimeOfDay? newTime2 = await showTimePicker(
@@ -230,9 +232,9 @@ class _AddRestaurant extends State<AddRestaurant> {
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           fixedSize: const Size(120, 56),
-                          backgroundColor: Colors.white,
+                          backgroundColor: const Color(0xffEBEBEB),
                           foregroundColor: Colors.black54,
-                          side: const BorderSide(color: Colors.black, width: 2),
+                          elevation: 5,
                         ),
                         onPressed: () async {
                           TimeOfDay? newTime2 = await showTimePicker(
@@ -268,9 +270,9 @@ class _AddRestaurant extends State<AddRestaurant> {
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           fixedSize: const Size(120, 56),
-                          backgroundColor: Colors.white,
+                          backgroundColor: const Color(0xffEBEBEB),
                           foregroundColor: Colors.black54,
-                          side: const BorderSide(color: Colors.black, width: 2),
+                          elevation: 5,
                         ),
                         onPressed: () async {
                           TimeOfDay? newTime2 = await showTimePicker(
@@ -287,7 +289,6 @@ class _AddRestaurant extends State<AddRestaurant> {
                         },
                         child: const Text('Closing', textAlign: TextAlign.center,),
                       ),
-
                       SizedBox(
                         child: Text(
                           closeTime2.format(context).toString(),
@@ -296,6 +297,19 @@ class _AddRestaurant extends State<AddRestaurant> {
                       ),
                     ],
                   ),
+                ),
+
+                //Holiday Hours input
+                CustomTextForm(
+                    hintText: 'Holiday Hours',
+                    controller: holidayHours,
+                    validator: (rAddress) =>
+                    rAddress != null && rAddress.trim().length > 150
+                        ? 'Name must be between 1 to 100 characters' : null,
+                    keyboardType: TextInputType.text,
+                    maxLines: 2,
+                    maxLength: 150,
+                    icon: Icon(Icons.access_time_filled_outlined),
                 ),
 
                 Row(
