@@ -62,10 +62,70 @@ class _QRScannerState extends State<QRScannerWaiter> {
     controller.scannedDataStream.listen((Barcode scanData) async {
       if (scanData.format == BarcodeFormat.qrcode && scanData.code != null) {
         controller.pauseCamera();
-        setTable(scanData.code!);
+        checkTable(scanData.code!);
 
       }
     });
+  }
+
+
+  //checkTable validates the QR code is assigned to a table
+  //check if table id exists in tables collection
+  Future<void> checkTable(String tableID) async {
+    if(tableID != '' && tableID.contains('/') == false) {
+      await FirebaseFirestore.instance.collection('tables').doc(tableID)
+          .get()
+          .then((element){
+        //call setTable function if tableID is found in table collection
+        if(element.exists) {
+          setTable(tableID);
+        }
+
+      });
+    }
+
+    //return message that table doesn't exist
+    else {
+      showDialog<void>(
+        context: context,
+        barrierDismissible:
+        false,
+        // user must tap button!
+        builder: (BuildContext
+        context) {
+          return AlertDialog(
+            title: const Text(
+                'Alert!'),
+            content:
+            SingleChildScrollView(
+              child: ListBody(
+                children: const <
+                    Widget>[
+                  Text(
+                      'Incorrect QR code scanned, please scan QR code provided by restaurant.'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child:
+                const Text(
+                    'OK'),
+                onPressed: () {
+
+                  Navigator.of(
+                      context)
+                      .pop();
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const QRScannerWaiter()));
+
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
   }
 
   void setTable (String tableID) async {

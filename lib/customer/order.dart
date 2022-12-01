@@ -185,6 +185,17 @@ class _Order extends State<Order> {
                                           createOrderInfo: createOrderInfo)));
                         }, iconInput: Icons.restaurant,
                       ),
+                      CustomIconButton(text: "OTHER",
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ShowMenuItems(text: 'other',
+                                          restName: restName,
+                                          priority: 1,
+                                          createOrderInfo: createOrderInfo)));
+                        }, iconInput: Icons.baby_changing_station,
+                      ),
                       const SizedBox(height: 20),
 
 

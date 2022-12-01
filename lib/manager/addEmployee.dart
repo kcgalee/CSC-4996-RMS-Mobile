@@ -154,13 +154,13 @@ class _AddEmployee extends State<AddEmployee> {
                 lastNameController.text.toString() == '' || preferredNameController.text.toString() == '' ||
                 phoneController.text.toString() == '' || pwController.text.toString() == '' ||
                 confirmPwController.text.toString() == '') {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text('All fields must be completed'),
                   ));
                 }
 
                 else if(pwController.text.toString() != confirmPwController.text.toString()) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text('Passwords must match'),
                   ));
                 }

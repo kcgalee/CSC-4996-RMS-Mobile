@@ -85,6 +85,12 @@ class _ViewOrder extends State<ViewOrder> {
                              .snapshots(),
                          builder: (context, tableSnapshot) {
 
+                           num totalPrice = 0;
+                           for (int i = 0; i < widget.createOrderInfo.itemCount; i++) {
+                             totalPrice = totalPrice + double
+                                 .parse(
+                                 widget.createOrderInfo.price[i]);
+                           }
                            return Column(
                              children: [
 
@@ -306,6 +312,18 @@ class _ViewOrder extends State<ViewOrder> {
                                    )
                                ),
 
+
+                               //Show total price
+
+
+                               Text("Price: \$ $totalPrice",
+                               style:
+                               const TextStyle(
+                                 fontSize: 22,
+                                 color: Colors.black54,
+                                 fontWeight: FontWeight.bold,
+                               ),
+                               ),
 
                                //==================
                                //PLACE ORDER BUTTON

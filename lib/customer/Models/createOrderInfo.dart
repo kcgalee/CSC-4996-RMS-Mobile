@@ -118,7 +118,15 @@ class CreateOrderInfo{
          custName = element['fName'];
        });
 
-   FirebaseFirestore.instance.collection('orders').add(
+   CollectionReference users = FirebaseFirestore.instance.collection('orders');
+
+   String orderID = users
+       .doc()
+       .id
+       .toString()
+       .trim();
+
+   users.doc(orderID).set(
    {
         'orderComment' : '',
         'custName' : custName,
@@ -136,6 +144,30 @@ class CreateOrderInfo{
        }
    );
 
+   FirebaseFirestore.instance.collection('tables/$tableID/tableOrders').doc(orderID).set(
+       {
+         'orderComment' : '',
+         'custName' : custName,
+         'custID' : uID.toString(),
+         'itemName' : request,
+         'restID' : restID,
+         'tableID' : tableID,
+         'tableNum' : tableNum,
+         'waiterID': waiterID,
+         'status' : 'placed',
+         'timePlaced': Timestamp.fromDate(now),
+         'price' : '0.00',
+         'quantity' : 1,
+         'priority' : 1
+       }
+   );
+
+   FirebaseFirestore.instance.collection('tables').doc(tableID).update(
+     {
+     'waiterRequested' : true
+     }
+   );
+
  }
   Future<void> billRequest(String request, String tableID, String tableNum, String waiterID, String restID) async {
 
@@ -147,7 +179,34 @@ class CreateOrderInfo{
           custName = element['fName'];
         });
 
-    FirebaseFirestore.instance.collection('orders').add(
+    CollectionReference users = FirebaseFirestore.instance.collection('orders');
+
+    String orderID = users
+        .doc()
+        .id
+        .toString()
+        .trim();
+
+
+    users.doc(orderID).set(
+        {
+          'orderComment': '',
+          'priority' : 1,
+          'custName' : custName,
+          'custID' : uID.toString(),
+          'itemName' : request,
+          'restID' : restID,
+          'tableID' : tableID,
+          'tableNum' : tableNum,
+          'waiterID': waiterID,
+          'status' : 'placed',
+          'timePlaced': Timestamp.fromDate(now),
+          'price' : '0.00',
+          'quantity' : 1
+        }
+    );
+
+    FirebaseFirestore.instance.collection('tables/$tableID/tableOrders').doc(orderID).set(
         {
           'orderComment': '',
           'priority' : 1,
