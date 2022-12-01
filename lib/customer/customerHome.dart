@@ -37,6 +37,7 @@ class _CustomerHomeState extends State<CustomerHome> {
       closeTimeWk,
       closeTimeWkEnd,
       address,
+      holiday,
       phone;
   late double restRating;
   late var ratingCount;
@@ -356,6 +357,19 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                                       Text(openTimeWkEnd +
                                                                           ' - ' +
                                                                           closeTimeWkEnd),
+
+                                                                      if(holiday != '')
+                                                                      const Text(
+                                                                          "\nHoliday Hours",
+                                                                          style: TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 20,
+                                                                              color: Colors.black)),
+                                                                      if(holiday != '')
+                                                                      Center(
+                                                                       child: Text(holiday),
+                                                                      )
+
                                                                     ],
                                                                   ),
                                                                 ],
@@ -866,7 +880,7 @@ class _CustomerHomeState extends State<CustomerHome> {
 
       openTimeWkEnd = element['openTimeWKend'];
       closeTimeWkEnd = element['closeTimeWKend'];
-
+      holiday = element['holidayHours'];
       phone = element['phone'];
       address =
       '${element['address']}\n${element['zipcode']} ${element['city']}, ${element['state']}';
