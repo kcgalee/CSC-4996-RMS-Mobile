@@ -5,6 +5,15 @@ import 'package:restaurant_management_system/customer/pastOrders.dart';
 import '../widgets/pastVisitsTile.dart';
 import 'Utility/navigation.dart';
 
+/*
+This page will display restaurants visited by the current user. Each tile
+will be tappable and will send the user to the pastOrders page where
+they can see the orders their table placed from that particular visit.
+The visits are selected from the pastVisits collection in the current users
+collection from the database.
+ */
+
+
 class PastVisits extends StatefulWidget {
   const PastVisits({Key? key}) : super(key: key);
 
@@ -64,6 +73,7 @@ class _PastVisitsState extends State<PastVisits> {
                                 time: snapshot.data?.docs[index]['date'],
                                 waiterName: snapshot.data?.docs[index]['waiterName'],
                                 restName: snapshot.data?.docs[index]['restName'],
+
                                 onPressed: () {
                                   Navigator.push(
                                     context,

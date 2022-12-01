@@ -15,6 +15,15 @@ import '../widgets/pastVisitsTile.dart';
 import 'qrScanner.dart';
 import 'package:restaurant_management_system/customer/Utility/navigation.dart';
 
+/*
+This is the main page for customer users. After log in the customer user will
+end up on this page.  If the customer is not assigned to a table then the page
+will display the Scan QR code button, and the users past visits.
+When the customer user is assigned to a table the page will display buttons that
+the user can use to create orders, view placed orders, view table members, and
+leave a review.
+ */
+
 class CustomerHome extends StatefulWidget {
   const CustomerHome({Key? key}) : super(key: key);
 

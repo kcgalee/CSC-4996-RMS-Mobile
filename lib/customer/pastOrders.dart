@@ -4,6 +4,11 @@ import 'package:flutter/material.dart';
 import '../widgets/pastOrdersTile.dart';
 import 'Utility/navigation.dart';
 
+/*
+This page will display all the orders placed by a table from a past visit.
+The items are selected from the pastVisits collection in the current users
+collection from the database.
+ */
 
 class PastOrders extends StatefulWidget {
 String visitID;

@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+/*
+This page handles all the items added to an order by the current user.
+ */
+
 class CreateOrderInfo{
 
   late List<String> itemID = [];
@@ -76,7 +80,8 @@ class CreateOrderInfo{
         'tableNum' : tableNum,
         'restID' : restID,
         'tableID' : tableID,
-        'waiterID': waiterID,
+      'timeDelivered' : Timestamp.fromDate(now),
+      'waiterID': waiterID,
         'status' : 'placed',
       'timePlaced': Timestamp.fromDate(now),
     }
@@ -135,7 +140,8 @@ class CreateOrderInfo{
          'restID' : restID,
          'tableID' : tableID,
         'tableNum' : tableNum,
-         'waiterID': waiterID,
+     'timeDelivered' : Timestamp.fromDate(now),
+     'waiterID': waiterID,
          'status' : 'placed',
          'timePlaced': Timestamp.fromDate(now),
           'price' : '0.00',
@@ -201,6 +207,7 @@ class CreateOrderInfo{
           'waiterID': waiterID,
           'status' : 'placed',
           'timePlaced': Timestamp.fromDate(now),
+          'timeDelivered' : Timestamp.fromDate(now),
           'price' : '0.00',
           'quantity' : 1
         }

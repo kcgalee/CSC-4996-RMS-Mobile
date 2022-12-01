@@ -9,6 +9,11 @@ import '../widgets/customSubButton.dart';
 import 'Models/createOrderInfo.dart';
 import 'Utility/navigation.dart';
 
+/*
+This page displays the seven menu options for the customer to choose from.
+When a button is selected the category, priority of the category and restaurant
+name will be sent to the showMenuItems page.
+ */
 
 class Order extends StatefulWidget {
   String tableID, restName, restID;
