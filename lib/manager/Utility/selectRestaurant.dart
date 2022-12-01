@@ -29,8 +29,8 @@ class _SelectRestaurant extends State<SelectRestaurant> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: const Color(0xffEBEBEB),
         drawer: const ManagerNavigationDrawer(),
-        backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text('Select Restaurant'),
           backgroundColor: Colors.white,
@@ -69,8 +69,7 @@ class _SelectRestaurant extends State<SelectRestaurant> {
                               padding: const EdgeInsets.only(left: 15,right: 15,bottom: 10),
                               child: Container(
                                 padding: const EdgeInsets.only(right: 5,bottom: 5,top: 5),
-                                decoration: BoxDecoration(color: Colors.grey[100],
-                                    border: Border.all(color: Colors.black54,width: 2),
+                                decoration: BoxDecoration(color: Colors.white,
                                     borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: ListTile(
@@ -79,7 +78,7 @@ class _SelectRestaurant extends State<SelectRestaurant> {
                                       Container(
                                           constraints:BoxConstraints(minHeight: 50),
                                           width: 180,
-                                          decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(10)),
+                                          decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(10)),
                                           child: Center(child: Text(snapshot.data?.docs[index]['restName'] ?? ''))
                                       ),
                                       const SizedBox(width: 5,),

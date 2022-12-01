@@ -19,7 +19,7 @@ class ViewTableTile extends StatelessWidget {
           padding: const EdgeInsets.only(left: 15, right: 15),
           child: Container(
             padding: const EdgeInsets.only(right: 5,left: 15,bottom: 10,top: 10),
-            decoration: BoxDecoration(color: Color(0xffEBEBEB),
+            decoration: BoxDecoration(color: Colors.white,
                 borderRadius: BorderRadius.circular(5),
             ),
             child: Row(

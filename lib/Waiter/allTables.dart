@@ -83,10 +83,10 @@ class _AllTables extends State<AllTables> {
                             var boxColor, text, status;
                             if (snapshot.data?.docs[index]['currentCapacity'] > 0){
                               //if table unavailable then box is red
-                              boxColor = Color(0xFFE24D4D);
+                              boxColor = Colors.redAccent;
                             } else {
                               //green if available
-                              boxColor = Color(0xFF90C68E);
+                              boxColor = Colors.greenAccent;
                             }
                             if (snapshot.data?.docs[index]['waiterID'] == '' || snapshot.data?.docs[index]['waiterName'] == ''){
                               text = ('Table ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? '')
@@ -108,7 +108,7 @@ class _AllTables extends State<AllTables> {
                                 margin: EdgeInsets.all(8.0),
                                 padding: EdgeInsets.all(10),
                                 decoration: BoxDecoration(
-                                    color: Colors.white,
+                                    color: boxColor,
                                     borderRadius: BorderRadius.circular(12),
                                     border: Border.all(color: boxColor,width: 2)
                                 ),
