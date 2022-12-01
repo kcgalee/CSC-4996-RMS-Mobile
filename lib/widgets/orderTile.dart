@@ -56,7 +56,7 @@ class OrderTile extends StatelessWidget {
           padding:
           const EdgeInsets.only(right: 15, left: 10, bottom: 10, top: 10),
           decoration: BoxDecoration(
-              color: Colors.grey[100],
+              color: Colors.white,
               borderRadius: BorderRadius.circular(12),
              ),
           child: FutureBuilder (

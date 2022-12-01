@@ -140,55 +140,49 @@ class _ViewOrder extends State<ViewOrder> {
                                                       children: [
                                                         AlertDialog(
                                                           insetPadding:
-                                                          EdgeInsets.zero,
+                                                          EdgeInsets.only(top: 60, left: 20, right: 20),
                                                           content: Builder(
                                                             builder: (context) {
-                                                              // Get available height and width of the build area of this widget. Make a choice depending on the size.
-                                                              var height =
-                                                                  MediaQuery
-                                                                      .of(
-                                                                      context)
-                                                                      .size
-                                                                      .height;
-                                                              var width =
-                                                                  MediaQuery
-                                                                      .of(
-                                                                      context)
-                                                                      .size
-                                                                      .width;
-
                                                               return SizedBox(
-                                                                  height: 500,
-                                                                  width: 500,
+                                                                  height: MediaQuery.of(context).size.height*0.5,
+                                                                  width: MediaQuery.of(context).size.width,
                                                                   child: Column(
                                                                       children: [
-                                                                        const Text('EDIT ORDER'),
-                                                                        if (widget.createOrderInfo.imgURL[index] == '')
+                                                                        const Padding(
+                                                                          padding: EdgeInsets.only(bottom: 10),
+                                                                          child: Text('EDIT ORDER',
+                                                                            style:
+                                                                            TextStyle(
+                                                                              fontWeight:
+                                                                              FontWeight
+                                                                                  .bold,
+                                                                              fontSize:
+                                                                              20,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        if (widget.createOrderInfo.imgURL[index] != '')
                                                                           SizedBox(
                                                                             height:
-                                                                            250,
+                                                                            MediaQuery.of(context).size.height *0.2 ,
                                                                             width:
-                                                                            350,
+                                                                            MediaQuery.of(context).size.width,
                                                                             child:
-                                                                            Image
-                                                                                .network(
-                                                                                widget.createOrderInfo.imgURL[index]),
+                                                                            Image.network(
+                                                                                widget.createOrderInfo.imgURL[index], fit: BoxFit.cover),
                                                                           ),
                                                                         const SizedBox(
                                                                             height: 20),
-                                                                        Text(
-                                                                          widget.createOrderInfo.itemName[index],
-                                                                          style:
-                                                                          const TextStyle(
-                                                                            fontWeight:
-                                                                            FontWeight
-                                                                                .bold,
-                                                                            fontSize:
-                                                                            20,
-                                                                          ),
+                                                                        Row(
+                                                                          children: [
+                                                                            Text(
+                                                                              widget.createOrderInfo.itemName[index],
+                                                                            ),
+                                                                            Spacer(),
+                                                                            Text(
+                                                                                "\$ ${widget.createOrderInfo.price[index]}"),
+                                                                          ],
                                                                         ),
-                                                                        Text(
-                                                                            "\$ ${widget.createOrderInfo.price[index]}"),
                                                                         const SizedBox(
                                                                             height: 20),
                                                                         CustomTextForm(
