@@ -4,6 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/widgets/ordersPlacedTile.dart';
 import 'Utility/navigation.dart';
 
+/*
+This page wil display all the orders placed by the user selected on the
+tableStatus page. The orders are selected from this path:
+tables collection ->tableID document -> tableOrders. Each tile is tappable
+and will display the item info.
+ */
 
 class ViewMemberOrder extends StatefulWidget {
   final String custID, custName;

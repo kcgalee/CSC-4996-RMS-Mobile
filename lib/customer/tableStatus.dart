@@ -6,6 +6,12 @@ import 'package:restaurant_management_system/customer/viewMemberOrder.dart';
 import 'Utility/navigation.dart';
 import 'customerHome.dart';
 
+/*
+This page allows the user to see all the customer users assigned to their table.
+Each tile is clickable.  The data is selected from the tables collection ->
+tableID document -> tableMembers. After a tile is tapped, the userID related to that
+tile will be sent to the viewMemberOrder page.
+ */
 
 class TableStatus extends StatefulWidget {
 String tableNum, waiterName;

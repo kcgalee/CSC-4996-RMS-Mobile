@@ -4,6 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'customerHome.dart';
 
+/*
+This page uses the devices camera to scan a QR code. The QR qrCode
+contains the tableID and when scanned will add to the current capacity of
+the table document.  The waiter name, restaurant name and tableID
+will be added to the current users document.
+ */
+
 class QRScanner extends StatefulWidget {
   const QRScanner({super.key});
 

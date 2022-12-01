@@ -13,6 +13,12 @@ import '../widgets/customSubButton.dart';
 import 'Models/createOrderInfo.dart';
 import 'customerHome.dart';
 
+/*
+This page displays all of the menu items which are apart of the category
+selected on the order page.  Each tile is tappable, the user will select
+the quantity and leave a comment to add an item to their order.
+ */
+
 class ShowMenuItems extends StatefulWidget {
   final String text, restName;
   final int priority;

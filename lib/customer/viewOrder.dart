@@ -10,7 +10,14 @@ import '../widgets/orderTile.dart';
 import 'Models/createOrderInfo.dart';
 import 'customerHome.dart';
 
-
+/*
+The view order page shows all of the items currently on a customers order before
+it is placed.  The page allows the customer to edit/delete an item from their order.
+All the items in the order are saved in the createOrderInfo object created when
+the user selects the "Menu" button on the customer home page. When the "Place Order"
+is selected at the bottom of the page, the each item will be added to the database
+from the createOrderInfo class
+ */
 
 class ViewOrder extends StatefulWidget {
   CreateOrderInfo createOrderInfo;

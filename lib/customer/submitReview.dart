@@ -8,6 +8,13 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
 import 'customerHome.dart';
 
+/*
+This page gets the restaurantID and waiterID from the users document
+and allows them to leave a review.  The review for the restaurant and
+waiter are saved in the same document in the reviews collection of the
+database.
+ */
+
 class SubmitReview extends StatefulWidget {
   const SubmitReview({Key? key}) : super(key: key);
 

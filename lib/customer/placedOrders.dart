@@ -9,6 +9,15 @@ import '../widgets/customTextForm.dart';
 import 'Utility/navigation.dart';
 import 'customerHome.dart';
 
+/*
+This page displays all orders placed by customer users currently assigned
+to the table.  Each tile will be tappable (unless it is a bill or waiter request),
+editable and deletable.  The order progress will update as the waiter updates it.
+The orders are selected from the tableOrders collection of the database. This
+collection is located in the tables collection inside the table document the
+customer user is assigned to.
+ */
+
 class PlacedOrders extends StatefulWidget {
   const PlacedOrders({Key? key}) : super(key: key);
   @override
@@ -101,7 +110,8 @@ class _PlacedOrders extends State<PlacedOrders> {
 
                                            //Check to see if progress has been made
                                           if(snapshot.data?.docs[index]['status'] == 'placed' && snapshot.data?.docs[index]['itemName'] != 'Request Bill' &&
-                                          snapshot.data?.docs[index]['itemName'] != 'Request Waiter'){
+                                          snapshot.data?.docs[index]['itemName'] != 'Request Waiter' &&
+                                              snapshot.data?.docs[index]['custID'] == FirebaseAuth.instance.currentUser?.uid){
                                             int currentCount = snapshot
                                                 .data
                                                 ?.docs[index]['quantity'];
@@ -280,7 +290,45 @@ class _PlacedOrders extends State<PlacedOrders> {
                                             });
                                           }
 
-                                          //Alert user item can not be edited
+                                          //Alert user item can not be edited because its a different user's order
+                                          else if (snapshot.data?.docs[index]['custID'] != FirebaseAuth.instance.currentUser?.uid) {
+                                            showDialog<void>(
+                                              context: context,
+                                              barrierDismissible:
+                                              false,
+                                              // user must tap button!
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title: const Text(
+                                                      'Cannot edit this item'),
+                                                  content:
+                                                  SingleChildScrollView(
+                                                    child: ListBody(
+                                                      children: const <
+                                                          Widget>[
+                                                        Text(
+                                                            'You can not edit another users order.'),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      child:
+                                                      const Text(
+                                                          'OK'),
+                                                      onPressed: () {
+                                                        Navigator.of(
+                                                            context)
+                                                            .pop();
+                                                      },
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          }
+
+                                          //Alert user item can not be edited bc it's a request for a bill or waiter
                                           else if (snapshot.data?.docs[index]['itemName'] != 'Request Bill' ||
                                               snapshot.data?.docs[index]['itemName'] != 'Request Waiter') {
 
@@ -365,9 +413,49 @@ class _PlacedOrders extends State<PlacedOrders> {
                                         onPressedDelete: (BuildContext ) {
 
                                             //check to see if progress has been made
-                                            if(snapshot.data?.docs[index]['status'] == 'placed'){
+                                            if(snapshot.data?.docs[index]['status'] == 'placed' &&
+                                                snapshot.data?.docs[index]['custID'] == FirebaseAuth.instance.currentUser?.uid)
+                                            {
                                               String collectionRef = 'tables/${userSnapshot.data!['tableID']}/tableOrders';
                                               deleteOrder(snapshot.data?.docs[index].id as String, collectionRef, snapshot.data?.docs[index]['itemName'], snapshot.data?.docs[index]['tableID']);
+                                            }
+
+                                            //Alert user item can not be edited because its a different user's order
+                                            else if (snapshot.data?.docs[index]['custID'] != FirebaseAuth.instance.currentUser?.uid) {
+                                              showDialog<void>(
+                                                context: context,
+                                                barrierDismissible:
+                                                false,
+                                                // user must tap button!
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    title: const Text(
+                                                        'Cannot delete this item'),
+                                                    content:
+                                                    SingleChildScrollView(
+                                                      child: ListBody(
+                                                        children: const <
+                                                            Widget>[
+                                                          Text(
+                                                              'You can not delete another users order.'),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    actions: <Widget>[
+                                                      TextButton(
+                                                        child:
+                                                        const Text(
+                                                            'OK'),
+                                                        onPressed: () {
+                                                          Navigator.of(
+                                                              context)
+                                                              .pop();
+                                                        },
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
                                             }
 
                                             //ALERT USER THAT ORDER IS IN PROGRESS
