@@ -49,7 +49,7 @@ class PastOrdersTile extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20), // Image border
                                 child: SizedBox.fromSize(
                                   size: const Size.fromRadius(30), // Image radius
-                                  child: Image.network('https://picsum.photos/250?image=9', fit: BoxFit.cover),
+                                  child: Image.network(imgURL, fit: BoxFit.cover),
                                 ),
                               ),
                               Padding(

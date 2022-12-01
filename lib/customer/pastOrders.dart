@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../widgets/pastOrdersTile.dart';
 import 'Utility/navigation.dart';
+
 /*
 This page will display all the orders placed by a table from a past visit.
 The items are selected from the pastVisits collection in the current users

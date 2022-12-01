@@ -73,6 +73,7 @@ class _PastVisitsState extends State<PastVisits> {
                                 time: snapshot.data?.docs[index]['date'],
                                 waiterName: snapshot.data?.docs[index]['waiterName'],
                                 restName: snapshot.data?.docs[index]['restName'],
+
                                 onPressed: () {
                                   Navigator.push(
                                     context,
