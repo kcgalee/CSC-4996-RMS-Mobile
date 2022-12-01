@@ -9,8 +9,6 @@ import '../widgets/customSubButton.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 
 class ManagerHome extends StatefulWidget {
-
-
   @override
   State<ManagerHome> createState() => _ManagerHomeState();
 }
@@ -28,6 +26,8 @@ String greeting = '';
           foregroundColor: Colors.black,
           elevation: 0,
         ),
+
+        //obtains manager name from database to greet the user
         body: FutureBuilder(
           future: getManagerName(),
           builder: (context, snapshot) {
@@ -37,9 +37,11 @@ String greeting = '';
                   if (!snapshot.hasData || (snapshot.data?.exists == false)) {
                       return Center(child:CircularProgressIndicator());
                     } else {
+                    //if manager account is not active, then show pending activation widget
                         if (snapshot.data?['isActive'] == false){
                           return pendingActivation();
                         } else {
+                          //else show manager dashboard
                           return SingleChildScrollView(
                               child: Center(
                                 child: Column(
@@ -128,14 +130,13 @@ String greeting = '';
         ));
   }
 
+  //retrieves manager first name from firebase
   Future getManagerName() async {
     await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).get().then(
             (element) {
               greeting = 'Hello, ' + element['fName'] + "!";
             }
-
     );
-
   }
 
   Widget pendingActivation() {
@@ -162,6 +163,4 @@ String greeting = '';
       ],
     );
   }
-
-
 }

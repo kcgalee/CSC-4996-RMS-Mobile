@@ -7,6 +7,8 @@ import 'Utility/MangerNavigationDrawer.dart';
 import 'Utility/manageRestaurantTile.dart';
 import 'addRestaurant.dart';
 
+
+
 class ManageRestaurant extends StatefulWidget {
   const ManageRestaurant({Key? key}) : super(key: key);
 
@@ -15,7 +17,6 @@ class ManageRestaurant extends StatefulWidget {
 }
 
 class _ManageRestaurant extends State<ManageRestaurant> {
-
   List restaurantList = [];
 
   @override
@@ -63,6 +64,7 @@ class _ManageRestaurant extends State<ManageRestaurant> {
               ),
             ),
             Expanded(
+              //retrieves all active restaurants that the manager has, and displays them alphabetically
               child: StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('restaurants').where('managerID', isEqualTo: FirebaseAuth.instance.currentUser?.uid).where('isActive', isEqualTo: true).orderBy('restName').snapshots(),
                   builder: (context, snapshot) {
@@ -72,6 +74,7 @@ class _ManageRestaurant extends State<ManageRestaurant> {
                       return ListView.builder(
                           itemCount: snapshot.data?.docs.length,
                           itemBuilder: (context, index) {
+                            //creates tile for restaurant
                             return ManageRestaurantTile(
                               restaurantName: snapshot.data?.docs[index]['restName'] ?? '',
                               address: (snapshot.data?.docs[index]['address'] ?? '') + '\n' + (snapshot.data?.docs[index]['city'] ?? '') + ', ' + snapshot.data?.docs[index]['state'] ?? '',
@@ -93,6 +96,7 @@ class _ManageRestaurant extends State<ManageRestaurant> {
                                   Navigator.pop(context),
                                 },
                               onTap: (){
+                                //popup to display restaurant information once it is tapped
                                 showModalBottomSheet(
                                     shape: const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.only(topLeft: Radius.circular(24),topRight:Radius.circular(24))
@@ -117,6 +121,7 @@ class _ManageRestaurant extends State<ManageRestaurant> {
                                           const SizedBox(height: 20,),
                                           Text('Weekday Hours: ${snapshot.data?.docs[index]['openTimeWKday']} - ${snapshot.data?.docs[index]['closeTimeWKday']}',style: TextStyle(fontSize: 20,color: Colors.white),),
                                           Text('Weekend Hours: ${snapshot.data?.docs[index]['openTimeWKend']} - ${snapshot.data?.docs[index]['closeTimeWKend']}',style: TextStyle(fontSize: 20,color: Colors.white),),
+                                          Text(snapshot.data?.docs[index]['holidayHours'] == '' ? 'Holiday Hours: N/A':'Holiday Hours: ${snapshot.data?.docs[index]['holidayHours']}',style: TextStyle(fontSize: 20,color: Colors.white),),
                                         ],
                                       ),
                                     )
@@ -134,6 +139,7 @@ class _ManageRestaurant extends State<ManageRestaurant> {
     );
   }
 
+  //checks if restaurant is currently in use by checking the capacity at each table
   checkRestaurant(var restID) async {
     bool status = false;
     await FirebaseFirestore.instance.collection('tables').where('restID', isEqualTo: restID).get().then(
@@ -146,14 +152,15 @@ class _ManageRestaurant extends State<ManageRestaurant> {
             });
     return status;
   }
+
   
-   deleteRestaurant(var id) async {
-    bool status = await checkRestaurant(id);
-    if (status){
+ deleteRestaurant(var id) async {
+  bool status = await checkRestaurant(id);
+  if (status){
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('This restaurant could not be deleted'),
       ));
-    } else {
+  } else {
       var restaurant = await FirebaseFirestore.instance.collection('restaurants').doc(id).get();
       await restaurant.reference.update({
         'isActive': false,

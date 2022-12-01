@@ -125,6 +125,7 @@ class _ManageEmployeeState extends State<ManageEmployee> {
     );
   }
 
+  //function to delete a waiter
   deleteWaiter(id) async{
     await FirebaseFirestore.instance.collection('tables').where('waiterID', isEqualTo: id).get().then(
             (tables) {
@@ -147,12 +148,13 @@ class _ManageEmployeeState extends State<ManageEmployee> {
                 });
               }
             });
-    //mark the waiter account as inactive. Can't use delete() function to
+    //Can't use delete() function to
     //remove acct from firebase authentication because it only removes the acct of the
     //user that is currently signed in (which would be the manager since they are
     //the one that is deleting the waiter account(s)). To use the delete() function
     //on an account that is not your own, you must pay $ to upgrade your firebase plan
     //to have access to cloud functions to do this.
+    //As an alternative, we will flag the waiter account as inactive
     await FirebaseFirestore.instance.collection('users').doc(id).update({
       'isActive': false,
     });
