@@ -54,7 +54,10 @@ class _SelectWaiter extends State<SelectWaiter> {
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
-                      return Center(child: Text('You currently have no waiters at ${widget.restName}'),);
+                      return Padding(
+                        padding: const EdgeInsets.all(50.0),
+                        child: Center(child: Text('You currently have no waiters at ${widget.restName}'),),
+                      );
                     } else {
                       return ListView.builder(
                           itemCount: snapshot.data?.docs.length,
