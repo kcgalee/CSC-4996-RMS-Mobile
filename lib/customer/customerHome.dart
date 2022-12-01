@@ -653,7 +653,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                       onPressed: () {
                                                         if (tableSnapshot.data![
                                                         'billRequested'] !=
-                                                            true) {
+                                                            true && tableSnapshot.data!['waiterID'] != '') {
                                                           createOrderInfo
                                                               .billRequest(
                                                               'Request Bill',
