@@ -134,106 +134,109 @@ class RegistrationBodyState extends State<RegistrationBody> {
         child: SizedBox(
             width: 300.0,
             child: SingleChildScrollView(
-                child: Wrap(
-                  runSpacing: 18.0,
-                  children: [
-                    CustomTextForm(
-                      hintText: "First Name",
-                      controller: firstNameController,
-                      keyboardType: TextInputType.name,
-                      icon: const Icon(Icons.person, color: Colors.black),
-                      validator: null,
-                      maxLines: 1,
-                      maxLength: 30,
-                    ),
-                    CustomTextForm(
-                      hintText: "Last Name",
-                      controller: lastNameController,
-                      keyboardType: TextInputType.name,
-                      icon: const Icon(Icons.person, color: Colors.black),
-                      validator: null,
-                      maxLines: 1,
-                      maxLength: 30,
-                    ),
-                    CustomTextForm(
-                        hintText: "Email",
-                        controller: emailController,
-                        validator: (email) =>
-                        email != null && !EmailValidator.validate(email)
-                            ? 'Enter valid email' : null,
-                        keyboardType: TextInputType.emailAddress,
+                child: Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: Wrap(
+                    runSpacing: 0.0,
+                    children: [
+                      CustomTextForm(
+                        hintText: "First Name",
+                        controller: firstNameController,
+                        keyboardType: TextInputType.name,
+                        icon: const Icon(Icons.person, color: Colors.black),
+                        validator: null,
                         maxLines: 1,
-                        maxLength: 40,
-                        icon: const Icon(Icons.email)
-                    ),
+                        maxLength: 30,
+                      ),
+                      CustomTextForm(
+                        hintText: "Last Name",
+                        controller: lastNameController,
+                        keyboardType: TextInputType.name,
+                        icon: const Icon(Icons.person, color: Colors.black),
+                        validator: null,
+                        maxLines: 1,
+                        maxLength: 30,
+                      ),
+                      CustomTextForm(
+                          hintText: "Email",
+                          controller: emailController,
+                          validator: (email) =>
+                          email != null && !EmailValidator.validate(email)
+                              ? 'Enter valid email' : null,
+                          keyboardType: TextInputType.emailAddress,
+                          maxLines: 1,
+                          maxLength: 40,
+                          icon: const Icon(Icons.email)
+                      ),
 
-                    PasswordTextField(
-                      controller: pwController,
-                      keyboardType: TextInputType.name,
-                      icon: const Icon(Icons.lock, color: Colors.black),
-                      hintText: 'Password',
-                      validator: (value) =>
-                      value != null && value.length < 6
-                          ? 'Password must be at least 6 characters' : null,
-                      maxLength: 100,
-                      maxLines: 1,
-                    ),
-                    PasswordTextField(
-                      controller: confirmPwController,
-                      keyboardType: TextInputType.name,
-                      icon: const Icon(Icons.lock, color: Colors.black),
-                      hintText: 'Confirm Password',
-                      validator: null,
-                      maxLength: 100,
-                      maxLines: 1,
-                    ),
-                    SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            fixedSize: const Size(330, 56),
-                            textStyle: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
+                      PasswordTextField(
+                        controller: pwController,
+                        keyboardType: TextInputType.name,
+                        icon: const Icon(Icons.lock, color: Colors.black),
+                        hintText: 'Password',
+                        validator: (value) =>
+                        value != null && value.length < 6
+                            ? 'Password must be at least 6 characters' : null,
+                        maxLength: 100,
+                        maxLines: 1,
+                      ),
+                      PasswordTextField(
+                        controller: confirmPwController,
+                        keyboardType: TextInputType.name,
+                        icon: const Icon(Icons.lock, color: Colors.black),
+                        hintText: 'Confirm Password',
+                        validator: null,
+                        maxLength: 100,
+                        maxLines: 1,
+                      ),
+                      SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              fixedSize: const Size(330, 56),
+                              textStyle: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                              backgroundColor: Colors.black87,
+                              foregroundColor: Colors.white,
+                              side: const BorderSide(
+                                color: Colors.black38,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
                             ),
-                            backgroundColor: Colors.black87,
-                            foregroundColor: Colors.white,
-                            side: const BorderSide(
-                              color: Colors.black38,
-                            ),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                          ),
-                          child: const Text("Register"),
-                          onPressed: () async {
-                            if (firstNameController.text.trim() == '' || lastNameController.text.trim() == '') {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                        'All fields must be completed.'),
-                                  ));
-                            }
-                            else {
-                              if (pwController.text.trim() ==
-                                  confirmPwController.text.trim()) {
-                                await registrationChecker(emailController.text
-                                    .trim(),
-                                    pwController.text.trim(),
-                                    firstNameController.text.trim(),
-                                    lastNameController.text.trim());
-                              }
-                              else {
+                            child: const Text("Register"),
+                            onPressed: () async {
+                              if (firstNameController.text.trim() == '' || lastNameController.text.trim() == '') {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                       content: Text(
-                                          'Account could not be created. Passwords must match.'),
+                                          'All fields must be completed.'),
                                     ));
                               }
-                            }
-                          },
-                        )
-                    )
-                  ],
+                              else {
+                                if (pwController.text.trim() ==
+                                    confirmPwController.text.trim()) {
+                                  await registrationChecker(emailController.text
+                                      .trim(),
+                                      pwController.text.trim(),
+                                      firstNameController.text.trim(),
+                                      lastNameController.text.trim());
+                                }
+                                else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            'Account could not be created. Passwords must match.'),
+                                      ));
+                                }
+                              }
+                            },
+                          )
+                      )
+                    ],
+                  )
                 )
             )
         )
@@ -246,225 +249,233 @@ class RegistrationBodyState extends State<RegistrationBody> {
       child: SizedBox(
         width: 300.0,
         child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomTextForm(
-                  hintText: "First Name",
-                  controller: firstNameController,
-                  keyboardType: TextInputType.name,
-                  icon: const Icon(Icons.person, color: Colors.black),
-                  validator: null,
-                  maxLines: 1,
-                  maxLength: 30,
-                ),
-                CustomTextForm(
-                  hintText: "Last Name",
-                  controller: lastNameController,
-                  keyboardType: TextInputType.name,
-                  icon: const Icon(Icons.person, color: Colors.black),
-                  validator: null,
-                  maxLines: 1,
-                  maxLength: 30,
-                ),
-                CustomTextForm(
-                    hintText: "Email",
-                    controller: emailController,
-                    validator: (email) =>
-                    email != null && !EmailValidator.validate(email)
-                        ? 'Enter valid email' : null,
-                    keyboardType: TextInputType.emailAddress,
+            child: Padding(
+              padding: EdgeInsets.only(top: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomTextForm(
+                    hintText: "First Name",
+                    controller: firstNameController,
+                    keyboardType: TextInputType.name,
+                    icon: const Icon(Icons.person, color: Colors.black),
+                    validator: null,
                     maxLines: 1,
-                    maxLength: 40,
-                    icon: const Icon(Icons.email)
-                ),
-                CustomTextForm(
-                    hintText: "Phone Number",
-                    controller: managerPhoneController,
-                    validator: (number) =>
-                    number != null && !phonePattern.hasMatch(number)
-                        ? 'Enter valid phone number (ex: 222-333-6776)' : null,
-                    keyboardType: TextInputType.phone,
+                    maxLength: 30,
+                  ),
+                  CustomTextForm(
+                    hintText: "Last Name",
+                    controller: lastNameController,
+                    keyboardType: TextInputType.name,
+                    icon: const Icon(Icons.person, color: Colors.black),
+                    validator: null,
                     maxLines: 1,
-                    maxLength: 12,
-                    icon: const Icon(Icons.phone)
-                ),
-                PasswordTextField(
-                  controller: pwController,
-                  keyboardType: TextInputType.name,
-                  icon: const Icon(Icons.lock, color: Colors.black),
-                  hintText: 'Password',
-                  validator: (value) =>
-                  value != null && value.length < 6
-                      ? 'Password must be at least 6 characters' : null,
-                  maxLength: 100,
-                  maxLines: 1,
-                ),
-                PasswordTextField(
-                  controller: confirmPwController,
-                  keyboardType: TextInputType.name,
-                  icon: const Icon(Icons.lock, color: Colors.black),
-                  hintText: 'Confirm Password',
-                  validator: null,
-                  maxLength: 100,
-                  maxLines: 1,
-                ),
-                const SizedBox(height: 30,),
-                const Text("Restaurant Information"),
-                CustomTextForm(
-                  hintText: "Restaurant Name",
-                  controller: resNameController,
-                  keyboardType: TextInputType.name,
-                  icon: const Icon(Icons.food_bank),
-                  validator: null,
-                  maxLines: 1,
-                  maxLength: 40,
-                ),
-                CustomTextForm(
-                    hintText: "Phone Number",
-                    controller: restPhoneController,
-                    validator: (number) =>
-                    number != null && !phonePattern.hasMatch(number)
-                        ? 'Enter valid phone number (ex: 222-333-6776)' : null,
-                    keyboardType: TextInputType.phone,
-                    maxLines: 1,
-                    maxLength: 12,
-                    icon: const Icon(Icons.phone)
-                ),
-                CustomTextForm(
-                    hintText: "Address",
-                    controller: addressController,
-                    validator: (rAddress) =>
-                    rAddress != null && rAddress.trim().length > 100
-                        ? 'Name must be between 1 to 100 characters' : null,
-                    keyboardType: TextInputType.text,
-                    maxLines: 1,
+                    maxLength: 30,
+                  ),
+                  CustomTextForm(
+                      hintText: "Email",
+                      controller: emailController,
+                      validator: (email) =>
+                      email != null && !EmailValidator.validate(email)
+                          ? 'Enter valid email' : null,
+                      keyboardType: TextInputType.emailAddress,
+                      maxLines: 1,
+                      maxLength: 40,
+                      icon: const Icon(Icons.email)
+                  ),
+                  CustomTextForm(
+                      hintText: "Phone Number",
+                      controller: managerPhoneController,
+                      validator: (number) =>
+                      number != null && !phonePattern.hasMatch(number)
+                          ? 'Enter valid phone number (ex: 222-333-6776)' : null,
+                      keyboardType: TextInputType.phone,
+                      maxLines: 1,
+                      maxLength: 12,
+                      icon: const Icon(Icons.phone)
+                  ),
+                  PasswordTextField(
+                    controller: pwController,
+                    keyboardType: TextInputType.name,
+                    icon: const Icon(Icons.lock, color: Colors.black),
+                    hintText: 'Password',
+                    validator: (value) =>
+                    value != null && value.length < 6
+                        ? 'Password must be at least 6 characters' : null,
                     maxLength: 100,
-                    icon: const Icon(Icons.home)
-                ),
-                CustomTextForm(
-                    hintText: "City",
-                    controller: cityController,
-                    validator: (city) =>
-                    city != null && city.trim().length > 40
-                        ? 'City must be between 1 to 40 characters' : null,
-                    keyboardType: TextInputType.text,
+                    maxLines: 1,
+                  ),
+                  PasswordTextField(
+                    controller: confirmPwController,
+                    keyboardType: TextInputType.name,
+                    icon: const Icon(Icons.lock, color: Colors.black),
+                    hintText: 'Confirm Password',
+                    validator: null,
+                    maxLength: 100,
+                    maxLines: 1,
+                  ),
+                  const SizedBox(height: 30,),
+                  const Text("Restaurant Information",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,),
+                  ),
+                  CustomTextForm(
+                    hintText: "Restaurant Name",
+                    controller: resNameController,
+                    keyboardType: TextInputType.name,
+                    icon: const Icon(Icons.food_bank),
+                    validator: null,
                     maxLines: 1,
                     maxLength: 40,
-                    icon: const Icon(Icons.location_city)
-                ),
-                CustomTextForm(
-                    hintText: "State",
-                    controller: stateController,
-                    validator: (state) =>
-                    state != null && !statePattern.hasMatch(state)
-                        ? 'State invalid (format: MI)' : null,
-                    keyboardType: TextInputType.text,
-                    maxLines: 1,
-                    maxLength: 2,
-                    icon: const Icon(Icons.location_city)
-                ),
-                CustomTextForm(
-                    hintText: "Zip Code",
-                    controller: zipController,
-                    validator: (zip) =>
-                    zip != null && !zipPattern.hasMatch(zip)
-                        ? 'Zip code invalid (format: 12345 or 12345-2222)'
-                        : null,
-                    keyboardType: TextInputType.number,
-                    maxLines: 1,
-                    maxLength: 10,
-                    icon: const Icon(Icons.numbers)
-                ),
-                SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        fixedSize: Size(330, 56),
-                        textStyle: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                        ),
-                        backgroundColor: Colors.black87,
-                        foregroundColor: Colors.white,
-                        side: BorderSide(
-                          color: Colors.black38,
-                        ),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                      ),
-                      child: const Text("Register"),
-                      onPressed: () {
-                        //Checks to see if all fields are completed
-                        if (firstNameController.text.trim() == '' || lastNameController.text.trim() == ''
-                        || restPhoneController.text.trim() == '' || managerPhoneController.text.trim() == ''
-                        || addressController.text.trim() == '' || zipController.text.trim() == ''
-                        || resNameController.text.trim() == '' || stateController.text.trim() == '' ||
-                        cityController.text.trim() == '') {
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                            content: Text('All fields must be completed'),
-                          ));
-                        }
-                        //checks to see password matches
-                        else if (pwController.text.trim() !=
-                            confirmPwController.text.trim()){
-                          Navigator.pop(context, 'Confirm');
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text('Account could not be created. Passwords must match.'),
-                          ));
-                        }
-                        else {
-                          showDialog<String>(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                          title: const Text('You are registering a manager account. Do you confirm?'),
-                          content: const Text('Approval process will take 24 hours. Please check back after registering.'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, 'Cancel'),
-                              child: const Text('Cancel'),
+                  ),
+                  CustomTextForm(
+                      hintText: "Phone Number",
+                      controller: restPhoneController,
+                      validator: (number) =>
+                      number != null && !phonePattern.hasMatch(number)
+                          ? 'Enter valid phone number (ex: 222-333-6776)' : null,
+                      keyboardType: TextInputType.phone,
+                      maxLines: 1,
+                      maxLength: 12,
+                      icon: const Icon(Icons.phone)
+                  ),
+                  CustomTextForm(
+                      hintText: "Address",
+                      controller: addressController,
+                      validator: (rAddress) =>
+                      rAddress != null && rAddress.trim().length > 100
+                          ? 'Name must be between 1 to 100 characters' : null,
+                      keyboardType: TextInputType.text,
+                      maxLines: 1,
+                      maxLength: 100,
+                      icon: const Icon(Icons.home)
+                  ),
+                  CustomTextForm(
+                      hintText: "City",
+                      controller: cityController,
+                      validator: (city) =>
+                      city != null && city.trim().length > 40
+                          ? 'City must be between 1 to 40 characters' : null,
+                      keyboardType: TextInputType.text,
+                      maxLines: 1,
+                      maxLength: 40,
+                      icon: const Icon(Icons.location_city)
+                  ),
+                  CustomTextForm(
+                      hintText: "State",
+                      controller: stateController,
+                      validator: (state) =>
+                      state != null && !statePattern.hasMatch(state)
+                          ? 'State invalid (format: MI)' : null,
+                      keyboardType: TextInputType.text,
+                      maxLines: 1,
+                      maxLength: 2,
+                      icon: const Icon(Icons.location_city)
+                  ),
+                  CustomTextForm(
+                      hintText: "Zip Code",
+                      controller: zipController,
+                      validator: (zip) =>
+                      zip != null && !zipPattern.hasMatch(zip)
+                          ? 'Zip code invalid (format: 12345 or 12345-2222)'
+                          : null,
+                      keyboardType: TextInputType.number,
+                      maxLines: 1,
+                      maxLength: 10,
+                      icon: const Icon(Icons.numbers)
+                  ),
+                  SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            fixedSize: Size(330, 56),
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
                             ),
-                            TextButton(
-                              onPressed: () async {
-                                if (pwController.text.trim() ==
-                                    confirmPwController.text.trim()) {
-                                  if (await managerRegistrationChecker(
-                                      emailController.text.trim(),
-                                      pwController.text.trim(),
-                                      firstNameController.text.trim(),
-                                      lastNameController.text.trim(),
-                                      managerPhoneController.text.trim(),
-                                      resNameController.text.trim(),
-                                      addressController.text.trim(),
-                                      cityController.text.trim(),
-                                      stateController.text.trim(),
-                                      zipController.text.trim(),
-                                      restPhoneController.text.trim()) == true){
-                                    Navigator.pop(context, 'Confirm');
-                                    await FirebaseAuth.instance.signOut();
-                                    Navigator.push(
-                                        context, MaterialPageRoute(builder: (context) => Login()));
-                                  }
-                                }
-                                else {
-                                  Navigator.pop(context, 'Confirm');
-                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                    content: Text('Account could not be created.'),
-                                  ));
-                                }
-                              },
-                              child: const Text('Confirm'),
+                            backgroundColor: Colors.black87,
+                            foregroundColor: Colors.white,
+                            side: BorderSide(
+                              color: Colors.black38,
                             ),
-                          ],
-                        ),
-                      );
-                        }
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                          ),
+                          child: const Text("Register"),
+                          onPressed: () {
+                            //Checks to see if all fields are completed
+                            if (firstNameController.text.trim() == '' || lastNameController.text.trim() == ''
+                                || restPhoneController.text.trim() == '' || managerPhoneController.text.trim() == ''
+                                || addressController.text.trim() == '' || zipController.text.trim() == ''
+                                || resNameController.text.trim() == '' || stateController.text.trim() == '' ||
+                                cityController.text.trim() == '') {
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                content: Text('All fields must be completed'),
+                              ));
+                            }
+                            //checks to see password matches
+                            else if (pwController.text.trim() !=
+                                confirmPwController.text.trim()){
+                              Navigator.pop(context, 'Confirm');
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text('Account could not be created. Passwords must match.'),
+                              ));
+                            }
+                            else {
+                              showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text('You are registering a manager account. Do you confirm?'),
+                                  content: const Text('Approval process will take 24 hours. Please check back after registering.'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context, 'Cancel'),
+                                      child: const Text('Cancel'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () async {
+                                        if (pwController.text.trim() ==
+                                            confirmPwController.text.trim()) {
+                                          if (await managerRegistrationChecker(
+                                              emailController.text.trim(),
+                                              pwController.text.trim(),
+                                              firstNameController.text.trim(),
+                                              lastNameController.text.trim(),
+                                              managerPhoneController.text.trim(),
+                                              resNameController.text.trim(),
+                                              addressController.text.trim(),
+                                              cityController.text.trim(),
+                                              stateController.text.trim(),
+                                              zipController.text.trim(),
+                                              restPhoneController.text.trim()) == true){
+                                            Navigator.pop(context, 'Confirm');
+                                            await FirebaseAuth.instance.signOut();
+                                            Navigator.push(
+                                                context, MaterialPageRoute(builder: (context) => Login()));
+                                          }
+                                        }
+                                        else {
+                                          Navigator.pop(context, 'Confirm');
+                                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                            content: Text('Account could not be created.'),
+                                          ));
+                                        }
+                                      },
+                                      child: const Text('Confirm'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
 
-    }
-                    )
-                )
-              ],
+                          }
+                      )
+                  ),
+                  const SizedBox(height: 20)
+                ],
+              )
             )
         ),
       ),

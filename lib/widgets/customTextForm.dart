@@ -26,10 +26,6 @@ class CustomTextForm extends StatelessWidget {
               counter: Offstage(),
               hintText: hintText,
               prefixIcon: icon,
-              enabledBorder: const OutlineInputBorder(
-                borderSide: BorderSide(width: 2),
-              ),
-              border: OutlineInputBorder()
           ),
         ),
       );
