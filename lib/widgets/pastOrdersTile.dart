@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class PastOrdersTile extends StatelessWidget {
   late final String taskName;
@@ -34,7 +32,7 @@ class PastOrdersTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
               return Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15, top: 25),
+                padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.grey[200],
@@ -43,47 +41,54 @@ class PastOrdersTile extends StatelessWidget {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            Container(
-                              height: 100.0,
-                              width: 100.0,
-                              decoration: const BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(12.0),
-                                    bottomLeft: Radius.circular(12.0)),
+                        Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Row(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(20), // Image border
+                                child: SizedBox.fromSize(
+                                  size: const Size.fromRadius(30), // Image radius
+                                  child: Image.network('https://picsum.photos/250?image=9', fit: BoxFit.cover),
+                                ),
                               ),
-                              child: Image.asset('assets/images/pizza.jpg'),
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("$taskName",
-                                    style: const TextStyle(
-                                      color: Colors.black38,
-                                      fontSize: 20,)
-                                ),
-                                Text("\n\$$price",
-                                    style: const TextStyle(
-                                      color: Colors.black38,
-                                      fontSize: 15,)
-                                ),
-                                Text("\n$quantity",
-                                    style: const TextStyle(
-                                      color: Colors.black38,
-                                      fontSize: 15,)
-                                ),
-                                Text("\nOrdered By: $custName",
-                                    style: const TextStyle(
-                                        color: Colors.black54,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold)
-                                ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text("$taskName x",
+                                            style: const TextStyle(
+                                              color: Colors.black38,
+                                              fontSize: 20,)
+                                        ),
+                                        Text("$quantity",
+                                            style: const TextStyle(
+                                              color: Colors.black38,
+                                              fontSize: 20,)
+                                        ),
+                                      ],
+                                    ),
+                                    Text("\$$price",
+                                        style: const TextStyle(
+                                          color: Colors.black38,
+                                          fontSize: 15,)
+                                    ),
+                                    Text("Ordered By: $custName",
+                                        style: const TextStyle(
+                                            color: Colors.black54,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold)
+                                    ),
 
-                              ],
-                            ),
-                          ],
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ]),
                 ),
