@@ -600,7 +600,8 @@ class RegistrationBodyState extends State<RegistrationBody> {
       'openTimeWKend': '10:30 AM',
       'closeTimeWKend': '10:30 pm',
       'openTimeWKday': '8:30 AM',
-      'closeTimeWKday': '8:00 PM'
+      'closeTimeWKday': '8:00 PM',
+      'holidayHours': '',
     }
     );
 

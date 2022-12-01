@@ -83,7 +83,8 @@ class _ManageRestaurant extends State<ManageRestaurant> {
                                           rOpenWKday: snapshot.data?.docs[index]['openTimeWKday'] ?? '',
                                           rCloseWKday: snapshot.data?.docs[index]['closeTimeWKday'] ?? '',
                                           rOpenWKend: snapshot.data?.docs[index]['openTimeWKend'] ?? '',
-                                          rCloseWKend: snapshot.data?.docs[index]['closeTimeWKend'] ?? '')
+                                          rCloseWKend: snapshot.data?.docs[index]['closeTimeWKend'] ?? '',
+                                          holiday: snapshot.data?.docs[index]['holidayHours'] ?? '')
                                       )
                                   )
                                 },

@@ -305,7 +305,7 @@ class _AddRestaurant extends State<AddRestaurant> {
                     controller: holidayHours,
                     validator: (rAddress) =>
                     rAddress != null && rAddress.trim().length > 150
-                        ? 'Name must be between 1 to 100 characters' : null,
+                        ? 'Name must be between 1 to 150 characters' : null,
                     keyboardType: TextInputType.text,
                     maxLines: 2,
                     maxLength: 150,
@@ -355,7 +355,8 @@ class _AddRestaurant extends State<AddRestaurant> {
                                 stateController.text.trim(),
                                 zipController.text.trim(),
                                 emailController.text.trim(),
-                                phoneNumberController.text.trim());
+                                phoneNumberController.text.trim(),
+                                holidayHours.text.trim());
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) => ManageRestaurant()
                                 )
@@ -370,7 +371,7 @@ class _AddRestaurant extends State<AddRestaurant> {
   }
 
   createRestaurant(String rName, String rAddress, String rCity, String rState,
-      String rZip, String rEmail, String rPhone) async{
+      String rZip, String rEmail, String rPhone, String hHours) async{
     await FirebaseFirestore.instance.collection('restaurants').doc().set({
       'address': rAddress,
       'restName': rName,
@@ -386,6 +387,7 @@ class _AddRestaurant extends State<AddRestaurant> {
       'managerID': uID,
       'isActive': true,
       'creationDate': Timestamp.now(),
+      'holidayHours': hHours,
     });
   }
 
