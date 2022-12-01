@@ -71,8 +71,8 @@ class MenuTile extends StatelessWidget {
                 ],
               ),
               child: Container(
-                padding: const EdgeInsets.only(right: 5,left: 15,bottom: 10,top: 10),
-                decoration: BoxDecoration(color: Colors.grey[100],
+                padding: const EdgeInsets.only(right: 15,left: 15,bottom: 10,top: 10),
+                decoration: BoxDecoration(color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
                 ),
                 child: Column(
@@ -90,7 +90,6 @@ class MenuTile extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 10,),
-                    Divider(color: Colors.black, thickness: 1),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -100,7 +99,6 @@ class MenuTile extends StatelessWidget {
                             style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
                       ],
                     ),
-                    Divider(color: Colors.black, thickness: 1),
                     Text(subTitle,
                         style: const TextStyle(color: Colors.black,fontSize: 15)),
                   ],
@@ -153,8 +151,8 @@ class MenuTile extends StatelessWidget {
                 ],
               ),
               child: Container(
-                padding: const EdgeInsets.only(right: 5,left: 15,bottom: 10,top: 10),
-                decoration: BoxDecoration(color: Colors.grey[100],
+                padding: const EdgeInsets.only(right: 15,left: 15,bottom: 10,top: 15),
+                decoration: BoxDecoration(color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
                 ),
                 child: Column(
@@ -169,7 +167,6 @@ class MenuTile extends StatelessWidget {
                           style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
                     ],
                   ),
-                  Divider(color: Colors.black, thickness: 1),
 
                     Text(subTitle,
                         style: const TextStyle(color: Colors.black,fontSize: 15)),

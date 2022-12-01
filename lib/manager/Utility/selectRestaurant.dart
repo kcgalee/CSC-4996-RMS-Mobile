@@ -81,7 +81,7 @@ class _SelectRestaurant extends State<SelectRestaurant> {
                                           decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(10)),
                                           child: Center(child: Text(snapshot.data?.docs[index]['restName'] ?? ''))
                                       ),
-                                      const SizedBox(width: 5,),
+                                      const SizedBox(width: 15,),
                                       Expanded(child: Text((snapshot.data?.docs[index]['address'] ?? '') + '\n' + (snapshot.data?.docs[index]['city'] ?? '') + ', ' + (snapshot.data?.docs[index]['state'] ?? ''))),
                                     ],
                                   ),
