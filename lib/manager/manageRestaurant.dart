@@ -105,7 +105,8 @@ class _ManageRestaurant extends State<ManageRestaurant> {
                                     context: context,
                                     builder: (context) => Padding(
                                       padding: const EdgeInsets.all(20),
-                                      child: Column(
+                                      child: SingleChildScrollView (
+                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
@@ -124,6 +125,7 @@ class _ManageRestaurant extends State<ManageRestaurant> {
                                           Text(snapshot.data?.docs[index]['holidayHours'] == '' ? 'Holiday Hours: N/A':'Holiday Hours: ${snapshot.data?.docs[index]['holidayHours']}',style: TextStyle(fontSize: 20,color: Colors.white),),
                                         ],
                                       ),
+                                    )
                                     )
                                 );
                               },
