@@ -32,6 +32,7 @@ class EditRestaurant extends StatefulWidget {
 
 class _EditRestaurant extends State<EditRestaurant> {
   final restaurantNameController = TextEditingController();
+  final holidayHours = TextEditingController();
   final addressController = TextEditingController();
   final cityController = TextEditingController();
   final stateController = TextEditingController();
@@ -202,9 +203,9 @@ class _EditRestaurant extends State<EditRestaurant> {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       fixedSize: Size(120, 56),
-                      backgroundColor: Colors.white,
+                      backgroundColor: const Color(0xffEBEBEB),
                       foregroundColor: Colors.black54,
-                      side: const BorderSide(color: Colors.black, width: 2),
+                      elevation: 5,
                     ),
                     onPressed: () async {
                       TimeOfDay? newTime = await showTimePicker(
@@ -241,9 +242,9 @@ class _EditRestaurant extends State<EditRestaurant> {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       fixedSize: Size(120, 56),
-                      backgroundColor: Colors.white,
+                      backgroundColor: const Color(0xffEBEBEB),
                       foregroundColor: Colors.black54,
-                      side: const BorderSide(color: Colors.black, width: 2),
+                      elevation: 5,
                     ),
                     onPressed: () async {
                       TimeOfDay? newTime = await showTimePicker(
@@ -285,9 +286,9 @@ class _EditRestaurant extends State<EditRestaurant> {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       fixedSize: Size(120, 56),
-                      backgroundColor: Colors.white,
+                      backgroundColor: const Color(0xffEBEBEB),
                       foregroundColor: Colors.black54,
-                      side: const BorderSide(color: Colors.black, width: 2),
+                      elevation: 5,
                     ),
                     onPressed: () async {
                       TimeOfDay? newTime = await showTimePicker(
@@ -326,9 +327,9 @@ class _EditRestaurant extends State<EditRestaurant> {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       fixedSize: Size(120, 56),
-                      backgroundColor: Colors.white,
+                      backgroundColor: const Color(0xffEBEBEB),
                       foregroundColor: Colors.black54,
-                      side: const BorderSide(color: Colors.black, width: 2),
+                      elevation: 5,
                     ),
                     onPressed: () async {
                       TimeOfDay? newTime = await showTimePicker(
@@ -358,7 +359,18 @@ class _EditRestaurant extends State<EditRestaurant> {
                 ],
               ),
             ),
-
+            //Holiday Hours input
+            CustomTextForm(
+              hintText: 'Holiday Hours',
+              controller: holidayHours,
+              validator: (rAddress) =>
+              rAddress != null && rAddress.trim().length > 150
+                  ? 'Name must be between 1 to 100 characters' : null,
+              keyboardType: TextInputType.text,
+              maxLines: 2,
+              maxLength: 150,
+              icon: Icon(Icons.access_time_filled_outlined),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

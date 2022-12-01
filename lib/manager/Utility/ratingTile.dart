@@ -26,9 +26,8 @@ class RatingTile extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.only(left: 15, right: 15,bottom: 15),
           child: Container(
-            decoration: BoxDecoration(color: Colors.grey[100],
+            decoration: BoxDecoration(color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.black54,width: 2)
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

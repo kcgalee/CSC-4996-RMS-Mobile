@@ -74,7 +74,6 @@ class MenuTile extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 5,left: 15,bottom: 10,top: 10),
                 decoration: BoxDecoration(color: Colors.grey[100],
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.black54,width: 2)
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -157,7 +156,6 @@ class MenuTile extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 5,left: 15,bottom: 10,top: 10),
                 decoration: BoxDecoration(color: Colors.grey[100],
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.black54,width: 2)
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -12,6 +12,7 @@ class RequestTile extends StatefulWidget {
   final String comment;
   Icon orderIcon;
 
+  Color boxColor;
 
   var time;
 
@@ -38,6 +39,7 @@ class RequestTile extends StatefulWidget {
     required this.tableID,
     required this.orderDoc,
     required this.inactive,
+    required this.boxColor,
   });
 
   @override
@@ -92,9 +94,8 @@ class _RequestTileState extends State<RequestTile> {
         padding: const EdgeInsets.only(left: 15, right: 15,top: 25),
         child: Container(
           padding: const EdgeInsets.only(right: 15,left: 10,bottom: 10,top: 10),
-          decoration: BoxDecoration(color: Colors.grey[100],
+          decoration: BoxDecoration(color: widget.boxColor,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.black54)
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -223,9 +224,8 @@ class _RequestTileState extends State<RequestTile> {
               padding: const EdgeInsets.only(left: 15, right: 15,top: 25),
               child: Container(
                 padding: const EdgeInsets.only(right: 15,left: 10,bottom: 10,top: 10),
-                decoration: BoxDecoration(color: Colors.grey[100],
+                decoration: BoxDecoration(color: widget.boxColor,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.black54)
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

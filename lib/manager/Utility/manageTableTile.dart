@@ -70,16 +70,15 @@ class ManageTableTile extends StatelessWidget {
               ),
               child: Container(
                 padding: const EdgeInsets.only(right: 5,left: 15,bottom: 10,top: 10),
-                decoration: BoxDecoration(color: Colors.grey[100],
+                decoration: BoxDecoration(color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.black54,width: 2)
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
                       height: 40,width: 40,
-                      decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(40)),
+                      decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(40)),
                       child: Center(
                         child: Text(tableNumber,
                             style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),

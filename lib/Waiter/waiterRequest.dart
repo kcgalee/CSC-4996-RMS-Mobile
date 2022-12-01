@@ -24,7 +24,7 @@ class _WaiterRequestState extends State<WaiterRequest> {
   Widget build(BuildContext context) {
     if (widget.activity == 'active') {
       return Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Color(0xffEBEBEB),
           appBar: AppBar(
             title: const Text('Current Requests',),
             backgroundColor: Colors.white,
@@ -68,7 +68,7 @@ class _WaiterRequestState extends State<WaiterRequest> {
           ));
     } else {
       return Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Color(0xffEBEBEB),
           appBar: AppBar(
             title: const Text('Past Requests',),
             backgroundColor: Colors.white,
@@ -136,14 +136,17 @@ class _WaiterRequestState extends State<WaiterRequest> {
                             itemCount: snapshot.data?.docs.length,
                             itemBuilder: (context, index) {
                               String comment = '';
-                              Icon orderIcon;
+                              Icon orderIcon; //set request tile Icon
+                              Color boxColor = Colors.white;//set request tile colore
                               String requestedItem = '';
                               if (snapshot.data?.docs[index]['itemName'] == 'Request Waiter'){
                                 requestedItem = 'Requested: Waiter';
                                 orderIcon = Icon(Icons.person);
+                                boxColor = Colors.indigo.shade200;
                               } else if (snapshot.data?.docs[index]['itemName'] == 'Request Bill'){
                                 requestedItem = 'Requested: Bill';
                                 orderIcon = Icon(Icons.sticky_note_2_rounded);
+                                boxColor = Colors.indigo.shade200;
                               } else {
                                 requestedItem = 'Item: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
                                     + '  x ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '');
@@ -155,6 +158,7 @@ class _WaiterRequestState extends State<WaiterRequest> {
                                 comment = 'Comments: none';
                               }
                               return RequestTile(
+                                boxColor: boxColor,
                                 orderIcon: orderIcon,
                                 tableNum: 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? ''),
                                 request: requestedItem,
@@ -198,6 +202,7 @@ class _WaiterRequestState extends State<WaiterRequest> {
                               String comment = '';
                               String requestedItem = '';
                               Icon orderIcon;
+                              Color boxColor = Colors.white; // set Request tile colore white
                               if (snapshot.data?.docs[index]['itemName'] == 'Request Waiter'){
                                 requestedItem = 'Requested: Waiter';
                                 orderIcon = Icon(Icons.person);
@@ -215,6 +220,7 @@ class _WaiterRequestState extends State<WaiterRequest> {
                                 comment = 'Comments: none';
                               }
                               return RequestTile(
+                                boxColor: boxColor,
                                 orderIcon: orderIcon,
                                 tableNum: 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? ''),
                                 request: requestedItem,

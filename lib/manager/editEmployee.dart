@@ -67,6 +67,7 @@ class _EditEmployee extends State<EditEmployee> {
               fName != null && fName.trim().length > 20
                   ? 'First name must be between 1 to 20 characters' : null,
               decoration: const InputDecoration(
+                  labelText: "First Name",
                   hintText: "First Name",
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(width: 2),
@@ -86,6 +87,7 @@ class _EditEmployee extends State<EditEmployee> {
               lName != null && lName.trim().length > 20
                   ? 'Last name must be between 1 to 20 characters' : null,
               decoration: const InputDecoration(
+                  labelText: "Last Name",
                   hintText: "Last Name",
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(width: 2),
@@ -105,6 +107,7 @@ class _EditEmployee extends State<EditEmployee> {
               prefName != null && prefName.trim().length > 20
                   ? 'Preferred name must be between 1 to 20 characters' : null,
               decoration: const InputDecoration(
+                  labelText: "Preferred Name",
                   hintText: "Preferred Name",
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(width: 2),
@@ -124,6 +127,7 @@ class _EditEmployee extends State<EditEmployee> {
               number != null && !pattern.hasMatch(number)
                   ? 'Enter valid phone number (ex: 222-333-6776)' : null,
               decoration: const InputDecoration(
+                  labelText: "Phone",
                   hintText: "Phone (ex: 222-333-6776)",
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(width: 2),

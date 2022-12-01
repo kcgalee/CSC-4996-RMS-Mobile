@@ -21,6 +21,7 @@ class _ManageRestaurant extends State<ManageRestaurant> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xffEBEBEB),
         drawer: const ManagerNavigationDrawer(),
         appBar: AppBar(
           title: Text('Manage Restaurants'),
