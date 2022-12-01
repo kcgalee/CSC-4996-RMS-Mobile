@@ -42,7 +42,7 @@ class MenuTile extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   SlidableAction(
-                    onPressed: (contaxt) => showDialog<String>(
+                    onPressed: (context) => showDialog<String>(
                       context: context,
                       builder: (BuildContext context) => AlertDialog(
                         title: const Text('Delete Menu Item'),
@@ -81,12 +81,12 @@ class MenuTile extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(15),
                       child: SizedBox(
-                        height: 300,
-                        width: 300,
-                        child: FittedBox(
-                          fit: BoxFit.fill,
-                          child: Image.network(itemIMG,),
-                        ),
+                          height:
+                          MediaQuery.of(context).size.height *0.15 ,
+                          width:
+                          MediaQuery.of(context).size.width,
+                          child:
+                          Image.network(itemIMG, fit: BoxFit.cover,)
                       ),
                     ),
                     SizedBox(height: 10,),

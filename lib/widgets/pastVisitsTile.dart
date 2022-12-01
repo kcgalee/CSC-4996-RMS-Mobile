@@ -55,7 +55,7 @@ class PastVisitsTile extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20), // Image border
                             child: SizedBox.fromSize(
                               size: Size.fromRadius(30), // Image radius
-                              child: Image.network('https://picsum.photos/250?image=9', fit: BoxFit.cover),
+                              child: Image.asset('assets/images/RMS_logo.png', fit: BoxFit.cover),
                             ),
                           ),
                           Padding(
