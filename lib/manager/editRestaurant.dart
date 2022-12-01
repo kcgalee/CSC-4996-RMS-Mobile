@@ -19,10 +19,11 @@ class EditRestaurant extends StatefulWidget {
   final String rCloseWKday;
   final String rOpenWKend;
   final String rCloseWKend;
-
+  final String holiday;
   const EditRestaurant({Key? key, required this.restID, required this.rName, required this.rAddress, required this.rCity,
     required this.rState, required this.rZip, required this.rEmail, required this.rPhone,
-    required this.rOpenWKday, required this.rCloseWKday, required this.rOpenWKend, required this.rCloseWKend}) : super(key: key);
+    required this.rOpenWKday, required this.rCloseWKday, required this.rOpenWKend, required this.rCloseWKend,
+    required this.holiday}) : super(key: key);
 
 
 
@@ -69,6 +70,7 @@ class _EditRestaurant extends State<EditRestaurant> {
     zipController.text = widget.rZip;
     emailController.text = widget.rEmail;
     phoneNumberController.text = widget.rPhone;
+    holidayHours.text = widget.holiday;
     if (widget.rOpenWKday != "") {
       //openTime = TimeOfDay(hour: int.parse(widget.rOpen.substring(0, widget.rOpen.indexOf(':'))), minute: int.parse(widget.rOpen.substring(widget.rOpen.indexOf(':')+1, widget.rOpen.indexOf(':')+3)));
       oTOD = widget.rOpenWKday;
@@ -365,7 +367,7 @@ class _EditRestaurant extends State<EditRestaurant> {
               controller: holidayHours,
               validator: (rAddress) =>
               rAddress != null && rAddress.trim().length > 150
-                  ? 'Name must be between 1 to 100 characters' : null,
+                  ? 'Name must be between 1 to 150 characters' : null,
               keyboardType: TextInputType.text,
               maxLines: 2,
               maxLength: 150,
@@ -396,6 +398,7 @@ class _EditRestaurant extends State<EditRestaurant> {
                           zipController.text.trim(),
                           emailController.text.trim(),
                           phoneNumberController.text.trim(),
+                          holidayHours.text.trim(),
                           openTimeChanged, closeTimeChanged,
                         openTimeChanged2, closeTimeChanged2);
                       if (flag == true){
@@ -450,6 +453,9 @@ class _EditRestaurant extends State<EditRestaurant> {
                         if (closeTimeChanged2 != false) {
                           await updateCloseTimeWKend(closeTime2);
                         }
+
+                        await updateHolidayHrs(holidayHours.text.trim());
+
                         Navigator.pop(context,
                             MaterialPageRoute(builder: (context) => ManageRestaurant()
                             )
@@ -571,10 +577,16 @@ class _EditRestaurant extends State<EditRestaurant> {
     });
   }
 
-
+  updateHolidayHrs(String hHours) async {
+    var user = await FirebaseFirestore.instance.collection('restaurants').doc(
+        widget.restID).get();
+    await user.reference.update({
+      'holidayHours': hHours,
+    });
+  }
 
   validate(String rName, String rAddress, String rCity, String rState,
-      String rZip, String rEmail, String rPhone, bool oChanged,
+      String rZip, String rEmail, String rPhone, String hHours, bool oChanged,
       bool cChanged, bool oChanged2, bool cChanged2) async {
     bool error = false;
     bool unchanged = false;
@@ -613,7 +625,7 @@ class _EditRestaurant extends State<EditRestaurant> {
     if (rName == widget.rName && rAddress == widget.rAddress
         && rCity == widget.rCity && rState == widget.rState
         && rZip == widget.rZip && rEmail == widget.rEmail
-        && rPhone == widget.rPhone && oChanged == false && cChanged == false
+        && rPhone == widget.rPhone && hHours == widget.holiday && oChanged == false && cChanged == false
         && oChanged2 == false && cChanged2 == false) {
       unchanged = true;
     }
