@@ -96,19 +96,21 @@ class _ManageEmployeeState extends State<ManageEmployee> {
                                     context: context,
                                     builder: (context) => Padding(
                                       padding: const EdgeInsets.all(20.0),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(height: 20,),
-                                          Text('Name: '+'${snapshot.data?.docs[index]['fName']} ${snapshot.data?.docs[index]['lName']}',style: TextStyle(fontSize: 20,color: Colors.white),),
-                                          const SizedBox(height: 20,),
-                                          Text(snapshot.data?.docs[index]['prefName'] == '' ? 'Preferred name: N/A':'Preferred name: ${snapshot.data?.docs[index]['prefName']}',style: TextStyle(fontSize: 20,color: Colors.white),),
-                                          const SizedBox(height: 20,),
-                                          Text('Email: '+snapshot.data?.docs[index]['email'],style: TextStyle(fontSize: 20,color: Colors.white),),
-                                          const SizedBox(height: 20,),
-                                          Text('Phone: '+snapshot.data?.docs[index]['phone'],style: TextStyle(fontSize: 20,color: Colors.white),),
-                                        ],
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(height: 20,),
+                                            Text('Name: '+'${snapshot.data?.docs[index]['fName']} ${snapshot.data?.docs[index]['lName']}',style: TextStyle(fontSize: 20,color: Colors.white),),
+                                            const SizedBox(height: 20,),
+                                            Text(snapshot.data?.docs[index]['prefName'] == '' ? 'Preferred name: N/A':'Preferred name: ${snapshot.data?.docs[index]['prefName']}',style: TextStyle(fontSize: 20,color: Colors.white),),
+                                            const SizedBox(height: 20,),
+                                            Text('Email: '+snapshot.data?.docs[index]['email'],style: TextStyle(fontSize: 20,color: Colors.white),),
+                                            const SizedBox(height: 20,),
+                                            Text('Phone: '+snapshot.data?.docs[index]['phone'],style: TextStyle(fontSize: 20,color: Colors.white),),
+                                          ],
+                                        ),
                                       ),
                                     )
                                 );
