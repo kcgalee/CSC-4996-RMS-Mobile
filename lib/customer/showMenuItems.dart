@@ -209,102 +209,101 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                                                 price = '\$' + menuSnapshot.data?.docs[index]['price'];
                                                                               }
 
-                                                                              return SizedBox(
-                                                                                  height: 700,
-                                                                                  width: 500,
-                                                                                  child: Column(
-                                                                                      children: [
-                                                                                        if (menuSnapshot.data?.docs[index]['imgURL'] !=
-                                                                                            '')
-                                                                                          SizedBox(
-                                                                                            height:
-                                                                                            300,
-                                                                                            width:
-                                                                                            300,
-                                                                                            child:
-                                                                                            FittedBox(
-                                                                                              fit: BoxFit.fill,
+                                                                              return Padding(
+                                                                                padding: const EdgeInsets.only(top: 15,),
+                                                                                child: SizedBox(
+                                                                                    height: MediaQuery.of(context).size.height*0.8,
+                                                                                    width: MediaQuery.of(context).size.width,
+                                                                                    child: Column(
+                                                                                        children: [
+                                                                                          if (menuSnapshot.data?.docs[index]['imgURL'] !=
+                                                                                              '')
+                                                                                            SizedBox(
+                                                                                              height:
+                                                                                              MediaQuery.of(context).size.height *0.3 ,
+                                                                                              width:
+                                                                                              MediaQuery.of(context).size.width,
                                                                                               child:
-                                                                                              Image.network(menuSnapshot.data?.docs[index]['imgURL']),
+                                                                                              Image.network(menuSnapshot.data?.docs[index]['imgURL'], fit: BoxFit.cover,)
                                                                                             ),
+
+                                                                                          const SizedBox(height: 10),
+                                                                                          Row(
+                                                                                            children: [
+                                                                                              Text(
+                                                                                                menuSnapshot.data?.docs[index]['itemName'],
+                                                                                                style:
+                                                                                                const TextStyle(
+                                                                                                  fontWeight:
+                                                                                                  FontWeight.bold,
+                                                                                                  fontSize:
+                                                                                                  20,
+                                                                                                ),
+                                                                                                textAlign: TextAlign.left,
+                                                                                              ),
+                                                                                              const Spacer(),
+                                                                                              Text(
+                                                                                                price,
+                                                                                                style:
+                                                                                                const TextStyle(
+                                                                                                  fontWeight:
+                                                                                                  FontWeight.bold,
+                                                                                                  fontSize:
+                                                                                                  20,
+                                                                                                ),
+                                                                                              ),
+                                                                                            ],
+                                                                                          ),
+                                                                                          const SizedBox(height: 10),
+                                                                                          Row(
+                                                                                            children: [
+                                                                                              SizedBox(
+                                                                                                width: 330,
+                                                                                                child: Text(menuSnapshot.data?.docs[index]['description'],
+                                                                                                ),
+                                                                                              )
+                                                                                            ],
                                                                                           ),
 
-                                                                                        const SizedBox(height: 10),
-                                                                                        Row(
-                                                                                          children: [
-                                                                                            Text(
-                                                                                              menuSnapshot.data?.docs[index]['itemName'],
-                                                                                              style:
-                                                                                              const TextStyle(
-                                                                                                fontWeight:
-                                                                                                FontWeight.bold,
-                                                                                                fontSize:
-                                                                                                20,
-                                                                                              ),
-                                                                                              textAlign: TextAlign.left,
-                                                                                            ),
-                                                                                            const Spacer(),
-                                                                                            Text(
-                                                                                              price,
-                                                                                              style:
-                                                                                              const TextStyle(
-                                                                                                fontWeight:
-                                                                                                FontWeight.bold,
-                                                                                                fontSize:
-                                                                                                20,
-                                                                                              ),
-                                                                                            ),
-                                                                                          ],
-                                                                                        ),
-                                                                                        const SizedBox(height: 10),
-                                                                                        Row(
-                                                                                          children: [
-                                                                                            SizedBox(
-                                                                                              width: 330,
-                                                                                              child: Text(menuSnapshot.data?.docs[index]['description'],
-                                                                                              ),
-                                                                                            )
-                                                                                          ],
-                                                                                        ),
-
-                                                                                        //Display dietaryRestrictions
-                                                                                        if(dietRestrictionsString != '')
-                                                                                          const SizedBox(height: 10),
-                                                                                        Expanded(
-                                                                                            child: Align(
-                                                                                              alignment: FractionalOffset.bottomCenter,
-                                                                                              child: Row(
-                                                                                                children: [
-                                                                                                  SizedBox(
-                                                                                                    width: 330,
-                                                                                                    child: Text(dietRestrictionsString,
-                                                                                                        textAlign: TextAlign.left),
-                                                                                                  )
-                                                                                                ],
-                                                                                              ),
-                                                                                            )
-                                                                                        ),
-                                                                                        Expanded(
-                                                                                            child: Align(
+                                                                                          //Display dietaryRestrictions
+                                                                                          if(dietRestrictionsString != '')
+                                                                                            const SizedBox(height: 10),
+                                                                                          Expanded(
+                                                                                              child: Align(
                                                                                                 alignment: FractionalOffset.bottomCenter,
-                                                                                                child: CustomTextForm(
-                                                                                                    hintText:
-                                                                                                    'Optional Order Comments',
-                                                                                                    controller:
-                                                                                                    orderCommentsController,
-                                                                                                    validator:
-                                                                                                    null,
-                                                                                                    keyboardType: TextInputType
-                                                                                                        .text,
-                                                                                                    maxLines:
-                                                                                                    3,
-                                                                                                    maxLength:
-                                                                                                    100,
-                                                                                                    icon:
-                                                                                                    const Icon(Icons.fastfood))
-                                                                                            )
-                                                                                        )
-                                                                                      ])
+                                                                                                child: Row(
+                                                                                                  children: [
+                                                                                                    SizedBox(
+                                                                                                      width: 330,
+                                                                                                      child: Text(dietRestrictionsString,
+                                                                                                          textAlign: TextAlign.left),
+                                                                                                    )
+                                                                                                  ],
+                                                                                                ),
+                                                                                              )
+                                                                                          ),
+                                                                                          Expanded(
+                                                                                              child: Align(
+                                                                                                  alignment: FractionalOffset.bottomCenter,
+                                                                                                  child: CustomTextForm(
+                                                                                                      hintText:
+                                                                                                      'Optional Order Comments',
+                                                                                                      controller:
+                                                                                                      orderCommentsController,
+                                                                                                      validator:
+                                                                                                      null,
+                                                                                                      keyboardType: TextInputType
+                                                                                                          .text,
+                                                                                                      maxLines:
+                                                                                                      3,
+                                                                                                      maxLength:
+                                                                                                      100,
+                                                                                                      icon:
+                                                                                                      const Icon(Icons.fastfood))
+                                                                                              )
+                                                                                          )
+                                                                                        ])
+                                                                                ),
                                                                               );
                                                                             },
                                                                           ),
@@ -490,7 +489,7 @@ class _ShowMenuItems extends State<ShowMenuItems> {
     text = text + 'Lactose Free, ';
   }
   if(isNuts) {
-    text = text + 'Conatains Nuts, ';
+    text = text + 'Contains Nuts, ';
   }
   if(isPescatarian) {
     text = text + 'Pescatarian, ';
