@@ -6,8 +6,8 @@ import 'Utility/navigation.dart';
 
 
 class PastOrders extends StatefulWidget {
-
-   PastOrders({Key? key}) : super(key: key);
+String visitID;
+   PastOrders({Key? key, required this.visitID}) : super(key: key);
 
   @override
   State<PastOrders> createState() => _PastOrdersState();
@@ -42,9 +42,9 @@ class _PastOrdersState extends State<PastOrders> {
             ),
             Expanded(
               child: StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection('orders')
-                      .where('custID', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
-                      .where('itemName', whereNotIn: ['Request Bill', 'Request Waiter'])
+                  stream: FirebaseFirestore.instance
+                      .collection('users/${FirebaseAuth.instance.currentUser?.uid}'
+                      '/pastVisits/${widget.visitID}/tableOrders')
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData || (snapshot.data?.size == 0)) {
@@ -56,9 +56,11 @@ class _PastOrdersState extends State<PastOrders> {
                             return PastOrdersTile(
                               taskName:
                               'Item: ' + (snapshot.data?.docs[index]['itemName'] ?? ''),
-                              time: snapshot.data?.docs[index]['timePlaced'],
-                              oStatus: (snapshot.data?.docs[index]['status'] ?? ''),
-                              restID: snapshot.data?.docs[index]['restID'],
+                              comment: snapshot.data?.docs[index]['orderComment'],
+                              price: (snapshot.data?.docs[index]['price'] ?? ''),
+                              quantity: snapshot.data?.docs[index]['quantity'],
+                              custName: snapshot.data?.docs[index]['custName'],
+                              imgURL: snapshot.data?.docs[index]['imgURL'],
                             );
                           }
                       );

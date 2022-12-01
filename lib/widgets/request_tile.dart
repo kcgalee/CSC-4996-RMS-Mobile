@@ -391,7 +391,17 @@ class _RequestTileState extends State<RequestTile> {
              });
            }
          });
+
+     //check to see if request is Waiter Request
+     if(widget.request == "Requested: Waiter") {
+       //if its true update table document to make waiterRequested false
+       await FirebaseFirestore.instance.collection('tables').doc(widget.tableID).update({
+         'waiterRequested': false
+       });
+     }
+
    }
+
  }
 
   //converts firebase time into human readable time

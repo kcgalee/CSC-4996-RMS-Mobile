@@ -4,10 +4,7 @@ import 'package:intl/intl.dart';
 
 class PastOrdersTile extends StatelessWidget {
   late final String taskName;
-  var time;
 
-  var newTime = "";
-  final String oStatus;
 
 
   //pColor for placed  iPColor for in progress button, dColor for delivered button
@@ -17,23 +14,25 @@ class PastOrdersTile extends StatelessWidget {
 
   var restID;
   var restName;
+  var comment;
+  var price;
+  var quantity;
+  var imgURL;
+  var custName;
+
 
   PastOrdersTile({
     super.key,
     required this.taskName,
-    required this.time,
-    required this.oStatus,
-    required this.restID,
+    required this.comment,
+    required this.price,
+    required this.quantity,
+    required this.imgURL,
+    required this.custName
   });
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: convertTime(time),
-      builder: (context, snapshot) {
-        return FutureBuilder(
-            future: getRestName(),
-            builder: (context, snapshot) {
               return Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15, top: 25),
                 child: Container(
@@ -60,22 +59,28 @@ class PastOrdersTile extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("$restName",
+                                Text("$taskName",
+                                    style: const TextStyle(
+                                      color: Colors.black38,
+                                      fontSize: 20,)
+                                ),
+                                Text("\n\$$price",
                                     style: const TextStyle(
                                       color: Colors.black38,
                                       fontSize: 15,)
                                 ),
-                                Text("\n$taskName",
+                                Text("\n$quantity",
+                                    style: const TextStyle(
+                                      color: Colors.black38,
+                                      fontSize: 15,)
+                                ),
+                                Text("\nOrdered By: $custName",
                                     style: const TextStyle(
                                         color: Colors.black54,
-                                        fontSize: 20,
+                                        fontSize: 15,
                                         fontWeight: FontWeight.bold)
                                 ),
-                                Text("\n$newTime",
-                                    style: const TextStyle(
-                                      color: Colors.black38,
-                                      fontSize: 15,)
-                                ),
+
                               ],
                             ),
                           ],
@@ -83,25 +88,10 @@ class PastOrdersTile extends StatelessWidget {
                       ]),
                 ),
               );
-            });
-      },
-    );
-  }
 
-  convertTime(time) {
-    DateFormat formatter = DateFormat.yMd();
-    newTime = formatter.format(time.toDate());
-  }
-
-  getRestName() async {
-    await FirebaseFirestore.instance
-        .collection('restaurants')
-        .doc(restID)
-        .get()
-        .then((element) {
-      restName = element['restName'];
-    });
   }
 }
+
+
 
 //converts firebase time into human readable time

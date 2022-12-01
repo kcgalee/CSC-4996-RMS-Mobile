@@ -48,9 +48,6 @@ class LoginState extends State<Login> {
                   controller: emailController,
                   keyboardType:TextInputType.name,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (email) =>
-                  email != null && !EmailValidator.validate(email)
-                      ? 'Enter valid email' : null,
                   decoration: const InputDecoration(
                     hintText: "Email",
                     prefixIcon: Icon(Icons.mail, color: Colors.black),

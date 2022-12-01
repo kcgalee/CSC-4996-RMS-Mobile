@@ -100,7 +100,8 @@ class _PlacedOrders extends State<PlacedOrders> {
                                         onPressedEdit: (BuildContext ) {
 
                                            //Check to see if progress has been made
-                                          if(snapshot.data?.docs[index]['status'] == 'placed'){
+                                          if(snapshot.data?.docs[index]['status'] == 'placed' && snapshot.data?.docs[index]['itemName'] != 'Request Bill' &&
+                                          snapshot.data?.docs[index]['itemName'] != 'Request Waiter'){
                                             int currentCount = snapshot
                                                 .data
                                                 ?.docs[index]['quantity'];
@@ -279,6 +280,45 @@ class _PlacedOrders extends State<PlacedOrders> {
                                             });
                                           }
 
+                                          //Alert user item can not be edited
+                                          else if (snapshot.data?.docs[index]['itemName'] != 'Request Bill' ||
+                                              snapshot.data?.docs[index]['itemName'] != 'Request Waiter') {
+
+                                            showDialog<void>(
+                                              context: context,
+                                              barrierDismissible:
+                                              false,
+                                              // user must tap button!
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title: const Text(
+                                                      'Cannot edit this item'),
+                                                  content:
+                                                  SingleChildScrollView(
+                                                    child: ListBody(
+                                                      children: const <
+                                                          Widget>[
+                                                        Text(
+                                                            'Sorry :('),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      child:
+                                                      const Text(
+                                                          'OK'),
+                                                      onPressed: () {
+                                                        Navigator.of(
+                                                            context)
+                                                            .pop();
+                                                      },
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          }
                                           //ALERT USER THAT ORDER IS IN PROGRESS
                                           else {
 
@@ -290,7 +330,7 @@ class _PlacedOrders extends State<PlacedOrders> {
                                               builder: (context) {
                                                 return AlertDialog(
                                                   title: const Text(
-                                                      'Cannot delete order'),
+                                                      'Cannot edit order'),
                                                   content:
                                                   SingleChildScrollView(
                                                     child: ListBody(
@@ -327,7 +367,7 @@ class _PlacedOrders extends State<PlacedOrders> {
                                             //check to see if progress has been made
                                             if(snapshot.data?.docs[index]['status'] == 'placed'){
                                               String collectionRef = 'tables/${userSnapshot.data!['tableID']}/tableOrders';
-                                              deleteOrder(snapshot.data?.docs[index].id as String, collectionRef);
+                                              deleteOrder(snapshot.data?.docs[index].id as String, collectionRef, snapshot.data?.docs[index]['itemName'], snapshot.data?.docs[index]['tableID']);
                                             }
 
                                             //ALERT USER THAT ORDER IS IN PROGRESS
@@ -375,7 +415,9 @@ class _PlacedOrders extends State<PlacedOrders> {
                                         //Tapping order shows item info
                                         //=============================
                                         onTap: () {
-                                        showDialog<void>(
+                                        if(snapshot.data?.docs[index]['itemName'] != 'Request Bill' &&
+                                            snapshot.data?.docs[index]['itemName'] != 'Request Waiter' ) {
+                                          showDialog<void>(
                                           context: context,
                                           barrierDismissible: false, // user must tap button!
                                           builder: (BuildContext context) {
@@ -417,6 +459,10 @@ class _PlacedOrders extends State<PlacedOrders> {
 
                                           },
                                         );
+                                        }
+                                        else {
+
+                                        }
                                       },
                                       );
 
@@ -434,13 +480,31 @@ class _PlacedOrders extends State<PlacedOrders> {
         ));
   }
 
-  void deleteOrder(String orderID, String colectionRef){
+  Future<void> deleteOrder(String orderID, String colectionRef, String itemName, String tableID) async {
 
+
+    //updated table's document to show that the waiter has not been requested
+  if(itemName == "Request Bill") {
+    await FirebaseFirestore.instance.collection('tables').doc(tableID).update({
+      'billRequested' : false,
+    });
+  }
+
+  //updated table's document to show that the waiter has not been requested
+  if(itemName == 'Request Waiter') {
+    await FirebaseFirestore.instance.collection('tables').doc(tableID).update({
+      'waiterRequested' : false,
+  });
+  }
+
+
+    print(orderID);
     //deletes document from orders collection
-    FirebaseFirestore.instance.collection('orders').doc(orderID).delete();
+    await FirebaseFirestore.instance.collection('orders').doc(orderID).delete();
 
     //deletes document from tableOrders collection
-    FirebaseFirestore.instance.collection(colectionRef).doc(orderID).delete();
+    await FirebaseFirestore.instance.collection(colectionRef).doc(orderID).delete();
+
 
   }
 

@@ -79,6 +79,7 @@ class _QRScannerState extends State<QRScanner> {
    }
 
     //return message that table doesn't exist
+   else {
      showDialog<void>(
        context: context,
        barrierDismissible:
@@ -109,7 +110,7 @@ class _QRScannerState extends State<QRScanner> {
                  Navigator.of(
                      context)
                      .pop();
-                 Navigator.push(context, MaterialPageRoute(builder: (context)=> new QRScanner()));
+                 Navigator.push(context, MaterialPageRoute(builder: (context)=> const QRScanner()));
 
                },
              ),
@@ -117,6 +118,7 @@ class _QRScannerState extends State<QRScanner> {
          );
        },
      );
+   }
 
   }
 
@@ -127,6 +129,7 @@ class _QRScannerState extends State<QRScanner> {
     var currentCapacity = 0;
     var maxCapacity = 0;
     var waiterID = '';
+    var restID = '';
     var uId = FirebaseAuth.instance.currentUser?.uid.toString();
 
     //get customer user's first name
@@ -142,13 +145,15 @@ class _QRScannerState extends State<QRScanner> {
           currentCapacity = element['currentCapacity'];
           maxCapacity = element['maxCapacity'];
           waiterID = element['waiterID'];
+          restID = element['restID'];
         });
 
 
     //
     FirebaseFirestore.instance.collection('users').doc(uId).update({
       'tableID' : tableID,
-      'waiterID' : waiterID
+      'waiterID' : waiterID,
+      'restID' : restID
     });
 
 
