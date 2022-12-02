@@ -72,6 +72,7 @@ class _PastOrdersState extends State<PastOrders> {
                       }
                     }),
               ),
+              const SizedBox(height: 20)
             ],
           )
       );

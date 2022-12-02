@@ -148,7 +148,7 @@ class _ViewOrder extends State<ViewOrder> {
                                                           children: [
                                                             AlertDialog(
                                                               insetPadding:
-                                                              EdgeInsets.only(top: 60, left: 20, right: 20),
+                                                              const EdgeInsets.only(top: 60, left: 20, right: 20),
                                                               content: Builder(
                                                                 builder: (context) {
                                                                   return SizedBox(
@@ -183,32 +183,42 @@ class _ViewOrder extends State<ViewOrder> {
                                                                                 height: 20),
                                                                             Row(
                                                                               children: [
-                                                                                Text(
-                                                                                  widget.createOrderInfo.itemName[index],
+                                                                                SizedBox(
+                                                                                  width: MediaQuery.of(context).size.height * 0.3,
+                                                                                  child: Expanded(
+                                                                                      child: Text(
+                                                                                        widget.createOrderInfo.itemName[index],
+                                                                                      )
+                                                                                  ),
                                                                                 ),
-                                                                                Spacer(),
+                                                                                const Spacer(),
                                                                                 Text(
                                                                                     "\$ ${widget.createOrderInfo.price[index]}"),
                                                                               ],
                                                                             ),
                                                                             const SizedBox(
                                                                                 height: 20),
-                                                                            CustomTextForm(
-                                                                                hintText:
-                                                                                widget.createOrderInfo.orderComments[index],
-                                                                                controller:
-                                                                                orderCommentsController,
-                                                                                validator:
-                                                                                null,
-                                                                                keyboardType: TextInputType
-                                                                                    .text,
-                                                                                maxLines:
-                                                                                2,
-                                                                                maxLength:
-                                                                                100,
-                                                                                icon:
-                                                                                const Icon(Icons.fastfood))
-
+                                                                            Container(
+                                                                                decoration: BoxDecoration(
+                                                                                    border: Border.all(color: Colors.grey)
+                                                                                ),
+                                                                              child: CustomTextForm(
+                                                                                  hintText:
+                                                                                  widget.createOrderInfo.orderComments[index],
+                                                                                  controller:
+                                                                                  orderCommentsController,
+                                                                                  validator:
+                                                                                  null,
+                                                                                  keyboardType: TextInputType
+                                                                                      .text,
+                                                                                  maxLines:
+                                                                                  2,
+                                                                                  maxLength:
+                                                                                  100,
+                                                                                  icon:
+                                                                                  const Icon(Icons.fastfood)
+                                                                              )
+                                                                            )
                                                                           ])
                                                                   );
                                                                 },
