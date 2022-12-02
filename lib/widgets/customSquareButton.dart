@@ -12,24 +12,27 @@ class CustomSquareButton extends StatelessWidget {
     return
       Padding(
         padding: const EdgeInsets.only(bottom: 10),
-        child:  ElevatedButton(
-            onPressed: onPressed,
-            style: ElevatedButton.styleFrom(
-              fixedSize: const Size(160, 100),
-              textStyle: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
+        child:  SizedBox(
+          width: MediaQuery.of(context).size.width * 0.40,
+          height: MediaQuery.of(context).size.height * 0.1,
+          child: ElevatedButton(
+              onPressed: onPressed,
+              style: ElevatedButton.styleFrom(
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
+                backgroundColor: const Color(0xffc5e1fa),
+                foregroundColor: Colors.black,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
               ),
-              backgroundColor: const Color(0xffc5e1fa),
-              foregroundColor: Colors.black,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-            ),
-            child: Text( text,
-              style: const TextStyle(
-                color: Colors.black54,
-              ),
-            )
+              child: Text( text,
+                style: const TextStyle(
+                  color: Colors.black54,
+                ),
+              )
+          )
         ),
       );
 

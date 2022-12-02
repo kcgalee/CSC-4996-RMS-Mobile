@@ -517,7 +517,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                         }),
                                                     const SizedBox(height: 20),
                                                     Padding(
-                                                      padding: const EdgeInsets.only(left: 40, right: 40),
+                                                      padding: const EdgeInsets.only(left: 35, right: 35),
                                                       child: Row(
                                                         children: [
                                                           CustomSquareButton(

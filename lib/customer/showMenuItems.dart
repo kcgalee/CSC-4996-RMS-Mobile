@@ -93,7 +93,10 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                 if (userSnapshot.data!['tableID'] == '') {
                   return Column(
                     children: [
-                      const Text('Table Closed'),
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 10),
+                        child: Text('Table Closed')
+                      ),
                       CustomSubButton(
                         text: "Back to Home Page",
                         onPressed: () {
@@ -291,21 +294,26 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                                                             Expanded(
                                                                                                 child: Align(
                                                                                                     alignment: FractionalOffset.bottomCenter,
-                                                                                                    child: CustomTextForm(
-                                                                                                        hintText:
-                                                                                                        'Optional Order Comments',
-                                                                                                        controller:
-                                                                                                        orderCommentsController,
-                                                                                                        validator:
-                                                                                                        null,
-                                                                                                        keyboardType: TextInputType
-                                                                                                            .text,
-                                                                                                        maxLines:
-                                                                                                        3,
-                                                                                                        maxLength:
-                                                                                                        100,
-                                                                                                        icon:
-                                                                                                        const Icon(Icons.fastfood))
+                                                                                                    child: Container(
+                                                                                                        decoration: BoxDecoration(
+                                                                                                            border: Border.all(color: Colors.grey)
+                                                                                                        ),
+                                                                                                      child: CustomTextForm(
+                                                                                                          hintText:
+                                                                                                          'Optional Order Comments',
+                                                                                                          controller:
+                                                                                                          orderCommentsController,
+                                                                                                          validator:
+                                                                                                          null,
+                                                                                                          keyboardType: TextInputType
+                                                                                                              .text,
+                                                                                                          maxLines:
+                                                                                                          3,
+                                                                                                          maxLength:
+                                                                                                          100,
+                                                                                                          icon:
+                                                                                                          const Icon(Icons.fastfood))
+                                                                                                    )
                                                                                                 )
                                                                                             )
                                                                                           ])
@@ -520,3 +528,4 @@ class _ShowMenuItems extends State<ShowMenuItems> {
     return text;
   }
 }
+
