@@ -22,9 +22,7 @@ class _ViewMemberOrder extends State<ViewMemberOrder> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
+    return Scaffold(
           drawer: const NavigationDrawer(),
           appBar: AppBar(
             title:  Text('Orders by ${widget.custName}'),
@@ -137,7 +135,6 @@ class _ViewMemberOrder extends State<ViewMemberOrder> {
 
             ],
           )
-      ),
-    );
+      );
   }
 }

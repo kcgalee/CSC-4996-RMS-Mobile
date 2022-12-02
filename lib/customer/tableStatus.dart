@@ -26,9 +26,7 @@ class _TableStatusState extends State<TableStatus> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
+    return Scaffold(
           drawer: const NavigationDrawer(),
           appBar: AppBar(
             title: Text('Table ${widget.tableNum}, Waiter ${widget.waiterName}'),
@@ -136,8 +134,7 @@ class _TableStatusState extends State<TableStatus> {
             ],
           )
 
-      ),
-    );
+      );
 
   }
 }

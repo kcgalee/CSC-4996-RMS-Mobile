@@ -43,9 +43,7 @@ class _ShowMenuItems extends State<ShowMenuItems> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text(widget.text.toUpperCase()),
           backgroundColor: Colors.white,
@@ -477,8 +475,7 @@ class _ShowMenuItems extends State<ShowMenuItems> {
         //=====================================
         // End of Customer User Document Stream Builder
         //=====================================
-      ),
-    );
+      );
   }
 
   String dietRestrictions( bool isGlutenFree, bool isHalal, bool isKosher, bool isLactose, bool isNuts,

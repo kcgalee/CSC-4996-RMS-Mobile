@@ -27,9 +27,7 @@ class PlacedOrders extends StatefulWidget {
 class _PlacedOrders extends State<PlacedOrders> {
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
+    return Scaffold(
           drawer: const NavigationDrawer(),
           appBar: AppBar(
             title: const Text('Current Orders'),
@@ -643,8 +641,8 @@ class _PlacedOrders extends State<PlacedOrders> {
                     }
                   })
             ],
-          )),
-    );
+          ));
+
   }
 
   Future<void> deleteOrder(String orderID, String colectionRef, String itemName, String tableID) async {

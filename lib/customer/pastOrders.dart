@@ -21,9 +21,7 @@ String visitID;
 class _PastOrdersState extends State<PastOrders> {
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
+    return Scaffold(
           drawer: const NavigationDrawer(),
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -76,7 +74,6 @@ class _PastOrdersState extends State<PastOrders> {
               ),
             ],
           )
-      ),
-    );
+      );
   }
 }

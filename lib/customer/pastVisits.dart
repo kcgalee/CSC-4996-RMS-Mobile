@@ -25,9 +25,7 @@ class PastVisits extends StatefulWidget {
 class _PastVisitsState extends State<PastVisits> {
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
+    return  Scaffold(
           drawer: const NavigationDrawer(),
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -93,7 +91,6 @@ class _PastVisitsState extends State<PastVisits> {
                     }),
               ),
             ],
-          )),
-    );
+          ));
   }
 }

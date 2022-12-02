@@ -34,9 +34,7 @@ class _ViewOrder extends State<ViewOrder> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: const Text('Order'),
           backgroundColor: Colors.white,
@@ -512,8 +510,7 @@ class _ViewOrder extends State<ViewOrder> {
         //=====================================
 
 
-      ),
-    );
+      );
   }
 
 

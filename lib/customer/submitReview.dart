@@ -34,9 +34,7 @@ class _SubmitReviewState extends State<SubmitReview> {
   @override
   Widget build(BuildContext context) {
 
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
+    return Scaffold(
         drawer: const NavigationDrawer(),
         appBar: AppBar(
           title: const Text("Submit Review"),
@@ -205,8 +203,7 @@ class _SubmitReviewState extends State<SubmitReview> {
                 }
             )
         ),
-      ),
-    );
+      );
   }
 
   convertTime(time) {

@@ -33,9 +33,7 @@ class _Order extends State<Order> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
+    return  Scaffold(
           drawer: const NavigationDrawer(),
           appBar: AppBar(
             title: const Text('Menu'),
@@ -225,7 +223,7 @@ class _Order extends State<Order> {
                 //End of user doc stream builder
                 //======================
       )
-      ),
+
     );
   }
 
