@@ -93,7 +93,10 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                 if (userSnapshot.data!['tableID'] == '') {
                   return Column(
                     children: [
-                      const Text('Table Closed'),
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 10),
+                        child: Text('Table Closed')
+                      ),
                       CustomSubButton(
                         text: "Back to Home Page",
                         onPressed: () {
@@ -516,3 +519,4 @@ class _ShowMenuItems extends State<ShowMenuItems> {
     return text;
   }
 }
+
