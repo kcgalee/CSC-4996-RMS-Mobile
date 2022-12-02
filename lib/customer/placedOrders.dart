@@ -87,6 +87,7 @@ class _PlacedOrders extends State<PlacedOrders> {
                             stream: FirebaseFirestore.instance
                                 .collection(
                                     'tables/${userSnapshot.data!['tableID']}/tableOrders')
+                            .orderBy('timePlaced', descending: true)
                                 .snapshots(),
                             builder: (context, snapshot) {
                               if (!snapshot.hasData || (snapshot.data?.size == 0)) {
