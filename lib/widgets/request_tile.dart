@@ -24,7 +24,7 @@ class RequestTile extends StatefulWidget {
   final String orderDoc;
 
   final bool inactive;
-
+  final bool tableStatus;
 
   RequestTile({
     super.key,
@@ -40,6 +40,7 @@ class RequestTile extends StatefulWidget {
     required this.orderDoc,
     required this.inactive,
     required this.boxColor,
+    required this.tableStatus,
   });
 
   @override
@@ -340,75 +341,104 @@ class _RequestTileState extends State<RequestTile> {
 
 
   Future updatePlaced() async {
-    var status = await FirebaseFirestore.instance.collection('orders').doc(widget.orderID).get();
-    var oID = widget.orderID;
+    var flag = widget.tableStatus;
+    if (flag != true) {
+      var status = await FirebaseFirestore.instance
+          .collection('orders')
+          .doc(widget.orderID)
+          .get();
+      var oID = widget.orderID;
 
-    if (status['status'] != 'placed'){
-      await status.reference.update({
-        'status': 'placed'
-      });
-      await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(oID).get().then(
-              (value) async {
-                if (value.exists){
-                  await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(oID).update({
-                    'status': 'placed'
-                  });
-                }
-              });
+      if (status['status'] != 'placed') {
+        await status.reference.update({'status': 'placed'});
+        await FirebaseFirestore.instance
+            .collection('tables/${widget.tableID}/tableOrders')
+            .doc(oID)
+            .get()
+            .then((value) async {
+          if (value.exists) {
+            await FirebaseFirestore.instance
+                .collection('tables/${widget.tableID}/tableOrders')
+                .doc(oID)
+                .update({'status': 'placed'});
+          }
+        });
+      }
     }
   }
 
   Future updateInProgress() async {
-    var status = await FirebaseFirestore.instance.collection('orders').doc(widget.orderID).get();
-    var oID = widget.orderID;
+    var flag = widget.tableStatus;
+    if (flag != true){
+      var status = await FirebaseFirestore.instance
+          .collection('orders')
+          .doc(widget.orderID)
+          .get();
+      var oID = widget.orderID;
 
-    if (status['status'] != 'in progress'){
-      await status.reference.update({
-        'status': 'in progress',
-        'timeInProgress': Timestamp.now()
-      });
-      await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(oID).get().then(
-              (value) async {
-            if (value.exists){
-              await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(oID).update({
-                'status': 'in progress',
-                'timeInProgress': Timestamp.now()
-              });
-            }
-          });
+      if (status['status'] != 'in progress') {
+        await status.reference.update(
+            {'status': 'in progress', 'timeInProgress': Timestamp.now()});
+        await FirebaseFirestore.instance
+            .collection('tables/${widget.tableID}/tableOrders')
+            .doc(oID)
+            .get()
+            .then((value) async {
+          if (value.exists) {
+            await FirebaseFirestore.instance
+                .collection('tables/${widget.tableID}/tableOrders')
+                .doc(oID)
+                .update({
+              'status': 'in progress',
+              'timeInProgress': Timestamp.now()
+            });
+          }
+        });
+      }
     }
   }
 
  Future updateDelivered() async {
-   var status = await FirebaseFirestore.instance.collection('orders').doc(widget.orderID).get();
-   var oID = widget.orderID;
+   var flag = widget.tableStatus;
+   if (flag != true) {
+      var status = await FirebaseFirestore.instance
+          .collection('orders')
+          .doc(widget.orderID)
+          .get();
+      var oID = widget.orderID;
 
-   if (status['status'] != 'delivered'){
-     await status.reference.update({
-       'status': 'delivered',
-       'timeDelivered': Timestamp.now(),
-     });
-     await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(oID).get().then(
-             (value) async {
-           if (value.exists){
-             await FirebaseFirestore.instance.collection('tables/${widget.tableID}/tableOrders').doc(oID).update({
-               'status': 'delivered',
-               'timeDelivered': Timestamp.now(),
-             });
-           }
-         });
+      if (status['status'] != 'delivered') {
+        await status.reference.update({
+          'status': 'delivered',
+          'timeDelivered': Timestamp.now(),
+        });
+        await FirebaseFirestore.instance
+            .collection('tables/${widget.tableID}/tableOrders')
+            .doc(oID)
+            .get()
+            .then((value) async {
+          if (value.exists) {
+            await FirebaseFirestore.instance
+                .collection('tables/${widget.tableID}/tableOrders')
+                .doc(oID)
+                .update({
+              'status': 'delivered',
+              'timeDelivered': Timestamp.now(),
+            });
+          }
+        });
 
-     //check to see if request is Waiter Request
-     if(widget.request == "Requested: Waiter") {
-       //if its true update table document to make waiterRequested false
-       await FirebaseFirestore.instance.collection('tables').doc(widget.tableID).update({
-         'waiterRequested': false
-       });
-     }
-
-   }
-
- }
+        //check to see if request is Waiter Request
+        if (widget.request == "Requested: Waiter") {
+          //if its true update table document to make waiterRequested false
+          await FirebaseFirestore.instance
+              .collection('tables')
+              .doc(widget.tableID)
+              .update({'waiterRequested': false});
+        }
+      }
+    }
+  }
 
   //converts firebase time into human readable time
   convertTime(time) {

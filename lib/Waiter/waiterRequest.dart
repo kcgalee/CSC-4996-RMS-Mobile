@@ -172,6 +172,7 @@ class _WaiterRequestState extends State<WaiterRequest> {
                                 tableID: snapshot.data?.docs[index]['tableID'],
                                 orderDoc: snapshot.data?.docs[index].reference.id ?? '',
                                 inactive: false,
+                                tableStatus: snapshot.data?.docs[index]['tableStatus'],
                               );
                             }
                         );
@@ -234,6 +235,7 @@ class _WaiterRequestState extends State<WaiterRequest> {
                                 tableID: snapshot.data?.docs[index]['tableID'],
                                 orderDoc: snapshot.data?.docs[index].reference.id ?? '',
                                 inactive: true,
+                                tableStatus: snapshot.data?.docs[index]['tableStatus'],
                               );
                             }
                         );

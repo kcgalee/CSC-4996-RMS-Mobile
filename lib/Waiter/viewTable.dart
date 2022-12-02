@@ -259,6 +259,7 @@ class _ViewTableState extends State<ViewTable> {
                 if (element['status'] != 'delivered'){
                   await FirebaseFirestore.instance.collection('orders').doc(element.id).update({
                     'status': 'delivered',
+                    'tableClosed': true,
                   });
                 }
               });
