@@ -90,14 +90,17 @@ class MenuTile extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 10,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(taskName,
-                            style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
-                        Text(price,
-                            style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
-                      ],
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(taskName,
+                              style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
+                          Text(" \$$price",
+                              style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
+                        ],
+                      ),
                     ),
                     Text(subTitle,
                         style: const TextStyle(color: Colors.black,fontSize: 15)),
@@ -158,14 +161,17 @@ class MenuTile extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(taskName,
-                          style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
-                      Text(price,
-                          style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
-                    ],
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(taskName,
+                            style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
+                        Text(" \$$price",
+                            style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
+                      ],
+                    ),
                   ),
 
                     Text(subTitle,

@@ -98,7 +98,10 @@ class _SeeRatings extends State<SeeRatings> {
                                 ),
                                 Text(widget.restName,style:TextStyle(fontSize: 30)),
                                 Expanded(
-                                  child: Center(child: Text("There currently are no reviews for ${widget.restName}."),)
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(50.0),
+                                    child: Center(child: Text("There currently are no reviews for ${widget.restName}."),),
+                                  )
                                 )
                               ]);
                     } else {
