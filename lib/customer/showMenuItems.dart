@@ -513,6 +513,10 @@ class _ShowMenuItems extends State<ShowMenuItems> {
   if (text != '') {
     text = text.substring(0, text.length - 2);
   }
+
+  if(text == '') {
+    text = 'No dietary options to show';
+  }
     return text;
   }
 }
