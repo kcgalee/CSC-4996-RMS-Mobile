@@ -142,11 +142,11 @@ class _WaiterRequestState extends State<WaiterRequest> {
                               if (snapshot.data?.docs[index]['itemName'] == 'Request Waiter'){
                                 requestedItem = 'Requested: Waiter';
                                 orderIcon = Icon(Icons.person);
-                                boxColor = Colors.indigo.shade200;
+                                boxColor = Colors.indigo.shade100;
                               } else if (snapshot.data?.docs[index]['itemName'] == 'Request Bill'){
                                 requestedItem = 'Requested: Bill';
                                 orderIcon = Icon(Icons.sticky_note_2_rounded);
-                                boxColor = Colors.indigo.shade200;
+                                boxColor = Colors.indigo.shade100;
                               } else {
                                 requestedItem = 'Item: ' + (snapshot.data?.docs[index]['itemName'] ?? '')
                                     + '  x ' + (snapshot.data?.docs[index]['quantity'].toString() ?? '');
