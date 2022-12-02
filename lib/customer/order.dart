@@ -33,196 +33,199 @@ class _Order extends State<Order> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        drawer: const NavigationDrawer(),
-        appBar: AppBar(
-          title: const Text('Menu'),
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          elevation: 0,
-          actions: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child:
-              TextButton(
-                onPressed: (){
-                  Navigator.push(context,
-                      MaterialPageRoute(
-                          builder: (context) => ViewOrder(createOrderInfo: createOrderInfo)));
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+          drawer: const NavigationDrawer(),
+          appBar: AppBar(
+            title: const Text('Menu'),
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+            elevation: 0,
+            actions: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child:
+                TextButton(
+                  onPressed: (){
+                    Navigator.push(context,
+                        MaterialPageRoute(
+                            builder: (context) => ViewOrder(createOrderInfo: createOrderInfo)));
 
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50)),
-                ),
-                child: const Icon(
-                  Icons.shopping_cart,
-                  color: Colors.white,
-                  size: 20.0,
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50)),
+                  ),
+                  child: const Icon(
+                    Icons.shopping_cart,
+                    color: Colors.white,
+                    size: 20.0,
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-        body: Center(
-          //===============================
-          //Start of user doc stream builder
-          //=================================
+            ],
+          ),
+          body: Center(
+            //===============================
+            //Start of user doc stream builder
+            //=================================
 
-          child: StreamBuilder(
-            stream: FirebaseFirestore.instance.collection('users')
-              .doc(FirebaseAuth.instance.currentUser?.uid)
-              .snapshots(),
-                builder: (context, userSnapshot) {
+            child: StreamBuilder(
+              stream: FirebaseFirestore.instance.collection('users')
+                .doc(FirebaseAuth.instance.currentUser?.uid)
+                .snapshots(),
+                  builder: (context, userSnapshot) {
 
-              //CHECK THAT SNAPSHOT HAS DATA
-              if(userSnapshot.hasData) {
+                //CHECK THAT SNAPSHOT HAS DATA
+                if(userSnapshot.hasData) {
 
 
-                //===============================
-                //ERROR HANDLING FOR CLOSED TABLE
-                //===============================
-                if(userSnapshot.data!['tableID'] == ''){
-                  return Column(
-                    children:  [
-                      const Text('Table Closed'),
+                  //===============================
+                  //ERROR HANDLING FOR CLOSED TABLE
+                  //===============================
+                  if(userSnapshot.data!['tableID'] == ''){
+                    return Column(
+                      children:  [
+                        const Text('Table Closed'),
 
-                      CustomSubButton(text: "Back to Home Page",
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const CustomerHome()));
-                        },
-                      ),
-
-                    ],
-
-                  );
-                }
-
-                if (userSnapshot.data!['tableID'] != '') {
-                  return Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child:
-                        IconButton(
+                        CustomSubButton(text: "Back to Home Page",
                           onPressed: () {
-                            Navigator.pop(context);
+                            Navigator.push(context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const CustomerHome()));
                           },
-                          icon: const Icon(
-                            Icons.arrow_back,
-                            color: Colors.black87,
+                        ),
+
+                      ],
+
+                    );
+                  }
+
+                  if (userSnapshot.data!['tableID'] != '') {
+                    return Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child:
+                          IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: const Icon(
+                              Icons.arrow_back,
+                              color: Colors.black87,
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 26.0),
-                        child: Text(restName,
-                          style: const TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.bold),),
-                      ),
-                      CustomIconButton(text: "APPETIZERS",
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ShowMenuItems(text: 'appetizer',
-                                        restName: restName,
-                                        priority: 3,
-                                        createOrderInfo: createOrderInfo,)));
-                        }, iconInput: Icons.kebab_dining,
-                      ),
-                      CustomIconButton(text: "ENTREES",
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ShowMenuItems(text: 'entree',
-                                        restName: restName,
-                                        priority: 3,
-                                        createOrderInfo: createOrderInfo,)));
-                        }, iconInput: Icons.lunch_dining,
-                      ),
-                      CustomIconButton(text: "DESSERTS",
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ShowMenuItems(text: 'dessert',
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 26.0),
+                          child: Text(restName,
+                            style: const TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.bold),),
+                        ),
+                        CustomIconButton(text: "APPETIZERS",
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ShowMenuItems(text: 'appetizer',
                                           restName: restName,
                                           priority: 3,
-                                          createOrderInfo: createOrderInfo)));
-                        }, iconInput: Icons.icecream,
-                      ),
-                      CustomIconButton(text: "DRINKS",
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ShowMenuItems(text: 'drink',
+                                          createOrderInfo: createOrderInfo,)));
+                          }, iconInput: Icons.kebab_dining,
+                        ),
+                        CustomIconButton(text: "ENTREES",
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ShowMenuItems(text: 'entree',
                                           restName: restName,
-                                          priority: 2,
-                                          createOrderInfo: createOrderInfo)));
-                        }, iconInput: Icons.liquor,
-                      ),
-                      CustomIconButton(text: "CONDIMENTS",
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ShowMenuItems(text: 'condiment',
-                                          restName: restName,
-                                          priority: 1,
-                                          createOrderInfo: createOrderInfo)));
-                        }, iconInput: Icons.battery_6_bar,
-                      ),
-                      CustomIconButton(text: "UTENSILS",
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ShowMenuItems(text: 'utensil',
-                                          restName: restName,
-                                          priority: 1,
-                                          createOrderInfo: createOrderInfo)));
-                        }, iconInput: Icons.restaurant,
-                      ),
-                      CustomIconButton(text: "OTHER",
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ShowMenuItems(text: 'other',
-                                          restName: restName,
-                                          priority: 1,
-                                          createOrderInfo: createOrderInfo)));
-                        }, iconInput: Icons.baby_changing_station,
-                      ),
-                      const SizedBox(height: 20),
+                                          priority: 3,
+                                          createOrderInfo: createOrderInfo,)));
+                          }, iconInput: Icons.lunch_dining,
+                        ),
+                        CustomIconButton(text: "DESSERTS",
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ShowMenuItems(text: 'dessert',
+                                            restName: restName,
+                                            priority: 3,
+                                            createOrderInfo: createOrderInfo)));
+                          }, iconInput: Icons.icecream,
+                        ),
+                        CustomIconButton(text: "DRINKS",
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ShowMenuItems(text: 'drink',
+                                            restName: restName,
+                                            priority: 2,
+                                            createOrderInfo: createOrderInfo)));
+                          }, iconInput: Icons.liquor,
+                        ),
+                        CustomIconButton(text: "CONDIMENTS",
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ShowMenuItems(text: 'condiment',
+                                            restName: restName,
+                                            priority: 1,
+                                            createOrderInfo: createOrderInfo)));
+                          }, iconInput: Icons.battery_6_bar,
+                        ),
+                        CustomIconButton(text: "UTENSILS",
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ShowMenuItems(text: 'utensil',
+                                            restName: restName,
+                                            priority: 1,
+                                            createOrderInfo: createOrderInfo)));
+                          }, iconInput: Icons.restaurant,
+                        ),
+                        CustomIconButton(text: "OTHER",
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ShowMenuItems(text: 'other',
+                                            restName: restName,
+                                            priority: 1,
+                                            createOrderInfo: createOrderInfo)));
+                          }, iconInput: Icons.baby_changing_station,
+                        ),
+                        const SizedBox(height: 20),
 
 
-                    ], //Children
-                  );
+                      ], //Children
+                    );
+                  }
+
+
+                  //===========================
+                  //table closed error handling
+                  //===========================
+
                 }
 
 
-                //===========================
-                //table closed error handling
-                //===========================
+                  return const Text('no data to show');
 
-              }
-
-
-                return const Text('no data to show');
-
-          } )
-              //======================
-              //End of user doc stream builder
-              //======================
-    )
+            } )
+                //======================
+                //End of user doc stream builder
+                //======================
+      )
+      ),
     );
   }
 

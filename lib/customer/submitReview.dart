@@ -34,174 +34,177 @@ class _SubmitReviewState extends State<SubmitReview> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      drawer: const NavigationDrawer(),
-      appBar: AppBar(
-        title: const Text("Submit Review"),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 1,
-      ),
-      body: SingleChildScrollView(
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        drawer: const NavigationDrawer(),
+        appBar: AppBar(
+          title: const Text("Submit Review"),
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          elevation: 1,
+        ),
+        body: SingleChildScrollView(
 
-          child: StreamBuilder (
-              stream: FirebaseFirestore.instance.collection('users')
-                  .doc(FirebaseAuth.instance.currentUser?.uid)
-                  .snapshots(),
-              builder: (context, userSnapshot) {
-                if(userSnapshot.hasData) {
-                  return FutureBuilder (
-                    future: getInfo(userSnapshot.data!['restID'], userSnapshot.data!['waiterID']),
-                  builder: (build, context2) {
-                  return Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child:
-                        IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                  const CustomerHome()),
-                            );
-                          },
-                          icon: const Icon(
-                            Icons.arrow_back,
-                            color: Colors.black87,
+            child: StreamBuilder (
+                stream: FirebaseFirestore.instance.collection('users')
+                    .doc(FirebaseAuth.instance.currentUser?.uid)
+                    .snapshots(),
+                builder: (context, userSnapshot) {
+                  if(userSnapshot.hasData) {
+                    return FutureBuilder (
+                      future: getInfo(userSnapshot.data!['restID'], userSnapshot.data!['waiterID']),
+                    builder: (build, context2) {
+                    return Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child:
+                          IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                    const CustomerHome()),
+                              );
+                            },
+                            icon: const Icon(
+                              Icons.arrow_back,
+                              color: Colors.black87,
+                            ),
                           ),
                         ),
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                              padding: const EdgeInsets.all(20.0),
-                              alignment: Alignment.topLeft,
-                              child:  Text("Review by ${userSnapshot.data!['fName']}",
-                              )
-                          ),
-                          const Spacer(),
-                          Container(
-                              padding: const EdgeInsets.all(20.0),
-                              alignment: Alignment.topLeft,
-                              child: Text(currentDate
-                              )
-                          ),
-                        ],
-                      ),
+                        Row(
+                          children: [
+                            Container(
+                                padding: const EdgeInsets.all(20.0),
+                                alignment: Alignment.topLeft,
+                                child:  Text("Review by ${userSnapshot.data!['fName']}",
+                                )
+                            ),
+                            const Spacer(),
+                            Container(
+                                padding: const EdgeInsets.all(20.0),
+                                alignment: Alignment.topLeft,
+                                child: Text(currentDate
+                                )
+                            ),
+                          ],
+                        ),
 
-                      Text('$restName Review',
+                        Text('$restName Review',
+                            style: const TextStyle(
+                            fontWeight:
+                            FontWeight.bold,
+                            fontSize: 20,)
+                        ),
+                        RatingBar.builder(
+                          initialRating: 0,
+                          minRating: 1,
+                          direction: Axis.horizontal,
+                          allowHalfRating: true,
+                          itemCount: 5,
+                          itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                          itemBuilder: (context, _) => const Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          ),
+                          onRatingUpdate: (rating) {
+                            restStarRating = rating;
+                          },
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column (
+                            children: [
+                          CustomTextForm(
+                              hintText: 'Share your experience',
+                              controller: restReviewController,
+                              validator: null,
+                              keyboardType: TextInputType.text,
+                              maxLines: 5,
+                              maxLength: 100,
+                              icon: const Icon(Icons.reviews)
+                          ),
+
+                              const Text('Max length 250 characters',
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 12,)
+                              ),
+                      ]
+                          ),
+                        ),
+
+                        Text('Waiter $waiterName Review',
                           style: const TextStyle(
                           fontWeight:
                           FontWeight.bold,
                           fontSize: 20,)
-                      ),
-                      RatingBar.builder(
-                        initialRating: 0,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: true,
-                        itemCount: 5,
-                        itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                        itemBuilder: (context, _) => const Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                        onRatingUpdate: (rating) {
-                          restStarRating = rating;
-                        },
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column (
-                          children: [
-                        CustomTextForm(
-                            hintText: 'Share your experience',
-                            controller: restReviewController,
-                            validator: null,
-                            keyboardType: TextInputType.text,
-                            maxLines: 5,
-                            maxLength: 100,
-                            icon: const Icon(Icons.reviews)
                         ),
 
+                        RatingBar.builder(
+                          initialRating: 0,
+                          minRating: 1,
+                          direction: Axis.horizontal,
+                          allowHalfRating: true,
+                          itemCount: 5,
+                          itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                          itemBuilder: (context, _) => const Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          ),
+                          onRatingUpdate: (rating) {
+                            waiterStarRating = rating;
+                          },
+                        ),
+
+                        Container(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
+                          children: [
+                          CustomTextForm(
+                              hintText: 'Share your experience',
+                              controller: waiterReviewController,
+                              validator: null,
+                              keyboardType: TextInputType.text,
+                              maxLines: 5,
+                              maxLength: 250,
+                              icon: const Icon(Icons.reviews)
+                          ),
                             const Text('Max length 250 characters',
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 12,)
                             ),
-                    ]
+                          ]
+                      ),
                         ),
-                      ),
 
-                      Text('Waiter $waiterName Review',
-                        style: const TextStyle(
-                        fontWeight:
-                        FontWeight.bold,
-                        fontSize: 20,)
-                      ),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: CustomMainButton(
+                              text: "SUBMIT REVIEW",
+                              onPressed: () {
+                                addRestReview(restReviewController.text.toString(), restStarRating, waiterReviewController.text.toString(),
+                                   waiterStarRating, userSnapshot.data!.id, userSnapshot.data!['fName'], userSnapshot.data!['restID'], userSnapshot.data!['waiterID']);
 
-                      RatingBar.builder(
-                        initialRating: 0,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: true,
-                        itemCount: 5,
-                        itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                        itemBuilder: (context, _) => const Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                        onRatingUpdate: (rating) {
-                          waiterStarRating = rating;
-                        },
-                      ),
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=> const CustomerHome()));
+                              }),
+                        )
+                      ],
+                    );
+                    });
+                  }
 
-                      Container(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                        children: [
-                        CustomTextForm(
-                            hintText: 'Share your experience',
-                            controller: waiterReviewController,
-                            validator: null,
-                            keyboardType: TextInputType.text,
-                            maxLines: 5,
-                            maxLength: 250,
-                            icon: const Icon(Icons.reviews)
-                        ),
-                          const Text('Max length 250 characters',
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 12,)
-                          ),
-                        ]
-                    ),
-                      ),
+                  else {
+                    return const Text('No data to show');
+                  }
 
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: CustomMainButton(
-                            text: "SUBMIT REVIEW",
-                            onPressed: () {
-                              addRestReview(restReviewController.text.toString(), restStarRating, waiterReviewController.text.toString(),
-                                 waiterStarRating, userSnapshot.data!.id, userSnapshot.data!['fName'], userSnapshot.data!['restID'], userSnapshot.data!['waiterID']);
-
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> const CustomerHome()));
-                            }),
-                      )
-                    ],
-                  );
-                  });
                 }
-
-                else {
-                  return const Text('No data to show');
-                }
-
-              }
-          )
+            )
+        ),
       ),
     );
   }

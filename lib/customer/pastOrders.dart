@@ -21,59 +21,62 @@ String visitID;
 class _PastOrdersState extends State<PastOrders> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        drawer: const NavigationDrawer(),
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: const Text('Past Orders',),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+          drawer: const NavigationDrawer(),
           backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          elevation: 1,
-        ),
-        body: Column(
-          children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child:
-              IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(
-                  Icons.arrow_back,
-                  color: Colors.black87,
+          appBar: AppBar(
+            title: const Text('Past Orders',),
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+            elevation: 1,
+          ),
+          body: Column(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child:
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.black87,
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              child: StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection('users/${FirebaseAuth.instance.currentUser?.uid}'
-                      '/pastVisits/${widget.visitID}/tableOrders')
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData || (snapshot.data?.size == 0)) {
-                      return Center(child:Text('You have no orders'));
-                    } else {
-                      return ListView.builder(
-                          itemCount: snapshot.data?.docs.length,
-                          itemBuilder: (context, index) {
-                            return PastOrdersTile(
-                              taskName:
-                              'Item: ' + (snapshot.data?.docs[index]['itemName'] ?? ''),
-                              comment: snapshot.data?.docs[index]['orderComment'],
-                              price: (snapshot.data?.docs[index]['price'] ?? ''),
-                              quantity: snapshot.data?.docs[index]['quantity'],
-                              custName: snapshot.data?.docs[index]['custName'],
-                              imgURL: snapshot.data?.docs[index]['imgURL'],
-                            );
-                          }
-                      );
-                    }
-                  }),
-            ),
-          ],
-        )
+              Expanded(
+                child: StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('users/${FirebaseAuth.instance.currentUser?.uid}'
+                        '/pastVisits/${widget.visitID}/tableOrders')
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData || (snapshot.data?.size == 0)) {
+                        return Center(child:Text('You have no orders'));
+                      } else {
+                        return ListView.builder(
+                            itemCount: snapshot.data?.docs.length,
+                            itemBuilder: (context, index) {
+                              return PastOrdersTile(
+                                taskName:
+                                'Item: ' + (snapshot.data?.docs[index]['itemName'] ?? ''),
+                                comment: snapshot.data?.docs[index]['orderComment'],
+                                price: (snapshot.data?.docs[index]['price'] ?? ''),
+                                quantity: snapshot.data?.docs[index]['quantity'],
+                                custName: snapshot.data?.docs[index]['custName'],
+                                imgURL: snapshot.data?.docs[index]['imgURL'],
+                              );
+                            }
+                        );
+                      }
+                    }),
+              ),
+            ],
+          )
+      ),
     );
   }
 }
