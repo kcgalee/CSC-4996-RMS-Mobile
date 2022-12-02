@@ -61,7 +61,12 @@ class _SubmitReviewState extends State<SubmitReview> {
                         child:
                         IconButton(
                           onPressed: () {
-                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                  const CustomerHome()),
+                            );
                           },
                           icon: const Icon(
                             Icons.arrow_back,
@@ -95,9 +100,7 @@ class _SubmitReviewState extends State<SubmitReview> {
                       ),
 
                       Row(
-
                         children: [
-
                           Container(
                               padding: const EdgeInsets.only(top: 20.0, right: 10, left: 20.0, bottom: 20.0),
                               alignment: Alignment.topLeft,

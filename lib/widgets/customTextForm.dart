@@ -16,6 +16,7 @@ class CustomTextForm extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.only(bottom: 15),
         child: TextFormField(
+
           controller: controller,
           keyboardType: keyboardType,
           maxLines: maxLines,
@@ -26,6 +27,8 @@ class CustomTextForm extends StatelessWidget {
               counter: Offstage(),
               hintText: hintText,
               prefixIcon: icon,
+              filled: true,
+              fillColor: Colors.white
           ),
         ),
       );
