@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/customer/pastOrders.dart';
 import '../widgets/pastVisitsTile.dart';
 import 'Utility/navigation.dart';
+import 'customerHome.dart';
 
 /*
 This page will display restaurants visited by the current user. Each tile
@@ -41,8 +42,12 @@ class _PastVisitsState extends State<PastVisits> {
               alignment: Alignment.topLeft,
               child: IconButton(
                 onPressed: () {
-                  Navigator.pop(context);
-
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                        const CustomerHome()),
+                  );
                 },
                 icon: const Icon(
                   Icons.arrow_back,

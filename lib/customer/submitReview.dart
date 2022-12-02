@@ -35,7 +35,6 @@ class _SubmitReviewState extends State<SubmitReview> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: Colors.white,
       drawer: const NavigationDrawer(),
       appBar: AppBar(
         title: const Text("Submit Review"),
@@ -61,7 +60,12 @@ class _SubmitReviewState extends State<SubmitReview> {
                         child:
                         IconButton(
                           onPressed: () {
-                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                  const CustomerHome()),
+                            );
                           },
                           icon: const Icon(
                             Icons.arrow_back,
@@ -87,43 +91,26 @@ class _SubmitReviewState extends State<SubmitReview> {
                         ],
                       ),
 
-                      Text('$restName\n',
-                          style: TextStyle(
+                      Text('$restName Review',
+                          style: const TextStyle(
                           fontWeight:
                           FontWeight.bold,
                           fontSize: 20,)
                       ),
-
-                      Row(
-
-                        children: [
-
-                          Container(
-                              padding: const EdgeInsets.only(top: 20.0, right: 10, left: 20.0, bottom: 20.0),
-                              alignment: Alignment.topLeft,
-                              child:  const Text("Restaurant Review",
-                                style: TextStyle(
-                                  fontWeight:
-                                  FontWeight.bold,
-                                  fontSize: 15,),
-                              )
-                          ),
-                          RatingBar.builder(
-                            initialRating: 0,
-                            minRating: 1,
-                            direction: Axis.horizontal,
-                            allowHalfRating: true,
-                            itemCount: 5,
-                            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                            itemBuilder: (context, _) => const Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                            ),
-                            onRatingUpdate: (rating) {
-                              restStarRating = rating;
-                            },
-                          ),
-                        ],
+                      RatingBar.builder(
+                        initialRating: 0,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        itemBuilder: (context, _) => const Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        onRatingUpdate: (rating) {
+                          restStarRating = rating;
+                        },
                       ),
                       Container(
                         padding: const EdgeInsets.all(20.0),
@@ -139,49 +126,38 @@ class _SubmitReviewState extends State<SubmitReview> {
                             icon: const Icon(Icons.reviews)
                         ),
 
-                            const Text('Max length 250 characters'),
+                            const Text('Max length 250 characters',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12,)
+                            ),
                     ]
                         ),
                       ),
 
-                      Text('$waiterName\n',
-                        style: TextStyle(
+                      Text('Waiter $waiterName Review',
+                        style: const TextStyle(
                         fontWeight:
                         FontWeight.bold,
                         fontSize: 20,)
                       ),
 
-                      Row(
-                        children: [
-
-
-                          Container(
-                              padding: const EdgeInsets.only(top: 20.0, right: 40.0, left: 20.0, bottom: 20.0),
-                              alignment: Alignment.topLeft,
-                              child:  const Text("Waiter Review",
-                                style: TextStyle(
-                                  fontWeight:
-                                  FontWeight.bold,
-                                  fontSize: 15,),
-                              )
-                          ),
-                          RatingBar.builder(
-                            initialRating: 0,
-                            minRating: 1,
-                            direction: Axis.horizontal,
-                            allowHalfRating: true,
-                            itemCount: 5,
-                            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                            itemBuilder: (context, _) => const Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                            ),
-                            onRatingUpdate: (rating) {
-                              waiterStarRating = rating;
-                            },
-                          ),
-                        ],
+                      RatingBar.builder(
+                        initialRating: 0,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        itemBuilder: (context, _) => const Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        onRatingUpdate: (rating) {
+                          waiterStarRating = rating;
+                        },
                       ),
+
                       Container(
                         padding: const EdgeInsets.all(20.0),
                         child: Column(
@@ -195,7 +171,11 @@ class _SubmitReviewState extends State<SubmitReview> {
                             maxLength: 250,
                             icon: const Icon(Icons.reviews)
                         ),
-                          const Text('Max length 250 characters'),
+                          const Text('Max length 250 characters',
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 12,)
+                          ),
                         ]
                     ),
                       ),
