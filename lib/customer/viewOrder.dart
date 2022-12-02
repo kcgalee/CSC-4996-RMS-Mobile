@@ -335,12 +335,12 @@ class _ViewOrder extends State<ViewOrder> {
                                     children: [
                                       Text(
                                         "Total : \$ ${totalPrice.toStringAsFixed(2)}",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 22,
                                           color: Colors.black54,
                                           fontWeight: FontWeight.bold,
-
                                         ),
+                                      )
                                       ],
                                     ),
                                   ),
