@@ -137,7 +137,7 @@ class _WaiterRequestState extends State<WaiterRequest> {
                             itemBuilder: (context, index) {
                               String comment = '';
                               Icon orderIcon; //set request tile Icon
-                              Color boxColor = Colors.white;//set request tile colore
+                              Color boxColor = Colors.white;//set request tile color
                               String requestedItem = '';
                               if (snapshot.data?.docs[index]['itemName'] == 'Request Waiter'){
                                 requestedItem = 'Requested: Waiter';
