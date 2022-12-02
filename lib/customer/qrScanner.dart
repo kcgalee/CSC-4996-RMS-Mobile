@@ -32,13 +32,16 @@ class _QRScannerState extends State<QRScanner> {
 
   @override
   Widget build(BuildContext context) => SafeArea(
-      child: Scaffold(
-        body: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            buildQrView(context),
-            Positioned(bottom:19, child: buildResult()),
-          ],
+      child: WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
+          body: Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              buildQrView(context),
+              Positioned(bottom:19, child: buildResult()),
+            ],
+          ),
         ),
       )
   );
