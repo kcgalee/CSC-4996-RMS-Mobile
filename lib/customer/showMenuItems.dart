@@ -294,21 +294,26 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                                                             Expanded(
                                                                                                 child: Align(
                                                                                                     alignment: FractionalOffset.bottomCenter,
-                                                                                                    child: CustomTextForm(
-                                                                                                        hintText:
-                                                                                                        'Optional Order Comments',
-                                                                                                        controller:
-                                                                                                        orderCommentsController,
-                                                                                                        validator:
-                                                                                                        null,
-                                                                                                        keyboardType: TextInputType
-                                                                                                            .text,
-                                                                                                        maxLines:
-                                                                                                        3,
-                                                                                                        maxLength:
-                                                                                                        100,
-                                                                                                        icon:
-                                                                                                        const Icon(Icons.fastfood))
+                                                                                                    child: Container(
+                                                                                                        decoration: BoxDecoration(
+                                                                                                            border: Border.all(color: Colors.grey)
+                                                                                                        ),
+                                                                                                      child: CustomTextForm(
+                                                                                                          hintText:
+                                                                                                          'Optional Order Comments',
+                                                                                                          controller:
+                                                                                                          orderCommentsController,
+                                                                                                          validator:
+                                                                                                          null,
+                                                                                                          keyboardType: TextInputType
+                                                                                                              .text,
+                                                                                                          maxLines:
+                                                                                                          3,
+                                                                                                          maxLength:
+                                                                                                          100,
+                                                                                                          icon:
+                                                                                                          const Icon(Icons.fastfood))
+                                                                                                    )
                                                                                                 )
                                                                                             )
                                                                                           ])
