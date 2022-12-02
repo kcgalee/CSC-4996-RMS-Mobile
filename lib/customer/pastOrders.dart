@@ -62,7 +62,7 @@ class _PastOrdersState extends State<PastOrders> {
                             itemBuilder: (context, index) {
                               return PastOrdersTile(
                                 taskName:
-                                'Item: ' + (snapshot.data?.docs[index]['itemName'] ?? ''),
+                                (snapshot.data?.docs[index]['itemName'] ?? ''),
                                 comment: snapshot.data?.docs[index]['orderComment'],
                                 price: (snapshot.data?.docs[index]['price'] ?? ''),
                                 quantity: snapshot.data?.docs[index]['quantity'],

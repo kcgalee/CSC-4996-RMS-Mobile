@@ -371,6 +371,43 @@ class _PlacedOrders extends State<PlacedOrders> {
                                               );
                                             }
                                             //ALERT USER THAT ORDER IS IN PROGRESS
+
+                                           else if(snapshot.data?.docs[index]['status'] == 'delivered') {
+                                              showDialog<void>(
+                                                context: context,
+                                                barrierDismissible:
+                                                false,
+                                                // user must tap button!
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    title: const Text(
+                                                        'Cannot edit order'),
+                                                    content:
+                                                    SingleChildScrollView(
+                                                      child: ListBody(
+                                                        children: const <
+                                                            Widget>[
+                                                          Text(
+                                                              'Order is delivered!'),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    actions: <Widget>[
+                                                      TextButton(
+                                                        child:
+                                                        const Text(
+                                                            'OK'),
+                                                        onPressed: () {
+                                                          Navigator.of(
+                                                              context)
+                                                              .pop();
+                                                        },
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
+                                            }
                                             else {
 
                                               showDialog<void>(
@@ -461,8 +498,8 @@ class _PlacedOrders extends State<PlacedOrders> {
                                                 );
                                               }
 
-                                              //ALERT USER THAT ORDER IS IN PROGRESS
-                                              else {
+                                              //order has been delivered
+                                              else if(snapshot.data?.docs[index]['status'] == 'delivered') {
                                                 showDialog<void>(
                                                   context: context,
                                                   barrierDismissible:
@@ -478,7 +515,45 @@ class _PlacedOrders extends State<PlacedOrders> {
                                                           children: const <
                                                               Widget>[
                                                             Text(
-                                                                'Order is in progress'),
+                                                                'Order is delivered!'),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      actions: <Widget>[
+                                                        TextButton(
+                                                          child:
+                                                          const Text(
+                                                              'OK'),
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                context)
+                                                                .pop();
+                                                          },
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                              }
+
+                                              //ALERT USER THAT ORDER IS IN PROGRESS
+                                              else {
+                                                showDialog<void>(
+                                                  context: context,
+                                                  barrierDismissible:
+                                                  false,
+                                                  // user must tap button!
+                                                  builder: (context) {
+                                                    return AlertDialog(
+                                                      title: const Text(
+                                                          'Cannot edit order'),
+                                                      content:
+                                                      SingleChildScrollView(
+                                                        child: ListBody(
+                                                          children: const <
+                                                              Widget>[
+                                                            Text(
+                                                                'Order is delivered'),
                                                           ],
                                                         ),
                                                       ),
