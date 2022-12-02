@@ -29,82 +29,81 @@ class OrderTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Padding(
-      padding: const EdgeInsets.only(left: 15, right: 15, top: 25),
-      child: Slidable(
-        endActionPane: ActionPane(
-          motion: const StretchMotion(),
-          children: [
-            SlidableAction(
-              onPressed: onPressedEdit,
-              icon: Icons.edit_note,
-              label: 'EDIT',
-              backgroundColor: Colors.blueAccent,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            SlidableAction(
-              onPressed: onPressedDelete,
-              icon: Icons.delete,
-              label: 'DELETE',
-              backgroundColor: Colors.redAccent,
-              borderRadius: BorderRadius.circular(10),
-            )
-          ],
-        ),
-        child: Container(
-          padding:
-          const EdgeInsets.only(right: 15, left: 10, bottom: 10, top: 10),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-             ),
-          child: FutureBuilder (
-            future: getPrice(price),
-            builder: (build, context2) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  //task name and time
-                  Row(
+        padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+        child: Slidable(
+          endActionPane: ActionPane(
+            motion: const StretchMotion(),
+            children: [
+              SlidableAction(
+                onPressed: onPressedEdit,
+                icon: Icons.edit_note,
+                label: 'EDIT',
+                backgroundColor: Colors.blueAccent,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              SlidableAction(
+                onPressed: onPressedDelete,
+                icon: Icons.delete,
+                label: 'DELETE',
+                backgroundColor: Colors.redAccent,
+                borderRadius: BorderRadius.circular(10),
+              )
+            ],
+          ),
+          child: Container(
+              padding: const EdgeInsets.only(
+                  right: 15, left: 10, bottom: 10, top: 10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: FutureBuilder(
+                future: getPrice(price),
+                builder: (build, context2) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        height: 50,
-                        width: 50,
-                        child:
-                        FittedBox(
-                          fit: BoxFit.fill,
-                          child:
-                          Image.network(imgURL),
-                        ),
+                      //task name and time
+                      Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            // Image border
+                            child: SizedBox.fromSize(
+                              size: const Size.fromRadius(25), // Image radius
+                              child: FadeInImage(
+                                  placeholder: const AssetImage(
+                                      'assets/images/RMS_logo.png'),
+                                  image: imgURL != ''
+                                      ? NetworkImage(imgURL)
+                                      : const AssetImage('assets/images/RMS_logo.png')
+                                          as ImageProvider,
+                                  fit: BoxFit.cover),
+                            ),
+                          ),
+                          const SizedBox(width: 15),
+                          Flexible(
+                            child: Text('${taskName}\n$newPrice',
+                                style: const TextStyle(
+                                    color: Colors.black54,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold)),
+                          )
+                        ],
                       ),
-                      const SizedBox (width: 15),
-                      Flexible(
-                        child: Text('${taskName}\n$newPrice',
-                            style: const TextStyle(
-                                color: Colors.black54,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold)
-                        ),
-                      )
                     ],
-                  ),
-                ],
-              );
-            },
-          )
-
-        ),
-      )
-    );
+                  );
+                },
+              )),
+        ));
   }
 
   Future<void> getPrice(String price) async {
-    if(price == '0.00') {
+    if (price == '0.00') {
       newPrice = 'Free';
     } else {
       newPrice = '\$$price';
     }
   }
-
 }

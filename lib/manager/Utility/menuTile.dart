@@ -29,7 +29,7 @@ class MenuTile extends StatelessWidget {
       return FutureBuilder(
         builder: (context, snapshot) {
           return Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15,bottom: 25),
+            padding: const EdgeInsets.only(left: 15, right: 15,bottom: 10),
             child: Slidable(
               endActionPane: ActionPane(
                 motion:const StretchMotion(),
@@ -71,41 +71,59 @@ class MenuTile extends StatelessWidget {
                 ],
               ),
               child: Container(
-                padding: const EdgeInsets.only(right: 15,left: 15,bottom: 10,top: 10),
+                padding: const EdgeInsets.only(right: 15,left: 15,top: 10, bottom: 10),
                 decoration: BoxDecoration(color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
                 ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: SizedBox(
-                          height:
-                          MediaQuery.of(context).size.height *0.15 ,
-                          width:
-                          MediaQuery.of(context).size.width,
-                          child:
-                          Image.network(itemIMG, fit: BoxFit.cover,)
-                      ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20), // Image border
+                            child: SizedBox.fromSize(
+                              size: Size.fromRadius(MediaQuery.of(context).size.height*  0.05), // Image radius
+                              child:   FadeInImage(
+                                  placeholder: const AssetImage('assets/images/RMS_logo.png'),
+                                  image: itemIMG != '' ?
+                                  NetworkImage(itemIMG) : const AssetImage('assets/images/RMS_logo.png') as ImageProvider,
+                                  fit: BoxFit.cover
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                                width: MediaQuery.of(context).size.height * 0.3,
+                                child: Expanded(
+                                  child: Text(taskName,
+                                      style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
+                                )
+                            ),
+                            Text(price,
+                                style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)
+                            ),
+                            SizedBox(
+                                width: MediaQuery.of(context).size.height * 0.3,
+                                child: Expanded(
+                                    child:  Text(subTitle,
+                                        style: const TextStyle(color: Colors.black,fontSize: 15)
+                                    ),
+                                )
+                            ),
+                          ],
+                        )
+                      ],
                     ),
-                    SizedBox(height: 10,),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(taskName,
-                              style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
-                          Text(price,
-                              style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                    ),
-                    Text(subTitle,
-                        style: const TextStyle(color: Colors.black,fontSize: 15)),
                   ],
+
                 ),
+
               ),
             ),
           );
@@ -154,31 +172,61 @@ class MenuTile extends StatelessWidget {
                 ],
               ),
               child: Container(
-                padding: const EdgeInsets.only(right: 15,left: 15,bottom: 10,top: 15),
+                padding: const EdgeInsets.only(right: 15,left: 15,top: 10, bottom: 10),
                 decoration: BoxDecoration(color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Row(
                       children: [
-                        Text(taskName,
-                            style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
-                        Text(price,
-                            style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20), // Image border
+                            child: SizedBox.fromSize(
+                              size: Size.fromRadius(MediaQuery.of(context).size.height*  0.05), // Image radius
+                              child:   FadeInImage(
+                                  placeholder: const AssetImage('assets/images/RMS_logo.png'),
+                                  image: itemIMG != '' ?
+                                  NetworkImage(itemIMG) : const AssetImage('assets/images/RMS_logo.png') as ImageProvider,
+                                  fit: BoxFit.cover
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                                width: MediaQuery.of(context).size.height * 0.3,
+                                child: Expanded(
+                                  child: Text(taskName,
+                                      style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
+                                )
+                            ),
+                            Text(price,
+                                style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)
+                            ),
+                            SizedBox(
+                                width: MediaQuery.of(context).size.height * 0.3,
+                                child: Expanded(
+                                  child:  Text(subTitle,
+                                      style: const TextStyle(color: Colors.black,fontSize: 15)
+                                  ),
+                                )
+                            ),
+                          ],
+                        )
                       ],
                     ),
-                  ),
-
-                    Text(subTitle,
-                        style: const TextStyle(color: Colors.black,fontSize: 15)),
                   ],
+
                 ),
+
               ),
+
             ),
           );
         },

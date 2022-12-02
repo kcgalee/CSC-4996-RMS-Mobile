@@ -48,8 +48,13 @@ class PastOrdersTile extends StatelessWidget {
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(20), // Image border
                                 child: SizedBox.fromSize(
-                                  size: const Size.fromRadius(30), // Image radius
-                                  child: Image.network(imgURL, fit: BoxFit.cover),
+                                  size: const Size.fromRadius(25), // Image radius
+                                  child:   FadeInImage(
+                                      placeholder: const AssetImage('assets/images/RMS_logo.png'),
+                                      image: imgURL != '' ?
+                                      NetworkImage(imgURL) : const AssetImage('assets/images/RMS_logo.png') as ImageProvider,
+                                      fit: BoxFit.cover
+                                  ),
                                 ),
                               ),
                               Padding(
@@ -58,28 +63,33 @@ class PastOrdersTile extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    SizedBox(
+                                        width: MediaQuery.of(context).size.height * 0.3,
+                                        child: Expanded(
+                                            child: Text("$taskName long test name",
+                                                style: const TextStyle(
+                                                  color: Colors.black54,
+                                                  fontSize: 18,)
+                                            ),
+                                        )
+                                    ),
                                     Row(
                                       children: [
-                                        Text("$taskName x",
+                                        Text("x $quantity",
                                             style: const TextStyle(
-                                              color: Colors.black38,
-                                              fontSize: 20,)
+                                              color: Colors.black54,
+                                              fontSize: 15,)
                                         ),
-                                        Text("$quantity",
+                                        Text("\$$price",
                                             style: const TextStyle(
-                                              color: Colors.black38,
-                                              fontSize: 20,)
+                                              color: Colors.black54,
+                                              fontSize: 15,)
                                         ),
                                       ],
                                     ),
-                                    Text("\$$price",
-                                        style: const TextStyle(
-                                          color: Colors.black38,
-                                          fontSize: 15,)
-                                    ),
                                     Text("Ordered By: $custName",
                                         style: const TextStyle(
-                                            color: Colors.black54,
+                                            color: Colors.black38,
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold)
                                     ),

@@ -66,7 +66,7 @@ class OrdersPlacedTile extends StatelessWidget {
         future: convertTime(time),
         builder: (context, snapshot) {
           return Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15, top: 25),
+              padding: const EdgeInsets.only(left: 15, right: 15, bottom: 10),
               child: Slidable(
                 endActionPane: ActionPane(
                     motion: const StretchMotion(),
@@ -89,7 +89,7 @@ class OrdersPlacedTile extends StatelessWidget {
                 ),
                 child: Container(
                   padding: const EdgeInsets.only(
-                      right: 15, left: 10, bottom: 10, top: 10),
+                      right: 15, left: 10, bottom: 10,),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
@@ -98,7 +98,7 @@ class OrdersPlacedTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       //task name and time
-                      Text(taskName + '\n$newPrice' + '\nTime Placed $newTime',
+                      Text(taskName + '\nPrice: $newPrice' + '\nTime Placed $newTime',
                           style: const TextStyle(color: Colors.black54,
                               fontSize: 15,
                               fontWeight: FontWeight.bold)),
