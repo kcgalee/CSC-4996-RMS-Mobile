@@ -24,9 +24,15 @@ class PasswordTextField extends StatelessWidget {
           validator: validator,
           obscureText: true,
           decoration: InputDecoration(
-              counter: Offstage(),
+              counter: const Offstage(),
               hintText: hintText,
               prefixIcon: icon,
+              filled: true,
+              fillColor: Colors.white,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide: BorderSide.none,
+              ),
           ),
         ),
       );
