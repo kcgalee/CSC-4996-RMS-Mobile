@@ -55,6 +55,7 @@ class _ViewMemberOrder extends State<ViewMemberOrder> {
                     if(userSnapshot.hasData) {
                       return Expanded(
                         child: StreamBuilder(
+                          //stream tableOrders collection of documents that have been submitted by selected user
                             stream: FirebaseFirestore.instance
                                 .collection(
                                 'tables/${userSnapshot.data!['tableID']}/tableOrders')
@@ -66,6 +67,7 @@ class _ViewMemberOrder extends State<ViewMemberOrder> {
                                     child: Text('You have no active requests'));
                               } else {
                                 return ListView.builder(
+                                  //show list of all items ordered by selected user
                                     itemCount: snapshot.data?.docs.length,
                                     itemBuilder: (context, index){
                                       return OrdersPlacedTile(
@@ -78,11 +80,13 @@ class _ViewMemberOrder extends State<ViewMemberOrder> {
                                         onPressedEdit: (BuildContext ) {  },
                                         onPressedDelete: (BuildContext ) {  },
                                         onTap: () {
+                                          //when an order is tapped show item description
                                           showDialog<void>(
                                             context: context,
                                             barrierDismissible: false, // user must tap button!
                                             builder: (BuildContext context) {
                                               return StreamBuilder(
+                                                //stream restaurant menu collection
                                                   stream: FirebaseFirestore.instance
                                                       .collection('restaurants/${userSnapshot.data!['restID']}/menu')
                                                       .doc(snapshot.data?.docs[index]['itemID'])

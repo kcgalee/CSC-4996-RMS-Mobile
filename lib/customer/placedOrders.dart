@@ -83,6 +83,7 @@ class _PlacedOrders extends State<PlacedOrders> {
 
                       return Expanded(
 
+                        //stream tableOrders document to show all orders at the table
                       child: StreamBuilder(
                               stream: FirebaseFirestore.instance
                                   .collection(
@@ -109,14 +110,22 @@ class _PlacedOrders extends State<PlacedOrders> {
                                           //===================================================
                                           onPressedEdit: (BuildContext ) {
 
-                                             //Check to see if progress has been made
+                                             //Check to see if progress has been made of if the order is request waiter/request bill
+                                            //checks to see if order is made by user
                                             if(snapshot.data?.docs[index]['status'] == 'placed' && snapshot.data?.docs[index]['itemName'] != 'Request Bill' &&
                                             snapshot.data?.docs[index]['itemName'] != 'Request Waiter' &&
                                                 snapshot.data?.docs[index]['custID'] == FirebaseAuth.instance.currentUser?.uid){
+
+                                              //if order is made by user and it's status is placed and its not a request waiter/bill
+                                              //order can be edited.
+
+                                              //get quantitiy of item ordered originally
                                               int currentCount = snapshot
                                                   .data
                                                   ?.docs[index]['quantity'];
                                               int? count = 0;
+
+                                              //get collection ref of tableOrders to send to the editOrder method
                                               String collectionRef = 'tables/${userSnapshot.data!['tableID']}/tableOrders';
                                               final orderCommentsController = TextEditingController();
                                               orderCommentsController.clear();
@@ -450,10 +459,11 @@ class _PlacedOrders extends State<PlacedOrders> {
                                           //======================================================
                                           onPressedDelete: (BuildContext ) {
 
-                                              //check to see if progress has been made
+                                              //check to see if progress has been made, and if the order is made by the current user
                                               if(snapshot.data?.docs[index]['status'] == 'placed' &&
                                                   snapshot.data?.docs[index]['custID'] == FirebaseAuth.instance.currentUser?.uid)
                                               {
+                                                //if order status == 'placed' and order is made by the current user then it can be deleted
                                                 String collectionRef = 'tables/${userSnapshot.data!['tableID']}/tableOrders';
                                                 deleteOrder(snapshot.data?.docs[index].id as String, collectionRef, snapshot.data?.docs[index]['itemName'], snapshot.data?.docs[index]['tableID']);
                                               }
@@ -579,8 +589,11 @@ class _PlacedOrders extends State<PlacedOrders> {
                                           //Tapping order shows item info
                                           //=============================
                                           onTap: () {
+                                              //check to see if order is request bill/waiter
                                           if(snapshot.data?.docs[index]['itemName'] != 'Request Bill' &&
                                               snapshot.data?.docs[index]['itemName'] != 'Request Waiter' ) {
+
+                                            //order is not request bill/waiter
                                             showDialog<void>(
                                             context: context,
                                             barrierDismissible: false, // user must tap button!
@@ -645,8 +658,8 @@ class _PlacedOrders extends State<PlacedOrders> {
 
   }
 
+  //method will delete order from tableOrders and orders collection
   Future<void> deleteOrder(String orderID, String colectionRef, String itemName, String tableID) async {
-
 
     //updated table's document to show that the waiter has not been requested
   if(itemName == "Request Bill") {
@@ -673,6 +686,7 @@ class _PlacedOrders extends State<PlacedOrders> {
 
   }
 
+  //method will update order in tableOrders and orders collection
   void updateOrder(String orderID, int count, String price, String comment, String collectionRef){
 
     //update orders document

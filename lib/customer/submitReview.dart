@@ -91,6 +91,9 @@ class _SubmitReviewState extends State<SubmitReview> {
                           ],
                         ),
 
+                        //====================
+                        //Rest Review
+                        //==================
                         Text('$restName Review',
                             style: const TextStyle(
                             fontWeight:
@@ -135,6 +138,9 @@ class _SubmitReviewState extends State<SubmitReview> {
                           ),
                         ),
 
+                        //=============================
+                        //Waiter review
+                        //============================
                         Text('Waiter $waiterName Review',
                           style: const TextStyle(
                           fontWeight:
