@@ -26,50 +26,53 @@ class _WaiterHomeState extends State<WaiterHome> {
 
   @override
   Widget build(BuildContext context){
-    return Scaffold(
-        backgroundColor: const Color(0xffEBEBEB),
-        drawer: const WaiterNavigationDrawer(),
-        appBar: AppBar(
-          title: const Text("Waiter Home"),
-          backgroundColor: const Color(0xff7678ff),
-          foregroundColor: Colors.black,
-          elevation: 0,
-        ),
-        body: StreamBuilder(
-            stream: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).snapshots(),
-            builder: (context, snapshot){
-              if (!snapshot.hasData || (snapshot.data?.exists == false)) {
-                return const Center(child:CircularProgressIndicator());
-              } else {
-                if (snapshot.data?['isActive'] == false){
-                  return AlertDialog(
-                    title: const Text('Account is Deactivated'),
-                    content: SingleChildScrollView(
-                      child: ListBody(
-                        children: const <Widget>[
-                          Text('Your Waiter account has been deactivated by your manager.'),
-                        ],
-                      ),
-                    ),
-                    actions: <Widget>[
-                      TextButton(
-                        child: const Text('OK'),
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(
-                                  builder: (context) => const MainScreen()
-                              )
-                          );
-                        },
-                      ),
-                    ],
-                  );
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+          backgroundColor: const Color(0xffEBEBEB),
+          drawer: const WaiterNavigationDrawer(),
+          appBar: AppBar(
+            title: const Text("Waiter Home"),
+            backgroundColor: const Color(0xff7678ff),
+            foregroundColor: Colors.black,
+            elevation: 0,
+          ),
+          body: StreamBuilder(
+              stream: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).snapshots(),
+              builder: (context, snapshot){
+                if (!snapshot.hasData || (snapshot.data?.exists == false)) {
+                  return const Center(child:CircularProgressIndicator());
                 } else {
-                  return home();
+                  if (snapshot.data?['isActive'] == false){
+                    return AlertDialog(
+                      title: const Text('Account is Deactivated'),
+                      content: SingleChildScrollView(
+                        child: ListBody(
+                          children: const <Widget>[
+                            Text('Your Waiter account has been deactivated by your manager.'),
+                          ],
+                        ),
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          child: const Text('OK'),
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(
+                                    builder: (context) => const MainScreen()
+                                )
+                            );
+                          },
+                        ),
+                      ],
+                    );
+                  } else {
+                    return home();
+                  }
                 }
               }
-            }
-        ));
+          )), //import entire scaffold here
+    );
   }
 
   Widget home() {
