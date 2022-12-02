@@ -84,9 +84,11 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                             'isPescatarian': snapshot.data?.docs[index]['isPescatarian'],
                             'isLactose': snapshot.data?.docs[index]['isLactose'],
                           });
-                          String price = snapshot.data?.docs[index]['price'];
-                          if (price == '0.00'){
+                          String price = '';
+                          if (snapshot.data?.docs[index]['price'] == '0.00'){
                             price = 'Free';
+                          } else {
+                            price += '\$${snapshot.data?.docs[index]['price']}';
                           }
                           if ((widget.category != "utensil") && (widget.category != "other")){
                             var dietaryText = "";

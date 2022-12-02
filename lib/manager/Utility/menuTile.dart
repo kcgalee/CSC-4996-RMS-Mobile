@@ -97,7 +97,7 @@ class MenuTile extends StatelessWidget {
                         children: [
                           Text(taskName,
                               style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
-                          Text(" \$$price",
+                          Text(price,
                               style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
                         ],
                       ),
@@ -168,7 +168,7 @@ class MenuTile extends StatelessWidget {
                       children: [
                         Text(taskName,
                             style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
-                        Text(" \$$price",
+                        Text(price,
                             style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
                       ],
                     ),
