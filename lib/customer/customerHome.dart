@@ -37,8 +37,10 @@ class _CustomerHomeState extends State<CustomerHome> {
       closeTimeWk,
       closeTimeWkEnd,
       address,
+      holiday,
       phone;
   late double restRating;
+  late var ratingCount;
 
   CreateOrderInfo createOrderInfo =
   CreateOrderInfo(FirebaseAuth.instance.currentUser?.uid);
@@ -290,27 +292,36 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                                     children: [
                                                                       //Restaurant rating
 
-                                                                      if(restRating != -1)
-                                                                        RatingBar.builder(
-                                                                          itemSize: 40.0,
-                                                                          ignoreGestures: true,
-                                                                          initialRating: restRating,
-                                                                          minRating: 1,
-                                                                          direction: Axis.horizontal,
-                                                                          allowHalfRating: true,
-                                                                          itemCount: 5,
-                                                                          itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                                                                          itemBuilder: (context, _) => const Icon(
-                                                                            Icons.star,
-                                                                            color: Colors.amber,
-                                                                          ),
-                                                                          onRatingUpdate: (restRating) {
-                                                                            restRating;
-                                                                          },
-                                                                        ),
 
                                                                       if(restRating != -1)
-                                                                        Text('(${restRating.toString()} Stars)'),
+                                                                        Row(
+                                                                          children: [
+                                                                            RatingBar.builder(
+                                                                              itemSize: 40.0,
+                                                                              ignoreGestures: true,
+                                                                              initialRating: restRating,
+                                                                              minRating: 1,
+                                                                              direction: Axis.horizontal,
+                                                                              allowHalfRating: true,
+                                                                              itemCount: 5,
+                                                                              itemPadding: const EdgeInsets.symmetric(horizontal: 1.0),
+                                                                              itemBuilder: (context, _) => const Icon(
+                                                                                Icons.star,
+                                                                                color: Colors.amber,
+                                                                              ),
+                                                                              onRatingUpdate: (restRating) {
+                                                                                restRating;
+                                                                              },
+                                                                            ),
+                                                                            Text('${restRating.toString()}'),
+                                                                          ],
+                                                                        ),
+
+                                                                      if(restRating != -1 && ratingCount == 1)
+                                                                        Text('($ratingCount Review)'),
+
+                                                                      if(restRating != -1 && ratingCount > 1)
+                                                                        Text('($ratingCount Reviews)'),
 
                                                                       const Text(
                                                                           '\nAddress',
@@ -346,6 +357,19 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                                       Text(openTimeWkEnd +
                                                                           ' - ' +
                                                                           closeTimeWkEnd),
+
+                                                                      if(holiday != '')
+                                                                      const Text(
+                                                                          "\nHoliday Hours",
+                                                                          style: TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 20,
+                                                                              color: Colors.black)),
+                                                                      if(holiday != '')
+                                                                      Center(
+                                                                       child: Text(holiday),
+                                                                      )
+
                                                                     ],
                                                                   ),
                                                                 ],
@@ -643,7 +667,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                                                       onPressed: () {
                                                         if (tableSnapshot.data![
                                                         'billRequested'] !=
-                                                            true) {
+                                                            true && tableSnapshot.data!['waiterID'] != '') {
                                                           createOrderInfo
                                                               .billRequest(
                                                               'Request Bill',
@@ -856,7 +880,7 @@ class _CustomerHomeState extends State<CustomerHome> {
 
       openTimeWkEnd = element['openTimeWKend'];
       closeTimeWkEnd = element['closeTimeWKend'];
-
+      holiday = element['holidayHours'];
       phone = element['phone'];
       address =
       '${element['address']}\n${element['zipcode']} ${element['city']}, ${element['state']}';
@@ -866,14 +890,14 @@ class _CustomerHomeState extends State<CustomerHome> {
 
     await FirebaseFirestore.instance.collection('reviews').where('restID', isEqualTo: restID).get()
         .then((element) {
-      double count = 0;
+      int count = 0;
         for (int i = 0; i < element.docs.length; i++) {
           if (element.docs[i]['restRating'] != null) {
             restRating = element.docs[i]['restRating'] + restRating;
             count++;
           }
         }
-
+        ratingCount = count;
           if (count != 0) {
             restRating = restRating/count;
           }
