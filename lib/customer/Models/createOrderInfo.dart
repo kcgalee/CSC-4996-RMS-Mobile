@@ -68,6 +68,7 @@ class CreateOrderInfo{
 
     users.doc(orderID).set(
     {
+      'tableClosed' : false,
       'itemCategory' : category,
       'priority' : priority,
         'orderComment' : comments,
@@ -133,6 +134,7 @@ class CreateOrderInfo{
 
    users.doc(orderID).set(
    {
+     'tableClosed' : false,
         'orderComment' : '',
         'custName' : custName,
          'custID' : uID.toString(),
@@ -196,6 +198,7 @@ class CreateOrderInfo{
 
     users.doc(orderID).set(
         {
+          'tableClosed' : false,
           'orderComment': '',
           'priority' : 1,
           'custName' : custName,
