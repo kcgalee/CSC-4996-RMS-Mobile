@@ -256,12 +256,10 @@ class _ViewTableState extends State<ViewTable> {
     await FirebaseFirestore.instance.collection('tables/' + widget.tableID + '/tableOrders').get().then(
             (value) {
               value.docs.forEach((element) async {
-                if (element['status'] != 'delivered'){
-                  await FirebaseFirestore.instance.collection('orders').doc(element.id).update({
-                    'status': 'delivered',
-                    'tableClosed': true,
-                  });
-                }
+                await FirebaseFirestore.instance.collection('orders').doc(element.id).update({
+                  'status': 'delivered',
+                  'tableClosed': true,
+                });
               });
             });
 
