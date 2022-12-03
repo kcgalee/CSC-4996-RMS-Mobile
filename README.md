@@ -30,6 +30,35 @@ data managed and stored in Firestore Database
 <!-- GETTING STARTED -->
 ## Getting Started
 
-### Prerequisites
-
 ### Installation
+**Step 1:**
+
+Download or clone this repo by using the link below:
+
+```
+[https://github.com/zubairehman/flutter-boilerplate-project.git](https://github.com/kcgalee/CSC-4996-RMS-Mobile.git)
+```
+
+**Step 2:**
+
+Go to project root and execute the following command in console to get the required dependencies: 
+
+```
+flutter pub get 
+```
+**Step 3:**
+Build on emulator that is running Android 4.4 or higher or iOS 14 or higher
+
+### Test Account Credentials
+#### Customer Account
+* UN: customerKylie@gmail.com
+* PW: password
+
+#### Waiter Account
+* UN: bettyWaiter@gmail.com
+* PW: password
+
+#### Manager Account
+* UN: managerMike@gmail.com
+* PW: password
+
