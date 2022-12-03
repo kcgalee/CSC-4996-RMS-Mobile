@@ -76,18 +76,24 @@ class ManageTableTile extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Container(
-                      height: 40,width: 40,
-                      decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(40)),
-                      child: Center(
-                        child: Text(tableNumber,
-                            style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.2,
+                      child: Container(
+                        padding: EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
+                        decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(40)),
+                        child: Center(
+                          child: Text(tableNumber,
+                              style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
+                        ),
                       ),
                     ),
-                    SizedBox(width: 20,),
-                    Text(capacity,
-                        style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
-                    SizedBox(width: 40,),
+                    const SizedBox(width: 20,),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.15,
+                      child: Text(capacity,
+                      style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
+                    ),
+                    const SizedBox(width: 40,),
                     Text(subTitle,
                         style: const TextStyle(color: Colors.black,fontSize: 15)),
                   ],
