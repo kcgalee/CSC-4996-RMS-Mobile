@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import '../widgets/customBackButton.dart';
 import 'Utility/MangerNavigationDrawer.dart';
-
+/*
+This page is for generating and displaying QR code for table
+ */
 class GenerateQRCode extends StatefulWidget {
   String _tableID;
   String tableNum;
@@ -28,19 +31,23 @@ class _GenerateQRCode extends State<GenerateQRCode> {
       foregroundColor: Colors.black,
       elevation: 1,
     ),
-    body: Center (
-      child: SingleChildScrollView (
-        padding: EdgeInsets.all(24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            QrImage(
+    body: SingleChildScrollView (
+      child: Column(
+        children: [
+          //back button
+          CustomBackButton(
+              onPressed: () {
+                Navigator.pop(context);
+              }),
+          Padding(
+            padding: const EdgeInsets.only(top: 60),
+            child: QrImage(
               data: (tableID),
               size: 200,
               backgroundColor: Colors.white,
             ),
-          ], //Children
-        ),
+          ),
+        ], //Children
       ),
     ),
   );

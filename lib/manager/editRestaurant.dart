@@ -106,9 +106,11 @@ class _EditRestaurant extends State<EditRestaurant> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            //back button
             CustomBackButton(onPressed: () {
               Navigator.pop(context);
             }),
+
             CustomTextForm(
                 hintText: "Restaurant Name",
                 controller: restaurantNameController,
@@ -122,6 +124,7 @@ class _EditRestaurant extends State<EditRestaurant> {
                 maxLength: 40,
                 icon: const Icon(Icons.food_bank, color: Colors.black,),
             ),
+
             CustomTextForm(
                 hintText: "Address",
                 controller: addressController,
@@ -135,6 +138,7 @@ class _EditRestaurant extends State<EditRestaurant> {
                 maxLength: 100,
                 icon: const Icon(Icons.house)
             ),
+
             CustomTextForm(
                 hintText: "City",
                 controller: cityController,
@@ -148,6 +152,7 @@ class _EditRestaurant extends State<EditRestaurant> {
                 maxLength: 40,
                 icon: const Icon(Icons.location_city)
             ),
+
             CustomTextForm(
                 hintText: "State",
                 controller: stateController,
@@ -159,6 +164,7 @@ class _EditRestaurant extends State<EditRestaurant> {
                 maxLength: 2,
                 icon: const Icon(Icons.location_city)
             ),
+
             CustomTextForm(
                 hintText: "Zip Code",
                 controller: zipController,
@@ -171,6 +177,7 @@ class _EditRestaurant extends State<EditRestaurant> {
                 maxLength: 10,
                 icon: const Icon(Icons.numbers)
             ),
+
             CustomTextForm(
                 hintText: "Email",
                 controller: emailController,
@@ -182,6 +189,7 @@ class _EditRestaurant extends State<EditRestaurant> {
                 maxLength: 40,
                 icon: const Icon(Icons.email)
             ),
+
             CustomTextForm(
                 hintText: "Phone Number",
                 controller: phoneNumberController,

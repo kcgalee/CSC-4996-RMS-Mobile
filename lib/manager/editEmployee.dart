@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/manageEmployee.dart';
 import '../widgets/customBackButton.dart';
 import 'Utility/MangerNavigationDrawer.dart';
-
+/*
+This page is for editing employee information
+ */
 class EditEmployee extends StatefulWidget {
   final String eID;
   final String fName;
@@ -49,6 +51,7 @@ class _EditEmployee extends State<EditEmployee> {
       foregroundColor: Colors.black,
       elevation: 1,
     ),
+
     body: SingleChildScrollView (
       padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
       child: Column(
@@ -57,6 +60,7 @@ class _EditEmployee extends State<EditEmployee> {
           CustomBackButton(onPressed: () {
             Navigator.pop(context);
           }),
+
           Padding(
             padding: const EdgeInsets.only(bottom: 15),
             child: TextFormField(
@@ -66,13 +70,15 @@ class _EditEmployee extends State<EditEmployee> {
               validator: (fName) =>
               fName != null && fName.trim().length > 20
                   ? 'First name must be between 1 to 20 characters' : null,
-              decoration: const InputDecoration(
+              decoration:  InputDecoration(
                   labelText: "First Name",
                   hintText: "First Name",
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 2),
-                  ),
-                  border: OutlineInputBorder()
+                  filled: true,
+                  fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide.none,
+                ),
               ),
             ),
           ),
@@ -86,13 +92,15 @@ class _EditEmployee extends State<EditEmployee> {
               validator: (lName) =>
               lName != null && lName.trim().length > 20
                   ? 'Last name must be between 1 to 20 characters' : null,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                   labelText: "Last Name",
                   hintText: "Last Name",
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 2),
-                  ),
-                  border: OutlineInputBorder()
+                  filled: true,
+                  fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide.none,
+                ),
               ),
             ),
           ),
@@ -106,13 +114,15 @@ class _EditEmployee extends State<EditEmployee> {
               validator: (prefName) =>
               prefName != null && prefName.trim().length > 20
                   ? 'Preferred name must be between 1 to 20 characters' : null,
-              decoration: const InputDecoration(
+              decoration:  InputDecoration(
                   labelText: "Preferred Name",
                   hintText: "Preferred Name",
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 2),
-                  ),
-                  border: OutlineInputBorder()
+                  filled: true,
+                  fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide.none,
+                ),
               ),
             ),
           ),
@@ -126,16 +136,19 @@ class _EditEmployee extends State<EditEmployee> {
               validator: (number) =>
               number != null && !pattern.hasMatch(number)
                   ? 'Enter valid phone number (ex: 222-333-6776)' : null,
-              decoration: const InputDecoration(
+              decoration:  InputDecoration(
                   labelText: "Phone",
                   hintText: "Phone (ex: 222-333-6776)",
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 2),
-                  ),
-                  border: OutlineInputBorder()
+                  filled: true,
+                  fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide.none,
+                ),
               ),
             ),
           ),
+
           Row (
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -171,6 +184,7 @@ class _EditEmployee extends State<EditEmployee> {
                     }
                   }
               ),
+              //Cancel button
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     fixedSize: const Size(150,50),

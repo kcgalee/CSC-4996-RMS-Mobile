@@ -7,7 +7,11 @@ import 'package:restaurant_management_system/manager/manageRestaurant.dart';
 import '../login/mainscreen.dart';
 import '../widgets/customSubButton.dart';
 import 'Utility/MangerNavigationDrawer.dart';
-
+/*
+This is the main page for manager users. After log in the manager user will
+end up on this page. and page will display buttons that the user can manage restaurant,
+manage employees, manage tables, manage menu, restaurant ratings and waiter ratings
+ */
 class ManagerHome extends StatefulWidget {
   @override
   State<ManagerHome> createState() => _ManagerHomeState();

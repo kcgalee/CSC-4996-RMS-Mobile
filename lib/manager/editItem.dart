@@ -10,7 +10,9 @@ import 'package:restaurant_management_system/widgets/customTextForm.dart';
 import '../widgets/customBackButton.dart';
 import '../widgets/customCheckBox.dart';
 import 'Utility/MangerNavigationDrawer.dart';
-
+/*
+This page is for editing menu item
+ */
 class EditItem extends StatefulWidget {
   String restaurantID;
   String category;
@@ -64,7 +66,7 @@ class _EditItem extends State<EditItem> {
     isLactoseFree = widget.iOptions['isLactose'];
     super.initState();
   }
-
+  //Image picker function
   Future pickImage(ImageSource source) async {
     try {
       final image = await ImagePicker().pickImage(source: source);
@@ -93,6 +95,7 @@ class _EditItem extends State<EditItem> {
             padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
             child: Column(
                 children: [
+                  //back button
                   CustomBackButton(onPressed: () {
                     Navigator.pop(context);
                   }),
@@ -244,7 +247,7 @@ class _EditItem extends State<EditItem> {
                     ) : Icon(Icons.image,size: 160,),
                   ),
                   SizedBox(height: 20,),
-
+                  // button to pick image for menu item
                   CustomMainButton(text: 'SELECT IMAGE', onPressed: () {
                     showModalBottomSheet(
                         shape: const RoundedRectangleBorder(
@@ -252,7 +255,8 @@ class _EditItem extends State<EditItem> {
                         ),
                         backgroundColor: Colors.black,
                         context: context,
-                        builder: (context) => Column(
+                        builder: (context) =>
+                        Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             ListTile(
