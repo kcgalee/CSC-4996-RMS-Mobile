@@ -60,6 +60,9 @@ For customers, a QR code of a table provided by a registered restaurant must be 
 * Either add a table to generate a new QR code or click on any existing table tile on the "Manage Tables" page accessible from the "Manager Home" page
 
 Below is the QR Code for Table 1 of a registered restaurant (Apple Bees) for test use
-<img src="[assets/images/RMS_logo.png](https://user-images.githubusercontent.com/72528145/205463031-b1689ab0-7683-4aa2-a47c-bdecd97190e2.png)" alt="QRcode" width="180">
+<div>
+  <img src="https://user-images.githubusercontent.com/72528145/205463069-a8fa8adb-e8b9-41a2-8a98-40b82602370a.png" alt="QRcode" width="180">
+ </div>
 
-* 
+
+
