@@ -1,5 +1,5 @@
 <div align = "center">
-  <img src="assets/images/RMS_logo.png" alt="Logo" width="80" height="80">
+  <img src="assets/images/RMS_logo.png" alt="Logo" width="180">
   <h3 align="center">Restaurant Management System (RMS) - Mobile</h3>
 </div>
 
@@ -15,10 +15,11 @@ for both the customer and the server. The app intends to provide faster and more
 service.
 
 RMS - mobile is a CSC 4996 Senior Capstone project at Wayne State University. With the idea proposed by client Dr. Seyed Mojab, the application was developed by a team of 4 Computer Science students.
-Kylie Lee (Team Lead) - https://www.linkedin.com/in/lee-kylie/
-Anthony Jones - https://www.linkedin.com/in/anthony-jones00/
-Anthony Perfetto - https://www.linkedin.com/in/anthony-perfetto-11ab461b6/
-Humayun Rahman - https://www.linkedin.com/in/humayun-rahman/
+
+* Kylie Lee (Team Lead) - https://www.linkedin.com/in/lee-kylie/
+* Anthony Jones - https://www.linkedin.com/in/anthony-jones00/
+* Anthony Perfetto - https://www.linkedin.com/in/anthony-perfetto-11ab461b6/
+* Humayun Rahman - https://www.linkedin.com/in/humayun-rahman/
 
 ### Built With
 * Flutter v3.3
