@@ -6,6 +6,10 @@ import '../widgets/customBackButton.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 import 'manageRestaurant.dart';
 
+/*
+Creates and displays restaurant information for manager to edit and save
+ */
+
 class EditRestaurant extends StatefulWidget {
   final String restID;
   final String rName;
@@ -72,19 +76,15 @@ class _EditRestaurant extends State<EditRestaurant> {
     phoneNumberController.text = widget.rPhone;
     holidayHours.text = widget.holiday;
     if (widget.rOpenWKday != "") {
-      //openTime = TimeOfDay(hour: int.parse(widget.rOpen.substring(0, widget.rOpen.indexOf(':'))), minute: int.parse(widget.rOpen.substring(widget.rOpen.indexOf(':')+1, widget.rOpen.indexOf(':')+3)));
       oTOD = widget.rOpenWKday;
     }
     if (widget.rCloseWKday != "") {
-      //closeTime = TimeOfDay(hour: int.parse(widget.rClose.substring(0, widget.rClose.indexOf(':'))), minute: int.parse(widget.rClose.substring(widget.rClose.indexOf(':')+1, widget.rClose.indexOf(':')+3)));
       cTOD = widget.rCloseWKday;
     }
     if (widget.rOpenWKend != "") {
-      //openTime = TimeOfDay(hour: int.parse(widget.rOpen.substring(0, widget.rOpen.indexOf(':'))), minute: int.parse(widget.rOpen.substring(widget.rOpen.indexOf(':')+1, widget.rOpen.indexOf(':')+3)));
       oTOD2 = widget.rOpenWKend;
     }
     if (widget.rCloseWKend != "") {
-      //closeTime = TimeOfDay(hour: int.parse(widget.rClose.substring(0, widget.rClose.indexOf(':'))), minute: int.parse(widget.rClose.substring(widget.rClose.indexOf(':')+1, widget.rClose.indexOf(':')+3)));
       cTOD2 = widget.rCloseWKend;
     }
     super.initState();
@@ -100,6 +100,7 @@ class _EditRestaurant extends State<EditRestaurant> {
         foregroundColor: Colors.black,
         elevation: 1,
       ),
+      //creates form fields with restaurant information already entered as values
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
         child: Column(
@@ -390,6 +391,7 @@ class _EditRestaurant extends State<EditRestaurant> {
                     ),
                     child: const Text("SAVE"),
                     onPressed: () async {
+                      //saves response from validation function used to validate form input
                       var res = await validate(
                           restaurantNameController.text.trim(),
                           addressController.text.trim(),
@@ -416,6 +418,7 @@ class _EditRestaurant extends State<EditRestaurant> {
                           ));
                       }
                       else {
+                        //updates restaurant information if validation check succeeds
                         if (restaurantNameController.text.trim() != "") {
                           await updateName(restaurantNameController.text.trim());
                         }
@@ -489,6 +492,7 @@ class _EditRestaurant extends State<EditRestaurant> {
     );
   }
 
+  //all update functions are used to update restaurant information in firebase
   updateName(String rName) async {
     var user = await FirebaseFirestore.instance.collection('restaurants').doc(
         widget.restID).get();
@@ -585,6 +589,7 @@ class _EditRestaurant extends State<EditRestaurant> {
     });
   }
 
+  //validation function used to validate form information and returns response
   validate(String rName, String rAddress, String rCity, String rState,
       String rZip, String rEmail, String rPhone, String hHours, bool oChanged,
       bool cChanged, bool oChanged2, bool cChanged2) async {

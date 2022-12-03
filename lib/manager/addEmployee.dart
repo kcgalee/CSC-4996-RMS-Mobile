@@ -179,7 +179,7 @@ class _AddEmployee extends State<AddEmployee> {
     ),
   );
 
-
+  //validates form fields and attempts to call newUserData function
   registrationChecker(String email, String password, String firstName,
       String lastName, String preferredName, String managerID, String phone) async {
     //run dart pub add email_validator in terminal to add dependencies
@@ -205,6 +205,7 @@ class _AddEmployee extends State<AddEmployee> {
           context, MaterialPageRoute(builder: (context) => const ManageEmployee()));
   }
 
+  //creates document in firebase to store new employee
   void newUserData(String email, String UID, String firstName,
       String lastName, String preferredName, String managerID, String phone) {
     CollectionReference users = FirebaseFirestore.instance.collection('users');

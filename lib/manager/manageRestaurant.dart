@@ -7,7 +7,11 @@ import 'Utility/MangerNavigationDrawer.dart';
 import 'Utility/manageRestaurantTile.dart';
 import 'addRestaurant.dart';
 
-
+/*
+Displays active restaurants that manager manages and allows
+manager to view additional restaurant information, and
+add/edit/delete restaurants.
+ */
 
 class ManageRestaurant extends StatefulWidget {
   const ManageRestaurant({Key? key}) : super(key: key);
@@ -74,7 +78,7 @@ class _ManageRestaurant extends State<ManageRestaurant> {
                       return ListView.builder(
                           itemCount: snapshot.data?.docs.length,
                           itemBuilder: (context, index) {
-                            //creates tile for restaurant
+                            //creates tile for restaurant using custom ManageRestaurantTile widget
                             return ManageRestaurantTile(
                               restaurantName: snapshot.data?.docs[index]['restName'] ?? '',
                               address: (snapshot.data?.docs[index]['address'] ?? '') + '\n' + (snapshot.data?.docs[index]['city'] ?? '') + ', ' + snapshot.data?.docs[index]['state'] ?? '',
@@ -155,7 +159,7 @@ class _ManageRestaurant extends State<ManageRestaurant> {
     return status;
   }
 
-  
+//deletes restaurant if checkRestaurant function returns false
  deleteRestaurant(var id) async {
   bool status = await checkRestaurant(id);
   if (status){

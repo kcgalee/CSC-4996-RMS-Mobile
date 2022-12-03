@@ -140,7 +140,6 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                           padding: const EdgeInsets.only(
                                               top: 10, left: 20, right: 20),
                                           child: Container(
-                                              height: 70.0,
                                               decoration: BoxDecoration(
                                                   color: Colors.white,
                                                   borderRadius:
@@ -153,24 +152,33 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                   ]),
                                               child: ListTile(
                                                 title: Padding(
-                                                  padding: EdgeInsets.only(top: 5),
+                                                  padding: EdgeInsets.only(top: 5, bottom: 10),
                                                   child: Row(
                                                     children: [
-                                                      if (menuSnapshot.data?.docs[index]['imgURL'] !=
-                                                          '')
-                                                        ClipRRect(
-                                                          borderRadius: BorderRadius.circular(20), // Image border
-                                                          child: SizedBox.fromSize(
-                                                            size: Size.fromRadius(25), // Image radius
-                                                            child:  Image.network(menuSnapshot.data?.docs[index]['imgURL'], fit: BoxFit.cover),
+                                                      ClipRRect(
+                                                        borderRadius: BorderRadius.circular(20), // Image border
+                                                        child: SizedBox.fromSize(
+                                                          size: const Size.fromRadius(25), // Image radius
+                                                          child:   FadeInImage(
+                                                              placeholder: const AssetImage('assets/images/RMS_logo.png'),
+                                                              image: menuSnapshot.data?.docs[index]['imgURL'] != '' ?
+                                                              NetworkImage(menuSnapshot.data?.docs[index]['imgURL']) : AssetImage('assets/images/RMS_logo.png') as ImageProvider,
+                                                              fit: BoxFit.cover
                                                           ),
                                                         ),
+                                                      ),
 
-                                                      SizedBox(width: 10),
-                                                      Text(menuSnapshot
-                                                          .data?.docs[index]
-                                                      ['itemName'] ??
-                                                          '',
+
+                                                      const SizedBox(width: 10),
+                                                      SizedBox(
+                                                          width: MediaQuery.of(context).size.height * 0.25,
+                                                        child: Expanded(
+                                                            child: Text(menuSnapshot
+                                                                .data?.docs[index]
+                                                            ['itemName'] ??
+                                                                '',
+                                                            )
+                                                        )
                                                       ),
 
                                                       const Spacer(),
@@ -239,16 +247,21 @@ class _ShowMenuItems extends State<ShowMenuItems> {
                                                                                             const SizedBox(height: 10),
                                                                                             Row(
                                                                                               children: [
-                                                                                                Text(
-                                                                                                  menuSnapshot.data?.docs[index]['itemName'],
-                                                                                                  style:
-                                                                                                  const TextStyle(
-                                                                                                    fontWeight:
-                                                                                                    FontWeight.bold,
-                                                                                                    fontSize:
-                                                                                                    20,
-                                                                                                  ),
-                                                                                                  textAlign: TextAlign.left,
+                                                                                                SizedBox(
+                                                                                                  width: MediaQuery.of(context).size.height * 0.3,
+                                                                                                  child: Expanded(
+                                                                                                      child: Text(
+                                                                                                        menuSnapshot.data?.docs[index]['itemName'],
+                                                                                                        style:
+                                                                                                        const TextStyle(
+                                                                                                          fontWeight:
+                                                                                                          FontWeight.bold,
+                                                                                                          fontSize:
+                                                                                                          20,
+                                                                                                        ),
+                                                                                                        textAlign: TextAlign.left,
+                                                                                                      )
+                                                                                                  )
                                                                                                 ),
                                                                                                 const Spacer(),
                                                                                                 Text(
