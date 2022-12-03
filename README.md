@@ -55,3 +55,11 @@ Build on emulator that is running Android 4.4 or higher or iOS 14 or higher
 * UN: managerMike@gmail.com
 * PW: password
 
+### Navigating through the app
+For customers, a QR code of a table provided by a registered restaurant must be provided. QR codes are generated within the app on the Manager side 
+* Either add a table to generate a new QR code or click on any existing table tile on the "Manage Tables" page accessible from the "Manager Home" page
+
+Below is the QR Code for Table 1 of a registered restaurant (Apple Bees) for test use
+<img src="[assets/images/RMS_logo.png](https://user-images.githubusercontent.com/72528145/205463031-b1689ab0-7683-4aa2-a47c-bdecd97190e2.png)" alt="QRcode" width="180">
+
+* 
