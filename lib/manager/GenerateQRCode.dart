@@ -35,10 +35,7 @@ class _GenerateQRCode extends State<GenerateQRCode> {
       child: Column(
         children: [
           //back button
-          CustomBackButton(
-              onPressed: () {
-                Navigator.pop(context);
-              }),
+ 
           Padding(
             padding: const EdgeInsets.only(top: 60),
             child: QrImage(
