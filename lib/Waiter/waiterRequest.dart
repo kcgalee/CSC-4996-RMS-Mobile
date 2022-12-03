@@ -24,6 +24,9 @@ class _WaiterRequestState extends State<WaiterRequest> {
 
   @override
   Widget build(BuildContext context) {
+
+    // CURRENT REQUESTS PAGE
+
     if (widget.activity == 'active') {
       return Scaffold(
           backgroundColor: Color(0xffEBEBEB),
@@ -69,6 +72,9 @@ class _WaiterRequestState extends State<WaiterRequest> {
               }
           ));
     } else {
+
+      // PAST REQUESTS PAGE
+
       return Scaffold(
           backgroundColor: Color(0xffEBEBEB),
           appBar: AppBar(
@@ -116,12 +122,17 @@ class _WaiterRequestState extends State<WaiterRequest> {
   }
 
   Widget home() {
+
+    // CURRENT REQUESTS PAGE
+
+
     if (widget.activity == 'active'){
       return Column(
             children: [
               const SizedBox(height: 20,),
               Text(widget.rName,
-                style: TextStyle(fontSize: 30,),),
+                style: TextStyle(fontSize: 30,),
+              ),
               Expanded(
                 child: StreamBuilder(
                     stream: FirebaseFirestore.instance.collection('orders')
@@ -162,9 +173,9 @@ class _WaiterRequestState extends State<WaiterRequest> {
                               return RequestTile(
                                 boxColor: boxColor,
                                 orderIcon: orderIcon,
-                                tableNum: 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? ''),
+                                tableNum: 'Table ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? ''),
                                 request: requestedItem,
-                                customerName: 'Customer: ' + (snapshot.data?.docs[index]['custName'] ?? ''),
+                                customerName: 'Customer ' + (snapshot.data?.docs[index]['custName'] ?? ''),
                                 comment: comment,
                                 //for debugging
                                 // + '\nStatus: ' + (snapshot.data?.docs[index]['status'] ?? ''),
@@ -184,11 +195,15 @@ class _WaiterRequestState extends State<WaiterRequest> {
             ],
       );
     } else {
+
+      // PAST REQUESTS PAGE
+
       return Column(
             children: [
               const SizedBox(height: 20,),
               Text(widget.rName,
                 style: TextStyle(fontSize: 30,),),
+              const SizedBox(height: 20,),
               Expanded(
                 child: StreamBuilder(
                     stream: FirebaseFirestore.instance.collection('orders')
@@ -225,9 +240,9 @@ class _WaiterRequestState extends State<WaiterRequest> {
                               return RequestTile(
                                 boxColor: boxColor,
                                 orderIcon: orderIcon,
-                                tableNum: 'Table: ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? ''),
+                                tableNum: 'Table ' + (snapshot.data?.docs[index]['tableNum'].toString() ?? ''),
                                 request: requestedItem,
-                                customerName: 'Customer: ' + (snapshot.data?.docs[index]['custName'] ?? ''),
+                                customerName: 'Customer ' + (snapshot.data?.docs[index]['custName'] ?? ''),
                                 comment: comment,
                                 //for debugging
                                 // + '\nStatus: ' + (snapshot.data?.docs[index]['status'] ?? ''),
