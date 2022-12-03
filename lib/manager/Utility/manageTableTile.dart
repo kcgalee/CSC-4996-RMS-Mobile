@@ -82,7 +82,7 @@ class ManageTableTile extends StatelessWidget {
                         padding: EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
                         decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(40)),
                         child: Center(
-                          child: Text(tableNumber + '10',
+                          child: Text(tableNumber,
                               style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
                         ),
                       ),
@@ -90,7 +90,7 @@ class ManageTableTile extends StatelessWidget {
                     const SizedBox(width: 20,),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.15,
-                      child: Text(capacity + '10',
+                      child: Text(capacity,
                       style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
                     ),
                     const SizedBox(width: 40,),
