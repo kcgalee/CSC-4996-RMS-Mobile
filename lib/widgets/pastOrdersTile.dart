@@ -66,7 +66,7 @@ class PastOrdersTile extends StatelessWidget {
                                     SizedBox(
                                         width: MediaQuery.of(context).size.height * 0.3,
                                         child: Expanded(
-                                            child: Text("$taskName long test name",
+                                            child: Text("$taskName",
                                                 style: const TextStyle(
                                                   color: Colors.black54,
                                                   fontSize: 18,)
