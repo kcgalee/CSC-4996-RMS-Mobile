@@ -1,9 +1,6 @@
-
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-
-
 
 class MenuTile extends StatelessWidget {
   Function(BuildContext) onPressedEdit;

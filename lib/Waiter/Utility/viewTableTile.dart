@@ -18,15 +18,20 @@ class ViewTableTile extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.only(left: 15, right: 15),
           child: Container(
-            padding: const EdgeInsets.only(right: 5,left: 15,bottom: 10,top: 10),
+            padding: const EdgeInsets.only(right: 15,left: 15,bottom: 10,top: 10),
             decoration: BoxDecoration(color: Colors.white,
                 borderRadius: BorderRadius.circular(5),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(taskName,
-                    style: const TextStyle(color: Colors.black54, fontWeight: FontWeight.bold)),
+                SizedBox(
+                    width: MediaQuery.of(context).size.height * 0.3,
+                    child: Expanded(
+                      child: Text(taskName,
+                          style: const TextStyle(color: Colors.black54, fontWeight: FontWeight.bold)),
+                    )
+                ),
 
                 Text(subTitle,
                     style: const TextStyle(color: Colors.black54, fontWeight: FontWeight.bold)),
