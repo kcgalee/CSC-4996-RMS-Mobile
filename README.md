@@ -29,7 +29,7 @@ RMS - mobile is a CSC 4996 Senior Capstone project at Wayne State University. Wi
 Download or clone this repo by using the link below:
 
 ```
-[https://github.com/zubairehman/flutter-boilerplate-project.git](https://github.com/kcgalee/CSC-4996-RMS-Mobile.git)
+https://github.com/kcgalee/CSC-4996-RMS-Mobile.git
 ```
 
 **Step 2:**
