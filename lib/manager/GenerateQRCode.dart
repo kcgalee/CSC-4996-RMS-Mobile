@@ -38,6 +38,7 @@ class _GenerateQRCode extends State<GenerateQRCode> {
           CustomBackButton(
               onPressed: () {
                 Navigator.pop(context);
+                Navigator.pop(context);
               }),
           Padding(
             padding: const EdgeInsets.only(top: 60),

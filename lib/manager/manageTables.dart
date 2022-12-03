@@ -69,6 +69,7 @@ class _ManageTables extends State<ManageTables> {
             Text(widget.restName,style: TextStyle(fontSize: 30),),
             SizedBox(height: 20,),
 
+            //retrieves and displays tables using custom ManageTableTile widget
             Expanded(
               child: StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('tables').where('restID', isEqualTo: widget.restaurantID).orderBy('tableNum').snapshots(),
@@ -83,9 +84,10 @@ class _ManageTables extends State<ManageTables> {
                                 capacity: (snapshot.data?.docs[index]['currentCapacity'].toString() ?? '') + '/'
                                     + (snapshot.data?.docs[index]['maxCapacity'].toString() ?? ''),
                                 tableNumber: snapshot.data?.docs[index]['tableNum'].toString() ?? '',
-                                subTitle: 'Type: ' + (snapshot.data?.docs[index]['type'].toString() ?? '')
-                                    + '\nLocation: ' + (snapshot.data?.docs[index]['location'].toString() ?? ''),
-                                onPressedEdit:  (p0) => {
+                                subTitle: (snapshot.data?.docs[index]['type'].toString() == '' ? 'Type: N/A':'Type: ${snapshot.data?.docs[index]['type']}')
+                                    + (snapshot.data?.docs[index]['location'].toString() == '' ? '\nLocation: N/A':'\nLocation: ${snapshot.data?.docs[index]['location']}'),
+                              onPressedEdit:  (p0) => {
+                                  //cannot edit table if customers are dining at it
                                   if (snapshot.data?.docs[index]['currentCapacity'] != 0) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
@@ -104,6 +106,7 @@ class _ManageTables extends State<ManageTables> {
                                   }
                                 },
                                 onPressedDelete: () =>   {
+                                  //cannot delete table if customers are dinning at it
                                   if (snapshot.data?.docs[index]['currentCapacity'] != 0){
                                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                                       content: Text('Table could not be deleted'),
@@ -152,6 +155,7 @@ class _ManageTables extends State<ManageTables> {
     );
   }
 
+  //function to delete table from db
   deleteTable(var id) async {
     var restaurant = await FirebaseFirestore.instance.collection('tables').doc(id).get();
     await restaurant.reference.delete();
