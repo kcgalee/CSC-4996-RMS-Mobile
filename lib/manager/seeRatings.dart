@@ -9,7 +9,9 @@ import 'Utility/MangerNavigationDrawer.dart';
 import 'Utility/ratingTile.dart';
 import 'Utility/selectRestaurant.dart';
 import 'package:intl/intl.dart';
-
+/*
+This page is for displaying rating for restaurant and employee
+ */
 
 class SeeRatings extends StatefulWidget {
   final String restaurantID;
@@ -28,6 +30,7 @@ class _SeeRatings extends State<SeeRatings> {
   @override
   Widget build(BuildContext context) {
     if (widget.restaurant){
+      //Restaurant Ratings
       return Scaffold(
           drawer: const ManagerNavigationDrawer(),
           appBar: AppBar(
@@ -51,6 +54,7 @@ class _SeeRatings extends State<SeeRatings> {
                   })
       );
     } else {
+      //Waiter Ratings
       return Scaffold(
           drawer: const ManagerNavigationDrawer(),
           appBar: AppBar(
@@ -59,6 +63,7 @@ class _SeeRatings extends State<SeeRatings> {
             foregroundColor: Colors.black,
             elevation: 1,
           ),
+
           body: StreamBuilder(
               stream: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).snapshots(),
               builder: (context, snapshot) {

@@ -157,7 +157,7 @@ class _QRScannerState extends State<QRScanner> {
         });
 
 
-    //
+    //add fields to users document
     FirebaseFirestore.instance.collection('users').doc(uId).update({
       'tableID' : tableID,
       'waiterID' : waiterID,
@@ -165,6 +165,7 @@ class _QRScannerState extends State<QRScanner> {
     });
 
 
+    //check if current capacity has been filled
     if(currentCapacity < maxCapacity) {
       currentCapacity++;
       FirebaseFirestore.instance.collection('tables/$tableID/tableMembers').add(

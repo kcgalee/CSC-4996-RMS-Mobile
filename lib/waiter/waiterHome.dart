@@ -10,7 +10,11 @@ import '../widgets/customMainButton.dart';
 import '../widgets/customSubButton.dart';
 import 'Utility/waiterNavigation.dart';
 import 'package:badges/badges.dart';
-
+/*
+This is the main page for waiter users. After log in the waiter user will
+end up on this page. and page will display buttons that the user can
+view assigned tables, all tables, current requests, past request
+ */
 class WaiterHome extends StatefulWidget {
   const WaiterHome({Key? key}) : super(key: key);
 
@@ -168,7 +172,7 @@ class _WaiterHomeState extends State<WaiterHome> {
                               CustomSubButton(
                                 text: 'VIEW ALL TABLES',
                                 onPressed: () {
-                                  Navigator.push(context,
+                                Navigator.push(context,
                                       MaterialPageRoute(builder: (context) => const AllTables()));
                                 },
                               ),

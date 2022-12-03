@@ -6,7 +6,9 @@ import '../widgets/customBackButton.dart';
 import 'GenerateQRCode.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 import 'Utility/selectRestaurant.dart';
-
+/*
+This page is for editing table information
+ */
 class EditTable extends StatefulWidget {
   final String tableID, restName, restID, tableType, tableLoc;
   final int tableNumber, tableMaxCap;
@@ -55,6 +57,7 @@ class _EditTable extends State<EditTable> {
             mainAxisAlignment: MainAxisAlignment.center,
 
             children: [
+              //back button
               CustomBackButton(
                   onPressed: () {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'table')));

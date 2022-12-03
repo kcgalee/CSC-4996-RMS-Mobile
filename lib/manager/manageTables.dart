@@ -6,6 +6,11 @@ import 'Utility/MangerNavigationDrawer.dart';
 import 'Utility/manageTableTile.dart';
 import 'editTable.dart';
 import 'managerHome.dart';
+/*
+This page will display all table that a manager manages and allow them
+to add/edit/delete each table as needed.
+ */
+
 class ManageTables extends StatefulWidget {
   final String restaurantID;
   final String restName;
@@ -40,9 +45,9 @@ class _ManageTables extends State<ManageTables> {
           backgroundColor: Colors.black,
         ),
 
-
         body: Column(
           children: [
+            //back button
             Align(
               alignment: Alignment.topLeft,
               child:
@@ -60,8 +65,10 @@ class _ManageTables extends State<ManageTables> {
                 ),
               ),
             ),
+
             Text(widget.restName,style: TextStyle(fontSize: 30),),
             SizedBox(height: 20,),
+
             Expanded(
               child: StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('tables').where('restID', isEqualTo: widget.restaurantID).orderBy('tableNum').snapshots(),

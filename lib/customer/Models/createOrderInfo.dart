@@ -19,10 +19,12 @@ class CreateOrderInfo{
   late List<String> category = [];
   late List<int> priority = [];
 
+  //initializer
   CreateOrderInfo(this.custID){
    itemCount = 0;
   }
 
+  //orderSetter added an item to the object from the showMenuItems page
   orderSetter(String itemID, int count, String itemName, String price,
       String comments, int priority, String imgURL, String category) async {
     this.count.add(count);
@@ -36,14 +38,19 @@ class CreateOrderInfo{
 
     itemCount++;
 
+    //get user's first name
     await FirebaseFirestore.instance.collection('users').doc(custID).get().then(
             (element) {
           custName = element['fName'];
         });
   }
 
+  //when the order is placed from viewOrder, this method iterates through all the
+  //orders in the object and adds them to the tableOrders and orders document
   void placeOrder(String tableID, String tableNum, String waiterID, String restID) {
     for(int i = 0; i < itemCount; i++) {
+
+      //passes the index of order to add to the order and tableMembers collection
       placeOrderHelper(itemID[i], itemName[i], count[i], price[i],
           orderComments[i], priority[i], tableID,
           tableNum, waiterID, restID, imgURL[i], category[i]);
@@ -51,22 +58,30 @@ class CreateOrderInfo{
     orderClear();
   }//place order
 
+  //gets the order index from placeOrder
   void placeOrderHelper(String itemID, String itemName, int count, String price,
       String comments, int priority, String tableID, String tableNum,
       String waiterID, String restID, String imgURL, String category)
   {
 
+    //gets user UID
     var uID = FirebaseAuth.instance.currentUser?.uid.toString();
+    //gets date time
     final DateTime now = DateTime.now();
-    CollectionReference users = FirebaseFirestore.instance.collection('orders');
 
-    String orderID = users
+    //create a collection ref for the order collection
+    CollectionReference orders = FirebaseFirestore.instance.collection('orders');
+
+    //get the documentID of the order to be used when adding the order
+    //to the tableMembers class, orderID must be the same.
+    String orderID = orders
         .doc()
         .id
         .toString()
         .trim();
 
-    users.doc(orderID).set(
+    //adds order to the orders document
+    orders.doc(orderID).set(
     {
       'tableClosed' : false,
       'itemCategory' : category,
@@ -88,6 +103,7 @@ class CreateOrderInfo{
     }
     );
 
+    //adds order to the tableOrders collection
        FirebaseFirestore.instance.collection('tables/$tableID/tableOrders').doc(orderID)
 
             .set(
@@ -114,25 +130,32 @@ class CreateOrderInfo{
 
   }
 
+  //sends a waiter request to the orders and table orders doc
  Future<void> request(String request, String tableID, String tableNum, String waiterID, String restID) async {
-
+    //get user uid
    var uID = FirebaseAuth.instance.currentUser?.uid.toString();
+   //get date time
    final DateTime now = DateTime.now();
 
+   //get user first name
    await FirebaseFirestore.instance.collection('users').doc(custID).get().then(
            (element) {
          custName = element['fName'];
        });
 
-   CollectionReference users = FirebaseFirestore.instance.collection('orders');
+   //create a collection ref for the orders collection
+   CollectionReference orders = FirebaseFirestore.instance.collection('orders');
 
-   String orderID = users
+   //get the documentID of the order to be used when adding the order
+   //to the tableMembers class, orderID must be the same.
+   String orderID = orders
        .doc()
        .id
        .toString()
        .trim();
 
-   users.doc(orderID).set(
+   //send order to the orders collection
+   orders.doc(orderID).set(
    {
      'tableClosed' : false,
         'orderComment' : '',
@@ -152,6 +175,7 @@ class CreateOrderInfo{
        }
    );
 
+   //send order to the tableOrders collection
    FirebaseFirestore.instance.collection('tables/$tableID/tableOrders').doc(orderID).set(
        {
          'orderComment' : '',
@@ -170,6 +194,8 @@ class CreateOrderInfo{
        }
    );
 
+   //make field waiterRequested in table doc true so waiter can not be requested
+   //multiple times before delivering the request
    FirebaseFirestore.instance.collection('tables').doc(tableID).update(
      {
      'waiterRequested' : true
@@ -179,24 +205,30 @@ class CreateOrderInfo{
  }
   Future<void> billRequest(String request, String tableID, String tableNum, String waiterID, String restID) async {
 
+    //get user uid
     var uID = FirebaseAuth.instance.currentUser?.uid.toString();
+    //get date
     final DateTime now = DateTime.now();
 
+    //get cust name
     await FirebaseFirestore.instance.collection('users').doc(custID).get().then(
             (element) {
           custName = element['fName'];
         });
 
-    CollectionReference users = FirebaseFirestore.instance.collection('orders');
+    //create collection ref for orders collection
+    CollectionReference orders = FirebaseFirestore.instance.collection('orders');
 
-    String orderID = users
+    //get the documentID of the order to be used when adding the order
+    //to the tableMembers class, orderID must be the same.
+    String orderID = orders
         .doc()
         .id
         .toString()
         .trim();
 
-
-    users.doc(orderID).set(
+    //add order the orders collection
+    orders.doc(orderID).set(
         {
           'tableClosed' : false,
           'orderComment': '',
@@ -216,6 +248,7 @@ class CreateOrderInfo{
         }
     );
 
+    //add order to the tableOrders collection
     FirebaseFirestore.instance.collection('tables/$tableID/tableOrders').doc(orderID).set(
         {
           'orderComment': '',
@@ -234,6 +267,7 @@ class CreateOrderInfo{
         }
     );
 
+    //make field billRequested true in tables doc so bill can only be requested once
     FirebaseFirestore.instance.collection('tables').doc(tableID).update({
       'billRequested' : true,
     });
@@ -241,7 +275,8 @@ class CreateOrderInfo{
 
 
   }
-  
+
+  //clears the object of all orders
  void orderClear() {
     itemID.clear();
     itemName.clear();
@@ -267,6 +302,7 @@ void deleteItem(int index) {
     category.removeAt(index);
 }
 
+//updates order from viewOrder page
   updateOrder(int index, int count, String price, String comment) {
     this.price[index] = price;
     this.count[index] = count;

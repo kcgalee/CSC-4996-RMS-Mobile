@@ -499,6 +499,7 @@ class _ShowMenuItems extends State<ShowMenuItems> {
       );
   }
 
+  //create string for dietary restrictions
   String dietRestrictions( bool isGlutenFree, bool isHalal, bool isKosher, bool isLactose, bool isNuts,
       bool isPescatarian, bool isVegan, bool isVegetarian){
   String text = '';

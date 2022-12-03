@@ -49,6 +49,8 @@ class _TableStatusState extends State<TableStatus> {
                   ),
                 ),
               ),
+
+              //stream users collection
               StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection('users')
@@ -90,6 +92,7 @@ class _TableStatusState extends State<TableStatus> {
                       }
 
                       return Expanded(
+                        //stream tableMembers document
                         child: StreamBuilder(
                             stream: FirebaseFirestore.instance
                                 .collection(
@@ -97,6 +100,7 @@ class _TableStatusState extends State<TableStatus> {
                                 .snapshots(),
                             builder: (context, tableSnapshot) {
                               if(tableSnapshot.hasData) {
+                                //return list of all members at the table
                                 return ListView.builder(
                                     itemCount: tableSnapshot.data?.docs.length,
                                     itemBuilder: (context, index){
@@ -110,6 +114,7 @@ class _TableStatusState extends State<TableStatus> {
                                           child: ListTile(
                                             title: Text(tableSnapshot.data?.docs[index]['fName'] ?? ''),
                                             onTap: () {
+                                              //on tapped will send to viewMemberOrder
                                               var custID = tableSnapshot.data?.docs[index]['userID'];
                                               var custName = tableSnapshot.data?.docs[index]['fName'];
                                               Navigator.push(context, MaterialPageRoute(
