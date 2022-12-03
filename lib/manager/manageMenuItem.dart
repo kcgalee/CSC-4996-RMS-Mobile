@@ -68,6 +68,7 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
             child: Text(title,style: TextStyle(fontSize: 30),textAlign: TextAlign.center,),
           ),
 
+          //retrieve and display all menu items for a the category specified in widget.category
           Expanded(
             child: StreamBuilder(
                 stream: FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').where('category', isEqualTo: widget.category).snapshots(),
@@ -161,6 +162,7 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                                 subTitle = dietaryText + "\n\n" + (snapshot.data?.docs[index]['description'] ?? '');
                             }
 
+                            //create menu item tile using custom menutile widget
                             return MenuTile(
                                 taskName: snapshot.data?.docs[index]['itemName'] ,
                                 subTitle: subTitle,
@@ -222,6 +224,7 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
     );
   }
 
+  //function to delete menu item from db and also delete img from firebase storage if necessary
   deleteItem(var itemID, bool flag) async {
     await FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').doc(itemID).delete();
     if (flag){
