@@ -6,6 +6,10 @@ import '../widgets/customBackButton.dart';
 import 'GenerateQRCode.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 import 'Utility/selectRestaurant.dart';
+/*
+This page is for adding new table to a restaurant
+ */
+
 
 class AddTable extends StatefulWidget {
   final String text, restName;
@@ -38,9 +42,11 @@ class _AddTable extends State<AddTable> {
         padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
         child: Column(
         children: [
+          //Back button
           CustomBackButton(onPressed: () {
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'table')));
           }),
+          //restaurant name
           Text(widget.restName,style: const TextStyle(fontSize: 20),),
           const SizedBox(height: 20,),
 

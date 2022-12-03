@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/waiter/viewTable.dart';
 
 import '../login/mainscreen.dart';
-
+/*
+This page is for the waiter view their assigned tables
+ */
 
 class WaiterTables extends StatefulWidget {
   const WaiterTables({Key? key}) : super(key: key);

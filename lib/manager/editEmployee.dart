@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/manager/manageEmployee.dart';
 import '../widgets/customBackButton.dart';
 import 'Utility/MangerNavigationDrawer.dart';
-
+/*
+This page is for editing employee information
+ */
 class EditEmployee extends StatefulWidget {
   final String eID;
   final String fName;
@@ -49,6 +51,7 @@ class _EditEmployee extends State<EditEmployee> {
       foregroundColor: Colors.black,
       elevation: 1,
     ),
+
     body: SingleChildScrollView (
       padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
       child: Column(
@@ -57,6 +60,7 @@ class _EditEmployee extends State<EditEmployee> {
           CustomBackButton(onPressed: () {
             Navigator.pop(context);
           }),
+
           Padding(
             padding: const EdgeInsets.only(bottom: 15),
             child: TextFormField(
@@ -144,6 +148,7 @@ class _EditEmployee extends State<EditEmployee> {
               ),
             ),
           ),
+
           Row (
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -179,6 +184,7 @@ class _EditEmployee extends State<EditEmployee> {
                     }
                   }
               ),
+              //Cancel button
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     fixedSize: const Size(150,50),

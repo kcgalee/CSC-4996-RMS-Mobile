@@ -8,6 +8,10 @@ import 'package:restaurant_management_system/widgets/customMainButton.dart';
 import 'package:restaurant_management_system/widgets/customTextForm.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 
+/*
+This page is for adding new employees to a restaurant
+ */
+
 class AddEmployee extends StatefulWidget {
   final String text;
   final String rName;
@@ -46,6 +50,7 @@ class _AddEmployee extends State<AddEmployee> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          //Back arrow button
           Align(
             alignment: Alignment.topLeft,
             child:
@@ -59,7 +64,7 @@ class _AddEmployee extends State<AddEmployee> {
               ),
             ),
           ),
-          Text(widget.rName,style: const TextStyle(fontSize: 20),),
+          Text(widget.rName,style: const TextStyle(fontSize: 20),),//restaurant name
           const SizedBox(height: 20,),
 
           CustomTextForm(

@@ -5,7 +5,10 @@ import 'package:restaurant_management_system/manager/addItem.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 import 'Utility/menuTile.dart';
 import 'editItem.dart';
-
+/*
+This page will display all Menu item that a manager manages and allow them
+to add/edit/delete each Menu item as needed.
+ */
 
 class ManageMenuItem extends StatefulWidget {
   final String restaurantID;
@@ -29,7 +32,7 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
         foregroundColor: Colors.black,
         elevation: 1,
       ),
-
+      //Button to add item
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(context,
@@ -42,8 +45,10 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
         icon: const Icon(Icons.fastfood_sharp),
         backgroundColor: Colors.black,
       ),
+
       body: Column(
         children: [
+          //back button
           Align(
             alignment: Alignment.topLeft,
             child:

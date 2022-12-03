@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_management_system/waiter/viewTable.dart';
 
 import '../login/mainscreen.dart';
-
+/*
+This page is for viewing all tables at the restaurant the waiter is working at,
+on this page the waiter will see if there are any customers and if any waiters are attending to them,
+ */
 
 class AllTables extends StatefulWidget {
   const AllTables({Key? key}) : super(key: key);

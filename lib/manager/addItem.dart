@@ -13,6 +13,10 @@ import '../widgets/customBackButton.dart';
 import '../widgets/customCheckBox.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 
+/*
+This page is for adding a new menu items to a restaurant
+ */
+
 class AddItem extends StatefulWidget {
   String restaurantID;
   String category;
@@ -49,7 +53,7 @@ class _AddItemState extends State<AddItem> {
     title = '${widget.rName}: ${widget.category}s';
     super.initState();
   }
-
+  //Image picker function
   Future pickImage(ImageSource source) async {
     try {
       final image = await ImagePicker().pickImage(source: source);
@@ -85,10 +89,10 @@ class _AddItemState extends State<AddItem> {
         padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
         child: Column(
             children: [
+              //Back button
               CustomBackButton(onPressed: () {
                 Navigator.pop(context);
               }),
-
               Padding(
                 padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
                 child: Text(title,style: TextStyle(fontSize: 30),textAlign: TextAlign.center,),
@@ -118,14 +122,17 @@ class _AddItemState extends State<AddItem> {
                   icon: const Icon(Icons.description, color: Colors.black)
               ),
 
+              //image display place
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: image != null ? Image.file(
                   image!,
                   height: 160,width: 160,
                   fit: BoxFit.cover,
-                ) : Icon(Icons.image,size: 160,),
+                )
+                    : Icon(Icons.image,size: 160,), //image placeholder
               ),
+
               // button to pick image for menu item
               CustomMainButton(
                   text: 'SELECT IMAGE',
@@ -139,12 +146,14 @@ class _AddItemState extends State<AddItem> {
                         builder: (context) => Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
+                            //pick image from gallery button
                             ListTile(
                               leading: const Icon(Icons.image,color: Colors.white,),
                               title: const Text('Gallery',style: TextStyle(color: Colors.white),),
                               onTap: () => pickImage(ImageSource.gallery),
                             ),
                             Divider(color: Colors.white,thickness: 1,indent: 10,endIndent: 10,),
+                            //pick image from Gallery camera
                             ListTile(
                               leading: const Icon(Icons.camera_alt,color: Colors.white,),
                               title: const Text('Camera',style: TextStyle(color: Colors.white)),
@@ -155,7 +164,7 @@ class _AddItemState extends State<AddItem> {
                     );
                   }
               ),
-
+              //checkbox for Adding item to All Restaurants
               Padding(
                 padding: const EdgeInsets.only(top: 30,left: 25),
                 child: Row(
@@ -345,6 +354,7 @@ class _AddItemState extends State<AddItem> {
                 ],
               ),
               SizedBox(height: 20,),
+
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: image != null ? Image.file(

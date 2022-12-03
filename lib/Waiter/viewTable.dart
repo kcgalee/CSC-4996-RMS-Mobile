@@ -8,7 +8,9 @@ import '../login/mainscreen.dart';
 import '../widgets/customGreenButton.dart';
 import '../widgets/customRedButton.dart';
 import 'package:intl/intl.dart';
-
+/*
+This page is for the waiter to join a table to connect to the customer side of the app, also waiter will be able to close the table or leave table.
+ */
 
 class ViewTable extends StatefulWidget {
   final String tableID;

@@ -3,7 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../login/mainscreen.dart';
 import '../widgets/request_tile.dart';
-
+/*
+This page is for the waiter view and update requests from customers
+ */
 
 class WaiterRequest extends StatefulWidget {
   final String rName;
