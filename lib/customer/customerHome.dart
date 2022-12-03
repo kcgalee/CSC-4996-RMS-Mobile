@@ -73,8 +73,12 @@ class _CustomerHomeState extends State<CustomerHome> {
                         .doc(FirebaseAuth.instance.currentUser?.uid)
                         .snapshots(),
                     builder: (context, userSnapshot) {
-                      //User not assigned to a table
+
                       if (userSnapshot.hasData) {
+
+                        //===================================
+                        //User not assigned to a table
+                        //====================================
                         if (userSnapshot.data!['tableID'] == '') {
                           return Column(
                               children: [
@@ -207,6 +211,10 @@ class _CustomerHomeState extends State<CustomerHome> {
                               ]
                           );
                         } else {
+
+                          //==============================
+                          //User assigned to a table
+                          //================================
                           if (userSnapshot.data!['tableID'] != '') {
                             return SingleChildScrollView(
                               child: Center(
@@ -879,6 +887,7 @@ class _CustomerHomeState extends State<CustomerHome> {
     );
   }
 
+  //for restInfo icon gets the data from restaurant collection
   getRestInfo(String restID) async {
     await FirebaseFirestore.instance
         .collection('restaurants')
@@ -898,6 +907,7 @@ class _CustomerHomeState extends State<CustomerHome> {
 
     restRating = 0;
 
+    //gets all ratings from restaurant and calculates average rating
     await FirebaseFirestore.instance.collection('reviews').where('restID', isEqualTo: restID).get()
         .then((element) {
       int count = 0;

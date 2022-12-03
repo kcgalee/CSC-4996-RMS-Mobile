@@ -46,6 +46,7 @@ class _PastOrdersState extends State<PastOrders> {
                 ),
               ),
               Expanded(
+                //stream the user's past orders collection from the selected pastVisit
                 child: StreamBuilder(
                     stream: FirebaseFirestore.instance
                         .collection('users/${FirebaseAuth.instance.currentUser?.uid}'

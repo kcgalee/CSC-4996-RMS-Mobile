@@ -56,6 +56,7 @@ class _PastVisitsState extends State<PastVisits> {
                 ),
               ),
               Expanded(
+                //Stream all past visits from the pastVisits collection in the user's user collection
                 child: StreamBuilder(
                     stream: FirebaseFirestore.instance
                         .collection('users/${FirebaseAuth.instance.currentUser?.uid}/pastVisits')
@@ -63,6 +64,7 @@ class _PastVisitsState extends State<PastVisits> {
                         .snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData || (snapshot.data?.size == 0)) {
+                        //no past visits
                         return const Center(
                             child: Padding(
                               padding: EdgeInsets.only(left: 20, right: 20,),
@@ -71,6 +73,7 @@ class _PastVisitsState extends State<PastVisits> {
                             )
                         );
                       } else {
+                        //past visits exist
                         return ListView.builder(
                             itemCount: snapshot.data?.docs.length,
                             itemBuilder: (context, index) {
