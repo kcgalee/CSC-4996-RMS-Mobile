@@ -88,11 +88,13 @@ class _RequestTileState extends State<RequestTile> {
 
     convertTime(widget.time);
 
+    // PAST REQUESTS TILE
+
     if (widget.inactive){
       //color for time
       Color timeColor = Colors.black;
       return Padding(
-        padding: const EdgeInsets.only(left: 15, right: 15,top: 25),
+        padding: const EdgeInsets.only(left: 15, right: 15, bottom: 10),
         child: Container(
           padding: const EdgeInsets.only(right: 15,left: 10,bottom: 10,top: 10),
           decoration: BoxDecoration(color: widget.boxColor,
@@ -102,11 +104,38 @@ class _RequestTileState extends State<RequestTile> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //required fields
-              Text(widget.tableNum,
-                  style: const TextStyle(color: Colors.black,fontSize: 15,)),
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                    decoration: const BoxDecoration(
+                      color: Color(0xff7678ff),
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(40.0),
+                          bottomLeft: Radius.circular(40.0)),
+                    ),
+                    child: Text(widget.tableNum,
+                        style: const TextStyle(color: Colors.white,fontSize: 15,)
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only( left: 10, right: 10, top: 5, bottom: 5),
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.5,
+                    ),
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFEBEBEB),
+                      borderRadius: BorderRadius.only(topRight: Radius.circular(40.0),
+                          bottomRight: Radius.circular(40.0)),
+                    ),
+                    child: Text(widget.customerName ,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(color: Colors.black,fontSize: 15, fontWeight: FontWeight.bold)
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
               Text(widget.request,
-                  style: const TextStyle(color: Colors.black,fontSize: 15,)),
-              Text(widget.customerName,
                   style: const TextStyle(color: Colors.black,fontSize: 15,)),
               Text(widget.comment,
                   style: const TextStyle(color: Colors.black,fontSize: 15,)),
@@ -196,6 +225,9 @@ class _RequestTileState extends State<RequestTile> {
         ),
       );
     } else {
+
+      // CURRENT REQUESTS TILE
+
       //color for time
       Color timeColor = Colors.black;
       return StreamBuilder(
@@ -222,7 +254,7 @@ class _RequestTileState extends State<RequestTile> {
           }),
           builder: (context, snapshot){
             return Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15,top: 25),
+              padding: const EdgeInsets.only(left: 15, right: 15,top: 10),
               child: Container(
                 padding: const EdgeInsets.only(right: 15,left: 10,bottom: 10,top: 10),
                 decoration: BoxDecoration(color: widget.boxColor,
@@ -235,17 +267,45 @@ class _RequestTileState extends State<RequestTile> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(widget.tableNum,
-                            style: const TextStyle(color: Colors.black,fontSize: 15,)),
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                              decoration: const BoxDecoration(
+                                color: Color(0xff7678ff),
+                                borderRadius: BorderRadius.only(topLeft: Radius.circular(40.0),
+                                    bottomLeft: Radius.circular(40.0)),
+                              ),
+                              child: Text(widget.tableNum,
+                                  style: const TextStyle(color: Colors.white,fontSize: 15,)
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.only( left: 10, right: 10, top: 5, bottom: 5),
+                              constraints: BoxConstraints(
+                                maxWidth: MediaQuery.of(context).size.width * 0.5,
+                              ),
+                              decoration: const BoxDecoration(
+                                color: Color(0xFFEBEBEB),
+                                borderRadius: BorderRadius.only(topRight: Radius.circular(40.0),
+                                    bottomRight: Radius.circular(40.0)),
+                              ),
+                              child: Text(widget.customerName ,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(color: Colors.black,fontSize: 15, fontWeight: FontWeight.bold)
+                              ),
+                            ),
+                          ],
+                        ),
+
                         widget.orderIcon
                       ],
                     ),
+                    const SizedBox(height: 10),
                     Text(widget.request,
                         style: const TextStyle(color: Colors.black,fontSize: 15,)),
-                    Text(widget.customerName,
-                        style: const TextStyle(color: Colors.black,fontSize: 15,)),
                     Text(widget.comment,
-                        style: const TextStyle(color: Colors.black,fontSize: 15,)),
+                        style: const TextStyle(color: Colors.grey,fontSize: 15,)),
                     Text((snapshot.data ?? 'Loading. . .'),
                         style: TextStyle(color: timeColor,fontSize: 15,)),
 
