@@ -60,7 +60,7 @@ class _EditTable extends State<EditTable> {
               //back button
               CustomBackButton(
                   onPressed: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'table')));
+                    Navigator.pop(context);
               }),
               Text(title,style: const TextStyle(fontSize: 20),),
               SizedBox(height: 20,),
@@ -118,6 +118,7 @@ class _EditTable extends State<EditTable> {
                   child: CustomMainButton(
                       text: "SAVE CHANGES",
                       onPressed: () async {
+                        //form field validation
                         if (tableNumberController.text.trim() == '' ||
                             tableNumberController.text.trim().contains(RegExp(r'[A-Z|a-z]')) ||
                             tableNumberController.text.trim() == '0' ||
@@ -152,6 +153,7 @@ class _EditTable extends State<EditTable> {
       )
   );
 
+  //function to update table information in db
   void newTableData(int tableNum, int maxCapacity, String tableType, String location ) async {
     CollectionReference users = FirebaseFirestore.instance.collection('tables');
     String tableId = users.doc(widget.tableID).id.toString().trim();
@@ -168,6 +170,7 @@ class _EditTable extends State<EditTable> {
     push(MaterialPageRoute(builder:(context)=>GenerateQRCode(tableId, tableNum.toString())));
   }
 
+  //function to check if table number already exists at restaurant
   checkTableNumber(int tableNumber) async {
     bool flag = false;
     await FirebaseFirestore.instance.collection('tables').where('restID', isEqualTo: widget.restID).get().then(

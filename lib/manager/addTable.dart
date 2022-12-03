@@ -44,12 +44,13 @@ class _AddTable extends State<AddTable> {
         children: [
           //Back button
           CustomBackButton(onPressed: () {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectRestaurant(text: 'table')));
+            Navigator.pop(context);
           }),
           //restaurant name
           Text(widget.restName,style: const TextStyle(fontSize: 20),),
           const SizedBox(height: 20,),
 
+        //create form fields
         Padding(
             padding: const EdgeInsets.only(bottom: 15),
             child: CustomTextForm(
@@ -112,11 +113,13 @@ class _AddTable extends State<AddTable> {
           child: CustomMainButton(
             text: "Add Table",
             onPressed: () async {
+              //form field validation
               if (tableNumberController.text.trim() == '' ||
                   tableNumberController.text.trim().contains(RegExp(r'[A-Z|a-z]')) ||
                   tableNumberController.text.trim() == '0' ||
                   tableCapacityController.text.trim() == '' ||
-                  tableCapacityController.text.trim() == '0' || tableCapacityController.text.trim().contains(RegExp(r'[A-Z|a-z]'))){
+                  tableCapacityController.text.trim() == '0' ||
+                  tableCapacityController.text.trim().contains(RegExp(r'[A-Z|a-z]'))){
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text('Table could not be created.'),
                 ));
@@ -141,7 +144,7 @@ class _AddTable extends State<AddTable> {
 
 
 
-
+  //function to add new table to db
   void newTableData(int tableNum, int maxCapacity, String tableType, String location ) async {
     CollectionReference users = FirebaseFirestore.instance.collection('tables');
     String tableId = users
@@ -171,6 +174,7 @@ class _AddTable extends State<AddTable> {
     push(MaterialPageRoute(builder:(context)=>GenerateQRCode(tableId, tableNum.toString())));
   }
 
+  //function to check if another table with that number already exists at the restaurant
   checkTableNumber(int tableNumber) async {
     bool flag = false;
     await FirebaseFirestore.instance.collection('tables').where('restID', isEqualTo: text).get().then(

@@ -210,6 +210,7 @@ class _EditEmployee extends State<EditEmployee> {
     ),
   );
 
+  //function to update corresponding document in db
   updateInfo(String fName, String lName, String prefName, String phone) async {
     var user = await FirebaseFirestore.instance.collection('users').doc(widget.eID).get();
     await user.reference.update({
@@ -220,6 +221,7 @@ class _EditEmployee extends State<EditEmployee> {
     });
   }
 
+  //validates form input and returns response
   bool validate(String fName, var lName, var prefName, var newPhone) {
     bool error = false;
     if (fName.length > 20 || fName == ""){
