@@ -5,13 +5,14 @@ import 'package:restaurant_management_system/manager/Utility/selectWaiter.dart';
 import 'package:restaurant_management_system/manager/addEmployee.dart';
 import 'package:restaurant_management_system/manager/Utility/selectCategory.dart';
 import 'package:restaurant_management_system/manager/managerHome.dart';
-
 import '../../widgets/customBackButton.dart';
 import '../manageTables.dart';
 import '../seeRatings.dart';
 import 'MangerNavigationDrawer.dart';
 
-
+/*
+page for selecting restaurant where necessary, sends id of restaurant to resulting page
+ */
 
 class SelectRestaurant extends StatefulWidget {
 final String text;
@@ -59,8 +60,10 @@ class _SelectRestaurant extends State<SelectRestaurant> {
                       .snapshots(),
 
                   builder: (context, snapshot) {
-                    if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
+                    if (!snapshot.hasData) {
                       return Center(child: CircularProgressIndicator(),);
+                    } else if (snapshot.data?.docs.length == 0){
+                      return Center(child: Text('You currently have no active restaurants'));
                     } else {
                       return ListView.builder(
                           itemCount: snapshot.data?.docs.length,

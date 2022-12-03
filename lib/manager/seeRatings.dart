@@ -223,6 +223,7 @@ class _SeeRatings extends State<SeeRatings> {
     }
   }
 
+  //converts time into human readable time
   convertTime(time) {
     var formatter = DateFormat('MM-dd-yyyy');
     return formatter.format(time.toDate());

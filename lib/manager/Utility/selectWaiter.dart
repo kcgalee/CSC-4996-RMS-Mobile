@@ -6,7 +6,10 @@ import '../../widgets/customBackButton.dart';
 import '../seeRatings.dart';
 import 'MangerNavigationDrawer.dart';
 
+/*
+page for selecting waiter where necessary, sends id of waiter to resulting page
 
+ */
 
 class SelectWaiter extends StatefulWidget {
   final String restaurantID;
@@ -53,7 +56,9 @@ class _SelectWaiter extends State<SelectWaiter> {
                       .orderBy('fName')
                       .snapshots(),
                   builder: (context, snapshot) {
-                    if (!snapshot.hasData || snapshot.data?.docs.length == 0) {
+                    if (!snapshot.hasData) {
+                      return Center(child: CircularProgressIndicator(),);
+                    } else if (snapshot.data?.docs.length == 0){
                       return Padding(
                         padding: const EdgeInsets.all(50.0),
                         child: Center(child: Text('You currently have no waiters at ${widget.restName}'),),
