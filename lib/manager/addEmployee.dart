@@ -158,13 +158,18 @@ class _AddEmployee extends State<AddEmployee> {
                     content: Text('All fields must be completed'),
                   ));
                 }
-
+                //check for pw mismatch
                 else if(pwController.text.toString() != confirmPwController.text.toString()) {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text('Passwords must match'),
                   ));
                 }
-
+                //check for incorrect phone number format
+                else if (!phonePattern.hasMatch(phoneController.text.trim())){
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Incorrect phone number'),
+                  ));
+                }
                 //if all fields are correct add the employee
                 else {
                   await registrationChecker(emailController.text.trim(), pwController.text.trim(),
@@ -179,7 +184,7 @@ class _AddEmployee extends State<AddEmployee> {
     ),
   );
 
-  //validates form fields and attempts to call newUserData function
+  // attempts to call newUserData function to create new user if email doesnt already exist
   registrationChecker(String email, String password, String firstName,
       String lastName, String preferredName, String managerID, String phone) async {
     //run dart pub add email_validator in terminal to add dependencies
