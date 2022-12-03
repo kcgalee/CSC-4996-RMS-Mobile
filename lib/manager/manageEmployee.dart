@@ -7,6 +7,12 @@ import 'package:restaurant_management_system/manager/managerHome.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 import 'editEmployee.dart';
 
+/*
+This page will display all employees that a manager manages and allow them
+to add/edit/delete or view each employee as needed.
+ */
+
+
 class ManageEmployee extends StatefulWidget {
   const ManageEmployee({Key? key}) : super(key: key);
 
@@ -39,7 +45,6 @@ class _ManageEmployeeState extends State<ManageEmployee> {
         backgroundColor: Colors.black,
       ),
 
-
       body: Column(
         children: [
           Align(
@@ -60,7 +65,9 @@ class _ManageEmployeeState extends State<ManageEmployee> {
             ),
           ),
           Expanded(
-            child: StreamBuilder(
+
+            //retrieving and displaying each employee using custom ManagerTile widget
+          child: StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('users')
                       .where('managerID', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
                       .where('isActive', isEqualTo: true).snapshots(),

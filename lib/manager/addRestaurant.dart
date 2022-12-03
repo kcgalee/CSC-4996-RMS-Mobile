@@ -7,7 +7,9 @@ import '../widgets/customBackButton.dart';
 import '../widgets/customTextForm.dart';
 import 'Utility/MangerNavigationDrawer.dart';
 
-
+/*
+Creates form for manager to add a restaurant
+ */
 
 class AddRestaurant extends StatefulWidget {
   const AddRestaurant({super.key});
@@ -54,6 +56,7 @@ class _AddRestaurant extends State<AddRestaurant> {
           foregroundColor: Colors.black,
           elevation: 1,
         ),
+        //creates form fields for adding a restaurant
         body: SingleChildScrollView(
           padding: const EdgeInsets.only(left: 24,right: 24,bottom: 24),
           child: Column(
@@ -329,6 +332,7 @@ class _AddRestaurant extends State<AddRestaurant> {
                         ),
                         child: const Text("Add"),
                         onPressed: () async {
+                          //validates form input and returns response
                           bool validation = await validate(
                               restaurantNameController.text.trim(),
                               addressController.text.trim(),
@@ -349,6 +353,7 @@ class _AddRestaurant extends State<AddRestaurant> {
                               ));
                             }
                           } else {
+                            //creates restaurant if validation passes
                             createRestaurant(restaurantNameController.text.trim(),
                                 addressController.text.trim(),
                                 cityController.text.trim(),
@@ -370,6 +375,7 @@ class _AddRestaurant extends State<AddRestaurant> {
         ));
   }
 
+  //function to create a restaurant, submits information to firebase as a doc in the restaurants collection
   createRestaurant(String rName, String rAddress, String rCity, String rState,
       String rZip, String rEmail, String rPhone, String hHours) async{
     await FirebaseFirestore.instance.collection('restaurants').doc().set({
@@ -391,6 +397,7 @@ class _AddRestaurant extends State<AddRestaurant> {
     });
   }
 
+  //validates the form input and returns response indicating the presence of error
   validate(String rName, String rAddress, String rCity, String rState,
       String rZip, String rEmail, String rPhone) async {
     bool error = false;
