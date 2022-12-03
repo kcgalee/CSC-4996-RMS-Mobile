@@ -278,6 +278,7 @@ class _EditItem extends State<EditItem> {
                   CustomMainButton(
                       text: 'SAVE CHANGES',
                       onPressed: () async {
+                        //validation check
                         bool status = await validate(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
                         if (status == true && flag == true){
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -394,6 +395,7 @@ class _EditItem extends State<EditItem> {
                   CustomMainButton(
                       text: 'SAVE CHANGES',
                       onPressed: () async {
+                        //validation check
                         bool status = await validate(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
                         if (status == true && flag == true){
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -422,6 +424,7 @@ class _EditItem extends State<EditItem> {
   }
 
 
+  //function to update menu item in db
   editItem(String itemName, String price, String itemDesc) async {
     if (!price.contains('.')){
       price += '.00';
@@ -459,6 +462,7 @@ class _EditItem extends State<EditItem> {
     }
   }
 
+  //function to validate field input
   validate(String itemName, String price, String itemDesc) async {
     bool error = false;
     if (itemName != widget.iName){

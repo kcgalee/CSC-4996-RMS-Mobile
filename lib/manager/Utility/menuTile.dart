@@ -21,7 +21,6 @@ class MenuTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     if (itemIMG != null && itemIMG != ''){
       return FutureBuilder(
         builder: (context, snapshot) {
@@ -46,9 +45,6 @@ class MenuTile extends StatelessWidget {
                         content: const Text('Do you want to delete this menu item?'),
                         actions: <Widget>[
                           TextButton(
-
-
-
                             onPressed: () => Navigator.pop(context, 'No'),
                             child: const Text('No'),
                           ),
@@ -70,7 +66,7 @@ class MenuTile extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.only(right: 15,left: 15,top: 10, bottom: 10),
                 decoration: BoxDecoration(color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 child: Column(
                   children: [
@@ -92,28 +88,31 @@ class MenuTile extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                                width: MediaQuery.of(context).size.height * 0.3,
-                                child: Expanded(
-                                  child: Text(taskName,
-                                      style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
-                                )
-                            ),
-                            Text(price,
-                                style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)
-                            ),
-                            SizedBox(
-                                width: MediaQuery.of(context).size.height * 0.3,
-                                child: Expanded(
-                                    child:  Text(subTitle,
-                                        style: const TextStyle(color: Colors.black,fontSize: 15)
-                                    ),
-                                )
-                            ),
-                          ],
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.height * 0.3,
+                                    child: Expanded(
+                                      child: Text(taskName,
+                                          style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
+                                    )
+                                ),
+                                Text(price,
+                                    style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)
+                                ),
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.height * 0.3,
+                                    child: Expanded(
+                                      child:  Text(subTitle,
+                                          style: const TextStyle(color: Colors.black,fontSize: 15)
+                                      ),
+                                    )
+                                ),
+                              ],
+                            )
                         )
                       ],
                     ),
@@ -230,5 +229,4 @@ class MenuTile extends StatelessWidget {
       );
     }
   }
-
 }

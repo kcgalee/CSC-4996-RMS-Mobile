@@ -1,12 +1,10 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:restaurant_management_system/manager/manageMenuItem.dart';
 import 'package:restaurant_management_system/widgets/customMainButton.dart';
 import 'package:restaurant_management_system/widgets/customTextForm.dart';
 import '../widgets/customBackButton.dart';
@@ -67,16 +65,18 @@ class _AddItemState extends State<AddItem> {
   }
 
 
+  //function to show respective add item page for the category of menu item chosen
   @override
   Widget build(BuildContext context) {
     if (widget.category == 'utensil' || widget.category == 'other'){
-      return utensil();
+      return specialCase();
     } else {
       return others();
     }
   }
 
-  Widget utensil()=> Scaffold (
+  //add item page for items of category "Utensil" or "Other"
+  Widget specialCase()=> Scaffold (
       drawer: const ManagerNavigationDrawer(),
       appBar: AppBar(
         title: Text("Add Item"),
@@ -185,6 +185,7 @@ class _AddItemState extends State<AddItem> {
               CustomMainButton(
                   text: 'ADD ITEM',
                   onPressed: () async {
+                    //validation check
                     bool status = await validate(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
                     if (status == true && flag == true){
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -205,6 +206,7 @@ class _AddItemState extends State<AddItem> {
   );
 
 
+  //add item page for items not of category "Utensil" or "Other"
   Widget others()=> Scaffold (
       drawer: const ManagerNavigationDrawer(),
       appBar: AppBar(
@@ -414,6 +416,7 @@ class _AddItemState extends State<AddItem> {
               CustomMainButton(
                   text: 'ADD ITEM',
                   onPressed: () async {
+                    //validation check
                     bool status = await validate(itemNameController.text.trim(), priceController.text.trim(), itemDescController.text.trim());
                     if (status == true && flag == true){
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -433,6 +436,7 @@ class _AddItemState extends State<AddItem> {
       )
   );
 
+  //function to add item to database
   addItem(String itemName, String price, String itemDesc) async {
     if (!price.contains('.')){
       price += '.00';
@@ -516,6 +520,7 @@ class _AddItemState extends State<AddItem> {
     }
   }
 
+  //function to validate field input
   validate(String itemName, String price, String itemDesc) async {
     bool error = false;
     await FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').get().then(
@@ -559,8 +564,5 @@ class _AddItemState extends State<AddItem> {
 
     return error;
   }
-
-
-
 }
 

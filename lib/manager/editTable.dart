@@ -5,7 +5,6 @@ import 'package:restaurant_management_system/widgets/customTextForm.dart';
 import '../widgets/customBackButton.dart';
 import 'GenerateQRCode.dart';
 import 'Utility/MangerNavigationDrawer.dart';
-import 'Utility/selectRestaurant.dart';
 /*
 This page is for editing table information
  */
@@ -65,6 +64,7 @@ class _EditTable extends State<EditTable> {
               Text(title,style: const TextStyle(fontSize: 20),),
               SizedBox(height: 20,),
 
+              //create form fields
               CustomTextForm(
                 hintText: "Table number",
                 controller: tableNumberController,
