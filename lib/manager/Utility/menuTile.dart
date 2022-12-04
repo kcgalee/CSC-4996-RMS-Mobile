@@ -129,7 +129,7 @@ class MenuTile extends StatelessWidget {
       return FutureBuilder(
         builder: (context, snapshot) {
           return Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15,bottom: 25),
+            padding: const EdgeInsets.only(left: 15, right: 15,bottom: 10),
             child: Slidable(
               endActionPane: ActionPane(
                 motion:const StretchMotion(),
