@@ -164,10 +164,10 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
 
                             //create menu item tile using custom menutile widget
                             return MenuTile(
-                                taskName: snapshot.data?.docs[index]['itemName'] ,
+                                taskName: snapshot.data?.docs[index]['itemName'] ?? '',
                                 subTitle: subTitle,
                                 price: price,
-                                itemIMG:  snapshot.data?.docs[index]['imgURL'],
+                                itemIMG:  snapshot.data?.docs[index]['imgURL'] ?? '',
                                 onPressedEdit:  (p0) => {
                                   Navigator.push(context,
                                       MaterialPageRoute(
@@ -189,10 +189,10 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                             );
                           } else {
                             return MenuTile(
-                                taskName: snapshot.data?.docs[index]['itemName'] ,
+                                taskName: snapshot.data?.docs[index]['itemName'] ?? '',
                                 subTitle: snapshot.data?.docs[index]['description'] ?? '',
                                 price: price,
-                                itemIMG:  snapshot.data?.docs[index]['imgURL'],
+                                itemIMG:  snapshot.data?.docs[index]['imgURL'] ?? '',
                                 onPressedEdit:  (p0) => {
                                   Navigator.push(context,
                                       MaterialPageRoute(
