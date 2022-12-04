@@ -192,28 +192,31 @@ class MenuTile extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                                width: MediaQuery.of(context).size.height * 0.3,
-                                child: Expanded(
-                                  child: Text(taskName,
-                                      style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
-                                )
-                            ),
-                            Text(price,
-                                style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)
-                            ),
-                            SizedBox(
-                                width: MediaQuery.of(context).size.height * 0.3,
-                                child: Expanded(
-                                  child:  Text(subTitle,
-                                      style: const TextStyle(color: Colors.black,fontSize: 15)
-                                  ),
-                                )
-                            ),
-                          ],
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.height * 0.3,
+                                    child: Expanded(
+                                      child: Text(taskName,
+                                          style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)),
+                                    )
+                                ),
+                                Text(price,
+                                    style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight: FontWeight.bold)
+                                ),
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.height * 0.3,
+                                    child: Expanded(
+                                      child:  Text(subTitle,
+                                          style: const TextStyle(color: Colors.black,fontSize: 15)
+                                      ),
+                                    )
+                                ),
+                              ],
+                            )
                         )
                       ],
                     ),
