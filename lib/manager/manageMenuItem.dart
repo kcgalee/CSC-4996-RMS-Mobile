@@ -178,8 +178,13 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                                   )
                                 },
                                 onPressedDelete: () =>  {
-                                  deleteItem(snapshot.data?.docs[index].id),
-                                  Navigator.pop(context)
+                                  if (snapshot.data?.docs[index]['imgURL'] != ''){
+                                    deleteItem(snapshot.data?.docs[index].id, true),
+                                    Navigator.pop(context),
+                                  } else {
+                                    deleteItem(snapshot.data?.docs[index].id, false),
+                                    Navigator.pop(context),
+                                  }
                                 }
                             );
                           } else {
@@ -198,8 +203,13 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
                                   )
                                 },
                                 onPressedDelete: () =>  {
-                                  deleteItem(snapshot.data?.docs[index].id),
-                                  Navigator.pop(context)
+                                  if (snapshot.data?.docs[index]['imgURL'] != ''){
+                                    deleteItem(snapshot.data?.docs[index].id, true),
+                                    Navigator.pop(context),
+                                  } else {
+                                    deleteItem(snapshot.data?.docs[index].id, false),
+                                    Navigator.pop(context),
+                                  }
                                 }
                             );
                           }
@@ -214,8 +224,11 @@ class _ManageMenuItemState extends State<ManageMenuItem> {
     );
   }
 
-  //function to delete menu item from db
-  deleteItem(var itemID) async {
+  //function to delete menu item from db and also delete img from firebase storage if necessary
+  deleteItem(var itemID, bool flag) async {
     await FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').doc(itemID).delete();
+    if (flag){
+      await FirebaseStorage.instance.ref().child('${widget.restaurantID}/$itemID.jpg').delete();
+    }
   }
 }
