@@ -395,8 +395,9 @@ class _AddItemState extends State<AddItem> {
                     );
                   }
               ),
-
-              Padding(
+              Visibility(
+                visible: true,
+                child: Padding(
                 padding: const EdgeInsets.only(top: 30,left: 25),
                 child: Row(
                   children: [
@@ -411,7 +412,8 @@ class _AddItemState extends State<AddItem> {
                     ),
                   ],
                 ),
-              ),
+              ),),
+
 
               CustomMainButton(
                   text: 'ADD ITEM',
@@ -465,21 +467,19 @@ class _AddItemState extends State<AddItem> {
                 'isLactose': isLactoseFree,
                 'imgURL': '',
               });
+             String docID = doc.id;
               if (image != null){
-                final storage = FirebaseStorage.instance.ref();
-
-                final storageRef = FirebaseStorage.instance.ref().child("${widget.restaurantID}/${doc.id}.jpg");
+                var storageRef = FirebaseStorage.instance.ref().child(docID);
                 String downloadURL = await storageRef.getDownloadURL();
-
                 try {
                   await storageRef.putFile(image!);
+                  await FirebaseFirestore.instance.collection('restaurants/${element.id}/menu').doc(doc.id).update({
+                    'imgURL': downloadURL,
+                  });
                 } on FirebaseException catch (e) {
                   // ...
                   print(e);
                 }
-                await FirebaseFirestore.instance.collection('restaurants/${element.id}/menu').doc(doc.id).update({
-                  'imgURL': downloadURL,
-                });
               }
             })
           });
@@ -502,9 +502,7 @@ class _AddItemState extends State<AddItem> {
         'imgURL': '',
       });
       if (image != null) {
-        final storageRef = FirebaseStorage.instance.ref().child(
-            "${widget.restaurantID}/${doc.id}.jpg");
-
+        final storageRef = FirebaseStorage.instance.ref().child("${doc.id}.jpg");
         try {
           await storageRef.putFile(image!);
           String downloadURL = await storageRef.getDownloadURL();
