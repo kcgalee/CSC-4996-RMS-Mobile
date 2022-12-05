@@ -443,12 +443,12 @@ class _AddItemState extends State<AddItem> {
     }
 
     if (isAllRestaurants) {
-      await FirebaseFirestore.instance.collection('restaurants').where(
-          'managerID', isEqualTo: FirebaseAuth.instance.currentUser?.uid).get()
-          .then(
-              (value) => {
-            value.docs.forEach((element) async {
-             var doc = FirebaseFirestore.instance.collection('restaurants/${element.id}/menu').doc();
+      await FirebaseFirestore.instance.collection('restaurants')
+          .where('managerID', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
+          .where('isActive', isEqualTo: true).get().then(
+              (restaurants) => {
+            restaurants.docs.forEach((restaurant) async {
+             var doc = FirebaseFirestore.instance.collection('restaurants/${restaurant.id}/menu').doc();
              await doc.set({
                 'itemName': itemName,
                 'price': price,
@@ -466,20 +466,17 @@ class _AddItemState extends State<AddItem> {
                 'imgURL': '',
               });
               if (image != null){
-                final storage = FirebaseStorage.instance.ref();
-
-                final storageRef = FirebaseStorage.instance.ref().child("${widget.restaurantID}/${doc.id}.jpg");
-                String downloadURL = await storageRef.getDownloadURL();
-
+                var storageRef = FirebaseStorage.instance.ref().child("${restaurant.id}/${doc.id}.jpg");
                 try {
                   await storageRef.putFile(image!);
+                  String downloadURL = await storageRef.getDownloadURL();
+                  await FirebaseFirestore.instance.collection('restaurants/${restaurant.id}/menu').doc(doc.id).update({
+                    'imgURL': downloadURL,
+                  });
                 } on FirebaseException catch (e) {
                   // ...
                   print(e);
                 }
-                await FirebaseFirestore.instance.collection('restaurants/${element.id}/menu').doc(doc.id).update({
-                  'imgURL': downloadURL,
-                });
               }
             })
           });
@@ -508,8 +505,7 @@ class _AddItemState extends State<AddItem> {
         try {
           await storageRef.putFile(image!);
           String downloadURL = await storageRef.getDownloadURL();
-          await FirebaseFirestore.instance.collection(
-              'restaurants/${widget.restaurantID}/menu').doc(doc.id).update({
+          await FirebaseFirestore.instance.collection('restaurants/${widget.restaurantID}/menu').doc(doc.id).update({
             'imgURL': downloadURL,
           });
         } on FirebaseException catch (e) {
